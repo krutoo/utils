@@ -15,7 +15,7 @@ await build({
   package: {
     name: denoJson.name,
     version: Deno.args[0] ?? '0.0.0',
-    description: 'Set of utilities for JS fetch function',
+    description: 'Set of useful utils for JavaScript/TypeScript projects',
     author: 'Dmitry Petrov',
     license: 'Apache-2.0',
     repository: {
