@@ -1,0 +1,32 @@
+{
+  "name": "@krutoo/fetch-tools",
+  "version": "0.0.0",
+  "tasks": {
+    "lint": "deno lint && deno check src/**/*.ts",
+    "build-npm": "deno run -A scripts/build-npm.ts"
+  },
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.1",
+    "react": "https://esm.sh/react@18"
+  },
+  "exports": {
+    ".": "./src/mod.ts",
+    "./dom": "./src/dom/mod.ts",
+    "./math": "./src/math/mod.ts",
+    "./react": "./src/react/mod.ts",
+    "./types": "./src/types/mod.ts"
+  },
+  "lint": {
+    "exclude": ["npm/**/*"],
+    "rules": {
+      "exclude": ["no-window", "no-window-prefix"]
+    }
+  },
+  "publish": {
+    "include": ["LICENSE", "README.md", "src/**/*.ts"],
+    "exclude": ["src/**/*.test.ts"]
+  },
+  "compilerOptions": {
+    "lib": ["deno.ns", "esnext", "dom", "dom.iterable"]
+  }
+}
