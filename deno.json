@@ -22,6 +22,13 @@
       "exclude": ["no-window", "no-window-prefix"]
     }
   },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "exclude": ["npm/**/*"]
+  },
   "publish": {
     "include": ["LICENSE", "README.md", "src/**/*.ts"],
     "exclude": ["src/**/*.test.ts"]

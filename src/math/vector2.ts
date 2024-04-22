@@ -1,4 +1,4 @@
-import type { Point2d } from "./types.ts";
+import type { Point2d } from './types.ts';
 
 export abstract class Vector2 {
   static of(x = 0, y = 0): Point2d {

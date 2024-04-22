@@ -1,10 +1,10 @@
-import { type DependencyList, type RefObject, useState } from "react";
-import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect.ts";
+import { type DependencyList, type RefObject, useState } from 'react';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
-export interface DOMRectState
-  extends Pick<
+export interface DOMRectState extends
+  Pick<
     DOMRectReadOnly,
-    "width" | "height" | "x" | "y" | "top" | "left" | "bottom" | "right"
+    'width' | 'height' | 'x' | 'y' | 'top' | 'left' | 'bottom' | 'right'
   > {
   ready: boolean;
 }
@@ -23,10 +23,10 @@ const BOUNDING_CLIENT_RECT_DEFAULT_STATE: DOMRectState = {
 
 export function useBoundingClientRect<T extends HTMLElement>(
   ref: RefObject<T>,
-  extraDeps?: DependencyList
+  extraDeps?: DependencyList,
 ): DOMRectState {
   const [state, setState] = useState<DOMRectState>(
-    BOUNDING_CLIENT_RECT_DEFAULT_STATE
+    BOUNDING_CLIENT_RECT_DEFAULT_STATE,
   );
 
   useIsomorphicLayoutEffect(() => {

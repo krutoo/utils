@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect.ts";
+import { useState } from 'react';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
 export interface VisualViewportState {
   readonly ready: boolean;
@@ -43,12 +43,12 @@ export function useVisualViewport(): VisualViewportState {
         });
       };
 
-      visualViewport.addEventListener("resize", sync);
+      visualViewport.addEventListener('resize', sync);
 
       sync();
 
       return () => {
-        visualViewport.removeEventListener("resize", sync);
+        visualViewport.removeEventListener('resize', sync);
       };
     }
   }, []);

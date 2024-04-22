@@ -1,7 +1,7 @@
-import { type RefObject, useEffect, useState } from "react";
-import { Vector2, type Point2d } from "../math/mod.ts";
-import { useStableCallback } from "./use-stable-callback.ts";
-import { getPositionedParentOffset } from "../dom/mod.ts";
+import { type RefObject, useEffect, useState } from 'react';
+import { type Point2d, Vector2 } from '../math/mod.ts';
+import { useStableCallback } from './use-stable-callback.ts';
+import { getPositionedParentOffset } from '../dom/mod.ts';
 
 export interface DnDEventHandler {
   (event: { clientPosition: Point2d }): void;
@@ -20,7 +20,7 @@ export interface UseDragAndDropReturn {
 
 export function useDragAndDrop(
   ref: RefObject<HTMLElement>,
-  { disabled, onDrop, onMove }: UseDragAndDropOptions
+  { disabled, onDrop, onMove }: UseDragAndDropOptions,
 ): UseDragAndDropReturn {
   const [viewPos, setViewPos] = useState<Point2d>(() => Vector2.of(0, 0));
   const [captureOffset, setCaptureOffset] = useState<Point2d | null>(null);
@@ -38,7 +38,7 @@ export function useDragAndDrop(
 
     const newCaptureOffset = Vector2.of(
       rect.left - event.clientX,
-      rect.top - event.clientY
+      rect.top - event.clientY,
     );
     const parentOffset = getPositionedParentOffset(element);
 
@@ -47,8 +47,8 @@ export function useDragAndDrop(
     setViewPos(
       Vector2.of(
         event.clientX + parentOffset.x + newCaptureOffset.x,
-        event.clientY + parentOffset.y + newCaptureOffset.y
-      )
+        event.clientY + parentOffset.y + newCaptureOffset.y,
+      ),
     );
   });
 
@@ -65,14 +65,14 @@ export function useDragAndDrop(
       setViewPos(
         Vector2.of(
           event.clientX + parentOffset.x + captureOffset.x,
-          event.clientY + parentOffset.y + captureOffset.y
-        )
+          event.clientY + parentOffset.y + captureOffset.y,
+        ),
       );
 
       onMove?.({
         clientPosition: Vector2.of(
           event.clientX + parentOffset.x + captureOffset.x,
-          event.clientY + parentOffset.y + captureOffset.y
+          event.clientY + parentOffset.y + captureOffset.y,
         ),
       });
     }
@@ -86,7 +86,7 @@ export function useDragAndDrop(
     onDrop?.({
       clientPosition: Vector2.of(
         viewPos.x - captureOffset.x,
-        viewPos.y - captureOffset.y
+        viewPos.y - captureOffset.y,
       ),
     });
 
@@ -104,17 +104,17 @@ export function useDragAndDrop(
       return;
     }
 
-    element.addEventListener("touchstart", onTouchStart);
-    element.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
+    element.addEventListener('touchstart', onTouchStart);
+    element.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
 
     return () => {
-      element.removeEventListener("touchstart", onTouchStart);
-      element.removeEventListener("pointerdown", onPointerDown);
-      element.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
+      element.removeEventListener('touchstart', onTouchStart);
+      element.removeEventListener('pointerdown', onPointerDown);
+      element.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
     };
   }, [ref, disabled, onPointerDown, onPointerMove, onPointerUp, onTouchStart]);
 

@@ -1,7 +1,7 @@
-import { isScrollable } from "./is-scrollable.ts";
+import { isScrollable } from './is-scrollable.ts';
 
 export function getScrollParent(
-  element: Element | undefined | null
+  element: Element | undefined | null,
 ): HTMLElement {
   let result;
 

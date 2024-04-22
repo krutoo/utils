@@ -1,6 +1,6 @@
-import type { Point2d } from "../math/mod.ts";
-import { findOffsetParent } from "./fing-offset-parent.ts";
-import { getScrollParent } from "./get-scroll-parent.ts";
+import type { Point2d } from '../math/mod.ts';
+import { findOffsetParent } from './fing-offset-parent.ts';
+import { getScrollParent } from './get-scroll-parent.ts';
 
 export function getPositionedParentOffset(element: HTMLElement): Point2d {
   const offsetParent = findOffsetParent(element);
@@ -29,5 +29,5 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
 }
 
 function cssValueToNumber(cssValue: string): number {
-  return parseFloat(cssValue.replace(/[A-z]/g, "")) || 0;
+  return parseFloat(cssValue.replace(/[A-z]/g, '')) || 0;
 }

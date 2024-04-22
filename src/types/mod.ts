@@ -1,1 +1,1 @@
-export * from "./distributive-omit.ts";
+export * from './distributive-omit.ts';
