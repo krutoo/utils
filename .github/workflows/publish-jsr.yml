@@ -24,7 +24,7 @@ jobs:
 
       - name: Lint package
         run: |
-          npx jsr publish --dry-run
+          deno publish --dry-run
 
       - name: Set version
         run: |
@@ -32,4 +32,4 @@ jobs:
 
       - name: Publish package
         run: |
-          deno publish
+          deno publish --allow-dirty
