@@ -2,8 +2,8 @@
  * Returns new array with random sorted items.
  * @param array Source array.
  * @returns New randomly sorted array.
+ * @see https://stackoverflow.com/a/12646864
  */
-// https://stackoverflow.com/a/12646864
 export function shuffle<T>(list: Array<T>): Array<T> {
   const result = [...list];
 

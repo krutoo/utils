@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
+/**
+ * State of visual viewport.
+ */
 export interface VisualViewportState {
-  readonly ready: boolean;
   readonly height: number;
   readonly offsetLeft: number;
   readonly offsetTop: number;
@@ -10,6 +12,9 @@ export interface VisualViewportState {
   readonly pageTop: number;
   readonly scale: number;
   readonly width: number;
+
+  /** True when computed, false by default (when state is default - empty). */
+  readonly ready: boolean;
 }
 
 const DEFAULT_STATE: VisualViewportState = {

@@ -6,6 +6,7 @@ export interface DOMRectState extends
     DOMRectReadOnly,
     'width' | 'height' | 'x' | 'y' | 'top' | 'left' | 'bottom' | 'right'
   > {
+  /** True when computed, false by default (when state is default - empty). */
   ready: boolean;
 }
 
