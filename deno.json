@@ -7,7 +7,7 @@
   },
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.1",
-    "react": "https://esm.sh/react@18"
+    "react": "npm:react@^18"
   },
   "exports": {
     ".": "./src/mod.ts",
