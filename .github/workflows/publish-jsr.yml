@@ -1,0 +1,39 @@
+name: Publish JSR package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-jsr:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Lint source code
+        run: |
+          deno task lint
+
+      - name: Lint package
+        run: |
+          npx jsr publish --dry-run
+
+      - name: Unit tests
+        run: |
+          deno test
+
+      - name: Set version
+        run: |
+          cat deno.json | jq '.version = "${{ github.event.release.tag_name }}"' | tee deno.json
+
+      - name: Publish package
+        run: |
+          npx jsr publish
