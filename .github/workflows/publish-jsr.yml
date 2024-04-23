@@ -28,7 +28,7 @@ jobs:
 
       - name: Set version
         run: |
-          cat deno.json | jq '.version = ${{ github.event.release.tag_name }}' | tee deno.json
+          cat deno.json | jq '.version = "${{ github.event.release.tag_name }}"' | tee deno.json
 
       - name: Publish package
         run: |
