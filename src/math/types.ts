@@ -3,7 +3,10 @@ export interface Point2d {
   y: number;
 }
 
-export interface BoxSize2d {
+/**
+ * Representation of rectangle size.
+ */
+export interface RectSize {
   width: number;
   height: number;
 }

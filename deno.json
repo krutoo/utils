@@ -1,6 +1,6 @@
 {
   "name": "@krutoo/utils",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "tasks": {
     "lint": "deno lint && deno check src/**/*.ts",
     "build-npm": "deno run -A scripts/build-npm.ts"
@@ -17,9 +17,14 @@
     "./types": "./src/types/mod.ts"
   },
   "lint": {
-    "exclude": ["npm/**/*"],
+    "exclude": [
+      "npm/**/*"
+    ],
     "rules": {
-      "exclude": ["no-window", "no-window-prefix"]
+      "exclude": [
+        "no-window",
+        "no-window-prefix"
+      ]
     }
   },
   "fmt": {
@@ -27,13 +32,30 @@
     "indentWidth": 2,
     "semiColons": true,
     "singleQuote": true,
-    "exclude": ["npm/**/*"]
+    "exclude": [
+      "npm/**/*"
+    ]
   },
   "publish": {
-    "include": ["LICENSE", "README.md", "src/**/*.ts"],
-    "exclude": ["src/**/*.test.ts"]
+    "include": [
+      "deno.json",
+      "deno.lock",
+      "LICENSE",
+      "README.md",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "npm",
+      "scripts",
+      "src/**/*.test.{ts,tsx}"
+    ]
   },
   "compilerOptions": {
-    "lib": ["deno.ns", "esnext", "dom", "dom.iterable"]
+    "lib": [
+      "deno.ns",
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ]
   }
 }
