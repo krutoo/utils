@@ -1,5 +1,11 @@
 import { useCallback, useRef } from 'react';
 
+/**
+ * Hook of stable callback.
+ * Return function not changes but wraps actual callback.
+ * @param callback Callback.
+ * @returns Stable callback.
+ */
 // deno-lint-ignore no-explicit-any
 export function useStableCallback<T extends (...args: any[]) => any>(
   callback: T,

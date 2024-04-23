@@ -9,7 +9,7 @@ export interface DOMRectState extends
   ready: boolean;
 }
 
-const BOUNDING_CLIENT_RECT_DEFAULT_STATE: DOMRectState = {
+const DEFAULT_STATE: DOMRectState = {
   ready: false,
   width: 0,
   height: 0,
@@ -21,13 +21,17 @@ const BOUNDING_CLIENT_RECT_DEFAULT_STATE: DOMRectState = {
   right: 0,
 };
 
-export function useBoundingClientRect<T extends HTMLElement>(
+/**
+ * Hook of state of bounding client rect of element.
+ * @param ref Ref with element.
+ * @param extraDeps Deps for force recalculate.
+ * @returns Rect state.
+ */
+export function useBoundingClientRect<T extends Element>(
   ref: RefObject<T>,
   extraDeps?: DependencyList,
 ): DOMRectState {
-  const [state, setState] = useState<DOMRectState>(
-    BOUNDING_CLIENT_RECT_DEFAULT_STATE,
-  );
+  const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);
 
   useIsomorphicLayoutEffect(() => {
     const element = ref.current;

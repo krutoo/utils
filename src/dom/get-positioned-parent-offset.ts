@@ -2,6 +2,11 @@ import type { Point2d } from '../math/mod.ts';
 import { findOffsetParent } from './fing-offset-parent.ts';
 import { getScrollParent } from './get-scroll-parent.ts';
 
+/**
+ * Returns the offset relative to the top left edge of the parent positioned element.
+ * @param element Target element.
+ * @returns Offset.
+ */
 export function getPositionedParentOffset(element: HTMLElement): Point2d {
   const offsetParent = findOffsetParent(element);
   const scrollParent = getScrollParent(element);

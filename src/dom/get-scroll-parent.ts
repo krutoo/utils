@@ -1,5 +1,10 @@
 import { isScrollable } from './is-scrollable.ts';
 
+/**
+ * Returns closest scrollable parent.
+ * @param element Target element.
+ * @returns Closest scrollable parent.
+ */
 export function getScrollParent(
   element: Element | undefined | null,
 ): HTMLElement {

@@ -18,9 +18,15 @@ export interface UseDragAndDropReturn {
   offset: Point2d;
 }
 
+/**
+ * Hook of simple "drag and drop".
+ * @param ref Target element.
+ * @param options Options.
+ * @returns State.
+ */
 export function useDragAndDrop(
   ref: RefObject<HTMLElement>,
-  { disabled, onDrop, onMove }: UseDragAndDropOptions,
+  { disabled, onMove, onDrop }: UseDragAndDropOptions,
 ): UseDragAndDropReturn {
   const [viewPos, setViewPos] = useState<Point2d>(() => Vector2.of(0, 0));
   const [captureOffset, setCaptureOffset] = useState<Point2d | null>(null);

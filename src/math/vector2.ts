@@ -1,5 +1,8 @@
 import type { Point2d } from './types.ts';
 
+/**
+ * Operations with two-dimensional vector.
+ */
 export abstract class Vector2 {
   static of(x = 0, y = 0): Point2d {
     return { x, y };

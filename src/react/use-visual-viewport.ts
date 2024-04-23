@@ -23,6 +23,10 @@ const DEFAULT_STATE: VisualViewportState = {
   ready: false,
 };
 
+/**
+ * Hook of window.visualViewport state.
+ * @returns State of visualViewport (width, height, etc).
+ */
 export function useVisualViewport(): VisualViewportState {
   const [size, setSize] = useState<VisualViewportState>(DEFAULT_STATE);
 
