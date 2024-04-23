@@ -5,7 +5,7 @@ await emptyDir('./npm');
 
 await build({
   entryPoints: Object.entries(denoJson.exports).map(([name, path]) =>
-    name === '.' ? name : { name, path }
+    name === '.' ? path : { name, path }
   ),
   outDir: './npm',
   shims: {
