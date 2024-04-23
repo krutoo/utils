@@ -1,3 +1,6 @@
+/**
+ * Representation of point in two-dimensional space.
+ */
 export interface Point2d {
   x: number;
   y: number;
