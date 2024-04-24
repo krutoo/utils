@@ -1,3 +1,4 @@
+// @deno-types="npm:@types/react"
 import { useEffect, useRef } from 'react';
 
 /**

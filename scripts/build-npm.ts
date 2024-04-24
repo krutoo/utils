@@ -25,9 +25,12 @@ await build({
     bugs: {
       url: 'https://github.com/krutoo/utils/issues',
     },
-    peerDependencies: {
+    devDependencies: {
       '@types/react': '^17 || ^18',
     },
+  },
+  mappings: {
+    'npm:@types/react': 'react',
   },
   compilerOptions: {
     lib: ['ES2022', 'DOM', 'DOM.Iterable'],
