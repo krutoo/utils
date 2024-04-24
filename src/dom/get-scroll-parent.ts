@@ -8,7 +8,7 @@ import { isScrollable } from './is-scrollable.ts';
 export function getScrollParent(
   element: Element | undefined | null,
 ): HTMLElement {
-  let result;
+  let result: HTMLElement;
 
   if (!element || element === document.body) {
     result = document.body;
@@ -18,5 +18,5 @@ export function getScrollParent(
       : getScrollParent(element.parentElement);
   }
 
-  return result as HTMLElement;
+  return result;
 }
