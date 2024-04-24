@@ -3,7 +3,7 @@
  * @param element Target element.
  * @returns True if element is scrollable, false otherwise
  */
-export function isScrollable(element: HTMLElement | undefined | null): boolean {
+export function isScrollable(element: Element | undefined | null): element is Element {
   let result = false;
 
   if (element) {
