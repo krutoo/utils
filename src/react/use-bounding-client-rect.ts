@@ -1,4 +1,4 @@
-// @deno-types="npm:@types/react"
+// @deno-types="npm:@types/react@18"
 import { type DependencyList, type RefObject, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 

@@ -1,4 +1,4 @@
-// @deno-types="npm:@types/react"
+// @deno-types="npm:@types/react@18"
 import { type RefObject, useEffect, useState } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useStableCallback } from './use-stable-callback.ts';

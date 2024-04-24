@@ -30,7 +30,7 @@ await build({
     },
   },
   mappings: {
-    'npm:@types/react': 'react',
+    'npm:@types/react@18': 'react',
   },
   compilerOptions: {
     lib: ['ES2022', 'DOM', 'DOM.Iterable'],
