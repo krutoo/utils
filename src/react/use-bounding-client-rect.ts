@@ -1,3 +1,4 @@
+// @deno-types="npm:@types/react"
 import { type DependencyList, type RefObject, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
@@ -25,7 +26,7 @@ const DEFAULT_STATE: DOMRectState = {
 /**
  * Hook of state of bounding client rect of element.
  * @param ref Ref with element.
- * @param extraDeps Deps for force recalculate.
+ * @param extraDeps Deps for force re init listeners.
  * @returns Rect state.
  */
 export function useBoundingClientRect<T extends Element>(
@@ -41,29 +42,49 @@ export function useBoundingClientRect<T extends Element>(
       return;
     }
 
-    const sync = () => {
+    const rectToState = (rect: DOMRect | DOMRectReadOnly): DOMRectState => ({
+      ready: true,
+      width: rect.width,
+      height: rect.height,
+      x: rect.x,
+      y: rect.y,
+      top: rect.top,
+      left: rect.left,
+      bottom: rect.bottom,
+      right: rect.right,
+    });
+
+    const onResize = () => {
+      setState(rectToState(element.getBoundingClientRect()));
+    };
+
+    const onScroll = () => {
       const rect = element.getBoundingClientRect();
 
-      setState({
-        ready: true,
-        width: rect.width,
-        height: rect.height,
-        x: rect.x,
-        y: rect.y,
-        top: rect.top,
-        left: rect.left,
-        bottom: rect.bottom,
-        right: rect.right,
+      setState((current) => {
+        if (rect.x !== current.x || rect.y !== current.y) {
+          return rectToState(rect);
+        }
+
+        return current;
       });
     };
 
-    const observer = new ResizeObserver(sync);
-
-    sync();
+    const observer = new ResizeObserver(onResize);
 
     observer.observe(element);
 
-    return () => observer.disconnect();
+    // IMPORTANT: document scroll event will be fired when any element scrolls
+    // example: https://codepen.io/dmtr_ptrv/pen/QWPYGVL
+    document.addEventListener('scroll', onScroll, true);
+
+    // initial sync
+    setState(rectToState(element.getBoundingClientRect()));
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('scroll', onScroll, true);
+    };
   }, [ref, ...(extraDeps ?? [])]);
 
   return state;

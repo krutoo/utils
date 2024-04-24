@@ -1,6 +1,6 @@
 {
   "name": "@krutoo/utils",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "tasks": {
     "lint": "deno lint && deno check src/**/*.ts",
     "build-npm": "deno run -A scripts/build-npm.ts"
