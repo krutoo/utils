@@ -52,6 +52,7 @@
     ]
   },
   "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
     "lib": [
       "deno.ns",
       "esnext",
