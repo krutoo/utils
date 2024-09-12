@@ -7,13 +7,13 @@ import type { MutableRefObject, Ref } from 'react';
  * @returns Merged ref.
  */
 export function mergeRefs<T>(list: Array<Ref<T> | null | undefined>): Ref<T> {
-    return (value: T) => {
-        for (const ref of list) {
-            if (typeof ref === 'function') {
-                ref(value);
-            } else if (ref) {
-                (ref as MutableRefObject<T | null>).current = value;
-            }
-        }
-    };
+  return (value: T) => {
+    for (const ref of list) {
+      if (typeof ref === 'function') {
+        ref(value);
+      } else if (ref) {
+        (ref as MutableRefObject<T | null>).current = value;
+      }
+    }
+  };
 }
