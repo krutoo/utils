@@ -5,6 +5,21 @@
  * @param max Maximum.
  * @returns Clamped value.
  */
-export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max);
+export function clamp(value: number, min: number, max: number) {
+  // check that value is non NaN
+  if (value !== value) {
+    return value;
+  }
+
+  let result = value;
+
+  if (result < min) {
+    result = min;
+  }
+
+  if (result > max) {
+    result = max;
+  }
+
+  return result;
 }
