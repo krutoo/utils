@@ -5,7 +5,7 @@
  * @param max Maximum.
  * @returns Clamped value.
  */
-export function clamp(value: number, min: number, max: number) {
+export function clamp(value: number, min: number, max: number): number {
   // check that value is non NaN
   if (value !== value) {
     return value;
