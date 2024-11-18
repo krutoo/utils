@@ -7,3 +7,4 @@ export * from './use-stable-callback.ts';
 export * from './use-visual-viewport.ts';
 export * from './merge-refs.ts';
 export * from './use-merge-refs.ts';
+export * from './use-exact-click.ts';
