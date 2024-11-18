@@ -3,15 +3,23 @@ import type { Point2d } from './types.ts';
 /**
  * Operations with two-dimensional vector.
  */
-export abstract class Vector2 {
+export class Vector2 implements Point2d {
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
   /**
    * Returns point.
    * @param x X coordinate.
    * @param y Y coordinate.
    * @returns Point.
    */
-  static of(x = 0, y = 0): Point2d {
-    return { x, y };
+  static of(x = 0, y = 0): Vector2 {
+    return new Vector2(x, y);
   }
 
   /**
@@ -19,66 +27,95 @@ export abstract class Vector2 {
    * @param source Point-like interface.
    * @returns Point.
    */
-  static from<T extends Point2d>(source: T): Point2d {
-    return Vector2.of(source.x, source.y);
+  static from<T extends Point2d>(source: T): Vector2 {
+    return new Vector2(source.x, source.y);
+  }
+
+  /**
+   * Returns plain object with coordinates of vector.
+   * @returns Plain object.
+   */
+  toJSON(): Point2d {
+    return {
+      x: this.x,
+      y: this.y,
+    };
+  }
+
+  /**
+   * Sets the X coordinate.
+   */
+  setX(x: number): this {
+    this.x = x;
+
+    return this;
+  }
+
+  /**
+   * Sets the X coordinate.
+   */
+  setY(y: number): this {
+    this.y = y;
+
+    return this;
   }
 
   /**
    * Vector addition.
-   * @param a Vector.
-   * @param b Vector.
-   * @returns Vector.
+   * @param vector Vector.
    */
-  static add(a: Point2d, b: Point2d): Point2d {
-    return Vector2.of(a.x + b.x, a.y + b.y);
+  add(vector: Point2d): this {
+    this.x += vector.x;
+    this.y += vector.y;
+
+    return this;
   }
 
   /**
    * Vector subtraction
-   * @param a Vector.
-   * @param b Vector.
-   * @returns Vector.
+   * @param vector Vector.
    */
-  static subtract(a: Point2d, b: Point2d): Point2d {
-    return Vector2.of(a.x - b.x, a.y - b.y);
+  subtract(vector: Point2d): this {
+    this.x -= vector.x;
+    this.y -= vector.y;
+
+    return this;
   }
 
   /**
    * Multiplying a vector by a scalar.
-   * @param vector Point.
    * @param scalar Scalar.
-   * @returns Vector.
    */
-  static scale(vector: Point2d, scalar: number): Point2d {
-    return Vector2.of(vector.x * scalar, vector.y * scalar);
+  scale(scalar: number): this {
+    this.x *= scalar;
+    this.y *= scalar;
+
+    return this;
   }
 
   /**
    * Check that two vectors are equal.
-   * @param a Vector.
-   * @param b Vector.
+   * @param vector Vector.
    * @returns True if vectors are equal, false otherwise.
    */
-  static equals(a: Point2d, b: Point2d): boolean {
-    return a.x === b.x && a.y === b.y;
+  equalsTo(vector: Point2d): boolean {
+    return this.x === vector.x && this.y === vector.y;
   }
 
   /**
    * Returns distance between two vectors.
-   * @param a Vector.
-   * @param b Vector.
+   * @param vector Vector.
    * @returns Distance.
    */
-  static distance(a: Point2d, b: Point2d): number {
-    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+  getDistance(vector: Point2d): number {
+    return Math.sqrt((this.x - vector.x) ** 2 + (this.y - vector.y) ** 2);
   }
 
   /**
    * Returns length of vector.
-   * @param vector Vector.
    * @returns Length.
    */
-  static length(vector: Point2d): number {
-    return Math.sqrt(vector.x ** 2 + vector.y ** 2);
+  getLength(): number {
+    return Math.sqrt(this.x ** 2 + this.y ** 2);
   }
 }
