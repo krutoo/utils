@@ -1,3 +1,23 @@
+/**
+ * Returns generator that iterates each pair of elements in array.
+ * @param array Array.
+ * @param callback Callback.
+ * @example
+ * ```ts
+ * import { forEachPair } from "@krutoo/utils";
+ *
+ * const list = [1, 2, 3];
+ *
+ * forEachPair((a, b) => {
+ *   console.log(a, b);
+ * });
+ *
+ * // output:
+ * // 1 2
+ * // 1 3
+ * // 2 3
+ * ```
+ */
 export function forEachPair<T>(
   array: T[],
   callback: (a: T, b: T) => void,
