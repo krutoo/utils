@@ -7,17 +7,17 @@ import { useEffect, useState } from 'react';
  * @param timeout Timeout in milliseconds.
  */
 export function useDebounceState<T>(value: T, timeout: number): T {
-    const [debouncedValue, setDebouncedValue] = useState(value);
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-    useEffect(() => {
-        const timerId = setTimeout(() => {
-            setDebouncedValue(value);
-        }, timeout);
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedValue(value);
+    }, timeout);
 
-        return () => {
-            clearTimeout(timerId);
-        };
-    }, [value, timeout]);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [value, timeout]);
 
-    return debouncedValue;
+  return debouncedValue;
 }
