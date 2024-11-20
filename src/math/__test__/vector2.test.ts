@@ -23,6 +23,12 @@ describe('Vector2', () => {
     expect(new Vector2(2, 3).scale(3)).toEqual(new Vector2(6, 9));
   });
 
+  test('normalize', () => {
+    expect(new Vector2(0, 10).normalize()).toStrictEqual(new Vector2(0, 1));
+    expect(new Vector2(2, 3).normalize().getLength().toFixed(2)).toEqual('1.00');
+    expect(new Vector2(10, 11).normalize().getLength().toFixed(2)).toEqual('1.00');
+  });
+
   test('equalsTo', () => {
     expect(new Vector2(1, 2).equalsTo({ x: 1, y: 2 })).toBe(true);
     expect(new Vector2(1, 2).equalsTo(new Vector2(1, 2))).toBe(true);
@@ -47,5 +53,17 @@ describe('Vector2', () => {
     const result = new Vector2(20, 30).toJSON();
 
     expect(result).toStrictEqual({ x: 20, y: 30 });
+  });
+
+  test('clone', () => {
+    const a = new Vector2(20, 30);
+    const b = a.clone();
+
+    expect(a instanceof Vector2).toBe(true);
+    expect(b instanceof Vector2).toBe(true);
+    expect(a.x === b.x && a.y === b.y).toBe(true);
+    expect(a !== b).toBe(true);
+    expect(a.equalsTo(b)).toBe(true);
+    expect(b.equalsTo(a)).toBe(true);
   });
 });

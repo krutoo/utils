@@ -43,6 +43,14 @@ export class Vector2 implements Point2d {
   }
 
   /**
+   * Returns new instance of Vector2 with same x and y.
+   * @returns New instance.
+   */
+  clone() {
+    return new Vector2(this.x, this.y);
+  }
+
+  /**
    * Sets the X coordinate.
    */
   setX(x: number): this {
@@ -89,6 +97,17 @@ export class Vector2 implements Point2d {
   scale(scalar: number): this {
     this.x *= scalar;
     this.y *= scalar;
+
+    return this;
+  }
+
+  /**
+   * Makes length equals to 1.
+   */
+  normalize() {
+    const value = 1 / this.getLength();
+    this.x *= value;
+    this.y *= value;
 
     return this;
   }
