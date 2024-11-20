@@ -27,7 +27,7 @@ jobs:
 
       - name: Format check
         run: |
-          deno lint --check
+          deno fmt --check
 
       - name: Lint by JSR
         run: |
