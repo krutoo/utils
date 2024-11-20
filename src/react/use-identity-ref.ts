@@ -6,12 +6,12 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
  * @param value Current value.
  */
 export function useIdentityRef<T>(value: T): MutableRefObject<T> {
-    const ref = useRef<T>(value);
+  const ref = useRef<T>(value);
 
-    // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
-    useMemo<void>(() => {
-        ref.current = value;
-    }, [value]);
+  // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
+  useMemo<void>(() => {
+    ref.current = value;
+  }, [value]);
 
-    return ref;
+  return ref;
 }
