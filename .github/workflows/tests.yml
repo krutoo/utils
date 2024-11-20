@@ -25,6 +25,10 @@ jobs:
         run: |
           deno task lint
 
+      - name: Format check
+        run: |
+          deno fmt --check
+
       - name: Lint by JSR
         run: |
           deno publish --dry-run

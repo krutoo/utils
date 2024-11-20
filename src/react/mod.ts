@@ -8,3 +8,4 @@ export * from './use-visual-viewport.ts';
 export * from './merge-refs.ts';
 export * from './use-merge-refs.ts';
 export * from './use-exact-click.ts';
+export * from './use-debounce-state.ts';
