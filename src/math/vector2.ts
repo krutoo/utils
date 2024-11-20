@@ -46,7 +46,7 @@ export class Vector2 implements Point2d {
    * Returns new instance of Vector2 with same x and y.
    * @returns New instance.
    */
-  clone() {
+  clone(): Vector2 {
     return new Vector2(this.x, this.y);
   }
 
@@ -104,7 +104,7 @@ export class Vector2 implements Point2d {
   /**
    * Makes length equals to 1.
    */
-  normalize() {
+  normalize(): this {
     const value = 1 / this.getLength();
     this.x *= value;
     this.y *= value;
