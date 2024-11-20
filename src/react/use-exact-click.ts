@@ -14,7 +14,8 @@ export interface UseExactClickReturn {
 /**
  * Calls callback when click was started and ended on same element.
  * Useful for "backdrop" elements of modal windows.
- * @inheritdoc
+ * @param onExactClick Click event callback.
+ * @param options Options.
  */
 export function useExactClick(
   onExactClick: MouseEventHandler | undefined,
