@@ -15,13 +15,13 @@
  * ```
  */
 export function getPseudoRandom(seed: number): () => number {
-    let value = seed;
+  let value = seed;
 
-    return (): number => {
-        // these magic values provides most random numbers
-        value = (value * 9301 + 49297) % 233280;
+  return (): number => {
+    // these magic values provides most random numbers
+    value = (value * 9301 + 49297) % 233280;
 
-        // move value in range 0-1
-        return value / 233280;
-    };
+    // move value in range 0-1
+    return value / 233280;
+  };
 }
