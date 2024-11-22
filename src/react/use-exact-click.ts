@@ -1,5 +1,6 @@
 // @deno-types="npm:@types/react@18"
 import { type MouseEventHandler, useCallback, useRef } from 'react';
+import { useIdentityRef } from './use-identity-ref.ts';
 
 export interface UseExactClickOptions {
   onMouseDown?: MouseEventHandler;
@@ -21,15 +22,15 @@ export function useExactClick(
   onExactClick: MouseEventHandler | undefined,
   { onMouseDown, onMouseUp }: UseExactClickOptions = {},
 ): UseExactClickReturn {
-  const callbackRef = useRef(onExactClick);
-  const mouseDownTarget = useRef<EventTarget | null>(null);
+  const mouseDownTargetRef = useRef<EventTarget | null>(null);
+  const callbackRef = useIdentityRef(onExactClick);
 
   const handleMouseDown = useCallback<MouseEventHandler>(
     (event) => {
       onMouseDown?.(event);
 
       if (event.button === 0) {
-        mouseDownTarget.current = event.target;
+        mouseDownTargetRef.current = event.target;
       }
     },
     [onMouseDown],
@@ -43,13 +44,17 @@ export function useExactClick(
 
       if (
         event.target === event.currentTarget &&
-        event.currentTarget === mouseDownTarget.current
+        event.currentTarget === mouseDownTargetRef.current
       ) {
+        mouseDownTargetRef.current = null;
         fn?.(event);
       }
     },
-    [onMouseUp],
+    [onMouseUp, callbackRef],
   );
 
-  return { onMouseUp: handleMouseUp, onMouseDown: handleMouseDown };
+  return {
+    onMouseUp: handleMouseUp,
+    onMouseDown: handleMouseDown,
+  };
 }

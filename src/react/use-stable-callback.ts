@@ -1,5 +1,5 @@
 // @deno-types="npm:@types/react@18"
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 /**
  * Hook of stable callback.
@@ -13,7 +13,10 @@ export function useStableCallback<T extends (...args: any[]) => any>(
 ): (...args: Parameters<T>) => ReturnType<T> {
   const ref = useRef(callback);
 
-  ref.current = callback;
+  // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
+  useMemo(() => {
+    ref.current = callback;
+  }, [callback]);
 
   return useCallback((...args: Parameters<T>) => ref.current(...args), []);
 }
