@@ -6,5 +6,4 @@ import { useEffect, useLayoutEffect } from 'react';
  * Uses useEffect on server and useLayoutEffect on client.
  */
 export const useIsomorphicLayoutEffect: typeof useEffect =
-  // deno-lint-ignore no-explicit-any
-  typeof window !== 'undefined' && !(globalThis as any).Deno ? useLayoutEffect : useEffect;
+  typeof window !== 'undefined' && !globalThis.Deno ? useLayoutEffect : useEffect;
