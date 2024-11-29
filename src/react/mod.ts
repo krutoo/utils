@@ -10,3 +10,4 @@ export * from './use-merge-refs.ts';
 export * from './use-previous-state.ts';
 export * from './use-stable-callback.ts';
 export * from './use-visual-viewport.ts';
+export * from './use-storage-item.ts';
