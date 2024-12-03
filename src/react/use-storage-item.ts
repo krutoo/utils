@@ -31,9 +31,13 @@ const identityProcessor: StorageValueProcessor<string | null> = {
 
 /**
  * Hook for wrap working with storage item.
+ *
  * You need to provide key and storage for getting actual value from storage.
+ *
  * By default result value is raw value from storage.
+ *
  * You can provide processor for parse/stringify value automatically.
+ *
  * @param key Storage item key.
  * @param options Options.
  * @returns Tuple like `[state, setState]`.
