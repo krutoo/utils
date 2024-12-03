@@ -6,15 +6,28 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
  * State of visual viewport.
  */
 export interface VisualViewportState {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/height) */
   readonly height: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetLeft) */
   readonly offsetLeft: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetTop) */
   readonly offsetTop: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageLeft) */
   readonly pageLeft: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageTop) */
   readonly pageTop: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/scale) */
   readonly scale: number;
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/width) */
   readonly width: number;
 
-  /** True when computed, false by default (when state is default - empty). */
+  /** True when computed, false by default. */
   readonly ready: boolean;
 }
 

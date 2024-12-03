@@ -2,13 +2,21 @@
 import { type MouseEventHandler, useCallback, useRef } from 'react';
 import { useIdentityRef } from './use-identity-ref.ts';
 
+/** Options of `useExactClick` hook. */
 export interface UseExactClickOptions {
+  /** Handler for `mousedown` event. */
   onMouseDown?: MouseEventHandler;
+
+  /** Handler for `mouseup` event. */
   onMouseUp?: MouseEventHandler;
 }
 
+/** Return value type of `useExactClick` hook. */
 export interface UseExactClickReturn {
+  /** Handler for `mousedown` event. */
   onMouseDown: MouseEventHandler;
+
+  /** Handler for `mouseup` event. */
   onMouseUp: MouseEventHandler;
 }
 
