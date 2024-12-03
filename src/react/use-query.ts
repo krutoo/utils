@@ -32,10 +32,13 @@ export interface UseQueryReturn<T = unknown> extends QueryState<T> {
 
 /**
  * Hook for fetching some data from any source.
+ *
  * This is a minimalistic analogue of `useQuery` from `@tanstack/react-query` made for educational purposes.
+ *
  * @param options Query configuration.
  * @param deps Dependencies that will invalidate query.
  * @returns State of query: data, error status and more.
+ *
  * @example
  * ```tsx
  * import { useQuery } from '@krutoo/utils/react';
@@ -52,7 +55,7 @@ export interface UseQueryReturn<T = unknown> extends QueryState<T> {
  *   }
  *
  *   if (user.status === 'failure') {
- *     return Error: ${user.error}`;
+ *     return `Error: ${user.error}`;
  *   }
  *
  *   return <div>Hello, {user.name}!</div>;
