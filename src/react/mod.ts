@@ -11,3 +11,5 @@ export * from './use-previous-state.ts';
 export * from './use-stable-callback.ts';
 export * from './use-visual-viewport.ts';
 export * from './use-storage-item.ts';
+export * from './use-query.ts';
+export * from './use-mutation.ts';

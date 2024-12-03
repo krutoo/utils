@@ -1,3 +1,4 @@
+/** Options for `getNumbersAround` function. */
 export interface GetNumbersAroundOptions {
   /** Range size. For range = 2 and target = 3 result will be [1, 2, 3, 4, 5]. */
   range?: number;

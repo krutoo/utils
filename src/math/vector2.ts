@@ -4,9 +4,13 @@ import type { Point2d } from './types.ts';
  * Operations with two-dimensional vector.
  */
 export class Vector2 implements Point2d {
+  /** Coordinate in x axis. */
   x: number;
+
+  /** Coordinate in y axis. */
   y: number;
 
+  /** Vector2 constructor. */
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
