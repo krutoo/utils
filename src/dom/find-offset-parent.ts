@@ -1,5 +1,5 @@
 /**
- * Returns the parent element that specifies the offset for positioning if is exists.
+ * Returns parent element that specifies the offset for positioning if exists.
  * @param element Target element.
  * @returns Parent or null.
  */
