@@ -18,7 +18,7 @@ export interface UseStorageItemOptions<T> {
   storage: Storage;
 
   /** Item value processor. */
-  processor?: StorageValueProcessor<T>;
+  processor: StorageValueProcessor<T>;
 }
 
 /** Return value type of `useStorageItem` hook. */
@@ -30,7 +30,7 @@ const identityProcessor: StorageValueProcessor<string | null> = {
 };
 
 /**
- * Hook for wrap working with storage item.
+ * Hook for working with storage item.
  *
  * You need to provide key and storage for getting actual value from storage.
  *
@@ -94,12 +94,54 @@ const identityProcessor: StorageValueProcessor<string | null> = {
  * }
  * ```
  */
-export function useStorageItem<T = string | null>(
+export function useStorageItem(
+  key: string,
+  options: {
+    storage: Storage;
+    processor?: StorageValueProcessor<string | null>;
+  },
+): UseStorageItemReturn<string | null>;
+
+/**
+ * Hook for working with storage item.
+ *
+ * You need to provide key and storage for getting actual value from storage.
+ *
+ * By default result value is raw value from storage.
+ *
+ * You can provide processor for parse/stringify value automatically.
+ *
+ * @param key Storage item key.
+ * @param options Options.
+ * @returns Tuple like `[state, setState]`.
+ */
+export function useStorageItem<T>(
+  key: string,
+  options: UseStorageItemOptions<T>,
+): UseStorageItemReturn<T>;
+
+/**
+ * Hook for working with storage item.
+ *
+ * You need to provide key and storage for getting actual value from storage.
+ *
+ * By default result value is raw value from storage.
+ *
+ * You can provide processor for parse/stringify value automatically.
+ *
+ * @param key Storage item key.
+ * @param options Options.
+ * @returns Tuple like `[state, setState]`.
+ */
+export function useStorageItem<T>(
   key: string,
   {
     storage,
     processor = identityProcessor as unknown as StorageValueProcessor<T>,
-  }: UseStorageItemOptions<T>,
+  }: {
+    storage: Storage;
+    processor?: StorageValueProcessor<T>;
+  },
 ): UseStorageItemReturn<T> {
   const [state, setState] = useState<string | null>(null);
 
