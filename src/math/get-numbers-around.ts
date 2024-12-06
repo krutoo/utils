@@ -33,7 +33,7 @@ export interface GetNumbersAroundOptions {
  */
 export function getNumbersAround(target: number, {
   range = 1,
-  min = 0,
+  min = -Infinity,
   max = Infinity,
 }: GetNumbersAroundOptions = {}): number[] {
   const numbers: number[] = [];

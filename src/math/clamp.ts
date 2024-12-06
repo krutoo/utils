@@ -11,15 +11,13 @@ export function clamp(value: number, min: number, max: number): number {
     return value;
   }
 
-  let result = value;
-
-  if (result < min) {
-    result = min;
+  if (value < min) {
+    return min;
   }
 
-  if (result > max) {
-    result = max;
+  if (value > max) {
+    return max;
   }
 
-  return result;
+  return value;
 }
