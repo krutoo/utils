@@ -1,3 +1,5 @@
+const CASES = [2, 0, 1, 1, 1, 2];
+
 /**
  * Returns the required deviation from the passed list by the passed value.
  * @param number The number used for declension.
@@ -5,11 +7,17 @@
  * @return The word is in the correct declension.
  */
 export function getDeclination(number: number, titles: string[]): string | undefined {
-  const cases = [2, 0, 1, 1, 1, 2];
-  const positiveNumber = Math.abs(number);
-  const index = positiveNumber % 100 > 4 && positiveNumber % 100 < 20
-    ? 2
-    : cases[positiveNumber % 10 < 5 ? positiveNumber % 10 : 5];
+  const absolute = Math.abs(number);
 
-  return titles[index!];
+  const reminder100 = absolute % 100;
+  if (reminder100 > 4 && reminder100 < 20) {
+    return titles[2];
+  }
+
+  const reminder10 = absolute % 10;
+  if (reminder10 < 5) {
+    return titles[CASES[reminder10] as number];
+  }
+
+  return titles[CASES[5] as number];
 }

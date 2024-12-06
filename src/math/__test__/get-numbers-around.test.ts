@@ -3,7 +3,7 @@ import { expect } from '@std/expect';
 import { getNumbersAround } from '../get-numbers-around.ts';
 
 test('should work with defaults', () => {
-  expect(getNumbersAround(0)).toEqual([0, 1]);
+  expect(getNumbersAround(0)).toEqual([-1, 0, 1]);
   expect(getNumbersAround(1)).toEqual([0, 1, 2]);
   expect(getNumbersAround(2)).toEqual([1, 2, 3]);
   expect(getNumbersAround(10)).toEqual([9, 10, 11]);

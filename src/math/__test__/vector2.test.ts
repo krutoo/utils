@@ -66,4 +66,19 @@ describe('Vector2', () => {
     expect(a.equalsTo(b)).toBe(true);
     expect(b.equalsTo(a)).toBe(true);
   });
+
+  test('static method "of"', () => {
+    expect(Vector2.of(1, 2)).toStrictEqual(new Vector2(1, 2));
+  });
+
+  test('static method "from"', () => {
+    const rect = {
+      x: 2,
+      y: 3,
+      width: 10,
+      height: 20,
+    };
+
+    expect(Vector2.from(rect)).toStrictEqual(new Vector2(2, 3));
+  });
 });
