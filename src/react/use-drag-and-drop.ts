@@ -29,7 +29,7 @@ export function useDragAndDrop(
   ref: RefObject<HTMLElement>,
   { disabled, onMove, onDrop }: UseDragAndDropOptions,
 ): UseDragAndDropReturn {
-  const [viewPos, setViewPos] = useState<Point2d>(() => Vector2.of(0, 0));
+  const [viewPos, setViewPos] = useState<Point2d>(() => Vector2.of(0, 0).toJSON());
   const [captureOffset, setCaptureOffset] = useState<Point2d | null>(null);
 
   const onPointerDown = useStableCallback((event: PointerEvent) => {
@@ -46,7 +46,7 @@ export function useDragAndDrop(
     const newCaptureOffset = Vector2.of(
       rect.left - event.clientX,
       rect.top - event.clientY,
-    );
+    ).toJSON();
     const parentOffset = getPositionedParentOffset(element);
 
     setCaptureOffset(newCaptureOffset);
@@ -55,7 +55,7 @@ export function useDragAndDrop(
       Vector2.of(
         event.clientX + parentOffset.x + newCaptureOffset.x,
         event.clientY + parentOffset.y + newCaptureOffset.y,
-      ),
+      ).toJSON(),
     );
   });
 
@@ -73,14 +73,14 @@ export function useDragAndDrop(
         Vector2.of(
           event.clientX + parentOffset.x + captureOffset.x,
           event.clientY + parentOffset.y + captureOffset.y,
-        ),
+        ).toJSON(),
       );
 
       onMove?.({
         clientPosition: Vector2.of(
           event.clientX + parentOffset.x + captureOffset.x,
           event.clientY + parentOffset.y + captureOffset.y,
-        ),
+        ).toJSON(),
       });
     }
   });
@@ -94,7 +94,7 @@ export function useDragAndDrop(
       clientPosition: Vector2.of(
         viewPos.x - captureOffset.x,
         viewPos.y - captureOffset.y,
-      ),
+      ).toJSON(),
     });
 
     setCaptureOffset(null);

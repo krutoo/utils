@@ -27,7 +27,7 @@ export interface VisualViewportState {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/width) */
   readonly width: number;
 
-  /** True when computed, false by default. */
+  /** False by default (before mount), true when initialized (after mount). */
   readonly ready: boolean;
 }
 
@@ -52,28 +52,32 @@ export function useVisualViewport(): VisualViewportState {
   useIsomorphicLayoutEffect(() => {
     const { visualViewport } = window;
 
-    if (visualViewport) {
-      const sync = () => {
-        setSize({
-          ready: true,
-          offsetLeft: visualViewport.offsetLeft,
-          offsetTop: visualViewport.offsetTop,
-          pageLeft: visualViewport.pageLeft,
-          pageTop: visualViewport.pageTop,
-          scale: visualViewport.scale,
-          width: visualViewport.width,
-          height: visualViewport.height,
-        });
-      };
-
-      visualViewport.addEventListener('resize', sync);
-
-      sync();
-
-      return () => {
-        visualViewport.removeEventListener('resize', sync);
-      };
+    if (!visualViewport) {
+      return;
     }
+
+    const sync = () => {
+      setSize({
+        ready: true,
+        offsetLeft: visualViewport.offsetLeft,
+        offsetTop: visualViewport.offsetTop,
+        pageLeft: visualViewport.pageLeft,
+        pageTop: visualViewport.pageTop,
+        scale: visualViewport.scale,
+        width: visualViewport.width,
+        height: visualViewport.height,
+      });
+    };
+
+    visualViewport.addEventListener('resize', sync);
+    visualViewport.addEventListener('scroll', sync);
+
+    sync();
+
+    return () => {
+      visualViewport.removeEventListener('resize', sync);
+      visualViewport.removeEventListener('scroll', sync);
+    };
   }, []);
 
   return size;
