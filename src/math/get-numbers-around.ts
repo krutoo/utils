@@ -24,7 +24,7 @@ export interface GetNumbersAroundOptions {
  *
  * getNumbersAround(5, { range: 2 }); // [3, 4, 5, 6, 7]
  *
- * getNumbersAround(1, { range: 2 }); // [0, 1, 2, 3]
+ * getNumbersAround(1, { range: 2 }); // [-1, 0, 1, 2, 3]
  *
  * getNumbersAround(1, { min: -1, range: 2 }); // [-1, 0, 1, 2, 3]
  *
