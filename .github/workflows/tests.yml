@@ -47,6 +47,7 @@ jobs:
           npm pack
 
       - name: Other tests
+        working-directory: ./tests
         run: |
           npm install
           npm run preparing
