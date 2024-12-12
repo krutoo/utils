@@ -22,7 +22,8 @@
   },
   "lint": {
     "exclude": [
-      "npm/**/*"
+      "npm/**/*",
+      "tests/**/*"
     ],
     "rules": {
       "exclude": [
@@ -37,7 +38,8 @@
     "semiColons": true,
     "singleQuote": true,
     "exclude": [
-      "npm/**/*"
+      "npm/**/*",
+      "tests/**/*"
     ]
   },
   "publish": {
@@ -50,6 +52,7 @@
     ],
     "exclude": [
       "npm",
+      "tests",
       "scripts",
       "src/**/*.test.{ts,tsx}"
     ]
