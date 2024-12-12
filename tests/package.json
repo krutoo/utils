@@ -1,0 +1,29 @@
+{
+  "name": "@krutoo/utils-tests",
+  "type": "module",
+  "private": true,
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "preparing": "npm i --no-save ../npm/krutoo-utils-0.0.0.tgz",
+    "test": "node --import ./tests.setup.ts --test src/**/*.test.{ts,tsx}",
+    "test:watch": "node --import ./tests.setup.ts --watch --test src/**/*.test.{ts,tsx}"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^15.11.7",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.16",
+    "@types/react-dom": "^18.3.5",
+    "global-jsdom": "^25.0.0",
+    "prettier": "^3.4.2",
+    "tsimp": "^2.0.12",
+    "typescript": "^5.7.2"
+  }
+}

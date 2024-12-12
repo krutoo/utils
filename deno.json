@@ -20,9 +20,15 @@
     "./react": "./src/react/mod.ts",
     "./types": "./src/types/mod.ts"
   },
+  "test": {
+    "exclude": [
+      "tests/**/*"
+    ]
+  },
   "lint": {
     "exclude": [
-      "npm/**/*"
+      "npm/**/*",
+      "tests/**/*"
     ],
     "rules": {
       "exclude": [
@@ -37,7 +43,8 @@
     "semiColons": true,
     "singleQuote": true,
     "exclude": [
-      "npm/**/*"
+      "npm/**/*",
+      "tests/**/*"
     ]
   },
   "publish": {
@@ -50,6 +57,7 @@
     ],
     "exclude": [
       "npm",
+      "tests",
       "scripts",
       "src/**/*.test.{ts,tsx}"
     ]

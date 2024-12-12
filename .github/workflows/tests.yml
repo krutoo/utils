@@ -16,6 +16,10 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Unit tests
         run: |
@@ -32,3 +36,19 @@ jobs:
       - name: Lint by JSR
         run: |
           deno publish --dry-run
+
+      - name: Build NPM package
+        run: |
+          deno task build-npm
+
+      - name: Make NPM package tarball
+        working-directory: ./npm
+        run: |
+          npm pack
+
+      - name: Other tests
+        working-directory: ./tests
+        run: |
+          npm install
+          npm run preparing
+          npm run test
