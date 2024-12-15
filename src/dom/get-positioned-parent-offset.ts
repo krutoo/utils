@@ -38,12 +38,12 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
     offset.x = parentRect.left;
     offset.y = parentRect.top;
 
-    // ВАЖНО: border-{top/left} влияют на начало координат родителя, учитываем
+    // IMPORTANT: border-top/border-left affects parent positioning origin
     offset.x += cssValueToNumber(parentStyle.borderLeftWidth);
     offset.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
-  // ВАЖНО: если offsetParent имеет собственную прокрутку - учитываем её
+  // ВАЖНО: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && (offsetParent === scrollParent)) {
     offset.x += scrollParent.scrollLeft;
     offset.y += scrollParent.scrollTop;

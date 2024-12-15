@@ -2,9 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
 import { useMergeRefs } from '@krutoo/utils/react';
-import { createRef, useState, type Ref, type RefCallback } from 'react';
+import { createRef, type Ref, type RefCallback, useState } from 'react';
 
-function TestComponent({ refs }: { refs: Ref<HTMLDivElement>[] }) {
+export interface TestComponentProps {
+  refs: Ref<HTMLDivElement>[];
+}
+
+function TestComponent({ refs }: TestComponentProps) {
   const [shown, setShown] = useState(true);
   const ref = useMergeRefs<HTMLDivElement>(refs);
 
