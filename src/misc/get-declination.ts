@@ -1,7 +1,7 @@
 const CASES = [2, 0, 1, 1, 1, 2];
 
 /**
- * Returns the required deviation from the passed list by the passed value.
+ * Returns the required declination from the passed list by the passed value.
  * @param number The number used for declension.
  * @param titles An array with word declensions. For example: ['review', 'review', 'reviews'].
  * @return The word is in the correct declension.
