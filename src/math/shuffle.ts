@@ -18,7 +18,6 @@ export function shuffle<T>(
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1));
 
-    // deno-lint-ignore no-explicit-any
     [result[i] as any, result[j] as any] = [result[j], result[i]];
   }
 

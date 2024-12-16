@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { type DependencyList, useCallback, useEffect, useMemo, useState } from 'react';
 import type { Status } from '../types/mod.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
@@ -81,7 +80,7 @@ export function useQuery<T>(
       return;
     }
 
-    setState((current) => ({
+    setState(current => ({
       ...current,
       status: 'fetching',
     }));
@@ -89,15 +88,15 @@ export function useQuery<T>(
     const request = queryFnRef.current;
 
     request()
-      .then((result) => {
-        setState((current) => ({
+      .then(result => {
+        setState(current => ({
           ...current,
           data: result,
           status: 'success',
         }));
       })
-      .catch((error) => {
-        setState((current) => ({
+      .catch(error => {
+        setState(current => ({
           ...current,
           error,
           status: 'failure',
@@ -106,7 +105,7 @@ export function useQuery<T>(
   }, [enabled, count, ...deps]);
 
   const invalidate = useCallback((): void => {
-    setCount((c) => c + 1);
+    setCount(c => c + 1);
   }, []);
 
   return useMemo<UseQueryReturn<T>>(() => {

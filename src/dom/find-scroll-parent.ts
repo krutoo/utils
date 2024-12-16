@@ -5,9 +5,7 @@ import { isScrollable } from './is-scrollable.ts';
  * @param element Target element.
  * @returns Closest scrollable parent.
  */
-export function findScrollParent(
-  element: Element,
-): HTMLElement | null {
+export function findScrollParent(element: Element): HTMLElement | null {
   let parent: HTMLElement | null = element.parentElement;
 
   while (parent && !isScrollable(parent)) {

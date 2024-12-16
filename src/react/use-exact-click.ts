@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { type MouseEventHandler, useCallback, useRef } from 'react';
 import { useIdentityRef } from './use-identity-ref.ts';
 
@@ -34,7 +33,7 @@ export function useExactClick(
   const callbackRef = useIdentityRef(onExactClick);
 
   const handleMouseDown = useCallback<MouseEventHandler>(
-    (event) => {
+    event => {
       onMouseDown?.(event);
 
       if (event.button === 0) {
@@ -45,7 +44,7 @@ export function useExactClick(
   );
 
   const handleMouseUp = useCallback<MouseEventHandler>(
-    (event) => {
+    event => {
       onMouseUp?.(event);
 
       const fn = callbackRef.current;

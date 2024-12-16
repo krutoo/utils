@@ -1,0 +1,78 @@
+{
+  "name": "@krutoo/utils",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Set of useful utils for JavaScript/TypeScript projects",
+  "author": "Dmitriy Petrov <dima.krutoo@yandex.ru>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krutoo/utils.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "tsc -p . --noEmit",
+    "fmt": "prettier . --write",
+    "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
+    "sync-exports": "node scripts/emit-exports.ts && npm pkg set --json exports=\"$(cat ./temp/exports.json)\" && rm -rf temp/exports.json",
+    "build": "npm run build:before && npm run build:esm && npm run build:cjs",
+    "build:before": "rm -rf dist",
+    "build:esm": "tsc -p tsconfig.build-esm.json",
+    "build:cjs": "tsc -p tsconfig.build-cjs.json"
+  },
+  "devDependencies": {
+    "@std/expect": "npm:@jsr/std__expect@^1.0.9",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.16",
+    "fast-glob": "^3.3.2",
+    "global-jsdom": "^25.0.0",
+    "prettier": "^3.4.2",
+    "tsimp": "^2.0.12",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/mod.js",
+      "require": "./dist/cjs/mod.js"
+    },
+    "./dom": {
+      "import": "./dist/esm/dom/mod.js",
+      "require": "./dist/cjs/dom/mod.js"
+    },
+    "./lang": {
+      "import": "./dist/esm/lang/mod.js",
+      "require": "./dist/cjs/lang/mod.js"
+    },
+    "./math": {
+      "import": "./dist/esm/math/mod.js",
+      "require": "./dist/cjs/math/mod.js"
+    },
+    "./misc": {
+      "import": "./dist/esm/misc/mod.js",
+      "require": "./dist/cjs/misc/mod.js"
+    },
+    "./react": {
+      "import": "./dist/esm/react/mod.js",
+      "require": "./dist/cjs/react/mod.js"
+    },
+    "./types": {
+      "import": "./dist/esm/types/mod.js",
+      "require": "./dist/cjs/types/mod.js"
+    }
+  }
+}

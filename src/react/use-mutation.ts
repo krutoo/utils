@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { useCallback, useMemo, useState } from 'react';
 import type { Status } from '../types/mod.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
@@ -92,7 +91,7 @@ export function useMutation<T, R = unknown>({
 
   const mutate = useCallback(
     async (payload: T): Promise<R> => {
-      setState((current) => ({
+      setState(current => ({
         ...current,
         status: 'fetching',
       }));
@@ -102,7 +101,7 @@ export function useMutation<T, R = unknown>({
 
         onSuccessRef.current?.(result);
 
-        setState((current) => ({
+        setState(current => ({
           ...current,
           data: result,
           status: 'success',
@@ -113,7 +112,7 @@ export function useMutation<T, R = unknown>({
       } catch (error) {
         onErrorRef.current?.(error);
 
-        setState((current) => ({
+        setState(current => ({
           ...current,
           error: error,
           status: 'failure',

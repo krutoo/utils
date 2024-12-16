@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import type { MutableRefObject, Ref } from 'react';
 
 /**

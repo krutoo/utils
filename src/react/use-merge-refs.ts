@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { type Ref, useMemo } from 'react';
 import { mergeRefs } from './merge-refs.ts';
 

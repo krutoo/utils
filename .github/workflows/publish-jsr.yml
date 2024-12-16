@@ -14,22 +14,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
 
-      - name: Lint source code
-        run: |
-          deno task lint
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Lint package
         run: |
-          deno publish --dry-run
+          npx jsr publish --dry-run
 
       - name: Set version
         run: |
-          cat deno.json | jq '.version = "${{ github.event.release.tag_name }}"' | tee deno.json
+          cat jsr.json | jq '.version = "${{ github.event.release.tag_name }}"' | tee jsr.json
 
       - name: Publish package
         run: |
-          deno publish --allow-dirty
+          npx jsr publish --allow-dirty

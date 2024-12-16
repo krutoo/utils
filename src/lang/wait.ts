@@ -4,5 +4,5 @@
  * @returns Promise.
  */
 export function wait(ms: number): Promise<void> {
-  return new Promise((done) => setTimeout(done, ms));
+  return new Promise(done => setTimeout(done, ms));
 }

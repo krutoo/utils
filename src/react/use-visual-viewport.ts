@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 

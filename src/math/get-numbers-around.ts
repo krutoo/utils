@@ -31,11 +31,10 @@ export interface GetNumbersAroundOptions {
  * getNumbersAround(99, { range: 2, max: 100 }); // [97, 98, 99, 100]
  * ```
  */
-export function getNumbersAround(target: number, {
-  range = 1,
-  min = -Infinity,
-  max = Infinity,
-}: GetNumbersAroundOptions = {}): number[] {
+export function getNumbersAround(
+  target: number,
+  { range = 1, min = -Infinity, max = Infinity }: GetNumbersAroundOptions = {},
+): number[] {
   const numbers: number[] = [];
 
   for (let i = Math.max(min, target - range); i <= Math.min(max, target + range); i++) {

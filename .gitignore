@@ -1,5 +1,17 @@
+# dependencies
+node_modules
+
 # build artifacts
-npm
+dist
 
 # test artifacts
 coverage
+
+# tsimp cache
+.tsimp
+
+# Mac OS artifacts
+.DS_Store
+
+# misc
+temp
