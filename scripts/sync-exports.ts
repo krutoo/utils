@@ -8,7 +8,7 @@ interface Entrypoint {
   srcRelativePath: string;
 }
 
-export function task<A, B>(func: (ctx: A) => Promise<B>): <T extends A>(ctx: T) => Promise<T & B> {
+function task<A, B>(func: (ctx: A) => Promise<B>): <T extends A>(ctx: T) => Promise<T & B> {
   return async <T extends A>(ctx: T): Promise<T & B> => {
     return { ...ctx, ...(await func(ctx)) };
   };
@@ -80,14 +80,14 @@ const defineExportsJSR = task(async (ctx: { entrypoints: Entrypoint[] }) => {
   };
 });
 
-async function emitExportsJSR(ctx: { jsrExports: any }) {
+const emitExportsJSR = task(async (ctx: { jsrExports: any }) => {
   const filename = './jsr.json';
   const data = JSON.parse(await fs.readFile(filename, 'utf-8'));
 
   data.exports = ctx.jsrExports;
   await fs.writeFile(filename, JSON.stringify(data, null, 2));
   await fs.appendFile(filename, EOL);
-}
+});
 
 await glob('./src/**/mod.ts', { absolute: true })
   .then(filenames => ({ filenames }))
