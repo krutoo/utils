@@ -1,5 +1,5 @@
 import type { Point2d } from '../math/mod.ts';
-import { fundScrollParent } from './find-scroll-parent.ts';
+import { findScrollParent } from './find-scroll-parent.ts';
 
 /**
  * @todo Для этой функции в документации надо показать способ применения.
@@ -24,7 +24,7 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
   }
 
   const offsetParent = element.offsetParent;
-  const scrollParent = fundScrollParent(element) ?? document.documentElement;
+  const scrollParent = findScrollParent(element) ?? document.documentElement;
 
   const offset: Point2d = {
     x: window.scrollX,
@@ -38,12 +38,12 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
     offset.x = parentRect.left;
     offset.y = parentRect.top;
 
-    // ВАЖНО: border-{top/left} влияют на начало координат родителя, учитываем
+    // IMPORTANT: border-top/border-left affects parent positioning origin
     offset.x += cssValueToNumber(parentStyle.borderLeftWidth);
     offset.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
-  // ВАЖНО: если offsetParent имеет собственную прокрутку - учитываем её
+  // ВАЖНО: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && (offsetParent === scrollParent)) {
     offset.x += scrollParent.scrollLeft;
     offset.y += scrollParent.scrollTop;

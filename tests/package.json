@@ -8,8 +8,11 @@
   },
   "scripts": {
     "preparing": "npm i --no-save ../npm/krutoo-utils-0.0.0.tgz",
+    "check": "npx tsc -p . --noEmit",
+    "fmt": "npx prettier . --write",
     "test": "node --import ./tests.setup.ts --test src/**/*.test.{ts,tsx}",
-    "test:watch": "node --import ./tests.setup.ts --watch --test src/**/*.test.{ts,tsx}"
+    "test:watch": "node --import ./tests.setup.ts --watch --test src/**/*.test.{ts,tsx}",
+    "postinstall": "npm run preparing"
   },
   "dependencies": {
     "react": "^18.3.1",

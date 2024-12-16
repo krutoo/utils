@@ -1,5 +1,5 @@
 /**
- * Returns generator that iterates each pair of elements in array.
+ * Calls callback for each pair of elements in array.
  * @param array Array.
  * @param callback Callback.
  * @example
