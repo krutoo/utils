@@ -11,7 +11,7 @@
     "./types": "./src/types/mod.ts"
   },
   "publish": {
-    "include": ["jsr.json", "LICENSE", "README.md", "./src/**/*.ts"],
+    "include": ["jsr.json", "LICENSE", "README.md", "./src/**/*.ts", "./src/**/*.tsx"],
     "exclude": ["./src/**/*.test.ts", "./src/**/*.test.tsx"]
   }
 }
