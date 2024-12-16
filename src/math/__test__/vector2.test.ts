@@ -1,4 +1,4 @@
-import { describe, test } from '@std/testing/bdd';
+import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { Vector2 } from '../vector2.ts';
 

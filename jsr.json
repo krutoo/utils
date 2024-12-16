@@ -1,0 +1,17 @@
+{
+  "name": "@krutoo/utils",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./dom": "./src/dom/mod.ts",
+    "./lang": "./src/lang/mod.ts",
+    "./math": "./src/math/mod.ts",
+    "./misc": "./src/misc/mod.ts",
+    "./react": "./src/react/mod.ts",
+    "./types": "./src/types/mod.ts"
+  },
+  "publish": {
+    "include": ["jsr.json", "LICENSE", "README.md", "./src/**/*.ts", "./src/**/*.tsx"],
+    "exclude": ["./src/**/*.test.ts", "./src/**/*.test.tsx"]
+  }
+}

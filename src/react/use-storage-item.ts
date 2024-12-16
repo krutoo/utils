@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { useCallback, useMemo, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
@@ -25,8 +24,8 @@ export interface UseStorageItemOptions<T> {
 export type UseStorageItemReturn<T> = [T, (value: T | null) => void];
 
 const identityProcessor: StorageValueProcessor<string | null> = {
-  parse: (value) => value,
-  stringify: (value) => String(value),
+  parse: value => value,
+  stringify: value => String(value),
 };
 
 /**
@@ -190,11 +189,9 @@ export function useStorageItem<T>(
  * Returns JSON value processor for using in `useStorageItem` options.
  * @param placeholder Placeholder. Will be used when storage item is empty or when JSON.parse is failed.
  */
-export function getJsonProcessor<T>(
-  placeholder: T,
-): StorageValueProcessor<T> {
+export function getJsonProcessor<T>(placeholder: T): StorageValueProcessor<T> {
   return {
-    parse: (value) => {
+    parse: value => {
       if (value === null) {
         return placeholder;
       }
@@ -205,6 +202,6 @@ export function getJsonProcessor<T>(
         return placeholder;
       }
     },
-    stringify: (value) => JSON.stringify(value),
+    stringify: value => JSON.stringify(value),
   };
 }

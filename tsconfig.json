@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "lib": ["DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "allowImportingTsExtensions": true,
+
+    // so that the compiled code has the correct paths (`import './a.ts'` >> `import './a.js'`)
+    "rewriteRelativeImportExtensions": true,
+
+    // to make code comply with the "no-slow-types" rule from JSR
+    "isolatedDeclarations": true,
+
+    // because "isolatedDeclarations" does not work without it
+    "declaration": true
+  },
+  "exclude": ["node_modules"]
+}

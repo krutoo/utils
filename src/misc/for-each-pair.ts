@@ -18,10 +18,7 @@
  * // 2 3
  * ```
  */
-export function forEachPair<T>(
-  array: T[],
-  callback: (a: T, b: T) => void,
-) {
+export function forEachPair<T>(array: T[], callback: (a: T, b: T) => void): void {
   for (let i = 0; i < array.length; i++) {
     const a = array[i];
 

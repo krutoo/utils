@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
-import { useMergeRefs } from '@krutoo/utils/react';
+import { useMergeRefs } from '../use-merge-refs.ts';
 import { createRef, type Ref, type RefCallback, useState } from 'react';
 
 export interface TestComponentProps {

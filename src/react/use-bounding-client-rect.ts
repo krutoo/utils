@@ -1,10 +1,9 @@
-// @deno-types="npm:@types/react@18"
 import { type DependencyList, type RefObject, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
 /** State of `useBoundingClientRect` hook. */
-export interface DOMRectState extends
-  Pick<
+export interface DOMRectState
+  extends Pick<
     DOMRectReadOnly,
     'width' | 'height' | 'x' | 'y' | 'top' | 'left' | 'bottom' | 'right'
   > {
@@ -62,7 +61,7 @@ export function useBoundingClientRect<T extends Element>(
     const onScroll = () => {
       const rect = element.getBoundingClientRect();
 
-      setState((current) => {
+      setState(current => {
         if (rect.x !== current.x || rect.y !== current.y) {
           return rectToState(rect);
         }

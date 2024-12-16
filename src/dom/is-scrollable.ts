@@ -9,9 +9,7 @@ export function isScrollable(element: Element): boolean {
   if (element) {
     const styles = getComputedStyle(element);
 
-    result = /(auto|scroll)/.test(
-      styles.overflow + styles.overflowX + styles.overflowY,
-    );
+    result = /(auto|scroll)/.test(styles.overflow + styles.overflowX + styles.overflowY);
   }
 
   return result;

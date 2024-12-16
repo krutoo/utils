@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { type RefObject, useEffect, useState } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useStableCallback } from './use-stable-callback.ts';
@@ -91,10 +90,7 @@ export function useDragAndDrop(
     }
 
     onDrop?.({
-      clientPosition: Vector2.of(
-        viewPos.x - captureOffset.x,
-        viewPos.y - captureOffset.y,
-      ).toJSON(),
+      clientPosition: Vector2.of(viewPos.x - captureOffset.x, viewPos.y - captureOffset.y).toJSON(),
     });
 
     setCaptureOffset(null);

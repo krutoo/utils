@@ -1,4 +1,3 @@
-// @deno-types="npm:@types/react@18"
 import { useCallback, useMemo, useRef } from 'react';
 
 /**
@@ -7,7 +6,6 @@ import { useCallback, useMemo, useRef } from 'react';
  * @param callback Callback.
  * @returns Stable callback.
  */
-// deno-lint-ignore no-explicit-any
 export function useStableCallback<T extends (...args: any[]) => any>(
   callback: T,
 ): (...args: Parameters<T>) => ReturnType<T> {

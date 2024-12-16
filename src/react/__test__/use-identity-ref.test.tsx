@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test, describe } from 'node:test';
 import { render } from '@testing-library/react';
-import { useIdentityRef } from '@krutoo/utils/react';
+import { useIdentityRef } from '../use-identity-ref.ts';
 import { useEffect } from 'react';
 
 interface TestComponentProps {

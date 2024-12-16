@@ -44,7 +44,7 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
   }
 
   // ВАЖНО: check offsetParent's scrollTop/scrollLeft
-  if (offsetParent && (offsetParent === scrollParent)) {
+  if (offsetParent && offsetParent === scrollParent) {
     offset.x += scrollParent.scrollLeft;
     offset.y += scrollParent.scrollTop;
   }

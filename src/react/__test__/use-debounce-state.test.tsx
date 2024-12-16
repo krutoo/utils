@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
 import { useState } from 'react';
-import { useDebounceState } from '@krutoo/utils/react';
-import { wait } from '@krutoo/utils';
+import { useDebounceState } from '../use-debounce-state.ts';
+import { wait } from '../../lang/mod.ts';
 
 function TestComponent() {
   const [value, setValue] = useState('');

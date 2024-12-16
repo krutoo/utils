@@ -1,18 +1,16 @@
-import { test } from '@std/testing/bdd';
+import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { pairs } from '../pairs.ts';
 
-test('pairs', () => {
-  const list = [1, 2, 3];
-  const result: string[] = [];
+describe('pairs', () => {
+  test('should iterate over each pair', () => {
+    const list = [1, 2, 3];
+    const result: string[] = [];
 
-  for (const [a, b] of pairs(list)) {
-    result.push(`${a} ${b}`);
-  }
+    for (const [a, b] of pairs(list)) {
+      result.push(`${a} ${b}`);
+    }
 
-  expect(result).toEqual([
-    '1 2',
-    '1 3',
-    '2 3',
-  ]);
+    expect(result).toEqual(['1 2', '1 3', '2 3']);
+  });
 });

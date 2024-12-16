@@ -13,42 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
+
       - uses: actions/setup-node@v3
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Unit tests
-        run: |
-          deno test
-
-      - name: Lint source code
-        run: |
-          deno task lint
-
-      - name: Format check
-        run: |
-          deno fmt --check
-
-      - name: Lint by JSR
-        run: |
-          deno publish --dry-run
-
-      - name: Build NPM package
-        run: |
-          deno task build-npm
-
-      - name: Make NPM package tarball
-        working-directory: ./npm
-        run: |
-          npm pack
-
-      - name: Other tests
-        working-directory: ./tests
+      - name: Install dependencies
         run: |
           npm install
-          npm run preparing
+
+      - name: Code style check
+        run: |
+          npm run fmt -- --check
+
+      - name: Type check
+        run: |
+          npm run check
+
+      - name: Unit tests
+        run: |
           npm run test
