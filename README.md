@@ -14,3 +14,21 @@ deno add jsr:@krutoo/utils
 # Bun (from NPM)
 bun add @krutoo/utils
 ```
+
+## Troubleshoot
+
+Solutions to known problems when working with repository
+
+### NPM-script immediately terminates immediately without doing anything
+
+```bash
+# delete tsimp cache
+rm -rf .tsimp
+```
+
+### NPM-script shows irrelevant type check errors
+
+```bash
+# delete tsimp cache
+rm -rf .tsimp
+```
