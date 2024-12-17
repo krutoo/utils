@@ -17,10 +17,7 @@
     "fmt": "prettier . --write",
     "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
-    "build": "npm run build:before && npm run build:esm && npm run build:cjs",
-    "build:before": "rm -rf dist",
-    "build:esm": "tsc -p tsconfig.build-esm.json",
-    "build:cjs": "tsc -p tsconfig.build-cjs.json"
+    "build": "node scripts/build.ts"
   },
   "devDependencies": {
     "@std/expect": "npm:@jsr/std__expect@^1.0.9",
