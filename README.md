@@ -19,7 +19,7 @@ bun add @krutoo/utils
 
 Solutions to known problems when working with repository
 
-### NPM-script immediately terminates immediately without doing anything
+### NPM-script terminates immediately without doing anything
 
 ```bash
 # delete tsimp cache
