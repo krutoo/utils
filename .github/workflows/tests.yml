@@ -34,3 +34,14 @@ jobs:
       - name: Unit tests
         run: |
           npm run test
+
+      - name: Build and pack
+        run: |
+          npm run build
+          npm pack
+
+      - name: Built package tests
+        working-directory: ./tests-pkg
+        run: |
+          npm run preparing
+          npm run test
