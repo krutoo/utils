@@ -8,15 +8,30 @@ interface Entrypoint {
   srcRelativePath: string;
 }
 
-function task<A, B>(func: (ctx: A) => Promise<B>): <T extends A>(ctx: T) => Promise<T & B> {
-  return async <T extends A>(ctx: T): Promise<T & B> => {
-    return { ...ctx, ...(await func(ctx)) };
-  };
+interface ImportDefinition {
+  import: string;
+  require: string;
+}
+
+class JsonFile {
+  filename: string;
+
+  constructor(filename: string) {
+    this.filename = filename;
+  }
+
+  async set(key: string, value: any) {
+    const data = JSON.parse(await fs.readFile(this.filename, 'utf-8'));
+
+    data[key] = value;
+
+    await fs.writeFile(this.filename, `${JSON.stringify(data, null, 2)}${EOL}`);
+  }
 }
 
 function formatRelative(pathname: string) {
   if (pathname === '.') {
-    return '.';
+    return pathname;
   }
 
   return pathname.startsWith('./') ? pathname : `./${pathname}`;
@@ -31,7 +46,7 @@ function getEntrypoint(pathname: string): Entrypoint {
   };
 }
 
-function getExportsEntryNPM(data: Entrypoint): [string, { import: string; require: string }] {
+function getExportsEntryNPM(data: Entrypoint): [string, ImportDefinition] {
   const basename = path.basename(data.srcRelativePath, path.extname(data.srcRelativePath));
   const relativeDistPath = path.join(path.dirname(data.srcRelativePath), `${basename}.js`);
 
@@ -51,51 +66,20 @@ function getExportsEntryJSR(entrypoint: Entrypoint): [string, string] {
   ];
 }
 
-const defineEntrypoints = task(async (ctx: { filenames: string[] }) => {
-  return {
-    entrypoints: ctx.filenames
+await glob('./src/**/mod.ts', { absolute: true })
+  .then(filenames => ({
+    entrypoints: filenames
       .map(getEntrypoint)
       .sort((a, b) => (a.importPath > b.importPath ? 1 : -1)),
-  };
-});
-
-const defineExportsNPM = task(async (ctx: { entrypoints: Entrypoint[] }) => {
-  return {
-    npmExports: Object.fromEntries(ctx.entrypoints.map(getExportsEntryNPM)),
-  };
-});
-
-const emitExportsNPM = task(async (ctx: { npmExports: any }) => {
-  const filename = './package.json';
-  const data = JSON.parse(await fs.readFile(filename, 'utf-8'));
-
-  data.exports = ctx.npmExports;
-  await fs.writeFile(filename, JSON.stringify(data, null, 2));
-  await fs.appendFile(filename, EOL);
-});
-
-const defineExportsJSR = task(async (ctx: { entrypoints: Entrypoint[] }) => {
-  return {
-    jsrExports: Object.fromEntries(ctx.entrypoints.map(getExportsEntryJSR)),
-  };
-});
-
-const emitExportsJSR = task(async (ctx: { jsrExports: any }) => {
-  const filename = './jsr.json';
-  const data = JSON.parse(await fs.readFile(filename, 'utf-8'));
-
-  data.exports = ctx.jsrExports;
-  await fs.writeFile(filename, JSON.stringify(data, null, 2));
-  await fs.appendFile(filename, EOL);
-});
-
-await glob('./src/**/mod.ts', { absolute: true })
-  .then(filenames => ({ filenames }))
-  .then(defineEntrypoints)
-  .then(defineExportsNPM)
-  .then(emitExportsNPM)
-  .then(defineExportsJSR)
-  .then(emitExportsJSR)
+  }))
+  .then(ctx => ({
+    exportsNPM: Object.fromEntries(ctx.entrypoints.map(getExportsEntryNPM)),
+    exportsJSR: Object.fromEntries(ctx.entrypoints.map(getExportsEntryJSR)),
+  }))
+  .then(async ctx => {
+    await new JsonFile('./package.json').set('exports', ctx.exportsNPM);
+    await new JsonFile('./jsr.json').set('exports', ctx.exportsJSR);
+  })
   .then(() => {
     console.log('Exports synced with "src" folder');
   });
