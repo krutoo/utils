@@ -7,5 +7,5 @@ import { mergeRefs } from './merge-refs.ts';
  * @returns Merged ref.
  */
 export function useMergeRefs<T>(list: Array<Ref<T> | null | undefined>): Ref<T> {
-  return useMemo(() => mergeRefs(list), list);
+  return useMemo(() => mergeRefs(list), [list]);
 }

@@ -15,20 +15,27 @@
   "scripts": {
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
+    "lint": "eslint ./src/**",
     "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node scripts/build.ts"
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
     "@std/expect": "npm:@jsr/std__expect@^1.0.9",
     "@testing-library/react": "^16.1.0",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.16",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "fast-glob": "^3.3.2",
     "global-jsdom": "^25.0.0",
+    "globals": "^15.13.0",
     "prettier": "^3.4.2",
     "tsimp": "^2.0.12",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1"
   },
   "peerDependencies": {
     "react": "^18 || ^19"

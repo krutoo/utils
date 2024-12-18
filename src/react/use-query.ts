@@ -102,7 +102,14 @@ export function useQuery<T>(
           status: 'failure',
         }));
       });
-  }, [enabled, count, ...deps]);
+  }, [
+    enabled,
+    count,
+    queryFnRef,
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...deps,
+  ]);
 
   const invalidate = useCallback((): void => {
     setCount(c => c + 1);
