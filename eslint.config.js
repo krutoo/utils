@@ -9,6 +9,9 @@ export default [
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
   },
   {
+    ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*'],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -21,6 +24,9 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+
+      'no-shadow': 'off',
+      '@typescript-eslint/no-shadow': 'error',
     },
   },
   {

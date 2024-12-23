@@ -14,7 +14,7 @@ import { findScrollParent } from './find-scroll-parent.ts';
  */
 
 /**
- * Returns the offset relative to the top left edge of the parent positioned element.
+ * Returns position of top left corner of the parent positioned element relative to viewport origin.
  * @param element Target element.
  * @returns Offset.
  */

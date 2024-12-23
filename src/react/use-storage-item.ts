@@ -152,13 +152,13 @@ export function useStorageItem<T>(
   }, [state, parseRef]);
 
   const setValue = useCallback(
-    (value: T | null): void => {
-      if (value === null) {
+    (newValue: T | null): void => {
+      if (newValue === null) {
         setState(null);
         return;
       }
 
-      setState(stringifyRef.current(value));
+      setState(stringifyRef.current(newValue));
     },
     [stringifyRef],
   );
