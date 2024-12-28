@@ -1,16 +1,17 @@
-import { type RefObject, useEffect, useState } from 'react';
+import { type RefObject, useEffect, useState, DependencyList } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useStableCallback } from './use-stable-callback.ts';
 import { getPositionedParentOffset } from '../dom/mod.ts';
 
 export interface DnDEventHandler {
-  (event: { clientPosition: Point2d }): void;
+  (event: { offset: Point2d; clientPosition: Point2d }): void;
 }
 
 export interface UseDragAndDropOptions {
   disabled?: boolean;
   onMove?: DnDEventHandler;
   onDrop?: DnDEventHandler;
+  extraDeps?: DependencyList;
 }
 
 export interface UseDragAndDropReturn {
@@ -24,12 +25,13 @@ export interface UseDragAndDropReturn {
  * @param options Options.
  * @returns State.
  */
-export function useDragAndDrop(
-  ref: RefObject<HTMLElement>,
-  { disabled, onMove, onDrop }: UseDragAndDropOptions,
+export function useDragAndDrop<T extends HTMLElement>(
+  ref: RefObject<T>,
+  { disabled, onMove, onDrop, extraDeps = [] }: UseDragAndDropOptions = {},
 ): UseDragAndDropReturn {
-  const [viewPos, setViewPos] = useState<Point2d>(() => Vector2.of(0, 0).toJSON());
-  const [captureOffset, setCaptureOffset] = useState<Point2d | null>(null);
+  const [captured, setCaptured] = useState<boolean>(false);
+  const [innerOffset, setInnerOffset] = useState<Vector2>(() => Vector2.of(0, 0));
+  const [offset, setOffset] = useState<Vector2>(() => Vector2.of(0, 0));
 
   const onPointerDown = useStableCallback((event: PointerEvent) => {
     const element = ref.current;
@@ -39,23 +41,18 @@ export function useDragAndDrop(
     }
 
     element.releasePointerCapture(event.pointerId);
+    document.getSelection()?.removeAllRanges();
 
-    const rect = element.getBoundingClientRect();
+    const clientPosition = Vector2.of(event.clientX, event.clientY);
+    const newInnerOffset = clientPosition.clone().subtract(element.getBoundingClientRect());
+    const newOffset = clientPosition
+      .clone()
+      .subtract(newInnerOffset)
+      .subtract(getPositionedParentOffset(element));
 
-    const newCaptureOffset = Vector2.of(
-      rect.left - event.clientX,
-      rect.top - event.clientY,
-    ).toJSON();
-    const parentOffset = getPositionedParentOffset(element);
-
-    setCaptureOffset(newCaptureOffset);
-
-    setViewPos(
-      Vector2.of(
-        event.clientX + parentOffset.x + newCaptureOffset.x,
-        event.clientY + parentOffset.y + newCaptureOffset.y,
-      ).toJSON(),
-    );
+    setInnerOffset(newInnerOffset);
+    setOffset(newOffset);
+    setCaptured(true);
   });
 
   const onPointerMove = useStableCallback((event: PointerEvent) => {
@@ -65,39 +62,41 @@ export function useDragAndDrop(
       return;
     }
 
-    if (captureOffset) {
-      const parentOffset = getPositionedParentOffset(element);
-
-      setViewPos(
-        Vector2.of(
-          event.clientX + parentOffset.x + captureOffset.x,
-          event.clientY + parentOffset.y + captureOffset.y,
-        ).toJSON(),
-      );
-
-      onMove?.({
-        clientPosition: Vector2.of(
-          event.clientX + parentOffset.x + captureOffset.x,
-          event.clientY + parentOffset.y + captureOffset.y,
-        ).toJSON(),
-      });
-    }
-  });
-
-  const onPointerUp = useStableCallback(() => {
-    if (!captureOffset) {
+    if (!captured) {
       return;
     }
 
-    onDrop?.({
-      clientPosition: Vector2.of(viewPos.x - captureOffset.x, viewPos.y - captureOffset.y).toJSON(),
-    });
+    const clientPosition = Vector2.of(event.clientX, event.clientY);
+    const newOffset = clientPosition
+      .clone()
+      .subtract(innerOffset)
+      .subtract(getPositionedParentOffset(element));
 
-    setCaptureOffset(null);
+    setOffset(newOffset);
+
+    onMove?.({
+      offset: newOffset,
+      clientPosition,
+    });
   });
 
-  const onTouchStart = useStableCallback((e: TouchEvent) => {
-    e.preventDefault();
+  const onPointerUp = useStableCallback((event: PointerEvent) => {
+    if (!captured) {
+      return;
+    }
+
+    const clientPosition = Vector2.of(event.clientX, event.clientY);
+
+    onDrop?.({
+      offset,
+      clientPosition,
+    });
+
+    setCaptured(false);
+  });
+
+  const onTouchStart = useStableCallback((event: TouchEvent) => {
+    event.preventDefault();
   });
 
   useEffect(() => {
@@ -119,7 +118,7 @@ export function useDragAndDrop(
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
     };
-  }, [ref, disabled, onPointerDown, onPointerMove, onPointerUp, onTouchStart]);
+  }, [ref, disabled, onPointerDown, onPointerMove, onPointerUp, onTouchStart, ...extraDeps]);
 
-  return { captured: Boolean(captureOffset), offset: viewPos };
+  return { captured, offset };
 }

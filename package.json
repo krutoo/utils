@@ -10,12 +10,12 @@
     "url": "git+https://github.com/krutoo/utils.git"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=16"
   },
   "scripts": {
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
-    "lint": "eslint ./src/**",
+    "lint": "eslint .",
     "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node scripts/build.ts"
