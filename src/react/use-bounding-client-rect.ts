@@ -1,12 +1,13 @@
 import { type DependencyList, type RefObject, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
+export type DOMRectShape = Pick<
+  DOMRectReadOnly,
+  'width' | 'height' | 'x' | 'y' | 'top' | 'left' | 'bottom' | 'right'
+>;
+
 /** State of `useBoundingClientRect` hook. */
-export interface DOMRectState
-  extends Pick<
-    DOMRectReadOnly,
-    'width' | 'height' | 'x' | 'y' | 'top' | 'left' | 'bottom' | 'right'
-  > {
+export interface DOMRectState extends DOMRectShape {
   /** True when computed, false by default (when state is default - empty). */
   ready: boolean;
 }
@@ -23,6 +24,21 @@ const DEFAULT_STATE: DOMRectState = {
   right: 0,
 };
 
+function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
+  if (
+    // ВАЖНО: проверяем только позицию верхнего левого угла и размеры
+    // так как остальные значения зависят от позиции и размеров
+    a.width !== b.width ||
+    a.height !== b.height ||
+    a.top !== b.top ||
+    a.left !== b.left
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Hook of state of bounding client rect of element.
  * @param ref Ref with element.
@@ -31,7 +47,7 @@ const DEFAULT_STATE: DOMRectState = {
  */
 export function useBoundingClientRect<T extends Element>(
   ref: RefObject<T>,
-  extraDeps?: DependencyList,
+  extraDeps: DependencyList = [],
 ): DOMRectState {
   const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);
 
@@ -54,38 +70,34 @@ export function useBoundingClientRect<T extends Element>(
       right: rect.right,
     });
 
-    const onResize = () => {
-      setState(rectToState(element.getBoundingClientRect()));
-    };
-
-    const onScroll = () => {
+    const onChange = () => {
       const rect = element.getBoundingClientRect();
 
       setState(current => {
-        if (rect.x !== current.x || rect.y !== current.y) {
-          return rectToState(rect);
+        if (isRectsEqual(current, rect)) {
+          return current;
         }
 
-        return current;
+        return rectToState(rect);
       });
     };
 
-    const observer = new ResizeObserver(onResize);
+    const observer = new ResizeObserver(onChange);
 
     observer.observe(element);
 
     // IMPORTANT: document scroll event will be fired when any element scrolls
     // example: https://codepen.io/dmtr_ptrv/pen/QWPYGVL
-    document.addEventListener('scroll', onScroll, true);
+    document.addEventListener('scroll', onChange, true);
 
     // initial sync
     setState(rectToState(element.getBoundingClientRect()));
 
     return () => {
       observer.disconnect();
-      document.removeEventListener('scroll', onScroll, true);
+      document.removeEventListener('scroll', onChange, true);
     };
-  }, [ref, ...(extraDeps ?? [])]);
+  }, [ref, ...extraDeps]);
 
   return state;
 }

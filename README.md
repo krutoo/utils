@@ -1,6 +1,6 @@
 # Utils
 
-Set of useful utils for JavaScript/TypeScript projects
+Collection of useful utils for JavaScript/TypeScript projects. Some utilities are created for training and educational purposes.
 
 ## Installation
 
@@ -13,6 +13,32 @@ deno add jsr:@krutoo/utils
 
 # Bun (from NPM)
 bun add @krutoo/utils
+```
+
+## Development
+
+Minimum Node.js version is 22. Primarily It's because of `test` script in `package.json` which uses glob pattern.
+
+## Q&A
+
+Notable info about this package
+
+### How Node.js scripts works with TypeScript?
+
+In `package.json` you can see something like:
+
+```json
+{
+  "scripts": {
+    "hello": "node ./scripts/hello.ts"
+  }
+}
+```
+
+It is working () because in `.npmrc` there is:
+
+```
+node-options='--import tsimp/import'
 ```
 
 ## Troubleshoot

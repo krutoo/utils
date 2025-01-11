@@ -5,11 +5,13 @@ import pluginReactHooks from 'eslint-plugin-react-hooks';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-  },
+  // object with "ignores" only means global ignores in ESLint 9
+  // yes, this is awful design but we have what we have
   {
     ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*'],
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
   },
   {
     languageOptions: {
