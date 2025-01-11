@@ -38,9 +38,21 @@
     "typescript-eslint": "^8.18.1"
   },
   "peerDependencies": {
+    "@rspack/core": "^1.1.8",
+    "@svgr/webpack": "^8.1.0",
+    "css-loader": "^7.1.2",
     "react": "^18 || ^19"
   },
   "peerDependenciesMeta": {
+    "@rspack/core": {
+      "optional": true
+    },
+    "@svgr/webpack": {
+      "optional": true
+    },
+    "css-loader": {
+      "optional": true
+    },
     "react": {
       "optional": true
     }
@@ -73,6 +85,10 @@
     "./react": {
       "import": "./dist/esm/react/mod.js",
       "require": "./dist/cjs/react/mod.js"
+    },
+    "./rspack": {
+      "import": "./dist/esm/rspack/mod.js",
+      "require": "./dist/cjs/rspack/mod.js"
     },
     "./types": {
       "import": "./dist/esm/types/mod.js",
