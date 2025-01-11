@@ -40,7 +40,10 @@ export function useDragAndDrop<T extends HTMLElement>(
       return;
     }
 
+    // @todo ability to disable
     element.releasePointerCapture(event.pointerId);
+
+    // @todo ability to disable
     document.getSelection()?.removeAllRanges();
 
     const clientPosition = Vector2.of(event.clientX, event.clientY);
@@ -118,7 +121,17 @@ export function useDragAndDrop<T extends HTMLElement>(
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
     };
-  }, [ref, disabled, onPointerDown, onPointerMove, onPointerUp, onTouchStart, ...extraDeps]);
+  }, [
+    ref,
+    disabled,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onTouchStart,
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...extraDeps,
+  ]);
 
   return { captured, offset };
 }
