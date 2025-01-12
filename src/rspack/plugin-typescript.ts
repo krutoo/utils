@@ -1,7 +1,10 @@
 import type { RspackPluginFunction, SwcLoaderOptions } from '@rspack/core';
 
 export interface PluginTypeScriptOptions {
+  /** Extensions, that will be added to `resolve.extensions`. */
   resolveExtensions?: string[] | false;
+
+  /** Configuration for `builtin:swc-loader`. */
   swcLoaderOptions?: SwcLoaderOptions;
 }
 
@@ -10,6 +13,7 @@ export interface PluginTypeScriptOptions {
  * It adds rule for handling TypeScript source files.
  * It also adds items to `resolve.extensions` in configuration (by default `.ts, .tsx` will be added).
  * By default it uses `automatic` React runtime in SWC config.
+ *
  * @example
  * ```js
  * // rspack.config.js
@@ -22,6 +26,7 @@ export interface PluginTypeScriptOptions {
  *   // ...other config
  * };
  * ```
+ *
  * @param options Options.
  * @returns Plugin function.
  */

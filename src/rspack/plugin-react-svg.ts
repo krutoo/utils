@@ -2,7 +2,10 @@ import type { RspackPluginFunction, RuleSetCondition } from '@rspack/core';
 import type { Config } from 'svgo';
 
 export interface PluginReactSVG {
+  /** Rule test pattern. */
   test?: RuleSetCondition;
+
+  /** Configuration for SVGO. */
   svgoConfig?: Config;
 }
 
@@ -30,6 +33,7 @@ export const SVGO_DEFAULTS: Config = {
 /**
  * Rspack plugin that adds support of importing svg files as React-components.
  * It uses `@svgr/webpack` so this package should be installed in your project.
+ *
  * @example
  * ```js
  * // rspack.config.js
@@ -42,6 +46,7 @@ export const SVGO_DEFAULTS: Config = {
  *   // ...other config
  * };
  * ```
+ *
  * @param options Options.
  * @returns Plugin function.
  */

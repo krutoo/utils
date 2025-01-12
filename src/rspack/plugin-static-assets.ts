@@ -1,15 +1,20 @@
 import type { RspackPluginFunction, RuleSetCondition } from '@rspack/core';
 
 export interface PluginStaticAssetsOptions {
+  /** Rule test pattern. */
   test?: RuleSetCondition;
+
+  /** Output filename template. */
   filename?: string;
 }
 
 /**
  * Rspack plugin that adds support of importing files as static assets.
  * It just adds rule with `type: 'asset'`.
- * By default popular file extensions will be handled by this rule:
+ * By default static assets will be emitted to "static" folder in root of bundle folder.
+ * By default popular file extensions (image, audio, video) will be handled by this rule:
  * apng, avif, gif, jpg, jpeg, png, webp, mp3, ogg, wav, mp4, 3gp, webm.
+ *
  * @example
  * ```js
  * // rspack.config.js
@@ -22,6 +27,7 @@ export interface PluginStaticAssetsOptions {
  *   // ...other config
  * };
  * ```
+ *
  * @param options Options.
  * @returns Plugin function.
  */
@@ -36,7 +42,7 @@ export function pluginStaticAssets({
         test: test ?? /\.(apng|avif|gif|jpg|jpeg|png|webp|mp3|ogg|wav|mp4|3gp|webm)$/i,
         type: 'asset',
         generator: {
-          filename: filename ?? 'static/[name].[contenthash:5][ext]',
+          filename: filename ?? 'static/[name].[ext]',
         },
       });
     });

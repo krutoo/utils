@@ -14,7 +14,8 @@ export interface PluginCssOptions {
 /**
  * Rspack plugin that adds support of importing CSS files.
  * CSS-modules enabled by default for files like `some.module.css` and `some.m.css`.
- * It uses css-loader under the hood.
+ * It uses `css-loader` and `CssExtractRspackPlugin` under the hood.
+ *
  * @example
  * ```js
  * // rspack.config.js
@@ -27,7 +28,9 @@ export interface PluginCssOptions {
  *   // ...other config
  * };
  * ```
+ *
  * @todo SCSS support.
+ *
  * @param options Options.
  * @returns Plugin function.
  */
@@ -52,6 +55,7 @@ export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): Rspac
                 },
               },
               modules: {
+                ...cssModules,
                 auto: cssModules?.auto ?? /\.(module|m)\.css$/i,
                 exportLocalsConvention: cssModules?.exportLocalsConvention ?? 'as-is',
                 namedExport: cssModules?.namedExport ?? false,
@@ -64,10 +68,7 @@ export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): Rspac
     });
 
     if (extract !== false) {
-      const extractPlugin = new rspack.CssExtractRspackPlugin({
-        ...extract,
-        filename: extract?.filename ?? '[name].[contenthash:5].css',
-      });
+      const extractPlugin = new rspack.CssExtractRspackPlugin(extract);
 
       extractPlugin.apply(compiler);
     }
