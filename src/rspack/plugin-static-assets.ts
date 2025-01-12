@@ -42,7 +42,7 @@ export function pluginStaticAssets({
         test: test ?? /\.(apng|avif|gif|jpg|jpeg|png|webp|mp3|ogg|wav|mp4|3gp|webm)$/i,
         type: 'asset',
         generator: {
-          filename: filename ?? 'static/[name].[ext]',
+          filename: filename ?? 'static/[name][ext]',
         },
       });
     });
