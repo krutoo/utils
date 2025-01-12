@@ -35,7 +35,7 @@ In `package.json` you can see something like:
 }
 ```
 
-It is working () because in `.npmrc` there is:
+It is working because in `.npmrc` there is:
 
 ```
 node-options='--import tsimp/import'

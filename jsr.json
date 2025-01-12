@@ -9,10 +9,20 @@
     "./math": "./src/math/mod.ts",
     "./misc": "./src/misc/mod.ts",
     "./react": "./src/react/mod.ts",
+    "./rspack": "./src/rspack/mod.ts",
     "./types": "./src/types/mod.ts"
   },
   "publish": {
-    "include": ["jsr.json", "LICENSE", "README.md", "./src/**/*.ts", "./src/**/*.tsx"],
-    "exclude": ["./src/**/*.test.ts", "./src/**/*.test.tsx"]
+    "include": [
+      "jsr.json",
+      "LICENSE",
+      "README.md",
+      "./src/**/*.ts",
+      "./src/**/*.tsx"
+    ],
+    "exclude": [
+      "./src/**/*.test.ts",
+      "./src/**/*.test.tsx"
+    ]
   }
 }
