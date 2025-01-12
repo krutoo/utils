@@ -36,15 +36,19 @@ export function pluginTypeScript({
 }: PluginTypeScriptOptions = {}): RspackPluginFunction {
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginTypeScript', () => {
+      // ВАЖНО: не работает если в конфиге не указан resolve.extension по непонятной причине
+      // ждем ответа тут: https://github.com/web-infra-dev/rspack/discussions/8994
       if (resolveExtensions !== false) {
         if (!compiler.options.resolve.extensions) {
           compiler.options.resolve.extensions = [];
         }
 
         for (const ext of resolveExtensions) {
-          if (!compiler.options.resolve.extensions.includes(ext)) {
-            compiler.options.resolve.extensions.push(ext);
+          if (compiler.options.resolve.extensions.includes(ext)) {
+            continue;
           }
+
+          compiler.options.resolve.extensions.push(ext);
         }
       }
 
