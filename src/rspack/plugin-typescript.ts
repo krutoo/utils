@@ -61,7 +61,7 @@ export function pluginTypeScript({
       }
 
       // `tsconfig.json` path to build config
-      if (tsConfig !== false && compiler.options.resolve.tsConfig !== undefined) {
+      if (tsConfig !== false && compiler.options.resolve.tsConfig === undefined) {
         compiler.options.resolve.tsConfig = tsConfig;
       }
 
