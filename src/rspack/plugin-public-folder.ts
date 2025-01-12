@@ -2,8 +2,9 @@ import rspack, { type CopyRspackPluginOptions, type RspackPluginFunction } from 
 
 /**
  * Rspack plugin that adds support of "public" folder.
- * All files in "public" folder in root directory of build will be copied to bundle.
- * It is just a wrapper of CopyRspackPlugin with some useful defaults.
+ * All files in "public" folder in root directory of project will be copied to bundle.
+ * It is just a wrapper of `CopyRspackPlugin` with some useful defaults.
+ *
  * @example
  * ```js
  * // rspack.config.js
@@ -16,6 +17,7 @@ import rspack, { type CopyRspackPluginOptions, type RspackPluginFunction } from 
  *   // ...other config
  * };
  * ```
+ *
  * @param options Options.
  * @returns Plugin function.
  */
