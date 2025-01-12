@@ -1,8 +1,12 @@
-import type { RspackPluginFunction, SwcLoaderOptions } from '@rspack/core';
+import path from 'node:path';
+import type { ResolveTsConfig, RspackPluginFunction, SwcLoaderOptions } from '@rspack/core';
 
 export interface PluginTypeScriptOptions {
   /** Extensions, that will be added to `resolve.extensions`. */
   resolveExtensions?: string[] | false;
+
+  /** TypeScript config file path, see `resolve.tsConfig` of Rspack configuration. */
+  tsConfig?: ResolveTsConfig | false;
 
   /** Configuration for `builtin:swc-loader`. */
   swcLoaderOptions?: SwcLoaderOptions;
@@ -11,7 +15,8 @@ export interface PluginTypeScriptOptions {
 /**
  * Rspack plugin that adds support of TypeScript.
  * It adds rule for handling TypeScript source files.
- * It also adds items to `resolve.extensions` in configuration (by default `.ts, .tsx` will be added).
+ * It adds items to `resolve.extensions` in configuration (by default `.ts, .tsx` will be added).
+ * It adds `resolve.tsConfig` with path to `tsconfig.json` in project root (when it is not provided in config).
  * By default it uses `automatic` React runtime in SWC config.
  *
  * @example
@@ -32,6 +37,9 @@ export interface PluginTypeScriptOptions {
  */
 export function pluginTypeScript({
   resolveExtensions = ['.ts', '.tsx'],
+  tsConfig = {
+    configFile: path.resolve(process.cwd(), 'tsconfig.json'),
+  },
   swcLoaderOptions,
 }: PluginTypeScriptOptions = {}): RspackPluginFunction {
   return compiler => {
@@ -52,6 +60,11 @@ export function pluginTypeScript({
         }
       }
 
+      // `tsconfig.json` path to build config
+      if (tsConfig !== false && compiler.options.resolve.tsConfig !== undefined) {
+        compiler.options.resolve.tsConfig = tsConfig;
+      }
+
       const swcConfig: SwcLoaderOptions = {
         ...swcLoaderOptions,
         jsc: {
@@ -70,6 +83,7 @@ export function pluginTypeScript({
         },
       };
 
+      // rule for handling TypeScript source files
       compiler.options.module.rules.push({
         test: /\.(js|jsx|ts|tsx|mts|cts)$/i,
         exclude: /node_modules/,
