@@ -2,7 +2,7 @@ import rspack, { type HtmlRspackPluginOptions, type RspackPluginFunction } from 
 
 /**
  * Rspack plugin that adds emit of HTML-file based.
- * It is just a wrapper of HtmlRspackPlugin with some useful defaults.
+ * It is just a wrapper of `HtmlRspackPlugin` with some useful defaults.
  *
  * @example
  * ```js

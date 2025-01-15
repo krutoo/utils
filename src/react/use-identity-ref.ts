@@ -3,7 +3,7 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
 /**
  * Returns ref that automatically actualizes current value.
  * Useful when you need to store actual value.
- * @param value Current value.
+ *
  * @example
  * ```tsx
  * import { useIdentityRef } from "@krutoo/utils/react";
@@ -17,6 +17,9 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
  *   return <div>Count: {count}</div>
  * }
  * ```
+ *
+ * @param value Current value.
+ * @returns Ref object.
  */
 export function useIdentityRef<T>(value: T): MutableRefObject<T> {
   const ref = useRef<T>(value);

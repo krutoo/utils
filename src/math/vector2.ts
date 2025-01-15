@@ -10,7 +10,11 @@ export class Vector2 implements Point2d {
   /** Coordinate in y axis. */
   y: number;
 
-  /** Vector2 constructor. */
+  /**
+   * Vector2 constructor.
+   * @param x X coordinate.
+   * @param y Y coordinate.
+   */
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
@@ -56,6 +60,8 @@ export class Vector2 implements Point2d {
 
   /**
    * Sets the X coordinate.
+   * @param x X coordinate.
+   * @returns This.
    */
   setX(x: number): this {
     this.x = x;
@@ -64,7 +70,9 @@ export class Vector2 implements Point2d {
   }
 
   /**
-   * Sets the X coordinate.
+   * Sets the Y coordinate.
+   * @param y Y coordinate.
+   * @returns This.
    */
   setY(y: number): this {
     this.y = y;
@@ -75,6 +83,7 @@ export class Vector2 implements Point2d {
   /**
    * Vector addition.
    * @param vector Vector.
+   * @returns This.
    */
   add(vector: Point2d): this {
     this.x += vector.x;
@@ -84,8 +93,9 @@ export class Vector2 implements Point2d {
   }
 
   /**
-   * Vector subtraction
+   * Vector subtraction.
    * @param vector Vector.
+   * @returns This.
    */
   subtract(vector: Point2d): this {
     this.x -= vector.x;
@@ -97,6 +107,7 @@ export class Vector2 implements Point2d {
   /**
    * Multiplying a vector by a scalar.
    * @param scalar Scalar.
+   * @returns This.
    */
   scale(scalar: number): this {
     this.x *= scalar;
@@ -107,6 +118,7 @@ export class Vector2 implements Point2d {
 
   /**
    * Makes length equals to 1.
+   * @returns This.
    */
   normalize(): this {
     const value = 1 / this.getLength();

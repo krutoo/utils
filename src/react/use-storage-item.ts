@@ -188,6 +188,7 @@ export function useStorageItem<T>(
 /**
  * Returns JSON value processor for using in `useStorageItem` options.
  * @param placeholder Placeholder. Will be used when storage item is empty or when JSON.parse is failed.
+ * @returns Processor.
  */
 export function getJsonProcessor<T>(placeholder: T): StorageValueProcessor<T> {
   return {

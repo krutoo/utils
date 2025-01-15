@@ -16,6 +16,13 @@ export interface PluginCssOptions {
  * CSS-modules enabled by default for files like `some.module.css` and `some.m.css`.
  * It uses `css-loader` and `CssExtractRspackPlugin` under the hood.
  *
+ * The `css-loader` is optional peer dependency of this package, so you need to install it.
+ * @example
+ * ```bash
+ * npm install --dev css-loader
+ * ```
+ *
+ * You can use this plugin like regular plugins.
  * @example
  * ```js
  * // rspack.config.js
@@ -29,10 +36,9 @@ export interface PluginCssOptions {
  * };
  * ```
  *
- * @todo SCSS support.
- *
  * @param options Options.
  * @returns Plugin function.
+ * @todo SCSS support.
  */
 export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): RspackPluginFunction {
   return compiler => {

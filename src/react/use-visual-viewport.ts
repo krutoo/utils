@@ -5,25 +5,25 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
  * State of visual viewport.
  */
 export interface VisualViewportState {
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/height) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/height). */
   readonly height: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetLeft) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetLeft). */
   readonly offsetLeft: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetTop) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetTop). */
   readonly offsetTop: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageLeft) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageLeft). */
   readonly pageLeft: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageTop) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageTop). */
   readonly pageTop: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/scale) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/scale). */
   readonly scale: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/width) */
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/width). */
   readonly width: number;
 
   /** False by default (before mount), true when initialized (after mount). */
@@ -43,6 +43,22 @@ const DEFAULT_STATE: VisualViewportState = {
 
 /**
  * Hook of window.visualViewport state.
+ *
+ * @example
+ * ```tsx
+ * import { useVisualViewport } from '@krutoo/utils/react';
+ *
+ * export function App() {
+ *   const viewport = useVisualViewport();
+ *
+ *   return (
+ *     <p>
+ *       Your viewport size is {viewport.width} x {viewport.height}px
+ *     </p>
+ *   );
+ * }
+ * ```
+ *
  * @returns State of visualViewport (width, height, etc).
  */
 export function useVisualViewport(): VisualViewportState {
