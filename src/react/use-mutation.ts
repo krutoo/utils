@@ -55,14 +55,16 @@ function getInitialState<T>(): MutationState<T> {
  * function App () {
  *   const creating = useMutation({
  *     async mutation (data: { name: string, price: number }) {
- *       const response =  fetch('api/item', {
+ *       const response = await fetch('api/item', {
  *         method: 'POST',
- *         body: JSON.stringify(data)
+ *         body: JSON.stringify(data),
  *       });
  *
  *       if (!response.ok) {
- *         throw response.json();
+ *         throw "Error during fetching data";
  *       }
+ *
+ *       return await response.json();
  *     }
  *   });
  *

@@ -1,6 +1,6 @@
 /**
  * Returns generator that iterates each pair of elements in array.
- * @param array Array.
+ *
  * @example
  * ```ts
  * import { pairs } from "@krutoo/utils";
@@ -16,6 +16,9 @@
  * // 1 3
  * // 2 3
  * ```
+ *
+ * @param array Array.
+ * @yields Each unique pair.
  */
 export function* pairs<T>(array: T[]): Generator<readonly [T, T], void, unknown> {
   for (let i = 0; i < array.length; i++) {

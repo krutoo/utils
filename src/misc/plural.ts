@@ -2,9 +2,7 @@ const CASES = [2, 0, 1, 1, 1, 2];
 
 /**
  * Returns suitable word for given number according to russian language plural rules.
- * @param number The number to pluralize.
- * @param titles Word array for one, few and many. Example: ['review', 'reviews', 'reviews'].
- * @return The word is in the correct declension.
+ *
  * @example
  * ```ts
  * import { plural } from '@krutoo/utils';
@@ -20,6 +18,10 @@ const CASES = [2, 0, 1, 1, 1, 2];
  * console.log(5, plural(5, words)); // 5 отзывов
  * console.log(10, plural(10, words)); // 10 отзывов
  * ```
+ *
+ * @param number The number to pluralize.
+ * @param titles Word array for one, few and many. Example: ['review', 'reviews', 'reviews'].
+ * @returns The word is in the correct declension.
  */
 export function plural(number: number, titles: string[]): string | undefined {
   const absolute = Math.abs(number);

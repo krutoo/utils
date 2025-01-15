@@ -3,6 +3,22 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
 /**
  * Hook of state of match media query.
+ *
+ * @example
+ * ```tsx
+ * import { useMatchMedia } from '@krutoo/utils/react';
+ *
+ * function App () {
+ *   const mobile = useMatchMedia('(max-width: 1024px)');
+ *
+ *   if (mobile) {
+ *     return <div>Mobile site</div>;
+ *   }
+ *
+ *   return <div>desktop site</div>;
+ * }
+ * ```
+ *
  * @param query Query.
  * @returns Boolean.
  */

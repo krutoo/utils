@@ -41,6 +41,21 @@ function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
 
 /**
  * Hook of state of bounding client rect of element.
+ *
+ * @example
+ * ```tsx
+ * import { useBoundingClientRect } from '@krutoo/utils/react';
+ *
+ * export function App () {
+ *   const ref = useRef<HTMLDivElement>(null);
+ *
+ *   // you can use bounds rectangle of element
+ *   const rect = useBoundingClientRect(ref);
+ *
+ *   return <div ref={ref}>Hello!</div>;
+ * }
+ * ```
+ *
  * @param ref Ref with element.
  * @param extraDeps Deps for force re init listeners.
  * @returns Rect state.

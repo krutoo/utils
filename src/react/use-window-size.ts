@@ -7,6 +7,23 @@ import type { RectSize } from '../math/mod.ts';
  * Uses `window.innerWidth` and `window.innerHeight`.
  *
  * Alternatively you can use useVisualViewport "width" and "height" multiplied by "scale".
+ *
+ * @example
+ * ```tsx
+ * import { useWindowSize } from '@krutoo/utils/react';
+ *
+ * export function App() {
+ *   const size = useWindowSize();
+ *
+ *   return (
+ *     <p>
+ *       Your window size is {size.width} x {size.height}px
+ *     </p>
+ *   );
+ * }
+ * ```
+ *
+ * @returns Window size object with `width` and `height` properties.
  */
 export function useWindowSize(): RectSize & { ready: boolean } {
   const [state, setState] = useState<RectSize & { ready: boolean }>(() => {

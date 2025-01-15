@@ -2,7 +2,11 @@ import { useCallback, useMemo, useRef } from 'react';
 
 /**
  * Hook of stable callback.
- * Return function not changes but wraps actual callback.
+ *
+ * Returned function not changes when callback changes but wraps actual callback.
+ * Useful when you want to use a callback in an effect,
+ * but don't want the callback change to trigger the effect.
+ *
  * @param callback Callback.
  * @returns Stable callback.
  */

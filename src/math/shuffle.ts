@@ -1,6 +1,6 @@
 /**
  * Returns new array with random sorted items.
- * @param array Source array.
+ * @param list Source array.
  * @param options Options.
  * @returns New randomly sorted array.
  * @see https://stackoverflow.com/a/12646864
