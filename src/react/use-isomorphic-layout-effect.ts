@@ -1,5 +1,7 @@
 import { useEffect, useLayoutEffect } from 'react';
 
+// @todo export function setIsomorphicEffectEnv (env: string): void
+
 /**
  * Isomorphic layout effect hook.
  * Do not produces errors/warnings on server.
