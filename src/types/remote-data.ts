@@ -1,2 +1,2 @@
 /** Status of remote data. */
-export type Status = 'initial' | 'fetching' | 'success' | 'failure';
+export type Status = 'initial' | 'pending' | 'success' | 'failure';
