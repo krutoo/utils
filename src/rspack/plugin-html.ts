@@ -24,8 +24,14 @@ export function pluginHTML(options?: HtmlRspackPluginOptions): RspackPluginFunct
   return compiler => {
     const htmlPlugin = new rspack.HtmlRspackPlugin({
       ...options,
+
+      // TIP: module is defer by default
       scriptLoading: options?.scriptLoading ?? 'module',
+
+      // @todo возможно стоит перенести в body раз скрипт defer но надо убедиться что не будет проблем со стилями
+      // скрипт может сразу после загрузки замерять размеры элементов а они еще не стилизованы
       inject: options?.inject ?? 'body',
+
       minify: options?.minify ?? false,
     });
 

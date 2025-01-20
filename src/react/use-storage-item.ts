@@ -23,6 +23,7 @@ export interface UseStorageItemOptions<T> {
 /** Return value type of `useStorageItem` hook. */
 export type UseStorageItemReturn<T> = [T, (value: T | null) => void];
 
+/** Processor for using value from storage as is. */
 const identityProcessor: StorageValueProcessor<string | null> = {
   parse: value => value,
   stringify: value => String(value),

@@ -41,6 +41,17 @@ It is working because in `.npmrc` there is:
 node-options='--import tsimp/import'
 ```
 
+### What is a custom `sideEffects` property in `package.json`?
+
+This property need for bundlers like **Webpack** and **Rspack** that uses it for check that Tree Shaking is available.
+
+Details here: https://webpack.js.org/guides/tree-shaking
+
+TL;DR Side effects include:
+
+- any function call on top level of module
+- any mutation of imported variables on top level of module
+
 ## Troubleshoot
 
 Solutions to known problems when working with repository
