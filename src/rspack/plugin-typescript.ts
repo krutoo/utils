@@ -1,7 +1,13 @@
 import path from 'node:path';
-import type { ResolveTsConfig, RspackPluginFunction, SwcLoaderOptions } from '@rspack/core';
+import type {
+  ResolveTsConfig,
+  RspackPluginFunction,
+  RuleSetRule,
+  SwcLoaderOptions,
+} from '@rspack/core';
+import type { RuleInsertOptions } from './types.ts';
 
-export interface PluginTypeScriptOptions {
+export interface PluginTypeScriptOptions extends RuleInsertOptions {
   /** Extensions, that will be added to `resolve.extensions`. */
   resolveExtensions?: string[] | false;
 
@@ -10,6 +16,12 @@ export interface PluginTypeScriptOptions {
 
   /** Configuration for `builtin:swc-loader`. */
   swcLoaderOptions?: SwcLoaderOptions;
+
+  /** When false passed, rule for TypeScript files will not be added to configuration. */
+  ruleEnabled?: boolean;
+
+  /** Rule extension/override. */
+  ruleOverride?: RuleSetRule;
 }
 
 /**
@@ -40,13 +52,17 @@ export function pluginTypeScript({
   tsConfig = {
     configFile: path.resolve(process.cwd(), 'tsconfig.json'),
   },
+  ruleEnabled = true,
+  ruleInsert = 'to-end',
+  ruleOverride,
   swcLoaderOptions,
 }: PluginTypeScriptOptions = {}): RspackPluginFunction {
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginTypeScript', () => {
-      // ВАЖНО: не работает если в конфиге не указан resolve.extension по непонятной причине
-      // ждем ответа тут: https://github.com/web-infra-dev/rspack/discussions/8994
+      // resolve.extensions option enhance
       if (resolveExtensions !== false) {
+        // ВАЖНО: не работает если в конфиге не указан resolve.extensions по непонятной причине
+        // ждем ответа тут: https://github.com/web-infra-dev/rspack/discussions/8994
         if (!compiler.options.resolve.extensions) {
           compiler.options.resolve.extensions = [];
         }
@@ -65,32 +81,46 @@ export function pluginTypeScript({
         compiler.options.resolve.tsConfig = tsConfig;
       }
 
-      const swcConfig: SwcLoaderOptions = {
-        ...swcLoaderOptions,
-        jsc: {
-          ...swcLoaderOptions?.jsc,
-          parser: swcLoaderOptions?.jsc?.parser ?? {
-            syntax: 'typescript',
-            tsx: true,
-          },
-          transform: {
-            ...swcLoaderOptions?.jsc?.transform,
-            react: {
-              ...swcLoaderOptions?.jsc?.transform?.react,
-              runtime: swcLoaderOptions?.jsc?.transform?.react?.runtime ?? 'automatic',
+      if (ruleEnabled) {
+        // rule for handling TypeScript source files
+        const ruleOptions: SwcLoaderOptions = {
+          ...swcLoaderOptions,
+          jsc: {
+            ...swcLoaderOptions?.jsc,
+            parser: swcLoaderOptions?.jsc?.parser ?? {
+              syntax: 'typescript',
+              tsx: true,
+            },
+            transform: {
+              ...swcLoaderOptions?.jsc?.transform,
+              react: {
+                ...swcLoaderOptions?.jsc?.transform?.react,
+                runtime: swcLoaderOptions?.jsc?.transform?.react?.runtime ?? 'automatic',
+              },
             },
           },
-        },
-      };
+        };
 
-      // rule for handling TypeScript source files
-      compiler.options.module.rules.push({
-        test: /\.(js|jsx|ts|tsx|mts|cts)$/i,
-        exclude: /node_modules/,
-        loader: 'builtin:swc-loader',
-        options: swcConfig,
-        type: 'javascript/auto',
-      });
+        const rule: RuleSetRule = {
+          test: /\.(js|jsx|ts|tsx|mts|cts)$/i,
+          exclude: /node_modules/,
+          loader: 'builtin:swc-loader',
+          options: ruleOptions,
+
+          // IMPORTANT: `type: 'javascript/auto'` missed by default
+          // because it not working correctly with pluginRawImport
+
+          ...ruleOverride,
+        };
+
+        if (ruleInsert === 'to-start') {
+          compiler.options.module.rules.unshift(rule);
+        }
+
+        if (ruleInsert === 'to-end') {
+          compiler.options.module.rules.push(rule);
+        }
+      }
     });
   };
 }
