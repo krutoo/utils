@@ -6,6 +6,7 @@ import type {
   SwcLoaderOptions,
 } from '@rspack/core';
 import type { RuleInsertOptions } from './types.ts';
+import { insertRule } from './utils.ts';
 
 export interface PluginTypeScriptOptions extends RuleInsertOptions {
   /** Extensions, that will be added to `resolve.extensions`. */
@@ -53,7 +54,7 @@ export function pluginTypeScript({
     configFile: path.resolve(process.cwd(), 'tsconfig.json'),
   },
   ruleEnabled = true,
-  ruleInsert = 'to-end',
+  ruleInsert,
   ruleOverride,
   swcLoaderOptions,
 }: PluginTypeScriptOptions = {}): RspackPluginFunction {
@@ -113,13 +114,7 @@ export function pluginTypeScript({
           ...ruleOverride,
         };
 
-        if (ruleInsert === 'to-start') {
-          compiler.options.module.rules.unshift(rule);
-        }
-
-        if (ruleInsert === 'to-end') {
-          compiler.options.module.rules.push(rule);
-        }
+        insertRule(rule, { ruleInsert }, compiler.options.module.rules);
       }
     });
   };
