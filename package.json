@@ -19,8 +19,7 @@
     "lint": "eslint .",
     "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
-    "build": "node ./scripts/build.ts",
-    "prepack": "npm run sync-exports && npm run build"
+    "build": "node ./scripts/build.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -72,10 +71,6 @@
     "./dom": {
       "import": "./dist/esm/dom/mod.js",
       "require": "./dist/cjs/dom/mod.js"
-    },
-    "./lang": {
-      "import": "./dist/esm/lang/mod.js",
-      "require": "./dist/cjs/lang/mod.js"
     },
     "./math": {
       "import": "./dist/esm/math/mod.js",

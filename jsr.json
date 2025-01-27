@@ -5,7 +5,6 @@
   "exports": {
     ".": "./src/mod.ts",
     "./dom": "./src/dom/mod.ts",
-    "./lang": "./src/lang/mod.ts",
     "./math": "./src/math/mod.ts",
     "./misc": "./src/misc/mod.ts",
     "./react": "./src/react/mod.ts",
