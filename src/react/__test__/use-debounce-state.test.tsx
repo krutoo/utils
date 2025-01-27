@@ -3,7 +3,7 @@ import { describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
 import { useState } from 'react';
 import { useDebounceState } from '../use-debounce-state.ts';
-import { wait } from '../../lang/mod.ts';
+import { wait } from '../../misc/mod.ts';
 
 function TestComponent() {
   const [value, setValue] = useState('');

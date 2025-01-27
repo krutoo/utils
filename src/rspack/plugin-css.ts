@@ -1,9 +1,12 @@
 import rspack, {
+  type RuleSetRule,
   type CssExtractRspackPluginOptions,
   type RspackPluginFunction,
 } from '@rspack/core';
+import type { RuleInsertOptions } from './types.ts';
+import { insertRule } from './utils.ts';
 
-export interface PluginCssOptions {
+export interface PluginCssOptions extends RuleInsertOptions {
   /** Options for `CssExtractRspackPlugin` or false if you want to disable extracting styles to file. */
   extract?: CssExtractRspackPluginOptions | false;
 
@@ -38,12 +41,16 @@ export interface PluginCssOptions {
  *
  * @param options Options.
  * @returns Plugin function.
- * @todo SCSS support.
  */
-export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): RspackPluginFunction {
+export function pluginCSS({
+  extract,
+  cssModules,
+  ruleInsert,
+}: PluginCssOptions = {}): RspackPluginFunction {
+  // @todo scss support
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginCSS', () => {
-      compiler.options.module.rules.push({
+      const rule: RuleSetRule = {
         test: /\.css$/i,
         use: [
           ...(extract !== false ? [rspack.CssExtractRspackPlugin.loader] : []),
@@ -52,13 +59,7 @@ export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): Rspac
             options: {
               url: {
                 // ВАЖНО: делаем поведение таким же как в HtmlRspackPlugin
-                filter: (url: string): boolean => {
-                  if (url.startsWith('/')) {
-                    return false;
-                  }
-
-                  return true;
-                },
+                filter: (url: string): boolean => !url.startsWith('/'),
               },
               modules: {
                 ...cssModules,
@@ -70,7 +71,9 @@ export function pluginCSS({ extract, cssModules }: PluginCssOptions = {}): Rspac
             },
           },
         ],
-      });
+      };
+
+      insertRule(rule, { ruleInsert }, compiler.options.module.rules);
     });
 
     if (extract !== false) {
