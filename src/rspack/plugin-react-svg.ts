@@ -1,12 +1,14 @@
-import type { RspackPluginFunction, RuleSetCondition } from '@rspack/core';
+import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
 import type { Config } from 'svgo';
+import { RuleInsertOptions } from './types.ts';
+import { insertRule } from './utils.ts';
 
-export interface PluginReactSVG {
-  /** Rule test pattern. */
-  test?: RuleSetCondition;
-
+export interface PluginReactSVG extends RuleInsertOptions {
   /** Configuration for SVGO. */
   svgoConfig?: Config;
+
+  /** Rule extension/override. */
+  ruleOverride?: RuleSetRule;
 }
 
 export const SVGO_DEFAULTS: Config = {
@@ -58,23 +60,23 @@ export const SVGO_DEFAULTS: Config = {
  * @returns Plugin function.
  */
 export function pluginReactSVG({
-  test,
   svgoConfig = SVGO_DEFAULTS,
+  ruleOverride,
+  ruleInsert,
 }: PluginReactSVG = {}): RspackPluginFunction {
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginReactSVG', () => {
-      compiler.options.module.rules.push({
-        test: test ?? /\.svg$/i,
-        issuer: /\.(js|jsx|ts|tsx)$/i,
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              svgoConfig,
-            },
-          },
-        ],
-      });
+      const rule: RuleSetRule = {
+        test: /\.svg$/i,
+        issuer: /\.(js|jsx|ts|tsx|mts|cts)$/i,
+        loader: '@svgr/webpack',
+        options: {
+          svgoConfig,
+        },
+        ...ruleOverride,
+      };
+
+      insertRule(rule, { ruleInsert }, compiler.options.module.rules);
     });
   };
 }

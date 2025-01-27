@@ -1,5 +1,6 @@
 import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
 import type { RuleInsertOptions } from './types.ts';
+import { insertRule } from './utils.ts';
 
 export interface PluginRawImportOptions extends RuleInsertOptions {
   /** Rule extension/override. */
@@ -28,7 +29,7 @@ export interface PluginRawImportOptions extends RuleInsertOptions {
  * @returns Plugin function.
  */
 export function pluginRawImport({
-  ruleInsert: insertRule = 'to-end',
+  ruleInsert,
   ruleOverride,
 }: PluginRawImportOptions = {}): RspackPluginFunction {
   return compiler => {
@@ -39,13 +40,7 @@ export function pluginRawImport({
         ...ruleOverride,
       };
 
-      if (insertRule === 'to-start') {
-        compiler.options.module.rules.unshift(rule);
-      }
-
-      if (insertRule === 'to-end') {
-        compiler.options.module.rules.push(rule);
-      }
+      insertRule(rule, { ruleInsert }, compiler.options.module.rules);
     });
   };
 }

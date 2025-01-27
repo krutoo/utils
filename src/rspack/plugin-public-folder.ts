@@ -3,6 +3,7 @@ import rspack, { type CopyRspackPluginOptions, type RspackPluginFunction } from 
 /**
  * Rspack plugin that adds support of "public" folder.
  * All files in "public" folder in root directory of project will be copied to bundle.
+ * These assets will be available in dev server via `public/<path in public folder>`.
  * It is just a wrapper of `CopyRspackPlugin` with some useful defaults.
  *
  * @example
