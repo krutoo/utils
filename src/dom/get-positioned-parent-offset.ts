@@ -23,7 +23,23 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
     return { x: 0, y: 0 };
   }
 
-  const offsetParent = element.offsetParent;
+  let offsetParent = element.offsetParent;
+
+  // according to MDN:
+  // "If there is no positioned ancestor element, the body is returned."
+  //
+  // because of this, we need to check real offset of body
+  // and if is it non zero we need to change offsetParent to document.documentElement
+  //
+  // @todo maybe it is reasonable to restore function like `getOffsetParent`
+  if (offsetParent === document.body) {
+    const bodyRect = document.body.getBoundingClientRect();
+
+    if (bodyRect.left !== 0 || bodyRect.top !== 0) {
+      offsetParent = document.documentElement;
+    }
+  }
+
   const scrollParent = findScrollParent(element) ?? document.documentElement;
 
   const offset: Point2d = {
@@ -43,7 +59,7 @@ export function getPositionedParentOffset(element: HTMLElement): Point2d {
     offset.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
-  // ВАЖНО: check offsetParent's scrollTop/scrollLeft
+  // IMPORTANT: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && offsetParent === scrollParent) {
     offset.x += scrollParent.scrollLeft;
     offset.y += scrollParent.scrollTop;
