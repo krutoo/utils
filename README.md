@@ -5,13 +5,13 @@ Collection of useful utils for JavaScript/TypeScript projects. Some utilities ar
 ## Installation
 
 ```bash
-# Node (from NPM)
+# In Node.js
 npm add @krutoo/utils
 
-# Deno (from JSR)
-deno add jsr:@krutoo/utils
+# In Deno
+deno add npm:@krutoo/utils
 
-# Bun (from NPM)
+# In Bun
 bun add @krutoo/utils
 ```
 

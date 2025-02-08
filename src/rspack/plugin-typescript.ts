@@ -49,7 +49,7 @@ export interface PluginTypeScriptOptions extends RuleInsertOptions {
  * @returns Plugin function.
  */
 export function pluginTypeScript({
-  resolveExtensions = ['.ts', '.tsx'],
+  resolveExtensions = ['.jsx', '.ts', '.tsx', '.mts', '.cts'],
   tsConfig = {
     configFile: path.resolve(process.cwd(), 'tsconfig.json'),
   },
@@ -59,29 +59,27 @@ export function pluginTypeScript({
   swcLoaderOptions,
 }: PluginTypeScriptOptions = {}): RspackPluginFunction {
   return compiler => {
-    compiler.hooks.afterEnvironment.tap('krutoo:pluginTypeScript', () => {
-      // resolve.extensions option enhance
-      if (resolveExtensions !== false) {
-        // ВАЖНО: не работает если в конфиге не указан resolve.extensions по непонятной причине
-        // ждем ответа тут: https://github.com/web-infra-dev/rspack/discussions/8994
-        if (!compiler.options.resolve.extensions) {
-          compiler.options.resolve.extensions = [];
-        }
+    // resolve.extensions option enhance
+    // IMPORTANT: this is not in hook callback because:
+    // https://github.com/webpack/webpack/discussions/19170#discussioncomment-12083008
+    if (resolveExtensions !== false) {
+      if (!compiler.options.resolve.extensions) {
+        compiler.options.resolve.extensions = ['...'];
+      }
 
-        for (const ext of resolveExtensions) {
-          if (compiler.options.resolve.extensions.includes(ext)) {
-            continue;
-          }
-
+      for (const ext of resolveExtensions) {
+        if (!compiler.options.resolve.extensions.includes(ext)) {
           compiler.options.resolve.extensions.push(ext);
         }
       }
+    }
 
-      // `tsconfig.json` path to build config
-      if (tsConfig !== false && compiler.options.resolve.tsConfig === undefined) {
-        compiler.options.resolve.tsConfig = tsConfig;
-      }
+    // `tsconfig.json` path to build config
+    if (tsConfig !== false && compiler.options.resolve.tsConfig === undefined) {
+      compiler.options.resolve.tsConfig = tsConfig;
+    }
 
+    compiler.hooks.afterEnvironment.tap('krutoo:pluginTypeScript', () => {
       if (ruleEnabled) {
         // rule for handling TypeScript source files
         const ruleOptions: SwcLoaderOptions = {

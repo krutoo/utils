@@ -2,7 +2,7 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
 
 /**
  * Returns ref that automatically actualizes current value.
- * Useful when you need to store actual value.
+ * Useful when you need to store actual value and pass it to effect without rerunning.
  *
  * @example
  * ```tsx
@@ -12,9 +12,10 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
  *   const countRef = useIdentityRef(count);
  *
  *   // ref will always contain actual value
- *   console.assert(count, countRef.current)
+ *   // so you can read this ref inside effects without rerunning
+ *   console.assert(count === countRef.current);
  *
- *   return <div>Count: {count}</div>
+ *   return <div>Count: {count}</div>;
  * }
  * ```
  *
