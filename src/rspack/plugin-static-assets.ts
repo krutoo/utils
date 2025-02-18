@@ -3,20 +3,27 @@ import { insertRule } from './utils.ts';
 import { RuleInsertOptions } from './types.ts';
 
 export interface PluginStaticAssetsOptions extends RuleInsertOptions {
-  /** Options for rule by extension. */
-  byExt?: {
-    /** Extensions to interpret as static files (without leading dot). */
-    extensions?: string[] | ((defaults: string[]) => string[]);
+  /** Result filename of the asset in bundle. By default `'static/[name][ext]'`. */
+  filename?: string;
 
-    /** Rule extend/override. */
-    ruleOverride?: RuleSetRule;
-  };
+  /** Options for rule by extension. Or false for disabling rule. */
+  byExt?:
+    | {
+        /** Extensions to interpret as static files (without leading dot). */
+        extensions?: string[] | ((defaults: string[]) => string[]);
 
-  /** Options for rule by import attribute. */
-  byImportAttr?: {
-    /** Rule extend/override. */
-    ruleOverride?: RuleSetRule;
-  };
+        /** Rule extend/override. */
+        ruleOverride?: RuleSetRule;
+      }
+    | false;
+
+  /** Options for rule by import attribute. Or false for disabling rule. */
+  byImportAttr?:
+    | {
+        /** Rule extend/override. */
+        ruleOverride?: RuleSetRule;
+      }
+    | false;
 }
 
 /**
@@ -51,58 +58,64 @@ export interface PluginStaticAssetsOptions extends RuleInsertOptions {
  * @returns Plugin function.
  */
 export function pluginStaticAssets({
+  filename = 'static/[name][ext]',
   byExt,
   byImportAttr,
   ruleInsert,
 }: PluginStaticAssetsOptions = {}): RspackPluginFunction {
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginStaticAssets', () => {
-      // ВАЖНО: по умолчанию обрабатываем известные типа изображений, аудио и видео
-      const defaultExtensions = [
-        'apng',
-        'avif',
-        'gif',
-        'jpg',
-        'jpeg',
-        'png',
-        'webp',
-        'mp3',
-        'ogg',
-        'wav',
-        'mp4',
-        '3gp',
-        'webm',
-      ];
+      if (byExt !== false) {
+        // ВАЖНО: по умолчанию обрабатываем известные типа изображений, аудио и видео
+        const defaultExtensions = [
+          'apng',
+          'avif',
+          'gif',
+          'jpg',
+          'jpeg',
+          'png',
+          'webp',
+          'mp3',
+          'ogg',
+          'wav',
+          'mp4',
+          '3gp',
+          'webm',
+        ];
 
-      const extensionsList =
-        typeof byExt?.extensions === 'function'
-          ? byExt?.extensions(defaultExtensions)
-          : [...defaultExtensions, ...(byExt?.extensions ?? [])];
+        const extensionsList =
+          typeof byExt?.extensions === 'function'
+            ? byExt?.extensions(defaultExtensions)
+            : [...defaultExtensions, ...(byExt?.extensions ?? [])];
 
-      const regexp = new RegExp(`\\.(${extensionsList.join('|')})$`, 'i');
+        const regexp = new RegExp(`\\.(${extensionsList.join('|')})$`, 'i');
 
-      const ruleByExt: RuleSetRule = {
-        test: regexp,
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/[name][ext]',
-        },
-        ...byExt?.ruleOverride,
-      };
+        const rule: RuleSetRule = {
+          test: regexp,
+          type: 'asset/resource',
+          generator: {
+            filename,
+          },
+          ...byExt?.ruleOverride,
+        };
 
-      const ruleByImportAttr: RuleSetRule = {
-        with: {
-          type: 'url',
-        },
-        type: 'asset/resource',
-        generator: {
-          filename: 'static/[name][ext]',
-        },
-        ...byImportAttr?.ruleOverride,
-      };
+        insertRule(rule, { ruleInsert }, compiler.options.module.rules);
+      }
 
-      insertRule(ruleByExt, { ruleInsert }, compiler.options.module.rules);
-      insertRule(ruleByImportAttr, { ruleInsert }, compiler.options.module.rules);
+      if (byImportAttr !== false) {
+        const rule: RuleSetRule = {
+          with: {
+            type: 'url',
+          },
+          type: 'asset/resource',
+          generator: {
+            filename,
+          },
+          ...byImportAttr?.ruleOverride,
+        };
+
+        insertRule(rule, { ruleInsert }, compiler.options.module.rules);
+      }
     });
   };
 }
