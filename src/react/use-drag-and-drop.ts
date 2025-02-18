@@ -9,6 +9,7 @@ export interface DnDEventHandler {
 
 export interface UseDragAndDropOptions {
   disabled?: boolean;
+  onGrab?: DnDEventHandler;
   onMove?: DnDEventHandler;
   onDrop?: DnDEventHandler;
   extraDeps?: DependencyList;
@@ -27,7 +28,7 @@ export interface UseDragAndDropReturn {
  */
 export function useDragAndDrop<T extends HTMLElement>(
   ref: RefObject<T>,
-  { disabled, onMove, onDrop, extraDeps = [] }: UseDragAndDropOptions = {},
+  { disabled, onGrab, onMove, onDrop, extraDeps = [] }: UseDragAndDropOptions = {},
 ): UseDragAndDropReturn {
   const [captured, setCaptured] = useState<boolean>(false);
   const [innerOffset, setInnerOffset] = useState<Vector2>(() => Vector2.of(0, 0));
@@ -56,6 +57,11 @@ export function useDragAndDrop<T extends HTMLElement>(
     setInnerOffset(newInnerOffset);
     setOffset(newOffset);
     setCaptured(true);
+
+    onGrab?.({
+      offset: newOffset,
+      clientPosition,
+    });
   });
 
   const onPointerMove = useStableCallback((event: PointerEvent) => {

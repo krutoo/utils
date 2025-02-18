@@ -39,7 +39,7 @@ export const SVGO_DEFAULTS: Config = {
  * The `@svgr/webpack` is optional peer dependency of this package, so you need to install it.
  * @example
  * ```bash
- * npm install --dev @svgr/webpack
+ * npm install --save-dev @svgr/webpack
  * ```
  *
  * You can use this plugin like regular plugins.
