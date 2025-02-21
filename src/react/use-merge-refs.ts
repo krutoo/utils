@@ -1,4 +1,4 @@
-import { type Ref, useMemo } from 'react';
+import { type Ref, useMemo, useRef } from 'react';
 import { mergeRefs } from './merge-refs.ts';
 
 /**
@@ -18,9 +18,28 @@ import { mergeRefs } from './merge-refs.ts';
  * }
  * ```
  *
- * @param list Refs for merge.
+ * @param refs Refs for merge.
  * @returns Merged ref.
  */
-export function useMergeRefs<T>(list: Array<Ref<T> | null | undefined>): Ref<T> {
+export function useMergeRefs<T>(refs: Array<Ref<T> | null | undefined>): Ref<T> {
+  const listRef = useRef(refs);
+
+  // update listRef only when items is not same as in refs param
+  useMemo<void>(() => {
+    if (listRef.current.length !== refs.length) {
+      listRef.current = refs;
+      return;
+    }
+
+    for (let i = 0; i < refs.length; i++) {
+      if (listRef.current[i] !== refs[i]) {
+        listRef.current = refs;
+        return;
+      }
+    }
+  }, [refs]);
+
+  const list = listRef.current;
+
   return useMemo(() => mergeRefs(list), [list]);
 }
