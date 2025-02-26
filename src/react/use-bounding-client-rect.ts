@@ -1,4 +1,4 @@
-import { type DependencyList, type RefObject, useState } from 'react';
+import { type DependencyList, MutableRefObject, type RefObject, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
 export type DOMRectShape = Pick<
@@ -61,7 +61,13 @@ function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
  * @returns Rect state.
  */
 export function useBoundingClientRect<T extends Element>(
-  ref: RefObject<T>,
+  ref:
+    | RefObject<T>
+    | RefObject<T | null>
+    | RefObject<T | undefined>
+    | MutableRefObject<T>
+    | MutableRefObject<T | null>
+    | MutableRefObject<T | undefined>,
   extraDeps: DependencyList = [],
 ): DOMRectState {
   const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);

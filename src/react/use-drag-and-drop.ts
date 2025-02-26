@@ -1,4 +1,4 @@
-import { type RefObject, useEffect, useState, DependencyList } from 'react';
+import { type RefObject, useEffect, useState, DependencyList, MutableRefObject } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useStableCallback } from './use-stable-callback.ts';
 import { getPositionedParentOffset } from '../dom/mod.ts';
@@ -27,7 +27,13 @@ export interface UseDragAndDropReturn {
  * @returns State.
  */
 export function useDragAndDrop<T extends HTMLElement>(
-  ref: RefObject<T>,
+  ref:
+    | RefObject<T>
+    | RefObject<T | null>
+    | RefObject<T | undefined>
+    | MutableRefObject<T>
+    | MutableRefObject<T | null>
+    | MutableRefObject<T | undefined>,
   { disabled, onGrab, onMove, onDrop, extraDeps = [] }: UseDragAndDropOptions = {},
 ): UseDragAndDropReturn {
   const [captured, setCaptured] = useState<boolean>(false);

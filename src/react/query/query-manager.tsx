@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, Context } from 'react';
+import { createContext, useContext, type ReactNode, type Context, type JSX } from 'react';
 import type { QueryManager } from './types.ts';
 
 export const QueryMangerContext: Context<QueryManager | null> = createContext<QueryManager | null>(
