@@ -26,7 +26,7 @@
     "@std/expect": "npm:@jsr/std__expect@^1.0.9",
     "@testing-library/react": "^16.1.0",
     "@types/node": "^22.10.2",
-    "@types/react": "^18.3.16",
+    "@types/react": "^19.0.10",
     "eslint": "^9.17.0",
     "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-react": "^7.37.2",
@@ -35,6 +35,7 @@
     "global-jsdom": "^25.0.0",
     "globals": "^15.13.0",
     "prettier": "^3.4.2",
+    "react": "^19.0.0",
     "tsimp": "^2.0.12",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1"
@@ -43,7 +44,7 @@
     "@rspack/core": "^1.1.8",
     "@svgr/webpack": "^8.1.0",
     "css-loader": "^7.1.2",
-    "react": "^18 || ^19"
+    "react": "^17 || ^18 || ^19"
   },
   "peerDependenciesMeta": {
     "@rspack/core": {
