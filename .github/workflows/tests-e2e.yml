@@ -1,0 +1,48 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build and pack
+        run: |
+          npm run build
+          npm pack
+
+      - name: Install test dependencies
+        working-directory: ./tests-e2e
+        run: |
+          npm install
+          npm run preparing
+          npx playwright install --with-deps
+
+      - name: Run tests
+        working-directory: ./tests-e2e
+        run: |
+          npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: tests-e2e/playwright-report/
+          retention-days: 30

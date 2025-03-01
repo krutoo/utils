@@ -1,0 +1,32 @@
+{
+  "name": "@krutoo/utils-tests-e2e",
+  "type": "module",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "preparing": "npm i --no-save ../krutoo-utils-0.0.0.tgz",
+    "check": "tsc -p . --noEmit",
+    "dev": "rspack serve",
+    "build": "rspack"
+  },
+  "devDependencies": {
+    "@krutoo/showcase": "^0.1.0",
+    "@mdx-js/loader": "^3.1.0",
+    "@playwright/test": "^1.50.1",
+    "@rspack/cli": "^1.2.3",
+    "@rspack/core": "^1.2.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "css-loader": "^7.1.2",
+    "express": "^4.21.2",
+    "prettier": "^3.5.2",
+    "tsimp": "^2.0.12",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

@@ -1,0 +1,24 @@
+body {
+  height: 200vh;
+}
+
+.draggable {
+  width: 200px;
+  height: 100px;
+  background: #1abc9c;
+  color: #fff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 120ms;
+}
+
+.draggable:hover {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+  transform: scale(1.06);
+}
