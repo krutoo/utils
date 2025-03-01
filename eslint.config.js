@@ -9,7 +9,7 @@ export default [
   // object with "ignores" only means global ignores in ESLint 9
   // yes, this is awful design but we have what we have
   {
-    ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*'],
+    ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*', '**/tests-e2e/*'],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],

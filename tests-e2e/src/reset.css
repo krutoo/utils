@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  line-height: inherit;
+}
+
+body {
+  line-height: 1.2;
+  font-size: 16px;
+
+  /* from https://css-tricks.com/snippets/css/system-font-stack */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: #000;
+  color: #fff;
+  border-radius: 6px;
+}
+
+button:hover {
+  cursor: pointer;
+  color: #eee;
+  background: #222;
+}
+
+button:disabled {
+  color: #aaa;
+  background: #333;
+}
