@@ -8,10 +8,22 @@ export interface DnDEventHandler {
 }
 
 export interface UseDragAndDropOptions {
+  /** Positioning strategy. Should be same that css `position` property of target element. */
+  strategy?: 'fixed' | 'absolute';
+
+  /** When true, Drag-And-Drop will be disabled. */
   disabled?: boolean;
+
+  /** Will be called when element is grabbed. */
   onGrab?: DnDEventHandler;
+
+  /** Will be called when element is dragging. */
   onMove?: DnDEventHandler;
+
+  /** Will be called when element is dropped. */
   onDrop?: DnDEventHandler;
+
+  /** Extra deps for useEffect hook. */
   extraDeps?: DependencyList;
 }
 
@@ -34,7 +46,14 @@ export function useDragAndDrop<T extends HTMLElement>(
     | MutableRefObject<T>
     | MutableRefObject<T | null>
     | MutableRefObject<T | undefined>,
-  { disabled, onGrab, onMove, onDrop, extraDeps = [] }: UseDragAndDropOptions = {},
+  {
+    strategy = 'absolute',
+    disabled,
+    onGrab,
+    onMove,
+    onDrop,
+    extraDeps = [],
+  }: UseDragAndDropOptions = {},
 ): UseDragAndDropReturn {
   const [captured, setCaptured] = useState<boolean>(false);
   const [innerOffset, setInnerOffset] = useState<Vector2>(() => Vector2.of(0, 0));
@@ -58,7 +77,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     const newOffset = clientPosition
       .clone()
       .subtract(newInnerOffset)
-      .subtract(getPositionedParentOffset(element));
+      .subtract(getPositionedParentOffset(element, { strategy }));
 
     setInnerOffset(newInnerOffset);
     setOffset(newOffset);
