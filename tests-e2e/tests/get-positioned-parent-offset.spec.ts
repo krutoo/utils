@@ -30,4 +30,6 @@ test('getPositionedParentOffset', async ({ page }) => {
     expect(box?.x).toBe(mousePos.x - 80);
     expect(box?.y).toBe(mousePos.y - 60);
   }
+
+  // @todo check targets positions after page scroll
 });

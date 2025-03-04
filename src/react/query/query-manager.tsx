@@ -5,6 +5,11 @@ export const QueryMangerContext: Context<QueryManager | null> = createContext<Qu
   null,
 );
 
+/**
+ * Provider of query manager.
+ * @param props Props.
+ * @returns React node.
+ */
 export function QueryMangerProvider({
   manager,
   children,

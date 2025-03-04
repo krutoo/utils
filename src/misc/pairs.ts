@@ -26,7 +26,7 @@ export function* pairs<T>(array: T[]): Generator<readonly [T, T], void, unknown>
 
     for (let j = i + 1; j < array.length; j++) {
       const b = array[j];
-      yield [a!, b!] as const;
+      yield [a!, b!];
     }
   }
 }

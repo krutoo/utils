@@ -16,7 +16,7 @@ export function useStableCallback<T extends (...args: any[]) => any>(
   const ref = useRef(callback);
 
   // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
-  useMemo(() => {
+  useMemo<void>(() => {
     ref.current = callback;
   }, [callback]);
 

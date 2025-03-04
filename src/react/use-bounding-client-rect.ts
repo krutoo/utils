@@ -24,6 +24,12 @@ const DEFAULT_STATE: DOMRectState = {
   right: 0,
 };
 
+/**
+ * Checks that two rectangles are equal by its dimensions and positions.
+ * @param a Fist rect.
+ * @param b Second rect.
+ * @returns True if rects are equal, false otherwise.
+ */
 function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
   if (
     // ВАЖНО: проверяем только позицию верхнего левого угла и размеры
