@@ -119,6 +119,12 @@ export function useQuery<T>(
   );
 }
 
+/**
+ * Returns query control from manager from context.
+ * When context is empty returns MemoryQueryControl.
+ * @param key Key.
+ * @returns QueryControl.
+ */
 function useQueryControl<T>(key: string): QueryControl<T> {
   const manager = useContext(QueryMangerContext);
 

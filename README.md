@@ -19,6 +19,14 @@ bun add @krutoo/utils
 
 Minimum Node.js version is 22. Primarily It's because of `test` script in `package.json` which uses glob pattern.
 
+### How to write unit-tests?
+
+Test for module `src/a.ts` should be placed in `src/__test__/a.test.ts`
+
+By default test environment is simulates browser.
+
+For write tests without browser environment simulate you need to name it like `a.node.test.ts`.
+
 ## Q&A
 
 Notable info about this package

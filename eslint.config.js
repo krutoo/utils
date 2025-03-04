@@ -61,6 +61,18 @@ export default [
       'jsdoc/require-property-type': 'off',
       'jsdoc/require-returns-type': 'off',
       'jsdoc/tag-lines': 'off',
+      'jsdoc/require-jsdoc': 'error',
+    },
+  },
+  {
+    files: ['**/*.test.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
+      'jsdoc/require-jsdoc': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
       'jsdoc/require-jsdoc': 'off',
     },
   },

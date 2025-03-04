@@ -1,3 +1,7 @@
+/**
+ * This script updates "exports" field in package.json according to "src" folder.
+ * Each `mod.ts` in "src" folder will be interpreted as entrypoint.
+ */
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import glob from 'fast-glob';

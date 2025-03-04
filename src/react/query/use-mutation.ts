@@ -2,6 +2,10 @@ import { useCallback, useMemo, useState } from 'react';
 import { useIdentityRef } from '../use-identity-ref.ts';
 import type { MutationState, UseMutationOptions, UseMutationReturn } from './types.ts';
 
+/**
+ * Returns initial state of mutation hook.
+ * @returns State.
+ */
 function getInitialState<T>(): MutationState<T> {
   return {
     status: 'initial',

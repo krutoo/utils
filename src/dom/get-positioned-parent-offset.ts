@@ -1,66 +1,9 @@
 import type { Point2d } from '../math/mod.ts';
 import { findScrollParent } from './find-scroll-parent.ts';
 
-/**
- * @todo Для этой функции в документации надо показать способ применения.
- * Чтобы было видно зачем она нужна.
- *
- * Также стоит написать e2e-тесты, подготовив какой-то тестовый полигон.
- * Чтобы можно было проверить следующие сценарии:
- * - всплывающий элемент корректно позиционируется когда находится в том же родителе что и целевой;
- * - всплывающий элемент корректно позиционируется когда находится НЕ в том же родителе что и целевой;
- * - всплывающий элемент корректно позиционируется при прокрутке страницы;
- * - всплывающий элемент корректно позиционируется при прокрутке контейнера целевого элемента.
- */
-
 export interface PositioningOptions {
   /** How target (floating) element will be positioned. */
   strategy?: 'fixed' | 'absolute';
-}
-
-function isContainingBlock(element: Element): boolean {
-  const style = getComputedStyle(element);
-
-  return (
-    style.position === 'relative' ||
-    style.position === 'absolute' ||
-    style.position === 'fixed' ||
-    style.transform !== 'none' ||
-    style.perspective !== 'none' ||
-    style.filter !== 'none' ||
-    style.contain !== 'none'
-  );
-}
-
-function isContainingBlockForFixed(element: Element): boolean {
-  const style = getComputedStyle(element);
-
-  return (
-    style.transform !== 'none' ||
-    style.perspective !== 'none' ||
-    style.filter !== 'none' ||
-    style.contain !== 'none'
-  );
-}
-
-function findOffsetParent(
-  element: Element,
-  { strategy = 'absolute' }: PositioningOptions,
-): HTMLElement | null {
-  // Идем вверх по дереву DOM
-  let parent = element.parentElement;
-
-  const match = strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock;
-
-  while (parent) {
-    if (match(parent)) {
-      return parent;
-    }
-
-    parent = parent.parentElement;
-  }
-
-  return null;
 }
 
 /**
@@ -112,6 +55,72 @@ export function getPositionedParentOffset(
   return offset;
 }
 
+/**
+ * Finds offset parent for target element.
+ * @param element Target element.
+ * @param options Options.
+ * @returns Element or null.
+ */
+function findOffsetParent(
+  element: Element,
+  { strategy = 'absolute' }: PositioningOptions,
+): HTMLElement | null {
+  // Идем вверх по дереву DOM
+  let parent = element.parentElement;
+
+  const match = strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock;
+
+  while (parent) {
+    if (match(parent)) {
+      return parent;
+    }
+
+    parent = parent.parentElement;
+  }
+
+  return null;
+}
+
+/**
+ * Check that element is "containing block".
+ * @param element Element.
+ * @returns True if element is containing block, false otherwise.
+ */
+function isContainingBlock(element: Element): boolean {
+  const style = getComputedStyle(element);
+
+  return (
+    style.position === 'relative' ||
+    style.position === 'absolute' ||
+    style.position === 'fixed' ||
+    style.transform !== 'none' ||
+    style.perspective !== 'none' ||
+    style.filter !== 'none' ||
+    style.contain !== 'none'
+  );
+}
+
+/**
+ * Check that element is "containing block" for fixed elements.
+ * @param element Element.
+ * @returns True if element is containing block, false otherwise.
+ */
+function isContainingBlockForFixed(element: Element): boolean {
+  const style = getComputedStyle(element);
+
+  return (
+    style.transform !== 'none' ||
+    style.perspective !== 'none' ||
+    style.filter !== 'none' ||
+    style.contain !== 'none'
+  );
+}
+
+/**
+ * Parses value of CSS property as number.
+ * @param cssValue CSS value.
+ * @returns Number.
+ */
 function cssValueToNumber(cssValue: string): number {
   return parseFloat(cssValue.replace(/[A-z]/g, '')) || 0;
 }

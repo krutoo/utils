@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
+          npm ci
 
       - name: Build and pack
         run: |
@@ -31,7 +31,7 @@ jobs:
       - name: Install test dependencies
         working-directory: ./tests-e2e
         run: |
-          npm install
+          npm ci
           npm run preparing
           npx playwright install --with-deps
 
