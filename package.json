@@ -17,7 +17,9 @@
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
     "lint": "eslint .",
-    "test": "node --import ./scripts/setup-tests.ts --test src/**/*.test.{ts,tsx}",
+    "test": "npm run test:web && npm run test:node",
+    "test:web": "node --import ./scripts/setup-tests.ts --test src/**/*[!.node].test.{ts,tsx}",
+    "test:node": "node --test src/**/*.node.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node ./scripts/build.ts"
   },
