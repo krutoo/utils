@@ -1,53 +1,9 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
-import { RspackPluginFunction, type Configuration } from '@rspack/core';
+import type { Configuration } from '@rspack/core';
 import * as plugins from '@krutoo/utils/rspack';
-import {
-  type EmitStoriesEntrypointConfig,
-  emitStoriesEntrypoint,
-  watchStories,
-} from '@krutoo/showcase/build';
+import { aliasesToSource, pluginStoriesEntry } from './.rspack/utils.ts';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
-
-async function getSrcAliases() {
-  const pkgAliases = await fs
-    .readFile('../package.json', 'utf-8')
-    .then(a => JSON.parse(a))
-    .then(a => Object.keys(a.exports))
-    .then(a =>
-      a.map(k => [
-        path.join('@krutoo/utils', k),
-        path.join(import.meta.dirname, '../src', k, 'mod.ts'),
-      ]),
-    )
-    .then(a => Object.fromEntries(a));
-
-  return {
-    ...pkgAliases,
-    react$: path.resolve(import.meta.dirname, 'node_modules/react'),
-  };
-}
-
-function pluginStoriesEntry(config: EmitStoriesEntrypointConfig): RspackPluginFunction {
-  return compiler => {
-    let watchStarted = false;
-
-    compiler.hooks.beforeRun.tapPromise('pluginStoriesEntry', async () => {
-      await emitStoriesEntrypoint(config);
-    });
-
-    compiler.hooks.watchRun.tapPromise('pluginStoriesEntry', async () => {
-      if (watchStarted) {
-        return;
-      }
-
-      await emitStoriesEntrypoint(config);
-      watchStories(config);
-      watchStarted = true;
-    });
-  };
-}
 
 export default {
   entry: {
@@ -60,8 +16,7 @@ export default {
   },
   resolve: {
     alias: {
-      ...(PKG_IMPL === 'src' && (await getSrcAliases())),
-      '#found-stories': path.resolve(import.meta.dirname, './.generated/found-stories.js'),
+      ...(PKG_IMPL === 'src' && (await aliasesToSource(import.meta.dirname))),
     },
   },
   module: {
@@ -74,12 +29,15 @@ export default {
   },
   plugins: [
     pluginStoriesEntry({
+      entryAlias: '#found-stories',
       filename: './.generated/found-stories.js',
       storiesGlob: './stories/**/*.story.{mdx,ts,tsx}',
       storiesRootDir: './stories/',
-      rawImport: (mod: any) => ({ importPath: `!${mod.importPath}?raw` }),
+      rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
     }),
-    plugins.pluginTypeScript(),
+    plugins.pluginTypeScript({
+      tsConfig: PKG_IMPL === 'tarball' ? false : undefined,
+    }),
     plugins.pluginCSS(),
     plugins.pluginRawImport(),
     plugins.pluginHTML({

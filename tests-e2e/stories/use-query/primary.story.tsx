@@ -2,8 +2,8 @@ import { useQuery, QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils
 import { wait } from '@krutoo/utils';
 
 export const meta = {
-  title: 'Primary example',
   category: 'React/useQuery',
+  title: 'Primary example',
 };
 
 async function getProfileData() {

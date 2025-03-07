@@ -12,8 +12,8 @@ import classNames from 'classnames';
 import styles from './primary.m.css';
 
 export const meta = {
-  title: 'Primary example',
   category: 'DOM/getPositionedParentOffset',
+  title: 'Primary example',
 };
 
 const SettingsContext = createContext<{ enabled: boolean }>({
@@ -75,7 +75,6 @@ function Container({
 function Target({
   children,
   className,
-  style,
   strategy = 'absolute',
   ...restProps
 }: HTMLAttributes<HTMLDivElement> & { strategy?: 'fixed' | 'absolute' }) {
@@ -89,24 +88,31 @@ function Target({
       return;
     }
 
-    const setPosition = (mouse: Point2d) => {
+    let mouse: Point2d = { x: 0, y: 0 };
+
+    const moveToCursor = () => {
       const offset = getPositionedParentOffset(element, { strategy });
       const size = element.getBoundingClientRect();
+
       element.style.position = strategy;
       element.style.left = `${mouse.x - offset.x - size.width / 2}px`;
       element.style.top = `${mouse.y - offset.y - size.height / 2}px`;
     };
 
-    const listener = (event: MouseEvent) => {
-      setPosition({ x: event.clientX, y: event.clientY });
+    const handleMouseMove = (event: MouseEvent) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      moveToCursor();
     };
 
-    setPosition({ x: 0, y: 0 });
+    moveToCursor();
 
-    window.addEventListener('mousemove', listener);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', moveToCursor);
 
     return () => {
-      window.removeEventListener('mousemove', listener);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', moveToCursor);
       element.style.position = '';
     };
   }, [enabled]);
@@ -115,7 +121,6 @@ function Target({
     <div
       ref={ref}
       className={classNames(styles.target, className)}
-      style={{ top: 0, left: 0, ...style }}
       data-marker='target'
       {...restProps}
     >
