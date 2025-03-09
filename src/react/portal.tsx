@@ -1,6 +1,6 @@
 import { type JSX, type ReactNode, type DependencyList, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
 
 /**
