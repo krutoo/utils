@@ -21,19 +21,19 @@ export class Vector2 implements Point2d {
   }
 
   /**
-   * Returns point.
+   * Takes coordinates and returns vector.
    * @param x X coordinate.
    * @param y Y coordinate.
-   * @returns Point.
+   * @returns Vector.
    */
   static of(x = 0, y = 0): Vector2 {
     return new Vector2(x, y);
   }
 
   /**
-   * Returns point from point-like interface.
+   * Returns vector from point-like interface.
    * @param source Point-like interface.
-   * @returns Point.
+   * @returns Vector.
    */
   static from<T extends Point2d>(source: T): Vector2 {
     return new Vector2(source.x, source.y);
@@ -122,6 +122,7 @@ export class Vector2 implements Point2d {
    */
   normalize(): this {
     const value = 1 / this.getLength();
+
     this.x *= value;
     this.y *= value;
 

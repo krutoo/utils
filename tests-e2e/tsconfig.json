@@ -13,7 +13,16 @@
     "noUnusedLocals": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@krutoo/utils": ["../src/mod.ts"],
+      "@krutoo/utils/dom": ["../src/dom/mod.ts"],
+      "@krutoo/utils/math": ["../src/math/mod.ts"],
+      "@krutoo/utils/misc": ["../src/misc/mod.ts"],
+      "@krutoo/utils/react": ["../src/react/mod.ts"],
+      "@krutoo/utils/rspack": ["../src/rspack/mod.ts"],
+      "@krutoo/utils/types": ["../src/types/mod.ts"]
+    }
   },
   "exclude": ["node_modules"]
 }
