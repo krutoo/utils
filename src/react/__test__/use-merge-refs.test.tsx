@@ -19,12 +19,12 @@ function TestComponent({ refs, refCheck }: TestComponentProps) {
 
   return (
     <>
-      <button data-testid='hide' onClick={() => setShown(false)}>
+      <button data-marker='hide' onClick={() => setShown(false)}>
         Hide
       </button>
 
       {shown && (
-        <div ref={ref} data-testid='target'>
+        <div ref={ref} data-marker='target'>
           Hello
         </div>
       )}

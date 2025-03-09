@@ -15,8 +15,8 @@ function TestComponent() {
 
   return (
     <>
-      <input data-testid='field' value={value} onChange={handleChange} />
-      <span data-testid='caption'>{debouncedValue}</span>
+      <input data-marker='field' value={value} onChange={handleChange} />
+      <span data-marker='caption'>{debouncedValue}</span>
     </>
   );
 }
