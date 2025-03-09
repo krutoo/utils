@@ -19,8 +19,9 @@ body {
 }
 
 button {
-  font-size: 1rem;
-  padding: 0.5rem 0.75rem;
+  font-size: 16px;
+  padding: 0 12px;
+  height: 36px;
   background: #000;
   color: #fff;
   border-radius: 6px;
@@ -35,4 +36,12 @@ button:hover {
 button:disabled {
   color: #aaa;
   background: #333;
+}
+
+input:not([type='checkbox']) {
+  font-size: 16px;
+  height: 36px;
+  padding: 0 8px;
+  box-shadow: inset 0 0 0 2px #000;
+  border-radius: 6px;
 }

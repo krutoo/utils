@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { throttle } from '@krutoo/utils';
+import { format } from 'date-fns/format';
 
 export const meta = {
   category: 'Misc/throttle',
@@ -10,7 +11,9 @@ export default function Example() {
   const [messages, setMessages] = useState<string[]>([]);
 
   const addMessage = useCallback(() => {
-    setMessages(list => [...list, `Message #${list.length}`]);
+    const newMessage = `Clicked at ${format(new Date(), 'HH:mm:ss')}`;
+
+    setMessages(list => [...list, newMessage]);
   }, []);
 
   const handleClick = useMemo(() => throttle(addMessage, 500), [addMessage]);

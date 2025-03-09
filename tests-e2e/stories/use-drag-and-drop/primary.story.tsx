@@ -20,8 +20,10 @@ export default function Example() {
     : {};
 
   return (
-    <div ref={ref} style={style} className={styles.draggable}>
-      This block is draggable
+    <div className={style.container}>
+      <div ref={ref} style={style} className={styles.draggable}>
+        This block is draggable
+      </div>
     </div>
   );
 }

@@ -31,3 +31,6 @@ export type {
   UseMutationOptions,
   UseMutationReturn,
 } from './query/types.ts';
+
+// components (@todo maybe move it from 'react' to 'react-dom'?)
+export * from './portal.tsx';

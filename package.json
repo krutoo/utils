@@ -28,6 +28,7 @@
     "@testing-library/react": "^16.1.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "eslint": "^9.17.0",
     "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-react": "^7.37.2",
@@ -43,7 +44,8 @@
     "@rspack/core": "^1.1.8",
     "@svgr/webpack": "^8.1.0",
     "css-loader": "^7.1.2",
-    "react": "^17 || ^18 || ^19"
+    "react": "^17 || ^18 || ^19",
+    "react-dom": "^17 || ^18 || ^19"
   },
   "peerDependenciesMeta": {
     "@rspack/core": {
@@ -56,6 +58,9 @@
       "optional": true
     },
     "react": {
+      "optional": true
+    },
+    "react-dom": {
       "optional": true
     }
   },
