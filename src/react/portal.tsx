@@ -80,10 +80,10 @@ export function Portal({
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   // IMPORTANT: need to get container from identity ref and actualize this ref only when deps is changed
-  const containerInitRef = useIdentityRef(containerInit, deps);
+  const containerInitRef = useIdentityRef(containerInit);
 
   // IMPORTANT: need to get cleanup from identity ref and actualize this ref only when deps is changed
-  const connectInitRef = useIdentityRef(connectInit, deps);
+  const connectInitRef = useIdentityRef(connectInit);
 
   // IMPORTANT: need to get cleanup from identity ref and actualize this ref each render
   const cleanupInitRef = useIdentityRef(cleanupInit);
@@ -122,6 +122,7 @@ export function Portal({
 
     return () => {
       // IMPORTANT: we need to get value from ref exactly in cleanup-callback of effect
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       let cleanup = cleanupInitRef.current;
 
       switch (cleanup) {
@@ -145,6 +146,7 @@ export function Portal({
 
       cleanup?.(newContainer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   if (container) {

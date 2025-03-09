@@ -38,6 +38,12 @@ export default [
     },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
+      'react-hooks/exhaustive-deps': [
+        'warn',
+        {
+          additionalHooks: '(useIsomorphicLayoutEffect|useIdentityRef)',
+        },
+      ],
     },
   },
   {

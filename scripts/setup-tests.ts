@@ -8,6 +8,11 @@ import { GlobalRegistrator } from '@happy-dom/global-registrator';
 before(async context => {
   if (!context.filePath?.match(/\.node\.test\.(ts|tsx)$/)) {
     GlobalRegistrator.register();
+
+    // dynamic import because https://github.com/capricorn86/happy-dom/issues/1636#issuecomment-2568308938
+    const { configure } = await import('@testing-library/react');
+
+    configure({ testIdAttribute: 'data-marker' });
   }
 });
 

@@ -16,7 +16,7 @@ function TestComponent({ value, onRefChange }: TestComponentProps) {
     onRefChange?.();
   }, [ref, onRefChange]);
 
-  return <div data-testid='display'>Ref value: {ref.current}</div>;
+  return <div data-marker='display'>Ref value: {ref.current}</div>;
 }
 
 describe('useIdentityRef', () => {
