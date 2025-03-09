@@ -1,8 +1,5 @@
-body {
-  height: 200vh;
-}
-
 .root {
+  height: 200vh;
   display: flex;
   flex-direction: column;
   gap: 20px;

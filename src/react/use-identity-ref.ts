@@ -1,4 +1,4 @@
-import { type MutableRefObject, useMemo, useRef } from 'react';
+import { DependencyList, type MutableRefObject, useMemo, useRef } from 'react';
 
 /**
  * Returns ref that automatically actualizes current value.
@@ -20,15 +20,18 @@ import { type MutableRefObject, useMemo, useRef } from 'react';
  * ```
  *
  * @param value Current value.
+ * @param deps Deps. Works exactly like in useEffect.
  * @returns Ref object.
  */
-export function useIdentityRef<T>(value: T): MutableRefObject<T> {
+export function useIdentityRef<T>(value: T, deps: DependencyList = []): MutableRefObject<T> {
   const ref = useRef<T>(value);
 
   // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
   useMemo<void>(() => {
     ref.current = value;
-  }, [value]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, ...deps]);
 
   return ref;
 }
