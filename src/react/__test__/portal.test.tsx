@@ -28,16 +28,19 @@ describe('Portal', () => {
     const { baseElement, getByTestId } = render(<TestComponent />);
 
     expect(baseElement.children.length).toBe(1);
+    expect(getByTestId('block').textContent).toContain('Toggle');
     expect(getByTestId('block').textContent).not.toContain('Hello, world!');
     expect(baseElement.textContent).not.toContain('Hello, world!');
 
     fireEvent.click(getByTestId('toggle'));
     expect(baseElement.children.length).toBe(2);
+    expect(getByTestId('block').textContent).toContain('Toggle');
     expect(getByTestId('block').textContent).not.toContain('Hello, world!');
     expect(baseElement.textContent).toContain('Hello, world!');
 
     fireEvent.click(getByTestId('toggle'));
     expect(baseElement.children.length).toBe(1);
+    expect(getByTestId('block').textContent).toContain('Toggle');
     expect(getByTestId('block').textContent).not.toContain('Hello, world!');
     expect(baseElement.textContent).not.toContain('Hello, world!');
   });

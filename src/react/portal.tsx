@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode, type DependencyList, useState } from 'react';
+import { type JSX, type ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
@@ -9,9 +9,9 @@ import { useIdentityRef } from './use-identity-ref.ts';
 export interface PortalProps {
   /**
    * Container element. By default new `div` will be created.
-   * Can be function.
+   * Can be function that returns element or null.
    */
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement | null);
 
   /**
    * How container will be connected to document.
@@ -24,7 +24,7 @@ export interface PortalProps {
    * Component unmount handler.
    * When `true` passed, container will be removed from DOM by `container.remove()`.
    * When `false` passed, nothing will be done.
-   * By default acts like for `true` if `container` prop is not passed, and like false otherwise.
+   * By default acts like for `true` if `container` prop is not passed, and like `false` otherwise.
    */
   cleanup?: boolean | ((container: HTMLElement) => void);
 
@@ -32,15 +32,6 @@ export interface PortalProps {
    * Portal key.
    */
   portalKey?: string;
-
-  /**
-   * Dependencies that causes next steps:
-   * 1) cleanup (when provided);
-   * 2) container defining;
-   * 3) container connecting (when provided).
-   * This option is needed because changing of `container, connect, cleanup` props not triggers these steps.
-   */
-  deps?: DependencyList;
 
   /**
    * Content that will be rendered into `container` element.
@@ -75,7 +66,6 @@ export function Portal({
   connect: connectInit,
   cleanup: cleanupInit,
   portalKey,
-  deps = [],
 }: PortalProps): JSX.Element | null {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
@@ -91,12 +81,16 @@ export function Portal({
   useIsomorphicLayoutEffect(() => {
     const newContainerInit = containerInitRef.current;
 
-    let newContainer: HTMLElement;
+    let newContainer: HTMLElement | null;
 
     if (typeof newContainerInit === 'function') {
       newContainer = newContainerInit();
     } else {
       newContainer = newContainerInit;
+    }
+
+    if (!newContainer) {
+      return;
     }
 
     let connect = connectInitRef.current;
@@ -120,34 +114,33 @@ export function Portal({
 
     setContainer(newContainer);
 
-    return () => {
-      // IMPORTANT: we need to get value from ref exactly in cleanup-callback of effect
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      let cleanup = cleanupInitRef.current;
+    let cleanup = cleanupInitRef.current;
 
-      switch (cleanup) {
-        case undefined: {
-          if (newContainerInit === DEFAULTS.container) {
-            cleanup = DEFAULTS.cleanup;
-          } else {
-            cleanup = undefined;
-          }
-          break;
-        }
-        case true: {
+    switch (cleanup) {
+      case undefined: {
+        if (newContainerInit === DEFAULTS.container) {
           cleanup = DEFAULTS.cleanup;
-          break;
-        }
-        case false: {
+        } else {
           cleanup = undefined;
-          break;
         }
+        break;
       }
+      case true: {
+        cleanup = DEFAULTS.cleanup;
+        break;
+      }
+      case false: {
+        cleanup = undefined;
+        break;
+      }
+    }
 
+    return () => {
       cleanup?.(newContainer);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+  }, []);
 
   if (container) {
     return createPortal(children, container, portalKey);

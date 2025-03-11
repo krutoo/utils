@@ -15,17 +15,70 @@ deno add npm:@krutoo/utils
 bun add @krutoo/utils
 ```
 
+## Usage
+
+Most of the utils available from root of the package:
+
+```js
+import { wait } from '@krutoo/utils';
+
+wait(3000).then(() => console.log('Time passed'));
+```
+
+**React** utils is available from `/react` path.
+
+React must be installed in your project.
+
+```jsx
+import { useMatchMedia } from '@krutoo/utils/react';
+
+function App() {
+  const isMobile = useMatchMedia('(max-width: 1024px)');
+
+  return <>...</>;
+}
+```
+
+**Rspack** utils is available from `/rspack` path:
+
+```js
+// rspack.config.js
+import * as plugins from '@krutoo/utils/rspack';
+
+export default {
+  entry: './src/index.ts',
+  plugins: [
+    // typescript support (with alias from "paths" of tsconfig and `resolve.alias` extending)
+    plugins.pluginTypeScript(),
+
+    // css and css-modules support (css-loader must be added to your project)
+    plugins.pluginCSS(),
+
+    // html file will be added to bundle
+    plugins.pluginHTML({ template: './src/index.html' }),
+
+    // files imported with `?raw` will be strings with source code of file
+    plugins.pluginRawImport(),
+
+    // public folder will be copied ti bundle
+    plugins.pluginPublicFiles(),
+
+    // ...and more useful other plugins
+  ],
+};
+```
+
 ## Development
 
 Minimum Node.js version is 22. Primarily It's because of `test` script in `package.json` which uses glob pattern.
 
 ### How to write unit-tests?
 
-Test for module `src/a.ts` should be placed in `src/__test__/a.test.ts`
+Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test.ts`.
 
 By default test environment is simulates browser.
 
-For write tests without browser environment simulate you need to name it like `a.node.test.ts`.
+For write tests without browser environment simulation you need to name test file like `a.node.test.ts`.
 
 ## Q&A
 
