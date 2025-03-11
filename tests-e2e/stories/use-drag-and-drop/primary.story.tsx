@@ -3,7 +3,7 @@ import { useDragAndDrop } from '@krutoo/utils/react';
 import styles from './primary.m.css';
 
 export const meta = {
-  category: 'React/useDragAndDrop',
+  category: 'React hooks/useDragAndDrop',
   title: 'Primary example',
 };
 

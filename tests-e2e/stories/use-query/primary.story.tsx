@@ -2,7 +2,7 @@ import { useQuery, QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils
 import { wait } from '@krutoo/utils';
 
 export const meta = {
-  category: 'React/useQuery',
+  category: 'React hooks/useQuery',
   title: 'Primary example',
 };
 

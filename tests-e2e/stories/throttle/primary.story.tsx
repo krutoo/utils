@@ -16,7 +16,7 @@ export default function Example() {
     setMessages(list => [...list, newMessage]);
   }, []);
 
-  const handleClick = useMemo(() => throttle(addMessage, 500), [addMessage]);
+  const handleClick = useMemo(() => throttle(addMessage, 1000), [addMessage]);
 
   return (
     <>

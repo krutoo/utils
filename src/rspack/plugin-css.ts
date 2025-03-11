@@ -22,7 +22,7 @@ export interface PluginCssOptions extends RuleInsertOptions {
  * The `css-loader` is optional peer dependency of this package, so you need to install it.
  * @example
  * ```bash
- * npm install --dev css-loader
+ * npm install --save-dev css-loader
  * ```
  *
  * You can use this plugin like regular plugins.
