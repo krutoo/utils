@@ -4,6 +4,16 @@
   "version": "0.0.0",
   "description": "Set of useful utils for JavaScript/TypeScript projects",
   "author": "Dmitriy Petrov <dima.krutoo@yandex.ru>",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "utils",
+    "helpers",
+    "math",
+    "dom",
+    "react",
+    "rspack"
+  ],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
