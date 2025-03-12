@@ -1,6 +1,5 @@
 // core
 export * from './use-debounce-state.ts';
-export * from './use-exact-click.ts';
 export * from './use-identity-ref.ts';
 export * from './use-isomorphic-layout-effect.ts';
 export * from './use-previous-state.ts';
@@ -9,7 +8,9 @@ export * from './use-stable-callback.ts';
 // web api
 export * from './use-bounding-client-rect.ts';
 export * from './use-drag-and-drop.ts';
+export * from './use-exact-click.ts';
 export * from './use-match-media.ts';
+export * from './use-outside-click.ts';
 export * from './use-storage-item.ts';
 export * from './use-visual-viewport.ts';
 export * from './use-window-size.ts';

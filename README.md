@@ -17,17 +17,26 @@ bun add @krutoo/utils
 
 ## Usage
 
-Most of the utils available from root of the package:
+Most of the utils are available from package root:
 
 ```js
-import { wait } from '@krutoo/utils';
+import { pairs } from '@krutoo/utils';
 
-wait(3000).then(() => console.log('Time passed'));
+const list = [1, 2, 3];
+
+for (const [a, b] of pairs(list)) {
+  console.log(a, b);
+}
+
+// output:
+// 1 2
+// 1 3
+// 2 3
 ```
 
 **React** utils is available from `/react` path.
 
-React must be installed in your project.
+[React](https://react.dev/) must be installed in your project.
 
 ```jsx
 import { useMatchMedia } from '@krutoo/utils/react';
@@ -39,7 +48,9 @@ function App() {
 }
 ```
 
-**Rspack** utils is available from `/rspack` path:
+**Rspack** utils is available from `/rspack` path.
+
+[Rspack](https://rspack.dev/) must be installed in your project.
 
 ```js
 // rspack.config.js
@@ -60,7 +71,7 @@ export default {
     // files imported with `?raw` will be strings with source code of file
     plugins.pluginRawImport(),
 
-    // public folder will be copied ti bundle
+    // "public" folder will be copied to bundle
     plugins.pluginPublicFiles(),
 
     // ...and more useful other plugins
