@@ -1,3 +1,5 @@
+import type { RandomBetween } from './types.ts';
+
 /**
  * Returns random integer number in range.
  * @param min Start of range.
@@ -6,4 +8,15 @@
  */
 export function randomInteger(min: number, max: number): number {
   return Math.floor(min + Math.random() * (max + 1 - min));
+}
+
+/**
+ * Returns random integer number generator.
+ * @param random Function that returns random in range 0-1.
+ * @returns Random number generator.
+ */
+export function createRandomInteger(random: () => number = Math.random): RandomBetween {
+  return (min: number, max: number): number => {
+    return Math.floor(min + random() * (max + 1 - min));
+  };
 }

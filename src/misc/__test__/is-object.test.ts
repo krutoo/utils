@@ -6,6 +6,9 @@ describe('isObject', () => {
   test('should works correctly for all values', () => {
     // object
     expect(isObject({ count: 123 })).toBe(true);
+    expect(isObject(new Boolean(false))).toBe(true);
+    expect(isObject(new Number(1))).toBe(true);
+    expect(isObject(new String(''))).toBe(true);
 
     // array
     expect(isObject([1, 2, 3])).toBe(true);

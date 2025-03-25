@@ -14,7 +14,7 @@ export interface StorageValueProcessor<T> {
 /** Options of `useStorageItem` hook.  */
 export interface UseStorageItemOptions<T> {
   /** Storage. Usually localStorage or sessionStorage. */
-  storage: Storage;
+  storage: Storage | (() => Storage);
 
   /** Item value processor. */
   processor: StorageValueProcessor<T>;
@@ -97,7 +97,7 @@ const identityProcessor: StorageValueProcessor<string | null> = {
 export function useStorageItem(
   key: string,
   options: {
-    storage: Storage;
+    storage: Storage | (() => Storage);
     processor?: StorageValueProcessor<string | null>;
   },
 ): UseStorageItemReturn<string | null>;
@@ -139,11 +139,15 @@ export function useStorageItem<T>(
     storage,
     processor = identityProcessor as unknown as StorageValueProcessor<T>,
   }: {
-    storage: Storage;
+    storage: Storage | (() => Storage);
     processor?: StorageValueProcessor<T>;
   },
 ): UseStorageItemReturn<T> {
   const [state, setState] = useState<string | null>(null);
+
+  const getStorage = useCallback(() => {
+    return typeof storage === 'function' ? storage() : storage;
+  }, [storage]);
 
   const parseRef = useIdentityRef(processor.parse);
   const stringifyRef = useIdentityRef(processor.stringify);
@@ -166,22 +170,22 @@ export function useStorageItem<T>(
 
   // when key or storage changes we need to update state
   useIsomorphicLayoutEffect(() => {
-    setState(storage.getItem(key));
-  }, [key, storage]);
+    setState(getStorage().getItem(key));
+  }, [key, getStorage]);
 
   // when state changes we need to set it to storage
   useIsomorphicLayoutEffect(() => {
-    const exist = storage.getItem(key);
+    const exist = getStorage().getItem(key);
 
     if (state === null) {
-      storage.removeItem(key);
+      getStorage().removeItem(key);
       return;
     }
 
     if (exist !== state) {
-      storage.setItem(key, state);
+      getStorage().setItem(key, state);
     }
-  }, [key, storage, state]);
+  }, [key, getStorage, state]);
 
   return [value, setValue];
 }
