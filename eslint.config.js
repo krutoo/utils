@@ -1,6 +1,7 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import jsdoc from 'eslint-plugin-jsdoc';
 
@@ -26,12 +27,27 @@ export default [
   ...tseslint.configs.recommended,
   {
     rules: {
+      eqeqeq: 'error',
       '@typescript-eslint/no-explicit-any': 'off',
-
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
     },
   },
+  {
+    plugins: {
+      react: pluginReact,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      'react/jsx-curly-brace-presence': 'error',
+    },
+  },
+  pluginReact.configs.flat.recommended,
+  pluginReact.configs.flat['jsx-runtime'],
   {
     plugins: {
       'react-hooks': pluginReactHooks,

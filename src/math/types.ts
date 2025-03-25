@@ -19,3 +19,10 @@ export interface RectSize {
   /** Height. */
   height: number;
 }
+
+/**
+ * Function that accepts range edges and returns number.
+ */
+export interface RandomBetween {
+  (min: number, max: number): number;
+}

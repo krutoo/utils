@@ -62,19 +62,19 @@ export default {
     // typescript support (with alias from "paths" of tsconfig and `resolve.alias` extending)
     plugins.pluginTypeScript(),
 
-    // css and css-modules support (css-loader must be added to your project)
+    // css and css-modules support ("css-loader" must be added to your project)
     plugins.pluginCSS(),
 
     // html file will be added to bundle
     plugins.pluginHTML({ template: './src/index.html' }),
 
-    // files imported with `?raw` will be strings with source code of file
+    // import file source code by `?raw` query or `with { type: 'text' }`
     plugins.pluginRawImport(),
 
     // "public" folder will be copied to bundle
     plugins.pluginPublicFiles(),
 
-    // ...and more useful other plugins
+    // ...and other useful plugins
   ],
 };
 ```
