@@ -1,5 +1,12 @@
-import { type DependencyList, MutableRefObject, type RefObject, useState } from 'react';
+import {
+  type DependencyList,
+  type MutableRefObject,
+  type RefObject,
+  useContext,
+  useState,
+} from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { ResizeObserverContext } from './context/resize-observer-context.ts';
 
 export type DOMRectShape = Pick<
   DOMRectReadOnly,
@@ -46,7 +53,8 @@ function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
 }
 
 /**
- * Hook of state of bounding client rect of element.
+ * React hook of state of bounding client rect of element.
+ * Size and position are observed.
  *
  * @example
  * ```tsx
@@ -77,6 +85,8 @@ export function useBoundingClientRect<T extends Element>(
   extraDeps: DependencyList = [],
 ): DOMRectState {
   const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);
+
+  const { getObserver } = useContext(ResizeObserverContext);
 
   useIsomorphicLayoutEffect(() => {
     const element = ref.current;
@@ -109,7 +119,7 @@ export function useBoundingClientRect<T extends Element>(
       });
     };
 
-    const observer = new ResizeObserver(onChange);
+    const observer = getObserver(onChange);
 
     observer.observe(element);
 
@@ -121,11 +131,11 @@ export function useBoundingClientRect<T extends Element>(
     setState(rectToState(element.getBoundingClientRect()));
 
     return () => {
-      observer.disconnect();
+      observer.unobserve(element);
       document.removeEventListener('scroll', onChange, true);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref, ...extraDeps]);
+  }, [ref, getObserver, ...extraDeps]);
 
   return state;
 }
