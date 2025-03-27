@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { MatchMediaContext } from './context/match-media-context.ts';
 
 /**
  * Hook of state of match media query.
@@ -23,6 +24,8 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
  * @returns Boolean.
  */
 export function useMatchMedia(query: string): boolean {
+  const { matchMedia } = useContext(MatchMediaContext);
+
   const [state, setState] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -39,7 +42,7 @@ export function useMatchMedia(query: string): boolean {
     return () => {
       mql.removeEventListener('change', syncState);
     };
-  }, [query]);
+  }, [query, matchMedia]);
 
   return state;
 }
