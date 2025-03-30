@@ -1,4 +1,4 @@
-import { type RefObject, type MutableRefObject, useContext } from 'react';
+import { type RefObject, type MutableRefObject, useContext, useMemo } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useIdentityRef } from './use-identity-ref.ts';
 import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
@@ -21,6 +21,39 @@ import { IntersectionObserverContext } from './context/intersection-observer-con
  * }
  * ```
  *
+ * #### Important
+ *
+ * Each known option' changing will provide recreating observer.
+ * In case you have `threshold` as array - provide stable array (constant or memoized).
+ * Otherwise hook will be recreate observer on each render.
+ *
+ * Wrong:
+ * ```jsx
+ * // Each render hook will take new array, so this options is "unstable"
+ * useIntersection(ref, callback, { threshold: [0.1, 0.2, 0.3] });
+ * ```
+ *
+ * Right
+ * ```jsx
+ * // We memoize array, so it is "stable"
+ * const threshold = useMemo(() => [0.1, 0.2, 0.3], []);
+ * useIntersection(ref, callback, { threshold });
+ * ```
+ *
+ * Also right:
+ * ```jsx
+ * // We use constant outside component, so it is "stable"
+ * const THRESHOLD = [0.1, 0.2, 0.3]
+ *
+ * function App () {
+ *   // ...
+ *
+ *   useIntersection(ref, callback, { threshold: THRESHOLD });
+ *
+ *   // ...
+ * }
+ * ```
+ *
  * @param ref Ref with element.
  * @param callback Observer callback.
  * @param options Observe options.
@@ -39,7 +72,25 @@ export function useIntersection<T extends Element>(
   const { getObserver } = useContext(IntersectionObserverContext);
 
   const callbackRef = useIdentityRef(callback);
-  const optionsRef = useIdentityRef(options);
+
+  // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
+  // It is because in case we add `options` to deps - it will be changed
+  // on every render if options passed as inline object.
+  const hasOptions = useMemo(() => options !== undefined, [options]);
+
+  const readyOptions = useMemo<IntersectionObserverInit | undefined>(() => {
+    if (!hasOptions) {
+      return undefined;
+    }
+
+    const result: IntersectionObserverInit = {
+      root: options?.root,
+      rootMargin: options?.rootMargin,
+      threshold: options?.threshold,
+    };
+
+    return result;
+  }, [hasOptions, options?.root, options?.rootMargin, options?.threshold]);
 
   useIsomorphicLayoutEffect(() => {
     const element = ref.current;
@@ -54,12 +105,12 @@ export function useIntersection<T extends Element>(
           callbackRef.current(entry);
         }
       }
-    }, optionsRef.current);
+    }, readyOptions);
 
     observer.observe(element);
 
     return () => {
       observer.unobserve(element);
     };
-  }, [ref, callbackRef, optionsRef, getObserver]);
+  }, [ref, callbackRef, readyOptions, getObserver]);
 }

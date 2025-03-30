@@ -27,6 +27,7 @@ export default [
   ...tseslint.configs.recommended,
   {
     rules: {
+      'no-console': 'error',
       eqeqeq: 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       'no-shadow': 'off',

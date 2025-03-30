@@ -15,7 +15,7 @@ export default function Example() {
 
       {open && (
         <Portal container={() => document.querySelector('footer')!}>
-          <h1>Hello, world!</h1>
+          <h1>Hello from Portal!</h1>
           <p>This content was rendered to existing page footer.</p>
         </Portal>
       )}
