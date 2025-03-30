@@ -85,5 +85,6 @@ await glob('./src/**/mod.ts', { absolute: true })
     await new JsonFile('./jsr.json').set('exports', ctx.exportsJSR);
   })
   .then(() => {
+    // eslint-disable-next-line no-console
     console.log('Exports synced with "src" folder');
   });
