@@ -6,7 +6,7 @@
  * @returns Clamped value.
  */
 export function clamp(value: number, min: number, max: number): number {
-  // check that value is non NaN
+  // check that value is not a NaN
   if (value !== value) {
     return value;
   }

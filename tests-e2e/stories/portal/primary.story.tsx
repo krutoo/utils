@@ -15,7 +15,7 @@ export default function Example() {
 
       {open && (
         <Portal>
-          <h1>Hello, world!</h1>
+          <h1>Hello from Portal!</h1>
           <p>This content was rendered into new div at end of body.</p>
         </Portal>
       )}
