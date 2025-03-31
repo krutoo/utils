@@ -69,13 +69,10 @@ export function Portal({
 }: PortalProps): JSX.Element | null {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
-  // IMPORTANT: need to get container from identity ref and actualize this ref only when deps is changed
+  // IMPORTANT: this props is used through identity refs because
+  // its changing between renders should not provide rerunning effect
   const containerInitRef = useIdentityRef(containerInit);
-
-  // IMPORTANT: need to get cleanup from identity ref and actualize this ref only when deps is changed
   const connectInitRef = useIdentityRef(connectInit);
-
-  // IMPORTANT: need to get cleanup from identity ref and actualize this ref each render
   const cleanupInitRef = useIdentityRef(cleanupInit);
 
   useIsomorphicLayoutEffect(() => {
@@ -138,9 +135,7 @@ export function Portal({
     return () => {
       cleanup?.(newContainer);
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cleanupInitRef, connectInitRef, containerInitRef]);
 
   if (container) {
     return createPortal(children, container, portalKey);

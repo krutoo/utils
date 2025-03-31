@@ -24,7 +24,7 @@ class JsonFile {
     this.filename = filename;
   }
 
-  async set(key: string, value: any) {
+  async setProperty(key: string, value: any) {
     const data = JSON.parse(await fs.readFile(this.filename, 'utf-8'));
 
     data[key] = value;
@@ -81,8 +81,8 @@ await glob('./src/**/mod.ts', { absolute: true })
     exportsJSR: Object.fromEntries(ctx.entrypoints.map(getExportsEntryJSR)),
   }))
   .then(async ctx => {
-    await new JsonFile('./package.json').set('exports', ctx.exportsNPM);
-    await new JsonFile('./jsr.json').set('exports', ctx.exportsJSR);
+    await new JsonFile('./package.json').setProperty('exports', ctx.exportsNPM);
+    await new JsonFile('./jsr.json').setProperty('exports', ctx.exportsJSR);
   })
   .then(() => {
     // eslint-disable-next-line no-console
