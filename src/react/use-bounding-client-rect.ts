@@ -134,8 +134,13 @@ export function useBoundingClientRect<T extends Element>(
       observer.unobserve(element);
       document.removeEventListener('scroll', onChange, true);
     };
+  }, [
+    ref,
+    getObserver,
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref, getObserver, ...extraDeps]);
+    ...extraDeps,
+  ]);
 
   return state;
 }

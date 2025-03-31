@@ -1,3 +1,4 @@
+// @todo maybe replace memoReturnArray to shallowMemoize
 const stub = Symbol();
 
 /** Options for `memoReturnArray`. */
