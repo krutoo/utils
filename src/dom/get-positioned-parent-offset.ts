@@ -1,5 +1,6 @@
 import type { Point2d } from '../math/mod.ts';
-import { findScrollParent } from './find-scroll-parent.ts';
+import { findAncestor } from './find-ancestor.ts';
+import { isScrollable } from './is-scrollable.ts';
 
 export interface PositioningOptions {
   /** How target (floating) element will be positioned. */
@@ -20,7 +21,10 @@ export function getPositionedParentOffset(
     return { x: 0, y: 0 };
   }
 
-  const offsetParent = findOffsetParent(element, { strategy });
+  const offsetParent = findAncestor(
+    element,
+    strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock,
+  );
 
   const offset: Point2d = {
     x: 0,
@@ -44,7 +48,7 @@ export function getPositionedParentOffset(
     offset.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
-  const scrollParent = findScrollParent(element) ?? document.documentElement;
+  const scrollParent = findAncestor(element, isScrollable) ?? document.documentElement;
 
   // IMPORTANT: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && offsetParent === scrollParent) {
@@ -53,32 +57,6 @@ export function getPositionedParentOffset(
   }
 
   return offset;
-}
-
-/**
- * Finds offset parent for target element.
- * @param element Target element.
- * @param options Options.
- * @returns Element or null.
- */
-function findOffsetParent(
-  element: Element,
-  { strategy = 'absolute' }: PositioningOptions,
-): HTMLElement | null {
-  // Идем вверх по дереву DOM
-  let parent = element.parentElement;
-
-  const match = strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock;
-
-  while (parent) {
-    if (match(parent)) {
-      return parent;
-    }
-
-    parent = parent.parentElement;
-  }
-
-  return null;
 }
 
 /**

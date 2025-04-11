@@ -3,7 +3,7 @@ import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
-import jsdoc from 'eslint-plugin-jsdoc';
+import pluginJSDoc from 'eslint-plugin-jsdoc';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -64,9 +64,9 @@ export default [
     },
   },
   {
-    ...jsdoc.configs['flat/recommended'],
+    ...pluginJSDoc.configs['flat/recommended'],
     rules: {
-      ...jsdoc.configs['flat/recommended'].rules,
+      ...pluginJSDoc.configs['flat/recommended'].rules,
       'jsdoc/require-description-complete-sentence': 'warn',
       'jsdoc/require-param': [
         'warn',
