@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  line-height: inherit;
+}
+
+body {
+  line-height: 1.25;
+  font-size: 16px;
+
+  /* from https://css-tricks.com/snippets/css/system-font-stack */
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+a {
+  color: #3498db;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+ul > li {
+  list-style-type: square;
+}
+
+code:not(pre > code):not(h1 > code):not(h2 > code):not(h3 > code):not(h4 > code):not(h5 > code):not(
+    h6 > code
+  ) {
+  background: #f5f5f5;
+  box-shadow: inset 0 0 0 1px #ddd;
+  border-radius: 4px;
+  padding: 2px 4px;
+  box-sizing: content-box;
+}
+
+button {
+  font-size: 16px;
+  padding: 0 12px;
+  height: 36px;
+  background: #000;
+  color: #fff;
+  border-radius: 6px;
+}
+
+button:hover {
+  cursor: pointer;
+  color: #eee;
+  background: #222;
+}
+
+button:disabled {
+  color: #aaa;
+  background: #333;
+}
+
+input:not([type='checkbox']) {
+  font-size: 16px;
+  height: 36px;
+  padding: 0 8px;
+  box-shadow: inset 0 0 0 2px #000;
+  border-radius: 6px;
+}

@@ -1,0 +1,64 @@
+# `useStorageItem`
+
+export const meta = {
+  category: 'React',
+  title: 'useStorageItem',
+};
+
+Hook for using storage (localStorage, sessionStorage, etc) item.
+
+Any [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) compatible storage is supported.
+
+### Basic usage
+
+If you just want to get/set storage item value you can just use hook like this:
+
+```tsx
+import { useStorageItem } from '@krutoo/utils/react';
+
+function App() {
+  const [clickCount, setClickCount] = useStorageItem('clickCount', {
+    storage: localStorage,
+  });
+
+  const handleClick = () => {
+    setClickCount(clickCount + 1);
+  };
+
+  return (
+    <div className='counter' onClick={handleClick}>
+      Clicked {clickCount} times
+    </div>
+  );
+}
+```
+
+By default result value is raw value from storage.
+
+It means that initial value will be `null`.
+
+### Using processor
+
+For example if you want to get/set and automatically parse/stringify JSON you can use processor:
+
+```tsx
+import { useStorageItem, getJsonProcessor } from '@krutoo/utils/react';
+
+interface MyData {
+  value: string;
+}
+
+function App({ count }: { count: number }) {
+  const [data, setData] = useStorageItem<MyData>('my-data', {
+    storage: localStorage,
+
+    // `getJsonProcessor` first argument is placeholder for cases when
+    // value in storage is null or JSON.parse is failed
+    processor: getJsonProcessor({ value: '...' }),
+  });
+
+  return <div>Value is {data.value}</div>;
+}
+```
+
+You can write your own processor and use it to instantiate some class for example.

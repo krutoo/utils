@@ -1,0 +1,24 @@
+# `getNumbersAround`
+
+export const meta = {
+  title: 'getNumbersAround',
+  category: 'Math',
+};
+
+Return array of numbers around target number.
+
+Useful for creating pagination buttons.
+
+```js
+import { getNumbersAround } from '@krutoo/utils';
+
+getNumbersAround(5); // [4, 5, 6]
+
+getNumbersAround(5, { range: 2 }); // [3, 4, 5, 6, 7]
+
+getNumbersAround(1, { range: 2 }); // [-1, 0, 1, 2, 3]
+
+getNumbersAround(1, { min: -1, range: 2 }); // [-1, 0, 1, 2, 3]
+
+getNumbersAround(99, { range: 2, max: 100 }); // [97, 98, 99, 100]
+```

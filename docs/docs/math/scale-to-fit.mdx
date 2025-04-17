@@ -1,0 +1,19 @@
+# `scaleToFit`
+
+export const meta = {
+  title: 'scaleToFit',
+  category: 'Math',
+};
+
+Takes "target" rectangle and "area" rectangle and returns rectangle that has same ratio as "target" but fits to "area" size.
+
+```js
+import { scaleToFit } from '@krutoo/utils';
+
+const target = { width: 10, height: 10 };
+const area = { width: 100, height: 20 };
+
+scaleToFit(target, area); // { width: 20, height: 20 }
+```
+
+This function is useful for example when you need to scale some element on the page to fit other element with saving the original ratio.

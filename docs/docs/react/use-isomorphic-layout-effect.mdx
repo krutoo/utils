@@ -1,0 +1,18 @@
+# `useIsomorphicLayoutEffect`
+
+export const meta = {
+  category: 'React',
+  title: 'useIsomorphicLayoutEffect',
+};
+
+Works as `useLayoutEffect` on client side and as `useEffect` on server side.
+
+Needs just for avoid warnings like:
+
+> Warning: useLayoutEffect does nothing on the server
+
+Helps to make your components SSR ready.
+
+```js
+import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
+```

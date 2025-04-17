@@ -1,0 +1,33 @@
+# `pluginPublicFiles`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginPublicFiles',
+};
+
+Rspack plugin that copies all files by pattern to bundle folder.
+
+By default all files in "public" folder in root directory of project will be copied to bundle.
+These assets will be available in dev server via `public/<path in public folder>`.
+
+> It is just a wrapper of [CopyRspackPlugin](https://rspack.dev/plugins/rspack/copy-rspack-plugin) with some useful defaults.
+
+```js
+// rspack.config.js
+import { pluginPublicFiles } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just copy "public" folder
+    pluginPublicFiles(),
+
+    // copying anything else by custom patterns
+    pluginPublicFiles({
+      patterns: {
+        from: 'manifest.json',
+        to: 'manifest.json',
+      },
+    }),
+  ],
+};
+```

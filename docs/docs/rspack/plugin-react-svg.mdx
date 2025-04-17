@@ -1,0 +1,48 @@
+# `pluginReactSVG`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginReactSVG',
+};
+
+Rspack plugin that adds support of importing `.svg` files as React-components.
+It uses `@svgr/webpack` so this package should be installed in your project.
+
+The `@svgr/webpack` is optional peer dependency of this package, so you need to install it.
+
+```bash
+npm install --save-dev @svgr/webpack
+```
+
+You can use this plugin like regular plugins.
+
+```js
+// rspack.config.js
+import { pluginReactSVG } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginReactSVG(),
+  ],
+};
+```
+
+### Rule insertion
+
+Under the hood this plugin adds item to `module.rules` in your configuration.
+
+You can configure how to add rule by set `ruleInsert` option:
+
+```js
+import { pluginReactSVG } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginReactSVG({
+      // 'to-start' | 'to-end', default: 'to-end'
+      ruleInsert: 'to-end',
+    }),
+  ],
+};
+```

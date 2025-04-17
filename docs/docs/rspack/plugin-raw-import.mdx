@@ -1,0 +1,103 @@
+# `pluginRawImport`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginRawImport',
+};
+
+Rspack plugin that that allows importing file source as a string.
+
+You can import source text by `?raw` query:
+
+```js
+import sourceText from './my-module.js?raw';
+```
+
+Or by import attribute:
+
+```js
+import sourceText from './my-module.js' with { type: 'text' };
+```
+
+### Basic usage
+
+```js
+// rspack.config.js
+import { pluginRawImport } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginRawImport(),
+  ],
+};
+```
+
+### By query
+
+If you want to change query behavior you can provide `byQuery` option:
+
+```js
+// rspack.config.js
+import { pluginRawImport } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginRawImport({
+      byQuery: {
+        ruleOverride: {
+          // custom query
+          resourceQuery: /source/,
+        },
+      },
+    }),
+  ],
+};
+```
+
+If you want to disable importing source by query you can pass `byQuery: false`.
+
+### By import attribute
+
+If you want to change import attribute behavior you can provide `byImportAttr` option:
+
+```js
+// rspack.config.js
+import { pluginRawImport } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginRawImport({
+      byImportAttr: {
+        ruleOverride: {
+          // custom attribute
+          with: {
+            type: 'source',
+          },
+        },
+      },
+    }),
+  ],
+};
+```
+
+If you want to disable importing source by query you can pass `byImportAttr: false`.
+
+### Rule insertion
+
+Under the hood this plugin adds item to `module.rules` in your configuration.
+
+You can configure how to add rule by set `ruleInsert` option:
+
+```js
+import { pluginRawImport } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginRawImport({
+      // 'to-start' | 'to-end', default: 'to-end'
+      ruleInsert: 'to-end',
+    }),
+  ],
+};
+```

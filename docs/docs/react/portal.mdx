@@ -1,0 +1,119 @@
+# `Portal`
+
+export const meta = {
+  category: 'React',
+  title: 'Portal',
+};
+
+Declarative component for using React [portals](https://react.dev/reference/react-dom/createPortal).
+
+### Basic usage
+
+By default all Portal's children will be rendered into a new `div` in the end of the `document.body`.
+
+New `div` will be created when Portal is mounted and removed from DOM when Portal will unmounted.
+
+```jsx
+import { Portal } from '@krutoo/utils/react';
+import { useState } from 'react';
+
+function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setModalOpen(true)}>Show modal</button>
+
+      {/* By default portal will render content to new div in end of body */}
+      {open && (
+        <Portal>
+          <div className='my-modal'>Hello, from modal!</div>
+        </Portal>
+      )}
+    </>
+  );
+}
+```
+
+### Target container
+
+You can specify element to render into by defining `container` prop, it may be element or function.
+
+```jsx
+import { useState } from 'react';
+import { Portal } from '@krutoo/utils/react';
+
+function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setModalOpen(true)}>Show modal</button>
+
+      {open && (
+        <Portal container={document.querySelector('#portal')}>
+          <div className='my-modal'>Hello, from modal!</div>
+        </Portal>
+      )}
+    </>
+  );
+}
+```
+
+### Connect
+
+By default if container is not connected to the document yet - `document.appendChild(container)` will be called.
+
+You can disable it behavior by setting `connect={false}`.
+
+You can also can specify custom `connect` implementation as function that receives `container`.
+
+```jsx
+import { useState } from 'react';
+import { Portal } from '@krutoo/utils/react';
+
+function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setModalOpen(true)}>Show modal</button>
+
+      {open && (
+        <Portal container={document.querySelector('#root')} connect={false}>
+          <div className='my-modal'>Hello, from modal!</div>
+        </Portal>
+      )}
+    </>
+  );
+}
+```
+
+### Cleanup
+
+By default when `Portal` component unmounts, it removes created container element from document.
+
+If custom container was specified - nothing will be done.
+
+If you want to clean up custom container, just pass true to `cleanup` prop.
+
+```jsx
+import { useState } from 'react';
+import { Portal } from '@krutoo/utils/react';
+
+function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setModalOpen(true)}>Show modal</button>
+
+      {open && (
+        <Portal container={document.querySelector('#root')} cleanup={false}>
+          <div className='my-modal'>Hello, from modal!</div>
+        </Portal>
+      )}
+    </>
+  );
+}
+```

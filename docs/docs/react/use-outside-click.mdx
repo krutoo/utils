@@ -1,0 +1,27 @@
+# `useOutsideClick`
+
+export const meta = {
+  category: 'React',
+  title: 'useOutsideClick',
+};
+
+Hook for handle click outside some element.
+
+```tsx
+import { useOutsideClick } from '@krutoo/utils/react';
+import { useRef } from 'react';
+
+interface TooltipProps {
+  onDismiss?: VoidFunction;
+}
+
+function Tooltip({ onDismiss }: TooltipProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(ref, event => {
+    onDismiss?.();
+  });
+
+  return <div ref={ref}>My tooltip</div>;
+}
+```

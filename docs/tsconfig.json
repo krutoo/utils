@@ -14,15 +14,15 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "allowImportingTsExtensions": true,
-
-    // so that the compiled code has the correct paths (`import './a.ts'` >> `import './a.js'`)
-    "rewriteRelativeImportExtensions": true,
-
-    // to make code comply with the "no-slow-types" rule from JSR
-    "isolatedDeclarations": true,
-
-    // because "isolatedDeclarations" does not work without it
-    "declaration": true
+    "paths": {
+      "@krutoo/utils": ["../src/mod.ts"],
+      "@krutoo/utils/dom": ["../src/dom/mod.ts"],
+      "@krutoo/utils/math": ["../src/math/mod.ts"],
+      "@krutoo/utils/misc": ["../src/misc/mod.ts"],
+      "@krutoo/utils/react": ["../src/react/mod.ts"],
+      "@krutoo/utils/rspack": ["../src/rspack/mod.ts"],
+      "@krutoo/utils/types": ["../src/types/mod.ts"]
+    }
   },
-  "exclude": ["node_modules", "tests-pkg", "tests-e2e", "docs"]
+  "exclude": ["node_modules"]
 }

@@ -1,0 +1,110 @@
+# `pluginCSS`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginCSS',
+  menuPriority: 90,
+};
+
+Rspack plugin that adds support of importing CSS files.
+
+### Basic usage
+
+```js
+import { pluginCSS } from '@krutoo/utils/rspack';
+
+export default {
+  entry: './src/index.tsx';
+  plugins: [
+    // just use plugin function
+    pluginCSS()
+  ],
+};
+```
+
+### Dependencies
+
+It uses `css-loader` and `CssExtractRspackPlugin` under the hood.
+
+So [css-loader](https://github.com/webpack-contrib/css-loader) must be installed in your project.
+
+```bash
+npm install --save-dev css-loader
+```
+
+> `css-loader` is a part of Webpack ecosystem but don't worry - it is compatible with Rspack
+
+### Extraction
+
+By default plugin uses builtin `CssExtractRspackPlugin`.
+
+You can configure it (see [CssExtractRspackPlugin options](https://rspack.dev/plugins/rspack/css-extract-rspack-plugin#plugin-options)):
+
+```js
+import { pluginCSS } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginCSS({
+      extract: {
+        filename: 'styles.css',
+        // ...and any other options for CssExtractRspackPlugin
+      },
+    }),
+  ],
+};
+```
+
+Or disable:
+
+```js
+import { pluginCSS } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginCSS({
+      extract: false,
+    }),
+  ],
+};
+```
+
+### CSS-modules
+
+[CSS-modules](https://github.com/css-modules/css-modules) enabled by default for files like `some.module.css` and `some.m.css`.
+
+You can configure css-modules by provide `cssModules` option:
+
+```js
+import { pluginCSS } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginCSS({
+      cssModules: {
+        namedExport: false,
+        localIdentName: '[name]__[local]--[hash:3]',
+      },
+    }),
+  ],
+};
+```
+
+### Rule insertion
+
+Under the hood this plugin adds item to `module.rules` in your configuration.
+
+You can configure how to add rule by set `ruleInsert` option:
+
+```js
+import { pluginCSS } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginCSS({
+      // 'to-start' | 'to-end', default: 'to-end'
+      ruleInsert: 'to-end',
+    }),
+  ],
+};
+```

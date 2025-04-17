@@ -1,0 +1,26 @@
+# `debounce`
+
+export const meta = {
+  category: 'Misc',
+  title: 'debounce',
+};
+
+Returns _debounced_ version of given function.
+The result function, when called, will only call the original function when `timeout` is reached.
+
+The most common place to use debounces in the frontend is a request to the server when entering characters in the search field
+
+```js
+import { debounce } from '@krutoo/utils';
+
+function filterSuggestions(query) {
+  // ...suggestion request
+}
+
+const handleInput = debounce(event => {
+  filterSuggestions(event.target.value);
+}, 500);
+
+// filterSuggestions will be executed 500ms after user has stopped typing
+field.addEventListener('input', handleInput);
+```

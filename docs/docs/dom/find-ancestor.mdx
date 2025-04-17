@@ -1,0 +1,18 @@
+# `findAncestor`
+
+export const meta = {
+  title: 'findAncestor',
+  category: 'DOM',
+  menuPriority: 90,
+};
+
+Finds closest ancestor element that matches condition.
+
+```js
+import { findAncestor } from '@krutoo/utils';
+
+const element = document.querySelector('#something');
+
+// element or null returns
+const closestTarget = findAncestor(element, parent => parent.classList.contains('target'));
+```

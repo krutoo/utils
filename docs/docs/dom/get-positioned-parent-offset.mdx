@@ -1,0 +1,27 @@
+# `getPositionedParentOffset`
+
+export const meta = {
+  title: 'getPositionedParentOffset',
+  category: 'DOM',
+};
+
+Returns position of top left corner of the parent positioned element relative to viewport origin.
+Useful when you need to visually move element to position relative to viewport.
+
+- It works for elements with any ancestors in any subtrees of your DOM
+- It works for `absolute` and `fixed` positioning
+
+For example when you need to move element to mouse you can do this:
+
+```js
+import { getPositionedParentOffset } from '@krutoo/utils';
+
+const element = document.querySelector('#something');
+
+window.addEventListener('mousemove', event => {
+  const offset = getPositionedParentOffset(element);
+
+  element.style.top = `${event.clientY - offset.y}px`;
+  element.style.left = `${event.clientX - offset.x}px`;
+});
+```

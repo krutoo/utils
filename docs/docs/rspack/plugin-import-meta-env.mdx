@@ -1,0 +1,22 @@
+# `pluginImportMetaEnv`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginImportMetaEnv',
+};
+
+Rspack plugin that defines variables as properties of `import.meta.env` during compile time.
+
+It's same as [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environment-plugin) but instead `process.env.{key}` it defines `import.meta.env.{key}`.
+
+```js
+// rspack.config.js
+import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginImportMetaEnv(['APP_NAME', 'RELEASE', 'API_URL']),
+  ],
+};
+```

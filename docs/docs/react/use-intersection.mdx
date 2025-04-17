@@ -1,0 +1,30 @@
+# `useIntersection`
+
+export const meta = {
+  category: 'React',
+  title: 'useIntersection',
+};
+
+Hook for detection element intersections with viewport or other elements by [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+
+```tsx
+import { useIntersection } from '@krutoo/utils/react';
+
+function App() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useIntersection(ref, entry => {
+    if (entry.isIntersecting) {
+      // ...element is in viewport
+    }
+  });
+
+  return (
+    <div ref={ref} className='widget'>
+      Hello, World!
+    </div>
+  );
+}
+```
+
+TODO describe how to use `IntersectionObserverContext`
