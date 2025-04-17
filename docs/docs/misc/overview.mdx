@@ -1,0 +1,19 @@
+# Misc utils
+
+export const meta = {
+  title: 'Overview',
+  category: 'Misc',
+  menuPriority: 1000,
+};
+
+Utilities from the "misc" category do not belong to any of the other categories and are available from the package root:
+
+```js
+import { wait } from '@krutoo/utils';
+
+console.log('Start');
+
+await wait(1000);
+
+console.log('One second passed');
+```

@@ -1,0 +1,26 @@
+# `useWindowSize`
+
+export const meta = {
+  category: 'React',
+  title: 'useWindowSize',
+};
+
+Hook that returns actual width and height of window.
+
+Uses `window.innerWidth` and `window.innerHeight`.
+
+Alternatively you can use "width" and "height" from `useVisualViewport` multiplied by "scale".
+
+```tsx
+import { useWindowSize } from '@krutoo/utils/react';
+
+export function App() {
+  const size = useWindowSize();
+
+  return (
+    <p>
+      Your window size is {size.width} x {size.height}px
+    </p>
+  );
+}
+```

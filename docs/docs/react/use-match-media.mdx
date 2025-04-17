@@ -1,0 +1,20 @@
+# `useMatchMedia`
+
+export const meta = {
+  category: 'React',
+  title: 'useMatchMedia',
+};
+
+Hook for state of media query matching.
+
+```tsx
+import { useMatchMedia } from '@krutoo/utils/react';
+
+function App() {
+  const desktop = useMatchMedia('(min-width: 1024px)');
+
+  return desktop ? <DesktopApp /> : <MobileApp />;
+}
+```
+
+TODO describe how to use `MatchMediaContext`

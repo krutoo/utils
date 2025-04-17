@@ -1,0 +1,25 @@
+# `useResize`
+
+export const meta = {
+  category: 'React',
+  title: 'useResize',
+};
+
+Hook that provides ability to listen element resizing.
+
+```tsx
+import { useResize } from '@krutoo/utils/react';
+import { useRef } from 'react';
+
+function App() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useResize(ref, entry => {
+    console.log('Actual size is', entry.borderBoxSize);
+  });
+
+  return <div ref={ref}></div>;
+}
+```
+
+TODO describe how to use `ResizeObserverContext`

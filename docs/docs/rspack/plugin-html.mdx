@@ -1,0 +1,23 @@
+# `pluginHTML`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginHTML',
+  menuPriority: 80,
+};
+
+Rspack plugin that adds emit of HTML-file based.
+
+> It is just a wrapper of [HtmlRspackPlugin](https://rspack.dev/plugins/rspack/html-rspack-plugin) with some useful defaults.
+
+```js
+// rspack.config.js
+import { pluginHTML } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginHTML(),
+  ],
+};
+```

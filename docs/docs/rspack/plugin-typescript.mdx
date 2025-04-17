@@ -1,0 +1,116 @@
+# `pluginTypeScript`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginTypeScript',
+  menuPriority: 100,
+};
+
+Rspack plugin that adds support of TypeScript and modern JavaScript.
+
+### Basic usage
+
+```js
+// rspack.config.js
+import { pluginTypeScript } from '@krutoo/utils/rspack';
+
+export default {
+  entry: './src/index.ts',
+  plugins: [
+    // just use plugin function
+    pluginTypeScript(),
+  ],
+};
+```
+
+### Rules
+
+By default it adds rule to `module.rules` in your configuration for handling TypeScript source files. It uses `builtin:swc-loader` under the hood.
+
+Default rule uses regex to match next extensions: `js, jsx, ts, tsx, mts, cts`.
+
+Default rule also uses `automatic` React runtime in SWC config.
+
+You can change options for SWC by `swcLoaderOptions` option:
+
+```js
+// rspack.config.js
+import { pluginTypeScript } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginTypeScript({
+      swcLoaderOptions: {
+        transform: {
+          react: {
+            runtime: 'classic',
+          },
+        },
+      },
+    }),
+  ],
+};
+```
+
+You also can override any rule options by provide `ruleOverride`:
+
+```js
+// rspack.config.js
+import { pluginTypeScript } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginTypeScript({
+      ruleOverride: {
+        test: /\.(js|jsx|ts|tsx|mts|cts)$/i,
+      },
+    }),
+  ],
+};
+```
+
+### Resolve extensions
+
+Plugin adds items to `resolve.extensions` in your configuration, by default `.jsx, .ts, .tsx, .mts, .cts` will be added.
+So you don't need to add `resolve.extensions` in your configuration.
+
+If you want to change extensions that will be added to config you can use `resolveExtensions` option:
+
+```js
+// rspack.config.js
+import { pluginTypeScript } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginTypeScript({
+      resolveExtensions: ['.ts', '.tsx'],
+    }),
+  ],
+};
+```
+
+If you can disable affecting `resolve.extensions` you can pass `false` to `resolveExtensions`.
+
+### Aliases by `tsconfig.json`
+
+It adds `resolve.tsConfig` in your configuration (if not provided) with path to `tsconfig.json` in project root.
+
+### Rule insertion
+
+Under the hood this plugin adds item to `module.rules` in your configuration.
+
+You can configure how to add rule by set `ruleInsert` option:
+
+```js
+import { pluginTypeScript } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    pluginTypeScript({
+      // 'to-start' | 'to-end', default: 'to-end'
+      ruleInsert: 'to-end',
+    }),
+  ],
+};
+```

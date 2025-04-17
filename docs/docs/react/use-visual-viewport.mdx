@@ -1,0 +1,24 @@
+# `useVisualViewport`
+
+export const meta = {
+  category: 'React',
+  title: 'useVisualViewport',
+};
+
+Hook for state of [VisualViewport](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport).
+
+```tsx
+import { useVisualViewport } from '@krutoo/utils/react';
+
+function App() {
+  const viewport = useVisualViewport();
+
+  return <div>Viewport width is {viewport.width}px</div>;
+}
+```
+
+With addition to all numeric values from `window.visualViewport` you can use `ready` property.
+This property contains boolean indicates hook is successfully started observing `window.visualViewport`.
+It makes hook SSR ready.
+
+If `visualViewport` is not supported in browser, `ready` will be `false`.

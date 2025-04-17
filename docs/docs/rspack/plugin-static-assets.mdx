@@ -1,0 +1,37 @@
+# `pluginStaticAssets`
+
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginStaticAssets',
+};
+
+Rspack plugin that adds support of importing files as static assets.
+It just adds rules with `type: 'asset/resource'`.
+
+By default popular file extensions (image, audio, video) will be handled by this rule:
+
+```
+apng, avif, gif, jpg, jpeg, png, webp, mp3, ogg, wav, mp4, 3gp, webm.
+```
+
+You can also import any file as url by import attribute:
+
+```js
+import fileUrl from './my-file.txt' with { type: 'url' };
+```
+
+By default static assets will be emitted to "static" folder in root of bundle folder.
+
+### Basic usage
+
+```js
+// rspack.config.js
+import { pluginStaticAssets } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginStaticAssets(),
+  ],
+};
+```

@@ -1,0 +1,19 @@
+# `getPseudoRandom`
+
+export const meta = {
+  title: 'getPseudoRandom',
+  category: 'Math',
+};
+
+Creates analog of `Math.random()` but with ability to set "seed".
+
+Pseudo random number generators are useful for example in procedural generation in game development.
+
+```js
+import { getPseudoRandom } from '@krutoo/utils';
+
+const random1 = getPseudoRandom(123);
+const random2 = getPseudoRandom(123);
+
+console.log(random1() === random2()); // true
+```

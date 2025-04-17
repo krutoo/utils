@@ -1,0 +1,40 @@
+# `lerp`
+
+export const meta = {
+  title: 'lerp',
+  category: 'Math',
+};
+
+> "Holy grail" of transitions in gamedev
+
+Linear interpolation. This function has three arguments:
+
+- **start** - number that means start of some range
+- **end** - number that means end of some range
+- **factor** - number from 0 to 1
+
+and interpolates factor on range.
+
+```js
+import { lerp } from '@krutoo/utils';
+
+lerp(0, 10, 0.5); // 5
+lerp(0, 10, 0.2); // 2
+
+lerp(2, 12, 0.5); // 7
+lerp(2, 12, 1); // 12
+```
+
+It is useful for example when you need to do something based on timeline.
+
+If you want to move object from A to B in one second and you have render loop you can just:
+
+```ts
+// loop is called for every frame (60fps = 60 calls per second)
+function loop(currentTime: number) {
+  const finishTime = 1000;
+
+  bullet.x = lerp(bullet.x, enemy.x, finishTime - currentTime);
+  bullet.y = lerp(bullet.x, enemy.y, finishTime - currentTime);
+}
+```

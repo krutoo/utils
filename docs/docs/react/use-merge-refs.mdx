@@ -1,0 +1,38 @@
+# `useMergeRefs`
+
+export const meta = {
+  category: 'React',
+  title: 'useMergeRefs',
+};
+
+Create ref that updates all accepted refs from list.
+
+Useful when you need to set instance to multiple refs (no matter ref-function or ref-object).
+
+```tsx
+import { useMergeRefs } from '@krutoo/utils';
+import { Ref, useEffect } from 'react';
+
+interface Props {
+  // ref-prop to give end user of component access to root element
+  // here may be function or object
+  rootRef?: Ref<HTMLDivElement>;
+}
+
+function App({ rootRef }: Props) {
+  // inner ref to access root element
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  // merge ref to automatically update all refs
+  const mergedRef = useMergeRefs([rootRef, innerRef]);
+
+  useEffect(() => {
+    const element = innerRef.current;
+
+    // ...do something with element
+  }, []);
+
+  // here we use merged ref
+  return <div ref={mergedRef}>0</div>;
+}
+```

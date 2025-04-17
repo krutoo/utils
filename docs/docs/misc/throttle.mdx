@@ -1,0 +1,36 @@
+# `throttle`
+
+export const meta = {
+  category: 'Misc',
+  title: 'throttle',
+};
+
+Returns _throttled_ version of given function.
+
+By calling the result function, the original function will be called no more than once per `timeout`.
+
+```js
+import { throttle } from '@krutoo/utils';
+
+const buffer = [];
+
+const send = throttle(() => {
+  // send all events stored in buffer
+  fetch('/api/alerts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(buffer),
+  });
+
+  // clear buffer
+  buffer.length = 0;
+}, 1000);
+
+// you can call log multiple times per second
+function log(event) {
+  buffer.push(event);
+
+  // but send will be fired once per second
+  send();
+}
+```

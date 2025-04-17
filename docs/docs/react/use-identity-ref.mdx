@@ -1,0 +1,51 @@
+# `useIdentityRef`
+
+export const meta = {
+  category: 'React',
+  title: 'useIdentityRef',
+};
+
+Hook for defining Ref that automatically gives actual value on each render.
+
+It is useful for example when you need to declare effect that uses some callback from props but you don't want to restart effect on callback change.
+
+Here is an example of how to create component with ability to listen when component is on screen:
+
+```tsx
+import { useIdentityRef } from '@krutoo/utils/react';
+import { useEffect, useRef } from 'react';
+
+interface Props {
+  // callback that will be fired when element is in viewport
+  onSeen?: VoidFunction;
+}
+
+function MyWidget({ onSeen }: Props) {
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  // ref with actual value from props on each render
+  const onSeenRef = useIdentityRef(onSeen);
+
+  // effect will run once only after first render
+  // but even onSeen is changed - actual version will be used
+  useEffect(() => {
+    const element = elementRef.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        onSeenRef.current();
+      }
+    });
+
+    observer.observe(elementRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [onSeenRef]);
+
+  return <div ref={elementRef}>My widget</div>;
+}
+```

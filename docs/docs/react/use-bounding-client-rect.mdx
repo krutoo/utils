@@ -1,0 +1,26 @@
+# `useBoundingClientRect`
+
+export const meta = {
+  category: 'React',
+  title: 'useBoundingClientRect',
+};
+
+React hook of state of bounding client rect of element.
+
+State will be automatically updated on:
+
+- element resize
+- element position change (relative to viewport)
+
+```tsx
+import { useBoundingClientRect } from '@krutoo/utils/react';
+
+export function App() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  // you can use bounds rectangle of element
+  const rect = useBoundingClientRect(ref);
+
+  return <div ref={ref}>Hello!</div>;
+}
+```

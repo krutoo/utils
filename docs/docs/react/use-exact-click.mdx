@@ -1,0 +1,27 @@
+# `useExactClick`
+
+export const meta = {
+  category: 'React',
+  title: 'useExactClick',
+};
+
+Hook for listen click that starts and ends on same element.
+
+It is useful for example if you create component with backdrop (like modal windows) and want to close when exactly backdrop clicked, not child elements.
+
+```jsx
+import { useExactClick } from '@krutoo/utils/react';
+
+function Modal({ onClose }) {
+  const exactClickProps = useExactClick(() => {
+    onClose();
+  });
+
+  return (
+    <div className='backdrop' {...exactClickProps}>
+      {/* Clicks on modal will not fire onClose  */}
+      <div className='modal'>Some modal window</div>
+    </div>
+  );
+}
+```

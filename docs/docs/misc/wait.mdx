@@ -1,0 +1,23 @@
+# `wait`
+
+export const meta = {
+  category: 'Misc',
+  title: 'wait',
+};
+
+Returns [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that resolves after given timeout.
+
+```js
+import { wait } from '@krutoo/utils';
+
+// with async/await
+console.log('Start...');
+await wait(500);
+console.log('Timeout passed');
+
+// without async/await
+console.log('Start...');
+wait().then(() => {
+  console.log('Timeout passed');
+});
+```

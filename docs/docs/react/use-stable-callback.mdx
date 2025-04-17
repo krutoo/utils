@@ -1,0 +1,92 @@
+# `useStableCallback`
+
+export const meta = {
+  category: 'React',
+  title: 'useStableCallback',
+};
+
+Hook that returns "stable" wrapper of given callback.
+
+"Stable" means that you can change callback on each render and returned function will call actual version but not be changed itself.
+
+Useful when you need to use callback in effects but you don't need to rerun effect each time callback changes.
+
+For example if you wan't to subscribe global event and call callback from props, you may write something like this:
+
+```tsx
+import { useEffect } from 'react';
+
+interface Props {
+  onClose: VoidFunction;
+}
+
+function MyComponent({ onClose }: Props) {
+  useEffect(() => {
+    const listener = (event: { code: string }) => {
+      if (event.code === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', listener);
+
+    return () => {
+      window.removeEventListener('keydown', listener);
+    };
+  }, [onClose]);
+
+  return <div>My component</div>;
+}
+```
+
+According to React' Rules of hooks we must add `onClose` to dependencies array useEffect.
+
+But it provides rerunning effect each time `onClose` changes.
+
+So each time `onClose` changed, `window.addEventListener` will be called.
+
+That means that next way of using our component:
+
+```tsx
+// inline declaring of callback
+<MyComponent
+  onClose={() => {
+    /* ... */
+  }}
+/>
+```
+
+will cause resubscribing `keydown` event on each render.
+
+With `useStableCallback` you can done it like this:
+
+```tsx
+import { useStableCallback } from '@krutoo/utils/react';
+import { useEffect } from 'react';
+
+interface Props {
+  onClose: VoidFunction;
+}
+
+function MyComponent({ onClose }: Props) {
+  const handleEscape = useStableCallback(onClose);
+
+  useEffect(() => {
+    const listener = (event: { code: string }) => {
+      if (event.code === 'Escape') {
+        handleEscape();
+      }
+    };
+
+    window.addEventListener('keydown', listener);
+
+    return () => {
+      window.removeEventListener('keydown', listener);
+    };
+  }, [handleEscape]);
+
+  return <div>My component</div>;
+}
+```
+
+Calling `handleEscape` will call actual version of `onClose` but effect will not rerun on each render.
