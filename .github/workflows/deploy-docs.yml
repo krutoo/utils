@@ -38,6 +38,8 @@ jobs:
 
       - name: Build docs
         working-directory: ./docs
+        env:
+          PUBLIC_PATH: /utils/
         run: |
           npm run build
 

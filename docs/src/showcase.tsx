@@ -60,7 +60,7 @@ createRoot(document.getElementById('root')!).render(
     <ShowcaseApp
       stories={validStories}
       title='@krutoo/utils'
-      logoSrc='public/logo.svg'
+      logoSrc='./public/logo.svg'
       headerLinks={[
         {
           name: 'GitHub',

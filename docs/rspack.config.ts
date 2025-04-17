@@ -13,6 +13,7 @@ export default {
   output: {
     path: path.resolve(import.meta.dirname, 'dist'),
     filename: `[name].js`,
+    publicPath: process.env.PUBLIC_PATH || undefined,
   },
   resolve: {
     alias: {
