@@ -8,21 +8,21 @@ export const meta = {
 
 Rspack plugin that adds support of importing CSS files.
 
-### Basic usage
+## Basic usage
 
 ```js
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
+  entry: './src/index.tsx',
   plugins: [
     // just use plugin function
-    pluginCSS()
+    pluginCSS(),
   ],
 };
 ```
 
-### Dependencies
+## Dependencies
 
 It uses `css-loader` and `CssExtractRspackPlugin` under the hood.
 
@@ -34,7 +34,7 @@ npm install --save-dev css-loader
 
 > `css-loader` is a part of Webpack ecosystem but don't worry - it is compatible with Rspack
 
-### Extraction
+## Extraction
 
 By default plugin uses builtin `CssExtractRspackPlugin`.
 
@@ -69,7 +69,7 @@ export default {
 };
 ```
 
-### CSS-modules
+## CSS-modules
 
 [CSS-modules](https://github.com/css-modules/css-modules) enabled by default for files like `some.module.css` and `some.m.css`.
 
@@ -90,7 +90,7 @@ export default {
 };
 ```
 
-### Rule insertion
+## Rule insertion
 
 Under the hood this plugin adds item to `module.rules` in your configuration.
 

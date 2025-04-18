@@ -1,58 +1,16 @@
-/* eslint-disable jsdoc/require-jsdoc */
-/* eslint-disable no-console */
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { filterValidStories } from '@krutoo/showcase/runtime';
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 import { MDXProvider } from '@mdx-js/react';
-import { codeToHtml } from 'shiki';
 import foundStories from '#found-stories';
 import './reset.css';
 import '@krutoo/showcase/runtime-showcase/styles.css';
+import { CodeBlock } from './components/code-block/code-block.tsx';
 
 const { validStories } = filterValidStories(foundStories);
 
-// <code /> can be inside <pre /> or not, will check it by context
-const CodeBlockContext = createContext(false);
-
-function Pre({ children }: { children?: ReactNode }) {
-  return (
-    <CodeBlockContext.Provider value={true}>
-      <pre>{children}</pre>
-    </CodeBlockContext.Provider>
-  );
-}
-
-function Code({ children, className }: { children?: ReactNode; className?: string }) {
-  const isCodeBlock = useContext(CodeBlockContext);
-  const [content, setContent] = useState('');
-
-  useEffect(() => {
-    if (typeof className !== 'string') {
-      return;
-    }
-
-    const lang = /^language-(.+)$/g.exec(className)?.[1];
-
-    if (!lang) {
-      return;
-    }
-
-    codeToHtml(String(children), { lang, theme: 'github-light', structure: 'inline' })
-      .then(setContent)
-      .catch(console.error);
-  }, [children, className]);
-
-  if (isCodeBlock && content) {
-    return <code dangerouslySetInnerHTML={{ __html: content }}></code>;
-  }
-
-  return <code className={className}>{children}</code>;
-}
-
 const components = {
-  pre: Pre,
-  code: Code,
+  pre: CodeBlock,
 };
 
 createRoot(document.getElementById('root')!).render(
