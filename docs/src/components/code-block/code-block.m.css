@@ -1,0 +1,15 @@
+div.codeblock > pre {
+  background: #222;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 0;
+  box-shadow: none;
+  font-family:
+    Menlo,
+    Consolas,
+    Monaco,
+    Liberation Mono,
+    Lucida Console,
+    monospace;
+}

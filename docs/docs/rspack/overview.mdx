@@ -31,7 +31,6 @@ Features:
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.ts',
   plugins: [
     // just use plugin function
     pluginTypeScript(),
@@ -47,10 +46,9 @@ CSS and css-modules support.
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginCSS()
+    pluginCSS(),
   ],
 };
 ```
@@ -64,10 +62,9 @@ By default modern options is applied to builtin HTML plugin.
 import { pluginHTML } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginHTML()
+    pluginHTML(),
   ],
 };
 ```
@@ -84,10 +81,9 @@ Allows to import SVG files as React-components.
 import { pluginReactSVG } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginReactSVG()
+    pluginReactSVG(),
   ],
 };
 ```
@@ -100,10 +96,9 @@ Folder "public" in project root will be copied to bundle as is.
 import { pluginPublicFiles } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginPublicFiles()
+    pluginPublicFiles(),
   ],
 };
 ```
@@ -119,10 +114,9 @@ Ability to import source code of file by:
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginRawImport()
+    pluginRawImport(),
   ],
 };
 ```
@@ -135,10 +129,9 @@ Common file types like images, sounds and fonts will be imported as urls to reso
 import { pluginStaticAssets } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginStaticAssets()
+    pluginStaticAssets(),
   ],
 };
 ```
@@ -151,10 +144,9 @@ Same as builtin [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environme
 import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
 
 export default {
-  entry: './src/index.tsx';
   plugins: [
     // just use plugin function
-    pluginImportMetaEnv(['NODE_ENV', 'DEBUG'])
+    pluginImportMetaEnv(['NODE_ENV', 'DEBUG']),
   ],
 };
 ```

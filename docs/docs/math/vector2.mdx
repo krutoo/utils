@@ -7,31 +7,169 @@ export const meta = {
 
 Class that represents a point in a 2-dimensional space.
 
+## Usage
+
 ```js
 import { Vector2 } from '@krutoo/utils';
 
 const vector = new Vector2(10, 20);
-
-vector.setX(20);
-
-vector.setY(20);
-
-vector.add(new Vector2(2, 3));
-
-vector.subtract(new Vector2(4, 5));
-
-vector.scale(10);
-
-vector.normalize(10);
-
-vector.getLength(); // number
-
-vector.getDistance(new Vector2(0, 0)); // number
-
-vector.equalsTo(new Vector2(0, 0)); // boolean
 ```
 
-Most ot the methods are _chainable_:
+## Static methods
+
+#### `of`
+
+Creates new vector by `x` and `y`.
+
+```js
+const vector = Vector2.of(10, 20);
+```
+
+#### `from`
+
+Creates new vector from object that implements `{ x: number; y: number }`.
+
+```js
+const vector = Vector2.from({ x: 10, y: 20 });
+```
+
+## Instance methods
+
+#### `setX`
+
+Changes `x` coordinate.
+
+> This method is mutable
+
+```js
+const vector = Vector2.of(10, 20);
+
+vector.setX(99);
+```
+
+#### `setY`
+
+Changes `x` coordinate.
+
+> This method is mutable
+
+```js
+const vector = Vector2.of(10, 20);
+
+vector.setY(99);
+```
+
+#### `add`
+
+Adds other vector.
+
+> This method is mutable
+
+```js
+const vector1 = Vector2.of(10, 20);
+const vector2 = Vector2.of(20, 30);
+
+vector1.add(vector2);
+```
+
+#### `subtract`
+
+Subtracts other vector.
+
+> This method is mutable
+
+```js
+const vector1 = Vector2.of(10, 20);
+const vector2 = Vector2.of(20, 30);
+
+vector1.subtract(vector2);
+```
+
+#### `scale`
+
+Scale vector by scalar.
+
+> This method is mutable
+
+```js
+const vector = Vector2.of(10, 20);
+
+vector.scale(10);
+```
+
+#### `normalize`
+
+Scales vector to make it length equal to 1.
+
+> This method is mutable
+
+```js
+const vector = Vector2.of(10, 20);
+
+vector.normalize();
+```
+
+#### `getLength`
+
+Returns vector length.
+
+```js
+const vector = Vector2.of(10, 20);
+
+vector.getLength(); // number
+```
+
+#### `getDistance`
+
+Returns distance to other vector.
+
+```js
+const vector1 = Vector2.of(10, 20);
+const vector2 = Vector2.of(20, 30);
+
+vector1.getDistance(vector2); // number
+```
+
+#### `equalsTo`
+
+Checks that vector is equal to other vector.
+
+```js
+const vector1 = Vector2.of(10, 20);
+const vector2 = Vector2.of(20, 30);
+
+vector1.equalsTo(vector2); // boolean
+```
+
+#### `clone`
+
+Creates new copy of vector.
+
+Most of the methods are _mutable_ so it changes the instance.
+
+But you can use `clone()` to work in immutable manner.
+
+```js
+const vector1 = Vector2.of(10, 20);
+const vector2 = vector1.clone();
+
+console.log(vector1 === vector2); // false
+console.log(vector1.equalsTo(vector2)); // true
+```
+
+#### `toJSON`
+
+Returns plain object with vector coordinates.
+
+```js
+const vector = new Vector2(10, 20);
+
+console.log(vector.toJSON()); // { x: 10, y: 20 }
+```
+
+## Methods chaining
+
+Most ot the instance methods are [_chainable_](https://en.wikipedia.org/wiki/Method_chaining):
 
 ```js
 const vector = new Vector2(10, 20);
@@ -46,6 +184,8 @@ vector
   .clone();
 ```
 
-Most of methods are _mutable_ so it changes the instance.
+## Mutability
 
-But you can use `close()` to work in immutable manner.
+Most of the methods are _mutable_ so it changes the instance.
+
+You can use `clone()` to work in immutable manner.
