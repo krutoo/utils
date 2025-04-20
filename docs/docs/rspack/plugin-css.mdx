@@ -10,7 +10,7 @@ Rspack plugin that adds support of importing CSS files.
 
 ## Basic usage
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -40,7 +40,7 @@ By default plugin uses builtin `CssExtractRspackPlugin`.
 
 You can configure it (see [CssExtractRspackPlugin options](https://rspack.dev/plugins/rspack/css-extract-rspack-plugin#plugin-options)):
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -57,7 +57,7 @@ export default {
 
 Or disable:
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -75,7 +75,7 @@ export default {
 
 You can configure css-modules by provide `cssModules` option:
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -96,7 +96,7 @@ Under the hood this plugin adds item to `module.rules` in your configuration.
 
 You can configure how to add rule by set `ruleInsert` option:
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {

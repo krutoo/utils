@@ -13,7 +13,7 @@ By default all Portal's children will be rendered into a new `div` in the end of
 
 New `div` will be created when Portal is mounted and removed from DOM when Portal will unmounted.
 
-```jsx
+```tsx
 import { Portal } from '@krutoo/utils/react';
 import { useState } from 'react';
 
@@ -39,7 +39,7 @@ function App() {
 
 You can specify element to render into by defining `container` prop, it may be element or function.
 
-```jsx
+```tsx
 import { useState } from 'react';
 import { Portal } from '@krutoo/utils/react';
 
@@ -68,7 +68,7 @@ You can disable it behavior by setting `connect={false}`.
 
 You can also can specify custom `connect` implementation as function that receives `container`.
 
-```jsx
+```tsx
 import { useState } from 'react';
 import { Portal } from '@krutoo/utils/react';
 
@@ -97,7 +97,7 @@ If custom container was specified - nothing will be done.
 
 If you want to clean up custom container, just pass true to `cleanup` prop.
 
-```jsx
+```tsx
 import { useState } from 'react';
 import { Portal } from '@krutoo/utils/react';
 
