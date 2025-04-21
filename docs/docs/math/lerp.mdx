@@ -15,7 +15,7 @@ Linear interpolation. This function has three arguments:
 
 and interpolates factor on range.
 
-```js
+```tsx
 import { lerp } from '@krutoo/utils';
 
 lerp(0, 10, 0.5); // 5
@@ -29,7 +29,7 @@ It is useful for example when you need to do something based on timeline.
 
 If you want to move object from A to B in one second and you have render loop you can just:
 
-```ts
+```tsx
 // loop is called for every frame (60fps = 60 calls per second)
 function loop(currentTime: number) {
   const finishTime = 1000;

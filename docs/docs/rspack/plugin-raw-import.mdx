@@ -9,19 +9,19 @@ Rspack plugin that that allows importing file source as a string.
 
 You can import source text by `?raw` query:
 
-```js
+```tsx
 import sourceText from './my-module.js?raw';
 ```
 
 Or by import attribute:
 
-```js
+```tsx
 import sourceText from './my-module.js' with { type: 'text' };
 ```
 
 ### Basic usage
 
-```js
+```tsx
 // rspack.config.js
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
@@ -37,7 +37,7 @@ export default {
 
 If you want to change query behavior you can provide `byQuery` option:
 
-```js
+```tsx
 // rspack.config.js
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
@@ -61,7 +61,7 @@ If you want to disable importing source by query you can pass `byQuery: false`.
 
 If you want to change import attribute behavior you can provide `byImportAttr` option:
 
-```js
+```tsx
 // rspack.config.js
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
@@ -89,7 +89,7 @@ Under the hood this plugin adds item to `module.rules` in your configuration.
 
 You can configure how to add rule by set `ruleInsert` option:
 
-```js
+```tsx
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
 export default {

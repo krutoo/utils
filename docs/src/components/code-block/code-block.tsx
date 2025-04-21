@@ -1,6 +1,7 @@
 /* eslint-disable jsdoc/require-jsdoc */
 /* eslint-disable no-console */
-import { isValidElement, ReactNode, useEffect, useMemo, useState } from 'react';
+import { isValidElement, ReactNode, useMemo, useState } from 'react';
+import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import { codeToHtml } from 'shiki';
 import styles from './code-block.m.css';
 
@@ -35,13 +36,18 @@ export function CodeBlock({ children }: { children?: ReactNode }) {
       lang = 'plaintext';
     }
 
+    // traffic economy - load one bundle of shiki syntax for multiple syntaxes
+    if (['js', 'jsx', 'ts', 'javascript', 'typescript'].includes(lang.toLowerCase())) {
+      lang = 'tsx';
+    }
+
     return {
       code: children.props.children,
       lang,
     };
   }, [children]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!sourceCode) {
       return;
     }

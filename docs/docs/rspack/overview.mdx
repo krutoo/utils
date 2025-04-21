@@ -26,7 +26,7 @@ Features:
 - By default root tsconfig.json will be used for define path aliases so you don't need to add `resolve.alias.tsConfig` option to config
 - By default `js, jsx, ts, tsx, mts, cts` files handled
 
-```js
+```tsx
 // rspack.config.js
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
@@ -42,7 +42,7 @@ export default {
 
 CSS and css-modules support.
 
-```js
+```tsx
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -58,7 +58,7 @@ export default {
 HTML file will be added to bundle.
 By default modern options is applied to builtin HTML plugin.
 
-```js
+```tsx
 import { pluginHTML } from '@krutoo/utils/rspack';
 
 export default {
@@ -77,7 +77,7 @@ Allows to import SVG files as React-components.
 
 > @svgr/webpack is a part of Webpack ecosystem but don't worry - it is compatible with Rspack
 
-```js
+```tsx
 import { pluginReactSVG } from '@krutoo/utils/rspack';
 
 export default {
@@ -92,7 +92,7 @@ export default {
 
 Folder "public" in project root will be copied to bundle as is.
 
-```js
+```tsx
 import { pluginPublicFiles } from '@krutoo/utils/rspack';
 
 export default {
@@ -110,7 +110,7 @@ Ability to import source code of file by:
 - adding `?raw` query to import specifier
 - or by adding import attribute like `with { type: 'text' }`
 
-```js
+```tsx
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
 export default {
@@ -125,7 +125,7 @@ export default {
 
 Common file types like images, sounds and fonts will be imported as urls to resource so you don't need to add rules for it.
 
-```js
+```tsx
 import { pluginStaticAssets } from '@krutoo/utils/rspack';
 
 export default {
@@ -140,7 +140,7 @@ export default {
 
 Same as builtin [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environment-plugin) but allows to use variables as `import.meta.env.APP_NAME`.
 
-```js
+```tsx
 import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
 
 export default {

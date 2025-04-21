@@ -9,7 +9,7 @@ Class that represents a point in a 2-dimensional space.
 
 ## Usage
 
-```js
+```tsx
 import { Vector2 } from '@krutoo/utils';
 
 const vector = new Vector2(10, 20);
@@ -21,7 +21,7 @@ const vector = new Vector2(10, 20);
 
 Creates new vector by `x` and `y`.
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 ```
 
@@ -29,7 +29,7 @@ const vector = Vector2.of(10, 20);
 
 Creates new vector from object that implements `{ x: number; y: number }`.
 
-```js
+```tsx
 const vector = Vector2.from({ x: 10, y: 20 });
 ```
 
@@ -41,7 +41,7 @@ Changes `x` coordinate.
 
 > This method is mutable
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 
 vector.setX(99);
@@ -49,11 +49,11 @@ vector.setX(99);
 
 #### `setY`
 
-Changes `x` coordinate.
+Changes `y` coordinate.
 
 > This method is mutable
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 
 vector.setY(99);
@@ -65,7 +65,7 @@ Adds other vector.
 
 > This method is mutable
 
-```js
+```tsx
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -78,7 +78,7 @@ Subtracts other vector.
 
 > This method is mutable
 
-```js
+```tsx
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -91,7 +91,7 @@ Scale vector by scalar.
 
 > This method is mutable
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 
 vector.scale(10);
@@ -103,7 +103,7 @@ Scales vector to make it length equal to 1.
 
 > This method is mutable
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 
 vector.normalize();
@@ -113,7 +113,7 @@ vector.normalize();
 
 Returns vector length.
 
-```js
+```tsx
 const vector = Vector2.of(10, 20);
 
 vector.getLength(); // number
@@ -123,7 +123,7 @@ vector.getLength(); // number
 
 Returns distance to other vector.
 
-```js
+```tsx
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -134,7 +134,7 @@ vector1.getDistance(vector2); // number
 
 Checks that vector is equal to other vector.
 
-```js
+```tsx
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -149,7 +149,7 @@ Most of the methods are _mutable_ so it changes the instance.
 
 But you can use `clone()` to work in immutable manner.
 
-```js
+```tsx
 const vector1 = Vector2.of(10, 20);
 const vector2 = vector1.clone();
 
@@ -161,7 +161,7 @@ console.log(vector1.equalsTo(vector2)); // true
 
 Returns plain object with vector coordinates.
 
-```js
+```tsx
 const vector = new Vector2(10, 20);
 
 console.log(vector.toJSON()); // { x: 10, y: 20 }
@@ -171,7 +171,7 @@ console.log(vector.toJSON()); // { x: 10, y: 20 }
 
 Most ot the instance methods are [_chainable_](https://en.wikipedia.org/wiki/Method_chaining):
 
-```js
+```tsx
 const vector = new Vector2(10, 20);
 
 vector
