@@ -1,6 +1,6 @@
 import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
 import { insertRule } from './utils.ts';
-import { RuleInsertOptions } from './types.ts';
+import type { RuleInsertOptions } from './types.ts';
 
 export interface PluginStaticAssetsOptions extends RuleInsertOptions {
   /** Result filename of the asset in bundle. By default `'static/[name][ext]'`. */

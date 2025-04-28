@@ -22,7 +22,9 @@
     "isolatedDeclarations": true,
 
     // because "isolatedDeclarations" does not work without it
-    "declaration": true
+    "declaration": true,
+
+    "verbatimModuleSyntax": true
   },
   "exclude": ["node_modules", "tests-pkg", "tests-e2e", "docs"]
 }

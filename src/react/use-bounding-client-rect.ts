@@ -33,8 +33,8 @@ const DEFAULT_STATE: DOMRectState = {
 
 /**
  * Checks that two rectangles are equal by its dimensions and positions.
- * @param a Fist rect.
- * @param b Second rect.
+ * @param a First rectangle.
+ * @param b Second rectangle.
  * @returns True if rects are equal, false otherwise.
  */
 function isRectsEqual(a: DOMRectShape, b: DOMRectShape) {
