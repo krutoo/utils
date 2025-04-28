@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { VisualViewportContext } from './context/visual-viewport-context.ts';
+
+// @todo getInitialState для возможности обойти состояние ready: false
+// @todo VisualViewportContext
 
 /**
  * State of visual viewport.
@@ -62,10 +66,11 @@ const DEFAULT_STATE: VisualViewportState = {
  * @returns State of visualViewport (width, height, etc).
  */
 export function useVisualViewport(): VisualViewportState {
+  const { getVisualViewport } = useContext(VisualViewportContext);
   const [size, setSize] = useState<VisualViewportState>(DEFAULT_STATE);
 
   useIsomorphicLayoutEffect(() => {
-    const { visualViewport } = window;
+    const visualViewport = getVisualViewport();
 
     if (!visualViewport) {
       return;
@@ -93,7 +98,7 @@ export function useVisualViewport(): VisualViewportState {
       visualViewport.removeEventListener('resize', sync);
       visualViewport.removeEventListener('scroll', sync);
     };
-  }, []);
+  }, [getVisualViewport]);
 
   return size;
 }

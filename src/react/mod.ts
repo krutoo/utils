@@ -9,6 +9,7 @@ export * from './use-stable-callback.ts';
 export * from './context/intersection-observer-context.ts';
 export * from './context/match-media-context.ts';
 export * from './context/resize-observer-context.ts';
+export * from './context/visual-viewport-context.ts';
 
 // web api
 export * from './use-bounding-client-rect.ts';
