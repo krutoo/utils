@@ -4,13 +4,12 @@
  * @returns True if element is scrollable, false otherwise.
  */
 export function isScrollable(element: Element): boolean {
-  let result = false;
+  const pattern = /(auto|scroll)/;
+  const styles = getComputedStyle(element);
 
-  if (element) {
-    const styles = getComputedStyle(element);
-
-    result = /(auto|scroll)/.test(styles.overflow + styles.overflowX + styles.overflowY);
-  }
-
-  return result;
+  return (
+    pattern.test(styles.overflow) ||
+    pattern.test(styles.overflowX) ||
+    pattern.test(styles.overflowY)
+  );
 }
