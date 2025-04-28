@@ -1,4 +1,4 @@
-import { Context, createContext } from 'react';
+import { type Context, createContext } from 'react';
 
 export interface MatchMediaContextValue {
   matchMedia: (query: string) => MediaQueryList;

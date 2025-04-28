@@ -1,4 +1,10 @@
-import { type RefObject, useEffect, useState, DependencyList, MutableRefObject } from 'react';
+import {
+  type RefObject,
+  type DependencyList,
+  type MutableRefObject,
+  useEffect,
+  useState,
+} from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useStableCallback } from './use-stable-callback.ts';
 import { getPositionedParentOffset } from '../dom/mod.ts';

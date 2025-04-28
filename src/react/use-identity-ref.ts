@@ -1,4 +1,4 @@
-import { DependencyList, type MutableRefObject, useMemo, useRef } from 'react';
+import { type DependencyList, type MutableRefObject, useMemo, useRef } from 'react';
 
 /**
  * Returns ref that automatically actualizes current value.

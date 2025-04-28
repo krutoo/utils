@@ -1,6 +1,6 @@
 import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
 import type { Config } from 'svgo';
-import { RuleInsertOptions } from './types.ts';
+import type { RuleInsertOptions } from './types.ts';
 import { insertRule } from './utils.ts';
 
 export interface PluginReactSVG extends RuleInsertOptions {

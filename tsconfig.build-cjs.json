@@ -5,7 +5,8 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist/cjs",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "verbatimModuleSyntax": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "./src/**/*.test.ts", "./src/**/*.test.tsx"],
