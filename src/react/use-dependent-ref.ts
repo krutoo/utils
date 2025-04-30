@@ -1,9 +1,10 @@
 import { useMemo, useRef, type DependencyList, type RefObject } from 'react';
 
-const DEFAULT_DEPS: DependencyList = [];
+const zeroDeps: DependencyList = [];
 
 /**
  * Returns ref that updates when some of dependency changes.
+ * If deps is not provided - works like `useRef`.
  * @param initialValue Initial value in ref.
  * @param deps Dependency list.
  * @returns Ref.
@@ -24,6 +25,6 @@ export function useDependentRef<T>(initialValue: T, deps?: DependencyList): RefO
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    deps ?? DEFAULT_DEPS,
+    deps ?? zeroDeps,
   );
 }

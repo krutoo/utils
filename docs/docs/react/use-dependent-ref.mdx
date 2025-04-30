@@ -1,0 +1,91 @@
+# `useDependentRef`
+
+export const meta = {
+  category: 'React',
+  title: 'useDependentRef',
+};
+
+Hook for defining Ref object that changes when `deps` is changed.
+
+When any `deps` changed, the ref object itself will be replaced by new object but the `current` value will be same.
+
+This is useful when you fills your ref by condition and wants to rerun some effects.
+
+For example if you need to observe element by `ResizeObserver` you can write something like:
+
+```tsx
+function MyComponent({ visible }: { visible: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element) return;
+
+    const observer = new ResizeObserver(() => {
+      // do something on resize
+    });
+
+    observer.observe(element);
+
+    return () => observer.unobserve(element);
+  }, []);
+
+  if (!visible) {
+    return null;
+  }
+
+  return <div ref={ref}>My component</div>;
+}
+```
+
+In this example, if you first render the component with a `visible={false}` and then re-render with `visible={false}`, your observer will not work.
+
+This is because effect on first gets null from ref.
+
+Also it is wrong to place `ref.current` to effect deps like this:
+
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  // ...
+}, [ref.current]);
+
+// ...
+```
+
+You can add `ref` itself to deps and this is ok, but regular ref is stable and will not be changed between renders.
+
+Here the `useDependentRef` hook will help us - you can pass deps that cause ref object update (but not `ref.current` value).
+
+```tsx
+import { useDependentRef } from '@krutoo/utils/react';
+
+function MyComponent({ visible }: { visible: boolean }) {
+  // 1) we uses useDependentRef instead useRef
+  const ref = useDependentRef<HTMLDivElement>(null, [visible]);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element) return;
+
+    const observer = new ResizeObserver(() => {
+      // do something on resize
+    });
+
+    observer.observe(element);
+
+    return () => observer.unobserve(element);
+  }, [ref]); // 2) we should add ref to other hook's deps
+
+  if (!visible) {
+    return null;
+  }
+
+  return <div ref={ref}>My component</div>;
+}
+```
+
+And it will work as expected.

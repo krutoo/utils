@@ -1,4 +1,6 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { type DependencyList, useCallback, useRef } from 'react';
+
+const zeroDeps: DependencyList = [];
 
 /**
  * Hook of stable callback.
@@ -16,9 +18,15 @@ export function useStableCallback<T extends (...args: any[]) => any>(
   const ref = useRef(callback);
 
   // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
-  useMemo<void>(() => {
+  // useMemo is replaced by if to reduce amount of creating arrays of deps
+  if (!Object.is(ref.current, callback)) {
     ref.current = callback;
-  }, [callback]);
+  }
 
-  return useCallback((...args: Parameters<T>) => ref.current(...args), []);
+  return useCallback(
+    (...args: Parameters<T>) => ref.current(...args),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    zeroDeps,
+  );
 }
