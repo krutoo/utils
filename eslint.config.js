@@ -54,11 +54,11 @@ export default [
       'react-hooks': pluginReactHooks,
     },
     rules: {
-      ...pluginReactHooks.configs.recommended.rules,
+      'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': [
         'warn',
         {
-          additionalHooks: '(useIsomorphicLayoutEffect|useIdentityRef)',
+          additionalHooks: '(useIsomorphicLayoutEffect)',
         },
       ],
     },

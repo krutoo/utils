@@ -3,7 +3,6 @@ import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { VisualViewportContext } from './context/visual-viewport-context.ts';
 
 // @todo getInitialState для возможности обойти состояние ready: false
-// @todo VisualViewportContext
 
 /**
  * State of visual viewport.
