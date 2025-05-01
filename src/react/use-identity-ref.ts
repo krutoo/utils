@@ -1,4 +1,4 @@
-import { type MutableRefObject, useMemo, useRef } from 'react';
+import { type MutableRefObject, useRef } from 'react';
 
 /**
  * Returns ref that automatically actualizes current value.
@@ -26,9 +26,10 @@ export function useIdentityRef<T>(value: T): MutableRefObject<T> {
   const ref = useRef<T>(value);
 
   // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
-  useMemo<void>(() => {
+  // useMemo was replaced by if(...){...} to reduce amount of creating functions and arrays of deps
+  if (!Object.is(ref.current, value)) {
     ref.current = value;
-  }, [value]);
+  }
 
   return ref;
 }

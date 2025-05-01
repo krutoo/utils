@@ -7,13 +7,29 @@ export const meta = {
 
 Hook for defining Ref object that changes when `deps` is changed.
 
-When any `deps` changed, the ref object itself will be replaced by new object but the `current` value will be same.
+When any `deps` changed, new ref object will returned from hook but `current` value will be same.
 
 This is useful when you fills your ref by condition and wants to rerun some effects.
+
+### Usage
+
+```tsx
+import { useDependentRef } from '@krutoo/utils/react';
+
+export function MyComponent({ someProp }) {
+  const ref = useDependentRef<HTMLDivElement>(null, [someProp, someGlobalVal]);
+
+  return <div ref={ref}>Hello!</div>;
+}
+```
+
+### Use cases
 
 For example if you need to observe element by `ResizeObserver` you can write something like:
 
 ```tsx
+import { useEffect, useRef } from 'react';
+
 function MyComponent({ visible }: { visible: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
 
