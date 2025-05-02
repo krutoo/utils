@@ -8,19 +8,5 @@ import '@krutoo/showcase/runtime-showcase/styles.css';
 const { validStories } = filterValidStories(foundStories);
 
 createRoot(document.getElementById('root')!).render(
-  <ShowcaseApp
-    stories={validStories}
-    title='@krutoo/utils'
-    logoSrc='public/logo.svg'
-    headerLinks={[
-      {
-        name: 'GitHub',
-        href: 'https://github.com/krutoo/utils',
-      },
-      {
-        name: 'NPM',
-        href: 'https://www.npmjs.com/package/@krutoo/utils',
-      },
-    ]}
-  />,
+  <ShowcaseApp stories={validStories} title='@krutoo/utils' />,
 );

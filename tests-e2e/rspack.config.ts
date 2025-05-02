@@ -50,7 +50,6 @@ export default {
       template: './src/index.html',
       chunks: ['sandbox'],
     }),
-    plugins.pluginPublicFiles(),
   ],
   experiments: {
     css: false,
