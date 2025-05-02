@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy-docs:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
           path: ./docs/dist
 
   deploy:
-    needs: build
+    needs: build-docs
     runs-on: ubuntu-latest
     environment:
       name: github-pages
