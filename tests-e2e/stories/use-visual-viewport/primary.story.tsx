@@ -24,7 +24,7 @@ export default function Example() {
   };
 
   return (
-    <div style={style}>
+    <div id='viewport' style={style}>
       Viewport size:
       <br />
       {viewport.width.toFixed()}px x {viewport.height.toFixed()}px
