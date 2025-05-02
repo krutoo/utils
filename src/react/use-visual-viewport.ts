@@ -2,47 +2,104 @@ import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { VisualViewportContext } from './context/visual-viewport-context.ts';
 
-// @todo getInitialState для возможности обойти состояние ready: false
+/*
+ * @todo Сделать возможность следить функцией а не состоянием
+ * например так:
+ * - useVisualViewport(callback: (state: VisualViewportState) => void): void
+ * - useVisualViewportSync(): VisualViewportState
+ * но это обратно несовместимо поэтому мб так:
+ * - useVisualViewport(): VisualViewportState
+ * - useVisualViewportChange(callback: (state: VisualViewportState) => void): void
+ */
 
 /**
  * State of visual viewport.
  */
 export interface VisualViewportState {
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/height). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/height). */
   readonly height: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetLeft). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/offsetLeft). */
   readonly offsetLeft: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/offsetTop). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/offsetTop). */
   readonly offsetTop: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageLeft). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/pageLeft). */
   readonly pageLeft: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/pageTop). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/pageTop). */
   readonly pageTop: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/scale). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/scale). */
   readonly scale: number;
 
-  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/VisualViewport/width). */
+  /** [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/VisualViewport/width). */
   readonly width: number;
 
   /** False by default (before mount), true when initialized (after mount). */
   readonly ready: boolean;
 }
 
-const DEFAULT_STATE: VisualViewportState = {
-  offsetLeft: 0,
-  offsetTop: 0,
-  pageLeft: 0,
-  pageTop: 0,
-  scale: 1,
-  width: 0,
-  height: 0,
-  ready: false,
-};
+export interface UseVisualViewportOptions {
+  /** Initial returned state. Used before subscription effect applied. */
+  defaultState?: VisualViewportState | (() => VisualViewportState);
+}
+
+/**
+ * Returns default state for `useVisualViewport` hook.
+ * @returns Default state.
+ */
+function getInitialState(): VisualViewportState {
+  return {
+    ready: false,
+    offsetLeft: 0,
+    offsetTop: 0,
+    pageLeft: 0,
+    pageTop: 0,
+    scale: 1,
+    width: 0,
+    height: 0,
+  };
+}
+
+/**
+ * Returns current state of given `VisualViewport` instance.
+ * @param viewport Instance.
+ * @returns State.
+ */
+function getState(viewport: VisualViewport): VisualViewportState {
+  return {
+    ready: true,
+    offsetLeft: viewport.offsetLeft,
+    offsetTop: viewport.offsetTop,
+    pageLeft: viewport.pageLeft,
+    pageTop: viewport.pageTop,
+    scale: viewport.scale,
+    width: viewport.width,
+    height: viewport.height,
+  };
+}
+
+/**
+ * Observes given `VisualViewport`.
+ * @param viewport `VisualViewport` instance.
+ * @param callback Callback that will be fired when viewport state changes.
+ * @returns Unsubscribe function.
+ */
+function observe(viewport: VisualViewport, callback: () => void): () => void {
+  const listener = () => {
+    callback();
+  };
+
+  viewport.addEventListener('resize', listener);
+  viewport.addEventListener('scroll', listener);
+
+  return () => {
+    viewport.removeEventListener('resize', listener);
+    viewport.removeEventListener('scroll', listener);
+  };
+}
 
 /**
  * Hook of window.visualViewport state.
@@ -62,11 +119,14 @@ const DEFAULT_STATE: VisualViewportState = {
  * }
  * ```
  *
+ * @param options Options.
  * @returns State of visualViewport (width, height, etc).
  */
-export function useVisualViewport(): VisualViewportState {
+export function useVisualViewport({
+  defaultState = getInitialState,
+}: UseVisualViewportOptions = {}): VisualViewportState {
   const { getVisualViewport } = useContext(VisualViewportContext);
-  const [size, setSize] = useState<VisualViewportState>(DEFAULT_STATE);
+  const [state, setState] = useState<VisualViewportState>(defaultState);
 
   useIsomorphicLayoutEffect(() => {
     const visualViewport = getVisualViewport();
@@ -76,28 +136,13 @@ export function useVisualViewport(): VisualViewportState {
     }
 
     const sync = () => {
-      setSize({
-        ready: true,
-        offsetLeft: visualViewport.offsetLeft,
-        offsetTop: visualViewport.offsetTop,
-        pageLeft: visualViewport.pageLeft,
-        pageTop: visualViewport.pageTop,
-        scale: visualViewport.scale,
-        width: visualViewport.width,
-        height: visualViewport.height,
-      });
+      setState(getState(visualViewport));
     };
-
-    visualViewport.addEventListener('resize', sync);
-    visualViewport.addEventListener('scroll', sync);
 
     sync();
 
-    return () => {
-      visualViewport.removeEventListener('resize', sync);
-      visualViewport.removeEventListener('scroll', sync);
-    };
+    return observe(visualViewport, sync);
   }, [getVisualViewport]);
 
-  return size;
+  return state;
 }
