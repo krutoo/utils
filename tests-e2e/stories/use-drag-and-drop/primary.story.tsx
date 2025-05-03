@@ -1,4 +1,4 @@
-import { CSSProperties, useRef } from 'react';
+import { CSSProperties, useRef, useState } from 'react';
 import { useDragAndDrop } from '@krutoo/utils/react';
 import styles from './primary.m.css';
 
@@ -9,9 +9,23 @@ export const meta = {
 
 export default function Example() {
   const ref = useRef<HTMLDivElement>(null);
-  const { captured, offset } = useDragAndDrop(ref);
+  const [grabbed, setGrabbed] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-  const style: CSSProperties = captured
+  useDragAndDrop(ref, {
+    onGrab(event) {
+      setGrabbed(true);
+      setOffset(event.offset);
+    },
+    onMove(event) {
+      setOffset(event.offset);
+    },
+    onDrop() {
+      setGrabbed(false);
+    },
+  });
+
+  const style: CSSProperties = grabbed
     ? {
         position: 'absolute',
         left: offset.x,

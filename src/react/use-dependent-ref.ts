@@ -1,6 +1,5 @@
 import { useMemo, useRef, type DependencyList, type RefObject } from 'react';
-
-const zeroDeps: DependencyList = [];
+import { zeroDeps } from './constants.ts';
 
 /**
  * Returns ref that updates when some of dependency changes.

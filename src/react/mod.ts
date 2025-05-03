@@ -5,6 +5,7 @@ export * from './use-isomorphic-layout-effect.ts';
 export * from './use-previous-state.ts';
 export * from './use-stable-callback.ts';
 export * from './use-dependent-ref.ts';
+export * from './constants.ts';
 
 // context
 export * from './context/intersection-observer-context.ts';

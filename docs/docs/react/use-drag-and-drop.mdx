@@ -3,25 +3,39 @@
 export const meta = {
   category: 'React',
   title: 'useDragAndDrop',
+  menuPriority: -1,
 };
 
 Hook for adding ability to drag and drop some element.
 
-It returns object with:
+# Usage
 
-- `captured` - boolean that indicates that element is grabbed by mouse or touch
-- `offset` - object with `x` and `y` that means offset from element started position.
+Here is an example of simple draggable element
 
 ```tsx
 import { useDragAndDrop } from '@krutoo/utils/react';
-import { useRef, CSSProperties } from 'react';
+import { type CSSProperties, useRef, useState } from 'react';
 
 function App() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const { captured, offset } = useDragAndDrop(ref);
+  const [grabbed, setGrabbed] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-  const style: CSSProperties = captured
+  useDragAndDrop(ref, {
+    onGrab(event) {
+      setGrabbed(true);
+      setOffset(event.offset);
+    },
+    onMove(event) {
+      setOffset(event.offset);
+    },
+    onDrop() {
+      setGrabbed(false);
+    },
+  });
+
+  const style: CSSProperties = grabbed
     ? {
         position: 'absolute',
         top: `${offset.y}px`,
@@ -29,10 +43,6 @@ function App() {
       }
     : {};
 
-  return (
-    <div ref={ref} className='draggable'>
-      This block is draggable
-    </div>
-  );
+  return <div ref={ref}>This block is draggable</div>;
 }
 ```
