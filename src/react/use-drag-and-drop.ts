@@ -1,13 +1,9 @@
-import {
-  type RefObject,
-  type DependencyList,
-  type MutableRefObject,
-  useEffect,
-  useState,
-} from 'react';
+import { type RefObject, type DependencyList, type MutableRefObject, useMemo } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
-import { useStableCallback } from './use-stable-callback.ts';
 import { getPositionedParentOffset } from '../dom/mod.ts';
+import { useIsomorphicLayoutEffect } from '../react/use-isomorphic-layout-effect.ts';
+import { useStableCallback } from '../react/use-stable-callback.ts';
+import { zeroDeps } from './constants.ts';
 
 export interface DnDEventHandler {
   (event: { offset: Point2d; clientPosition: Point2d }): void;
@@ -31,6 +27,8 @@ export interface UseDragAndDropOptions {
 
   /** Extra deps for useEffect hook. */
   extraDeps?: DependencyList;
+
+  needPreventTouchEvent?: (event: TouchEvent) => boolean;
 }
 
 export interface UseDragAndDropReturn {
@@ -39,10 +37,42 @@ export interface UseDragAndDropReturn {
 }
 
 /**
+ * Initial state factory for useDragAndDrop hook.
+ * @returns State.
+ */
+function getInitialState() {
+  return {
+    captured: false,
+    offset: Vector2.of(0, 0),
+    innerOffset: Vector2.of(0, 0),
+  };
+}
+
+/**
+ * Default value for `needPreventTouchEvent` option of `UseDragAndDropOptions`.
+ * @param event Event.
+ * @returns Boolean.
+ */
+function canStartDrag(event: TouchEvent | PointerEvent | MouseEvent): boolean {
+  if (
+    event.target instanceof Element &&
+    (event.target.tagName === 'BUTTON' ||
+      event.target.tagName === 'INPUT' ||
+      event.target.tagName === 'OPTION' ||
+      event.target.tagName === 'SELECT' ||
+      event.target.tagName === 'TEXTAREA')
+  ) {
+    // @todo что если внутри кнопки svg?
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * Hook of simple "drag and drop".
  * @param ref Target element.
  * @param options Options.
- * @returns State.
  */
 export function useDragAndDrop<T extends HTMLElement>(
   ref:
@@ -59,16 +89,19 @@ export function useDragAndDrop<T extends HTMLElement>(
     onMove,
     onDrop,
     extraDeps = [],
+    needPreventTouchEvent = canStartDrag,
   }: UseDragAndDropOptions = {},
-): UseDragAndDropReturn {
-  const [captured, setCaptured] = useState<boolean>(false);
-  const [innerOffset, setInnerOffset] = useState<Vector2>(() => Vector2.of(0, 0));
-  const [offset, setOffset] = useState<Vector2>(() => Vector2.of(0, 0));
+): void {
+  const state = useMemo(getInitialState, zeroDeps);
 
   const onPointerDown = useStableCallback((event: PointerEvent) => {
     const element = ref.current;
 
     if (!element) {
+      return;
+    }
+
+    if (!canStartDrag(event)) {
       return;
     }
 
@@ -85,61 +118,63 @@ export function useDragAndDrop<T extends HTMLElement>(
       .subtract(newInnerOffset)
       .subtract(getPositionedParentOffset(element, { strategy }));
 
-    setInnerOffset(newInnerOffset);
-    setOffset(newOffset);
-    setCaptured(true);
+    state.captured = true;
+    state.offset = newOffset;
+    state.innerOffset = newInnerOffset;
 
     onGrab?.({
-      offset: newOffset,
+      offset: newOffset.clone(),
       clientPosition,
     });
   });
 
   const onPointerMove = useStableCallback((event: PointerEvent) => {
+    if (!state.captured) {
+      return;
+    }
+
     const element = ref.current;
 
     if (!element) {
       return;
     }
 
-    if (!captured) {
-      return;
-    }
-
     const clientPosition = Vector2.of(event.clientX, event.clientY);
     const newOffset = clientPosition
       .clone()
-      .subtract(innerOffset)
+      .subtract(state.innerOffset)
       .subtract(getPositionedParentOffset(element));
 
-    setOffset(newOffset);
+    state.offset = newOffset;
 
     onMove?.({
-      offset: newOffset,
+      offset: newOffset.clone(),
       clientPosition,
     });
   });
 
   const onPointerUp = useStableCallback((event: PointerEvent) => {
-    if (!captured) {
+    if (!state.captured) {
       return;
     }
 
     const clientPosition = Vector2.of(event.clientX, event.clientY);
 
     onDrop?.({
-      offset,
+      offset: state.offset.clone(),
       clientPosition,
     });
 
-    setCaptured(false);
+    state.captured = false;
   });
 
   const onTouchStart = useStableCallback((event: TouchEvent) => {
-    event.preventDefault();
+    if (needPreventTouchEvent(event)) {
+      event.preventDefault();
+    }
   });
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const element = ref.current;
 
     if (disabled || !element) {
@@ -169,6 +204,4 @@ export function useDragAndDrop<T extends HTMLElement>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,
   ]);
-
-  return { captured, offset };
 }

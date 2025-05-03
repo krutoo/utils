@@ -9,7 +9,15 @@
     "verbatimModuleSyntax": false
   },
   "include": ["src"],
-  "exclude": ["node_modules", "./src/**/*.test.ts", "./src/**/*.test.tsx"],
+  "exclude": [
+    "node_modules",
+    "tests-pkg",
+    "tests-e2e",
+    "docs",
+    "dist",
+    "./src/**/*.test.ts",
+    "./src/**/*.test.tsx"
+  ],
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false
