@@ -63,13 +63,6 @@ function getExportsEntryNPM(data: Entrypoint): [string, ImportDefinition] {
   ];
 }
 
-function getExportsEntryJSR(entrypoint: Entrypoint): [string, string] {
-  return [
-    formatRelative(entrypoint.importPath),
-    formatRelative(path.join('src', entrypoint.srcRelativePath)),
-  ];
-}
-
 await glob('./src/**/mod.ts', { absolute: true })
   .then(filenames => ({
     entrypoints: filenames
@@ -78,11 +71,9 @@ await glob('./src/**/mod.ts', { absolute: true })
   }))
   .then(ctx => ({
     exportsNPM: Object.fromEntries(ctx.entrypoints.map(getExportsEntryNPM)),
-    exportsJSR: Object.fromEntries(ctx.entrypoints.map(getExportsEntryJSR)),
   }))
   .then(async ctx => {
     await new JsonFile('./package.json').setProperty('exports', ctx.exportsNPM);
-    await new JsonFile('./jsr.json').setProperty('exports', ctx.exportsJSR);
   })
   .then(() => {
     // eslint-disable-next-line no-console
