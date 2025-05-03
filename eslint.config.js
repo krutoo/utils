@@ -12,6 +12,8 @@ export default [
   {
     ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*', '**/tests-e2e/*'],
   },
+
+  // Basics
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
   },
@@ -34,10 +36,11 @@ export default [
       '@typescript-eslint/no-shadow': 'error',
     },
   },
+
+  // React
+  pluginReact.configs.flat.recommended,
+  pluginReact.configs.flat['jsx-runtime'],
   {
-    plugins: {
-      react: pluginReact,
-    },
     settings: {
       react: {
         version: 'detect',
@@ -47,12 +50,10 @@ export default [
       'react/jsx-curly-brace-presence': 'error',
     },
   },
-  pluginReact.configs.flat.recommended,
-  pluginReact.configs.flat['jsx-runtime'],
+
+  // React hooks
+  pluginReactHooks.configs['recommended-latest'],
   {
-    plugins: {
-      'react-hooks': pluginReactHooks,
-    },
     rules: {
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': [
@@ -63,10 +64,11 @@ export default [
       ],
     },
   },
+
+  // JSDoc
+  pluginJSDoc.configs['flat/recommended'],
   {
-    ...pluginJSDoc.configs['flat/recommended'],
     rules: {
-      ...pluginJSDoc.configs['flat/recommended'].rules,
       'jsdoc/require-description-complete-sentence': 'warn',
       'jsdoc/require-param': [
         'warn',
