@@ -22,3 +22,32 @@ This property contains boolean indicates hook is successfully started observing 
 It makes hook SSR ready.
 
 If `visualViewport` is not supported in browser, `ready` will be `false`.
+
+### Stateless mode
+
+If you want to observe `visualViewport` without re-render your component when it changes,
+you can provide `mode` option with `stateless` value.
+
+This will result in the return value not being up to date so you can ignore it.
+
+To listen changes you also can set callback to `onChange` option.
+
+```tsx
+import { useVisualViewport } from '@krutoo/utils/react';
+import { useRef } from 'react';
+
+function App() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useVisualViewport({
+    mode: 'stateless',
+    onChange(viewport) {
+      if (ref.current) {
+        ref.current.textContent = `Viewport width is ${viewport.width}`;
+      }
+    },
+  });
+
+  return <div ref={ref}></div>;
+}
+```

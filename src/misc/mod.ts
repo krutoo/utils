@@ -7,3 +7,4 @@ export * from './pairs.ts';
 export * from './plural.ts';
 export * from './throttle.ts';
 export * from './wait.ts';
+export * from './noop.ts';

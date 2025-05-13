@@ -1,16 +1,9 @@
 import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { VisualViewportContext } from './context/visual-viewport-context.ts';
-
-/*
- * @todo Сделать возможность следить функцией а не состоянием
- * например так:
- * - useVisualViewport(callback: (state: VisualViewportState) => void): void
- * - useVisualViewportSync(): VisualViewportState
- * но это обратно несовместимо поэтому мб так:
- * - useVisualViewport(): VisualViewportState
- * - useVisualViewportChange(callback: (state: VisualViewportState) => void): void
- */
+import { useStableCallback } from './use-stable-callback.ts';
+import { useIdentityRef } from './use-identity-ref.ts';
+import { noop } from '../misc/noop.ts';
 
 /**
  * State of visual viewport.
@@ -42,6 +35,21 @@ export interface VisualViewportState {
 }
 
 export interface UseVisualViewportOptions {
+  /**
+   * Mode of how hook will be work.
+   *
+   * Possible values:
+   * - `stateful` (default) - hook will update returned state and cause rerender.
+   * - `stateless` - hook will not update returned state.
+   *
+   * If you can observe `visualViewport` without re-renders
+   * you can set `mode: 'stateless'` and also `onChange` to listen changes.
+   */
+  mode?: 'stateful' | 'stateless';
+
+  /** Will be called each time `visualViewport` changes. */
+  onChange?: (state: VisualViewportState) => void;
+
   /** Initial returned state. Used before subscription effect applied. */
   defaultState?: VisualViewportState | (() => VisualViewportState);
 }
@@ -123,10 +131,14 @@ function observe(viewport: VisualViewport, callback: () => void): () => void {
  * @returns State of visualViewport (width, height, etc).
  */
 export function useVisualViewport({
+  mode = 'stateful',
+  onChange = noop,
   defaultState = getInitialState,
 }: UseVisualViewportOptions = {}): VisualViewportState {
   const { getVisualViewport } = useContext(VisualViewportContext);
   const [state, setState] = useState<VisualViewportState>(defaultState);
+  const modeRef = useIdentityRef(mode);
+  const handleChange = useStableCallback(onChange);
 
   useIsomorphicLayoutEffect(() => {
     const visualViewport = getVisualViewport();
@@ -136,13 +148,19 @@ export function useVisualViewport({
     }
 
     const sync = () => {
-      setState(getState(visualViewport));
+      const actualState = getState(visualViewport);
+
+      if (modeRef.current === 'stateful') {
+        setState(actualState);
+      }
+
+      handleChange(actualState);
     };
 
     sync();
 
     return observe(visualViewport, sync);
-  }, [getVisualViewport]);
+  }, [getVisualViewport, modeRef, handleChange]);
 
   return state;
 }

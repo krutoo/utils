@@ -88,7 +88,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     onGrab,
     onMove,
     onDrop,
-    extraDeps = [],
+    extraDeps = zeroDeps,
     needPreventTouchEvent = canStartDrag,
   }: UseDragAndDropOptions = {},
 ): void {
