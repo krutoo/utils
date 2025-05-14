@@ -24,3 +24,32 @@ export function App() {
   );
 }
 ```
+
+### Stateless mode
+
+If you want to observe window size without re-render your component when it changes,
+you can provide `mode` option with `stateless` value.
+
+This will result in the return value not being up to date so you can ignore it.
+
+To listen changes you also can set callback to `onChange` option.
+
+```tsx
+import { useWindowSize } from '@krutoo/utils/react';
+import { useRef } from 'react';
+
+function App() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useWindowSize({
+    mode: 'stateless',
+    onChange(windowSize) {
+      if (ref.current) {
+        ref.current.textContent = `Window width is ${windowSize.width}`;
+      }
+    },
+  });
+
+  return <div ref={ref}></div>;
+}
+```

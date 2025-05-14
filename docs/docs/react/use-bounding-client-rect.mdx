@@ -24,3 +24,17 @@ export function App() {
   return <div ref={ref}>Hello!</div>;
 }
 ```
+
+### Force update
+
+This hook uses next sources to update state:
+
+- it listens `scroll` event on document
+- it create `ResizeObserver` on target element
+
+However, tracking absolutely all actions that lead to a change in the size or position
+of an element is a difficult task.
+
+For example your element can have _css transition_ on hover.
+
+You can force hook to update state by calling `forceUpdate` method on returned object.

@@ -1,3 +1,10 @@
+export interface DebouncedFunction<T extends (this: any, ...args: any[]) => any> {
+  (this: ThisParameterType<T>, ...args: Parameters<T>): void;
+
+  /** Cancels registered future calls if exists. */
+  cancel: VoidFunction;
+}
+
 /**
  * Simplest implementation of "debounce" function.
  * Returns function wrapper that delays original function call
@@ -11,12 +18,18 @@
 export function debounce<T extends (...args: any) => any>(
   func: T,
   timeout: number,
-): (...args: Parameters<T>) => void {
+): DebouncedFunction<T> {
   let timerId: ReturnType<typeof setTimeout>;
 
-  return (...args) => {
+  const debounced: DebouncedFunction<T> = function (...args) {
     clearTimeout(timerId);
 
-    timerId = setTimeout(() => func(...args), timeout);
+    timerId = setTimeout(() => func.apply(this, args), timeout);
   };
+
+  debounced.cancel = () => {
+    clearTimeout(timerId);
+  };
+
+  return debounced;
 }
