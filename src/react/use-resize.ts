@@ -35,7 +35,6 @@ export function useResize<T extends Element>(
   callback: (entry: ResizeObserverEntry) => void,
 ): void {
   const { getObserver } = useContext(ResizeObserverContext);
-
   const callbackRef = useIdentityRef(callback);
 
   useIsomorphicLayoutEffect(() => {
@@ -45,10 +44,11 @@ export function useResize<T extends Element>(
       return;
     }
 
-    const observer = new ResizeObserver(entries => {
+    const observer = getObserver(entries => {
       for (const entry of entries) {
         if (entry.target === element) {
           callbackRef.current(entry);
+          return;
         }
       }
     });

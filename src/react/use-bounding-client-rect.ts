@@ -114,9 +114,8 @@ export function useBoundingClientRect<T extends Element>(
     | MutableRefObject<T | undefined>,
   extraDeps: DependencyList = zeroDeps,
 ): UseBoundingClientRectReturn {
-  const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);
-
   const { getObserver } = useContext(ResizeObserverContext);
+  const [state, setState] = useState<DOMRectState>(DEFAULT_STATE);
 
   const updateState = useCallback(() => {
     const element = ref.current;
@@ -143,7 +142,14 @@ export function useBoundingClientRect<T extends Element>(
       return;
     }
 
-    const observer = getObserver(updateState);
+    const observer = getObserver(entries => {
+      for (const entry of entries) {
+        if (entry.target === element) {
+          updateState();
+          return;
+        }
+      }
+    });
 
     observer.observe(element);
 
