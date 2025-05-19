@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
+import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
 import { useState } from 'react';
 import { Portal } from '../portal.tsx';
-import { expect } from '@std/expect';
 
 function TestComponent() {
   const [open, setOpen] = useState(false);
