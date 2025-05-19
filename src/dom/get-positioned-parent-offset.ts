@@ -4,7 +4,7 @@ import { isScrollable } from './is-scrollable.ts';
 
 export interface PositioningOptions {
   /** How target (floating) element will be positioned. */
-  strategy?: 'fixed' | 'absolute';
+  strategy?: 'absolute' | 'fixed';
 }
 
 /**

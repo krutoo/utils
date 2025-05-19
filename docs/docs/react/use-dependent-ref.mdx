@@ -105,3 +105,12 @@ function MyComponent({ visible }: { visible: boolean }) {
 ```
 
 And it will work as expected.
+
+You may have noticed that in the last code example you could have simply added the `visible` prop
+to effect dependencies and then it would have worked the same way.
+
+But this approach would lead to the fact that you would have to add absolutely all variables
+that affect the display of your element to the effect dependencies.
+
+It is more convenient to make the ref dependent on these parameters
+and add ref itself to the dependencies.
