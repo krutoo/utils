@@ -1,6 +1,6 @@
 import path from 'node:path';
 import type { Configuration } from '@rspack/core';
-import * as plugins from '@krutoo/utils/rspack';
+import * as utils from '@krutoo/utils/rspack';
 import { aliasesToSource, pluginStoriesEntry } from './.rspack/utils.ts';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
@@ -35,17 +35,17 @@ export default {
       storiesRootDir: './stories/',
       rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
     }),
-    plugins.pluginTypeScript({
+    utils.pluginTypeScript({
       tsConfig: PKG_IMPL === 'tarball' ? false : undefined,
     }),
-    plugins.pluginCSS(),
-    plugins.pluginRawImport(),
-    plugins.pluginHTML({
+    utils.pluginCSS(),
+    utils.pluginRawImport(),
+    utils.pluginHTML({
       filename: 'index.html',
       template: './src/index.html',
       chunks: ['showcase'],
     }),
-    plugins.pluginHTML({
+    utils.pluginHTML({
       filename: 'sandbox.html',
       template: './src/index.html',
       chunks: ['sandbox'],
