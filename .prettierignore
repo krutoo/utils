@@ -1,0 +1,3 @@
+docs/.generated/
+tests-e2e/.generated/
+tests-e2e/test-results/

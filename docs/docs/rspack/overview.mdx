@@ -16,6 +16,24 @@ All Rspack specific utils available from `/rspack` pathname.
 
 You can just import plugins to your Rspack configuration file (`.ts`, `.js`, CJS or ESM no matter) and use it:
 
+```tsx
+// rspack.config.js
+import * as utils from '@krutoo/utils/rspack';
+
+export default {
+  entry: './src/index.ts',
+  plugins: [
+    utils.pluginTypeScript(),
+    utils.pluginCSS(),
+    utils.pluginHTML(),
+    utils.pluginReactSVG(),
+    utils.pluginStaticAssets(),
+    utils.pluginPublicFiles(),
+    // ...and more
+  ],
+};
+```
+
 ### `pluginTypeScript`
 
 Typescript support.

@@ -47,7 +47,10 @@ export interface UseVisualViewportOptions {
    */
   mode?: 'stateful' | 'stateless';
 
-  /** Will be called each time `visualViewport` changes. */
+  /**
+   * Will be called each time `visualViewport` changes.
+   * Also will be called once during listening initialization.
+   */
   onChange?: (state: VisualViewportState) => void;
 
   /** Initial returned state. Used before subscription effect applied. */

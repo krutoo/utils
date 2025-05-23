@@ -22,7 +22,10 @@ export interface UseWindowSizeOptions {
    */
   mode?: 'stateful' | 'stateless';
 
-  /** Will be called each time window size changes. */
+  /**
+   * Will be called each time window size changes.
+   * Also will be called once during listening initialization.
+   */
   onChange?: (state: RectSize) => void;
 
   /** Initial returned state. Used before subscription effect applied. */

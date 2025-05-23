@@ -24,9 +24,10 @@
   },
   "sideEffects": false,
   "scripts": {
+    "prepare": "node ./scripts/git-hooks.js",
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier . --check",
     "test": "node --import ./scripts/setup-tests.ts --test ./src/**/*.test.{ts,tsx}",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node ./scripts/build.ts",
