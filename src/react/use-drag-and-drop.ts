@@ -6,7 +6,7 @@ import { useStableCallback } from '../react/use-stable-callback.ts';
 import { zeroDeps } from './constants.ts';
 
 export interface DnDEventHandler {
-  (event: { offset: Point2d; clientPosition: Point2d }): void;
+  (event: { target: HTMLElement; offset: Point2d; clientPosition: Point2d }): void;
 }
 
 export interface UseDragAndDropOptions {
@@ -123,6 +123,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     state.innerOffset = newInnerOffset;
 
     onGrab?.({
+      target: element,
       offset: newOffset.clone(),
       clientPosition,
     });
@@ -148,6 +149,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     state.offset = newOffset;
 
     onMove?.({
+      target: element,
       offset: newOffset.clone(),
       clientPosition,
     });
@@ -158,9 +160,16 @@ export function useDragAndDrop<T extends HTMLElement>(
       return;
     }
 
+    const element = ref.current;
+
+    if (!element) {
+      return;
+    }
+
     const clientPosition = Vector2.of(event.clientX, event.clientY);
 
     onDrop?.({
+      target: element,
       offset: state.offset.clone(),
       clientPosition,
     });
