@@ -13,22 +13,22 @@ Any [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Stora
 
 If you just want to get/set storage item value you can just use hook like this:
 
-```tsx
+```jsx
 import { useStorageItem } from '@krutoo/utils/react';
 
 function App() {
-  const [clickCount, setClickCount] = useStorageItem('clickCount', {
+  const [value, setValue] = useStorageItem('inputValue', {
     storage: localStorage,
   });
 
-  const handleClick = () => {
-    setClickCount(clickCount + 1);
+  const handleChange = event => {
+    setValue(event.target.value);
   };
 
   return (
-    <div className='counter' onClick={handleClick}>
-      Clicked {clickCount} times
-    </div>
+    <>
+      <input value={value ?? ''} onChange={handleChange} />
+    </>
   );
 }
 ```

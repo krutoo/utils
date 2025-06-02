@@ -17,4 +17,32 @@ function App() {
 }
 ```
 
+### Stateless mode
+
+If you want to observe media query without re-render your component when it changes,
+you can provide `mode` option with `stateless` value.
+
+This will result in the return value not being up to date so you can ignore it.
+
+To listen changes you also can set callback to `onChange` option.
+
+Callback provided to `onChange` also will be called after initialization.
+
+```tsx
+import { useMatchMedia } from '@krutoo/utils/react';
+
+function App() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useMatchMedia({
+    mode: 'stateless',
+    onChange({ matches }) {
+      setIsDesktop(matches);
+    },
+  });
+
+  return desktop ? <DesktopApp /> : <MobileApp />;
+}
+```
+
 TODO describe how to use `MatchMediaContext`
