@@ -10,7 +10,7 @@
     "build": "rspack"
   },
   "devDependencies": {
-    "@krutoo/showcase": "^0.1.0",
+    "@krutoo/showcase": "^0.2.1",
     "@mdx-js/loader": "^3.1.0",
     "@playwright/test": "^1.50.1",
     "@rspack/cli": "^1.2.3",
