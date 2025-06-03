@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { MediaQueryListStub } from '../test-utils/media-query-list-stub.ts';
+import { MediaQueryListMock } from '../../testing/mod.ts';
 import { MatchMediaContext, type MatchMediaContextValue } from '../mod.ts';
 import { useMatchMedia } from '../use-match-media.ts';
 import { useRef } from 'react';
@@ -18,11 +18,13 @@ describe('useMatchMedia', () => {
       return desktop ? <div>Desktop</div> : <div>Mobile</div>;
     }
 
-    let mql: MediaQueryListStub | null = null;
+    let mql: MediaQueryListMock | null = null;
 
     const context: MatchMediaContextValue = {
       matchMedia(query) {
-        mql = new MediaQueryListStub(query).toggle(true);
+        mql = new MediaQueryListMock(query);
+        mql.simulateChange(true);
+
         return mql;
       },
     };
@@ -38,13 +40,13 @@ describe('useMatchMedia', () => {
     expect(container.textContent).toBe('Desktop');
 
     act(() => {
-      mql?.toggle(false);
+      mql?.simulateChange(false);
     });
     expect(renderCount).toBe(3);
     expect(container.textContent).toBe('Mobile');
 
     act(() => {
-      mql?.toggle(true);
+      mql?.simulateChange(true);
     });
     expect(renderCount).toBe(4);
     expect(container.textContent).toBe('Desktop');
@@ -70,11 +72,12 @@ describe('useMatchMedia', () => {
       return <div ref={ref}>Desktop</div>;
     }
 
-    let mql: MediaQueryListStub | null = null;
+    let mql: MediaQueryListMock | null = null;
 
     const context: MatchMediaContextValue = {
       matchMedia(query) {
-        mql = new MediaQueryListStub(query).toggle(true);
+        mql = new MediaQueryListMock(query);
+        mql.simulateChange(true);
         return mql;
       },
     };
@@ -90,13 +93,13 @@ describe('useMatchMedia', () => {
     expect(container.textContent).toBe('Desktop');
 
     act(() => {
-      mql?.toggle(false);
+      mql?.simulateChange(false);
     });
     expect(renderCount).toBe(1);
     expect(container.textContent).toBe('Mobile');
 
     act(() => {
-      mql?.toggle(true);
+      mql?.simulateChange(true);
     });
     expect(renderCount).toBe(1);
     expect(container.textContent).toBe('Desktop');

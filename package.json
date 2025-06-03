@@ -112,6 +112,10 @@
       "import": "./dist/esm/rspack/mod.js",
       "require": "./dist/cjs/rspack/mod.js"
     },
+    "./testing": {
+      "import": "./dist/esm/testing/mod.js",
+      "require": "./dist/cjs/testing/mod.js"
+    },
     "./types": {
       "import": "./dist/esm/types/mod.js",
       "require": "./dist/cjs/types/mod.js"
