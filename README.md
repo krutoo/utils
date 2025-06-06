@@ -54,27 +54,27 @@ function App() {
 
 ```js
 // rspack.config.js
-import * as plugins from '@krutoo/utils/rspack';
+import * as utils from '@krutoo/utils/rspack';
 
 export default {
   entry: './src/index.ts',
   plugins: [
     // typescript support (with alias from "paths" of tsconfig and `resolve.alias` extending)
-    plugins.pluginTypeScript(),
+    utils.pluginTypeScript(),
 
     // css and css-modules support ("css-loader" must be added to your project)
-    plugins.pluginCSS(),
+    utils.pluginCSS(),
 
     // html file will be added to bundle
-    plugins.pluginHTML({ template: './src/index.html' }),
+    utils.pluginHTML({ template: './src/index.html' }),
 
     // import file source code by `?raw` query or `with { type: 'text' }`
-    plugins.pluginRawImport(),
+    utils.pluginRawImport(),
 
     // "public" folder will be copied to bundle
-    plugins.pluginPublicFiles(),
+    utils.pluginPublicFiles(),
 
-    // ...and other useful plugins
+    // ...and other
   ],
 };
 ```
@@ -131,13 +131,13 @@ Solutions to known problems when working with repository
 ### NPM-script terminates immediately without doing anything
 
 ```bash
-# delete tsimp cache
-rm -rf .tsimp
+# delete tsimp cache and stop daemon
+npx tsimp --clear
 ```
 
 ### NPM-script shows irrelevant type check errors
 
 ```bash
-# delete tsimp cache
-rm -rf .tsimp
+# delete tsimp cache and stop daemon
+npx tsimp --clear
 ```
