@@ -34,7 +34,7 @@ import { useMatchMedia } from '@krutoo/utils/react';
 function App() {
   const [isDesktop, setIsDesktop] = useState(false);
 
-  useMatchMedia({
+  useMatchMedia('(min-width: 1024px)', {
     mode: 'stateless',
     onChange({ matches }) {
       setIsDesktop(matches);
