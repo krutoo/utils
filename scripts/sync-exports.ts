@@ -50,7 +50,7 @@ function getEntrypoint(pathname: string): Entrypoint {
   };
 }
 
-function getExportsEntryNPM(data: Entrypoint): [string, ImportDefinition] {
+function getExportsEntry(data: Entrypoint): [string, ImportDefinition] {
   const basename = path.basename(data.srcRelativePath, path.extname(data.srcRelativePath));
   const relativeDistPath = path.join(path.dirname(data.srcRelativePath), `${basename}.js`);
 
@@ -70,10 +70,10 @@ await glob('./src/**/mod.ts', { absolute: true })
       .sort((a, b) => (a.importPath > b.importPath ? 1 : -1)),
   }))
   .then(ctx => ({
-    exportsNPM: Object.fromEntries(ctx.entrypoints.map(getExportsEntryNPM)),
+    exports: Object.fromEntries(ctx.entrypoints.map(getExportsEntry)),
   }))
   .then(async ctx => {
-    await new JsonFile('./package.json').setProperty('exports', ctx.exportsNPM);
+    await new JsonFile('./package.json').setProperty('exports', ctx.exports);
   })
   .then(() => {
     // eslint-disable-next-line no-console

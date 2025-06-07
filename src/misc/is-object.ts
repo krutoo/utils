@@ -5,5 +5,6 @@
  */
 export function isObject(value: unknown): value is object {
   const type = typeof value;
+
   return (type === 'object' && value !== null) || type === 'function';
 }
