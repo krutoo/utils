@@ -1,0 +1,40 @@
+# `Lifecycle`
+
+React component for working with lifecycle trough event callbacks in props.
+
+### Basic usage
+
+When can this be useful? For example, when you output content inside a component that displays it conditionally.
+
+It can be a modal dialog component or something like.
+
+```tsx
+import { useState } from 'react';
+import { Modal } from '#components/modal';
+import { Lifecycle } from '@krutoo/utils/react';
+
+function App() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setOpen(a => !a)}>Toggle</button>
+
+      {/* Modal render its children only when open is true */}
+      <Modal open={open}>
+        {/* So you can declaratively handle mount using Lifecycle */}
+        <Lifecycle onMount={() => console.log('popup is rendered')}>
+          <h1>Some dialog</h1>
+        </Lifecycle>
+      </Modal>
+    </>
+  );
+}
+```
+
+### Available event handlers
+
+- `onMount` - fires on mount (via `useEffect`);
+- `onUnmount` - fires on unmount (via `useEffect`);
+- `onMountSync` - fires on mount (via `useIsomorphicLayoutEffect`);
+- `onUnmountSync` - fires on mount (via `useIsomorphicLayoutEffect`);

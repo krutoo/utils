@@ -1,0 +1,28 @@
+# `ErrorBoundary`
+
+React component for handling of render errors via props.
+
+### Basic usage
+
+You can wrap your components (lazy components too) into `ErrorBoundary` to handle errors
+and also provide fallback content.
+
+```tsx
+import { ErrorBoundary } from '@krutoo/utils/react';
+import { AppMain, AppSidebar } from '#components';
+import { logger } from '#utils';
+
+function App() {
+  return (
+    <>
+      <ErrorBoundary fallback={<>Page is broken...</>} onError={logger.error}>
+        <AppMain />
+      </ErrorBoundary>
+
+      <ErrorBoundary fallback={<>Sidebar is broken...</>} onError={logger.error}>
+        <AppSidebar />
+      </ErrorBoundary>
+    </>
+  );
+}
+```

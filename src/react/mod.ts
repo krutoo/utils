@@ -43,5 +43,9 @@ export type {
   UseMutationReturn,
 } from './query/types.ts';
 
-// components (@todo maybe move it from 'react' to 'react-dom'?)
+// components
+export * from './error-boundary.tsx';
+export * from './lifecycle.tsx';
+
+// dom related components (@todo maybe move it from 'react' to 'react-dom'?)
 export * from './portal.tsx';
