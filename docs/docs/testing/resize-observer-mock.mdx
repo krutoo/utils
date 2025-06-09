@@ -1,0 +1,31 @@
+# `ResizeObserverMock`
+
+export const meta = {
+  category: 'testing',
+  title: 'ResizeObserverMock',
+};
+
+Mock-implementation of `ResizeObserver` with ability of simulating resize programmatically.
+
+### Basic usage
+
+```tsx
+import { ResizeObserverMock } from '@krutoo/utils/testing';
+
+// creating like normal ResizeObserver
+const observer = new ResizeObserverMock(callback);
+
+// using like normal ResizeObserver
+observer.observe(element);
+observer.unobserve(element);
+observer.disconnect(element);
+
+// somewhere in your tests
+observer.simulateResize([
+  // all entry properties except `target` is optional
+  // properties that is not provided will be filled by mocks
+  {
+    target: document.querySelector('#my-widget'),
+  },
+]);
+```

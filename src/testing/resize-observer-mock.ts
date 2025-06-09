@@ -4,7 +4,7 @@ export type PartialResizeObserverEntry = Pick<ResizeObserverEntry, 'target'> &
   Partial<Omit<ResizeObserverEntry, 'target'>>;
 
 /**
- * Mock-implementation of ResizeObserver.
+ * Mock-implementation of `ResizeObserver` with ability of simulating resize programmatically.
  * Useful for unit testing.
  */
 export class ResizeObserverMock implements ResizeObserver {
