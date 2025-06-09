@@ -1,9 +1,9 @@
 // @todo maybe make it public like `import {} from '@krutoo/utils/testing';`
 
 /**
- * Mock-implementation of MediaQueryList with ability to control state programmatically.
+ * Mock-implementation of `MediaQueryList` with ability to control state programmatically.
  * Useful for unit testing.
- * Can be used in every runtime that implements `EventTarget` (browsers, nodejs, deno, bun...).
+ * Can be used in any runtime that implements `EventTarget` (browsers, nodejs, deno, bun...).
  */
 export class MediaQueryListMock extends EventTarget implements MediaQueryList {
   readonly media: string;
@@ -114,7 +114,7 @@ export class MediaQueryListMock extends EventTarget implements MediaQueryList {
    * Calling this method will cause dispatching `change` event.
    * @param matches Boolean.
    */
-  simulateChange(matches: boolean): void {
+  simulateChange({ matches }: { matches: boolean }): void {
     if (matches !== this.matches) {
       (this as { matches: boolean }).matches = matches;
 

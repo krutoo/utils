@@ -4,7 +4,7 @@ export type PartialIntersectionObserverEntry = Pick<IntersectionObserverEntry, '
   Partial<Omit<IntersectionObserverEntry, 'target'>>;
 
 /**
- * Mock-implementation of IntersectionObserver.
+ * Mock-implementation of `IntersectionObserver` with ability of simulating intersections programmatically.
  * Useful for unit testing.
  */
 export class IntersectionObserverMock implements IntersectionObserver {

@@ -1,0 +1,30 @@
+# `MediaQueryListMock`
+
+export const meta = {
+  category: 'testing',
+  title: 'MediaQueryListMock',
+};
+
+Mock-implementation of MediaQueryList with ability to control state programmatically.
+
+Can be used in any runtime that implements `EventTarget` (browsers, Node.js, Deno, Bun...).
+
+### Basic usage
+
+```tsx
+import { MediaQueryListMock } from '@krutoo/utils/testing';
+
+const mql = new MediaQueryListMock('(max-width: 1024px)');
+
+// using like normal MediaQueryList
+console.log('matches', mql.matches);
+
+// using like normal MediaQueryList
+mql.addEventListener('change', event => {
+  console.log('matches', event.matches);
+});
+
+// ...somewhere in your tests
+// it will dispatch event and file each listener
+mql.simulateChange({ matches: true });
+```

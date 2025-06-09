@@ -1,0 +1,17 @@
+# `DOMRectReadOnlyMock`
+
+export const meta = {
+  category: 'testing',
+  title: 'DOMRectReadOnlyMock',
+};
+
+Mock implementation of `DOMRectReadOnly`, useful for unit testing with `jsdom`, `happy-dom` etc.
+
+### Basic usage
+
+```tsx
+import { DOMRectReadOnlyMock } from '@krutoo/utils/testing';
+
+// rectangle with size 320x240 at x=10, y=20
+const rect = new DOMRectReadOnlyMock(10, 20, 320, 240);
+```

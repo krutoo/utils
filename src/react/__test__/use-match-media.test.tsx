@@ -23,7 +23,7 @@ describe('useMatchMedia', () => {
     const context: MatchMediaContextValue = {
       matchMedia(query) {
         mql = new MediaQueryListMock(query);
-        mql.simulateChange(true);
+        mql.simulateChange({ matches: true });
 
         return mql;
       },
@@ -40,13 +40,13 @@ describe('useMatchMedia', () => {
     expect(container.textContent).toBe('Desktop');
 
     act(() => {
-      mql?.simulateChange(false);
+      mql?.simulateChange({ matches: false });
     });
     expect(renderCount).toBe(3);
     expect(container.textContent).toBe('Mobile');
 
     act(() => {
-      mql?.simulateChange(true);
+      mql?.simulateChange({ matches: true });
     });
     expect(renderCount).toBe(4);
     expect(container.textContent).toBe('Desktop');
@@ -77,7 +77,7 @@ describe('useMatchMedia', () => {
     const context: MatchMediaContextValue = {
       matchMedia(query) {
         mql = new MediaQueryListMock(query);
-        mql.simulateChange(true);
+        mql.simulateChange({ matches: true });
         return mql;
       },
     };
@@ -93,13 +93,13 @@ describe('useMatchMedia', () => {
     expect(container.textContent).toBe('Desktop');
 
     act(() => {
-      mql?.simulateChange(false);
+      mql?.simulateChange({ matches: false });
     });
     expect(renderCount).toBe(1);
     expect(container.textContent).toBe('Mobile');
 
     act(() => {
-      mql?.simulateChange(true);
+      mql?.simulateChange({ matches: true });
     });
     expect(renderCount).toBe(1);
     expect(container.textContent).toBe('Desktop');

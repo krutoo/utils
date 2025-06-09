@@ -1,0 +1,32 @@
+# `IntersectionObserverMock`
+
+export const meta = {
+  category: 'testing',
+  title: 'IntersectionObserverMock',
+};
+
+Mock-implementation of `IntersectionObserver` with ability of simulating intersections programmatically.
+
+### Basic usage
+
+```tsx
+import { IntersectionObserverMock } from '@krutoo/utils/testing';
+
+// creating like normal IntersectionObserver
+const observer = new IntersectionObserverMock(callback, options);
+
+// using like normal IntersectionObserver
+observer.observe(element);
+observer.unobserve(element);
+observer.disconnect();
+
+// ...somewhere in your tests
+observer.simulateIntersection([
+  // all entry properties except `target` is optional
+  // properties that is not provided will be filled by mocks
+  {
+    target: document.querySelector('#my-widget'),
+    isIntersecting: false,
+  },
+]);
+```
