@@ -7,10 +7,33 @@ export const meta = {
 
 Mock-implementation of `VisualViewport` with ability to control state programmatically.
 
-Can be used in any runtime that implements `EventTarget` (browsers, nodejs, deno, bun...).
+Can be used in any runtime that implements `EventTarget` (browsers, Node.js, Deno, Bun...).
 
 ### Basic usage
 
 ```tsx
 import { VisualViewportMock } from '@krutoo/utils/testing';
+
+const viewport = new VisualViewportMock({
+  width: 1024,
+  height: 768,
+  scale: 1.1,
+  offsetLeft: 10,
+  offsetTop: 20,
+  pageLeft: 30,
+  pageTop: 40,
+});
+
+// ...somewhere in your tests
+// this method will cause dispatching `resize` event
+viewport.simulateResize({
+  width: 320,
+  height: 640,
+});
+
+// this method will cause dispatching `scroll` event
+viewport.simulateScroll({
+  width: 320,
+  height: 640,
+});
 ```

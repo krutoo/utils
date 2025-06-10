@@ -3,7 +3,7 @@
 /**
  * Mock-implementation of `MediaQueryList` with ability to control state programmatically.
  * Useful for unit testing.
- * Can be used in any runtime that implements `EventTarget` (browsers, nodejs, deno, bun...).
+ * Can be used in any runtime that implements `EventTarget` (browsers, Node.js, Deno, Bun...).
  */
 export class MediaQueryListMock extends EventTarget implements MediaQueryList {
   readonly media: string;

@@ -21,7 +21,7 @@ const valueKeys: Array<keyof VisualViewportValues> = [
 /**
  * Mock-implementation of `VisualViewport` with ability to control state programmatically.
  * Useful for unit testing.
- * Can be used in any runtime that implements `EventTarget` (browsers, nodejs, deno, bun...).
+ * Can be used in any runtime that implements `EventTarget` (browsers, Node.js, Deno, Bun...).
  */
 export class VisualViewportMock extends EventTarget implements VisualViewport {
   /** @inheritdoc */
