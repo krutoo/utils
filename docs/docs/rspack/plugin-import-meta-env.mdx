@@ -9,6 +9,8 @@ Rspack plugin that defines variables as properties of `import.meta.env` during c
 
 It's same as [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environment-plugin) but instead `process.env.{key}` it defines `import.meta.env.{key}`.
 
+### Usage
+
 ```tsx
 // rspack.config.js
 import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
@@ -20,3 +22,26 @@ export default {
   ],
 };
 ```
+
+### Tip: TypeScript definitions
+
+To provide information for the TypeScript about the variables provided by the plugin,
+you can add type declarations like this:
+
+```ts
+// src/typings/import-meta.d.ts
+interface ImportMetaEnv {
+  [key: string]: any;
+
+  // declare your variable here
+  NODE_ENV?: string;
+  APP_NAME?: string;
+  APP_VERSION?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+```
+
+See more info about [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation).
