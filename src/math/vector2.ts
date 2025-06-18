@@ -105,6 +105,18 @@ export class Vector2 implements Point2d {
   }
 
   /**
+   * Multiplies this vector by given vector.
+   * @param vector Vector.
+   * @returns This.
+   */
+  multiply(vector: Point2d): this {
+    this.x *= vector.x;
+    this.y *= vector.y;
+
+    return this;
+  }
+
+  /**
    * Multiplying a vector by a scalar.
    * @param scalar Scalar.
    * @returns This.

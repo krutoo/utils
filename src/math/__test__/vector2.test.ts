@@ -19,6 +19,10 @@ describe('Vector2', () => {
     expect(new Vector2(5, 6).subtract(new Vector2(2, 3))).toEqual(new Vector2(3, 3));
   });
 
+  test('multiply', () => {
+    expect(new Vector2(2, 3).multiply(new Vector2(4, 5))).toEqual(new Vector2(8, 15));
+  });
+
   test('scale', () => {
     expect(new Vector2(2, 3).scale(3)).toEqual(new Vector2(6, 9));
   });
