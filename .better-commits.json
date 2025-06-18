@@ -1,0 +1,41 @@
+{
+  "commit_scope": {
+    "enable": true,
+    "custom_scope": true,
+    "initial_value": "",
+    "options": [
+      {
+        "value": "dom",
+        "label": "dom"
+      },
+      {
+        "value": "math",
+        "label": "math"
+      },
+      {
+        "value": "misc",
+        "label": "misc"
+      },
+      {
+        "value": "react",
+        "label": "react"
+      },
+      {
+        "value": "rspack",
+        "label": "rspack"
+      },
+      {
+        "value": "testing",
+        "label": "testing"
+      },
+      {
+        "value": "types",
+        "label": "types"
+      },
+      {
+        "value": "",
+        "label": "none"
+      }
+    ]
+  }
+}
