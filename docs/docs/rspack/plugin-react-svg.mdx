@@ -46,3 +46,16 @@ export default {
   ],
 };
 ```
+
+### Tip: TypeScript definitions
+
+To provide information for the TypeScript about imported React-components from svg-files,
+you can add type declarations like this:
+
+```ts
+// src/typings/react-svg.d.ts
+declare module '*.svg' {
+  const Component: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  export default Component;
+}
+```
