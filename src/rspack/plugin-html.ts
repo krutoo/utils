@@ -25,13 +25,14 @@ export function pluginHTML(options?: HtmlRspackPluginOptions): RspackPluginFunct
     const htmlPlugin = new rspack.HtmlRspackPlugin({
       ...options,
 
-      // TIP: module is defer by default
+      // by default uses modern JS format
       scriptLoading: options?.scriptLoading ?? 'module',
 
-      // @todo возможно стоит перенести в body раз скрипт defer но надо убедиться что не будет проблем со стилями
-      // скрипт может сразу после загрузки замерять размеры элементов а они еще не стилизованы
-      inject: options?.inject ?? 'body',
+      // scripts with `type="module"` are deferred by default
+      // so we can inject to head instead body to start loading as soon as possible
+      inject: options?.inject ?? 'head',
 
+      // by default disable minify for better DX
       minify: options?.minify ?? false,
     });
 
