@@ -149,6 +149,7 @@ export function useStorageItem<T>(
     return typeof storage === 'function' ? storage() : storage;
   }, [storage]);
 
+  // @todo we loses function context here
   const parseRef = useIdentityRef(processor.parse);
   const stringifyRef = useIdentityRef(processor.stringify);
 
