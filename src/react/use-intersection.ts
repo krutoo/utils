@@ -107,7 +107,9 @@ export function useIntersection<T extends Element>(
       for (const entry of entries) {
         if (entry.target === element) {
           callbackRef.current(entry);
-          return;
+
+          // IMPORTANT: break loop after first matching element found
+          break;
         }
       }
     }, readyOptions);
