@@ -1,5 +1,10 @@
 import { useRef } from 'react';
 
+interface CallbackHolder<T extends (...args: any[]) => any> {
+  actual: T;
+  stable: (...args: Parameters<T>) => ReturnType<T>;
+}
+
 /**
  * Hook of stable callback.
  *
@@ -13,21 +18,22 @@ import { useRef } from 'react';
 export function useStableCallback<T extends (...args: any[]) => any>(
   callback: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
-  const callbackRef = useRef(callback);
-  const stableCallbackRef = useRef<((...args: Parameters<T>) => ReturnType<T>) | null>(null);
+  const ref = useRef<CallbackHolder<T>>(null);
+
+  if (ref.current === null) {
+    const value = {
+      actual: callback,
+      stable: (...args: Parameters<T>) => value.actual(...args),
+    };
+
+    ref.current = value;
+  }
 
   // useEffect was replaced by useMemo here because we need to set actual value during render, not after render
   // useMemo was replaced by if(...){...} to reduce amount of creating functions and arrays of deps
-  if (!Object.is(callbackRef.current, callback)) {
-    callbackRef.current = callback;
+  if (!Object.is(callback, ref.current.actual)) {
+    ref.current.actual = callback;
   }
 
-  // useCallback was replaced by this construction for performance reasons:
-  // - reduce function creating on each render for useCallback first argument
-  // - reduce array creating on each render for useCallback second argument
-  if (stableCallbackRef.current === null) {
-    stableCallbackRef.current = (...args: Parameters<T>) => callbackRef.current(...args);
-  }
-
-  return stableCallbackRef.current;
+  return ref.current.stable;
 }
