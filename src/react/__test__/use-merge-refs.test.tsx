@@ -62,7 +62,7 @@ describe('useMergeRefs', () => {
 
     expect(spy.mock.callCount()).toBe(0);
 
-    const { rerender } = render(<TestComponent refs={[ref1, ref2]} refCheck={spy} />);
+    const { getByTestId, rerender } = render(<TestComponent refs={[ref1, ref2]} refCheck={spy} />);
 
     expect(spy.mock.callCount()).toBe(1);
 
@@ -81,5 +81,8 @@ describe('useMergeRefs', () => {
     rerender(<TestComponent refs={[ref1, ref2, ref3]} refCheck={spy} />);
 
     expect(spy.mock.callCount()).toBe(2);
+    expect(ref1.current === getByTestId('target')).toBe(true);
+    expect(ref2.current === getByTestId('target')).toBe(true);
+    expect(ref3.current === getByTestId('target')).toBe(true);
   });
 });
