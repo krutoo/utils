@@ -33,7 +33,7 @@
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node ./scripts/build.ts",
     "commit": "better-commits",
-    "changelog": "standard-changelog --stdout"
+    "changelog": "npx git-cliff -u"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -51,12 +51,12 @@
     "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "git-cliff": "^2.9.1",
     "globals": "^15.13.0",
     "husky": "^9.1.7",
     "prettier": "^3.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "standard-changelog": "^7.0.1",
     "svgo": "^3.3.2",
     "tsimp": "^2.0.12",
     "typescript": "^5.7.2",
