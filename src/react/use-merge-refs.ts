@@ -1,12 +1,10 @@
-import {
-  type Ref,
-  type RefCallback,
-  type RefObject,
-  type MutableRefObject,
-  useMemo,
-  useRef,
-} from 'react';
+import { type Ref, type RefCallback, type RefObject, type MutableRefObject, useRef } from 'react';
 import { mergeRefs } from './merge-refs.ts';
+
+interface State<T> {
+  refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>;
+  merged: Ref<T>;
+}
 
 /**
  * Create ref that updates all accepted refs from list.
@@ -31,24 +29,33 @@ import { mergeRefs } from './merge-refs.ts';
 export function useMergeRefs<T>(
   refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>,
 ): Ref<T> {
-  const listRef = useRef(refs);
+  const stateRef = useRef<State<T>>(null);
 
-  // update listRef only when items is not same as in refs param
-  useMemo<void>(() => {
-    if (listRef.current.length !== refs.length) {
-      listRef.current = refs;
-      return;
-    }
+  // init state once
+  if (stateRef.current === null) {
+    stateRef.current = {
+      refs,
+      merged: mergeRefs(refs),
+    };
+  }
 
-    for (let i = 0; i < refs.length; i++) {
-      if (listRef.current[i] !== refs[i]) {
-        listRef.current = refs;
-        return;
+  const state = stateRef.current;
+
+  // change state if `refs` value is not equal shallow to previous value
+  if (!Object.is(state.refs, refs)) {
+    if (state.refs.length !== refs.length) {
+      state.refs = refs;
+      state.merged = mergeRefs(refs);
+    } else {
+      for (let i = 0; i < refs.length; i++) {
+        if (state.refs[i] !== refs[i]) {
+          state.refs = refs;
+          state.merged = mergeRefs(refs);
+          break;
+        }
       }
     }
-  }, [refs]);
+  }
 
-  const list = listRef.current;
-
-  return useMemo(() => mergeRefs(list), [list]);
+  return state.merged;
 }
