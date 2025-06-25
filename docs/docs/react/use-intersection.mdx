@@ -27,4 +27,44 @@ function App() {
 }
 ```
 
+### Important: `threshold` and performance
+
+Each known option' changing will provide recreating observer.
+
+In case you have `threshold` as array - **provide stable array (constant or memoized)**.
+Otherwise hook will be recreate observer on each render.
+
+Wrong:
+
+```jsx
+// Each render hook will take new array
+// So this options is "unstable" and provide recreating observer after each render
+useIntersection(ref, callback, { threshold: [0.1, 0.2, 0.3] });
+```
+
+Right:
+
+```jsx
+// We memoize array, so it is "stable"
+const threshold = useMemo(() => [0.1, 0.2, 0.3], []);
+
+// So observer will be created once
+useIntersection(ref, callback, { threshold });
+```
+
+Also right:
+
+```jsx
+// We use constant outside component, so it is "stable"
+const THRESHOLD = [0.1, 0.2, 0.3];
+
+function App() {
+  // ...
+
+  useIntersection(ref, callback, { threshold: THRESHOLD });
+
+  // ...
+}
+```
+
 TODO describe how to use `IntersectionObserverContext`

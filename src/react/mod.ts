@@ -46,6 +46,4 @@ export type {
 // components
 export * from './error-boundary.tsx';
 export * from './lifecycle.tsx';
-
-// dom related components (@todo maybe move it from 'react' to 'react-dom'?)
 export * from './portal.tsx';
