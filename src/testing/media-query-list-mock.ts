@@ -1,5 +1,3 @@
-// @todo maybe make it public like `import {} from '@krutoo/utils/testing';`
-
 /**
  * Mock-implementation of `MediaQueryList` with ability to control state programmatically.
  * Useful for unit testing.
