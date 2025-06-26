@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
-interface CallbackHolder<T extends (...args: any[]) => any> {
-  actual: T;
+interface HookState<T extends (...args: any[]) => any> {
+  callback: T;
   stable: (...args: Parameters<T>) => ReturnType<T>;
 }
 
@@ -18,22 +18,26 @@ interface CallbackHolder<T extends (...args: any[]) => any> {
 export function useStableCallback<T extends (...args: any[]) => any>(
   callback: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
-  const ref = useRef<CallbackHolder<T>>(null);
+  const stateRef = useRef<HookState<T>>(null);
 
-  if (ref.current === null) {
-    const value = {
-      actual: callback,
-      stable: (...args: Parameters<T>) => value.actual(...args),
+  // init state once
+  if (stateRef.current === null) {
+    const initialState: HookState<T> = {
+      callback,
+      stable: (...args: Parameters<T>) => initialState.callback(...args),
     };
 
-    ref.current = value;
+    stateRef.current = initialState;
   }
 
-  // useEffect was replaced by useMemo here because we need to set actual value during render, not after render
-  // useMemo was replaced by if(...){...} to reduce amount of creating functions and arrays of deps
-  if (!Object.is(callback, ref.current.actual)) {
-    ref.current.actual = callback;
+  const state = stateRef.current;
+
+  // immediately update callback if it is not equals to current
+  // - useEffect is not used because value must be set during render, not after render
+  // - useMemo is not used to reduce amount of creating functions and arrays of deps
+  if (!Object.is(state.callback, callback)) {
+    state.callback = callback;
   }
 
-  return ref.current.stable;
+  return state.stable;
 }
