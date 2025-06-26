@@ -39,10 +39,17 @@ export function useResize<T extends Element>(
   const { getObserver } = useContext(ResizeObserverContext);
   const callbackRef = useIdentityRef(callback);
 
+  // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
+  // It is because in case we add `options` to deps - it will be changed
+  // on every render if options passed as inline object.
   const hasOptions = useMemo(() => !!options, [options]);
 
+  // IMPORTANT: don't use shallow equality because only used properties should be checked.
+  // Shallow equality check will be slow/wrong if `options` object has a lot of extra properties.
   const readyOptions = useMemo(() => {
     if (!hasOptions) {
+      // IMPORTANT: undefined should be returned when user pass undefined
+      // for consistency and transparency of hook usage.
       return undefined;
     }
 

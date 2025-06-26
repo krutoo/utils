@@ -1,7 +1,7 @@
 import { type Ref, type RefCallback, type RefObject, type MutableRefObject, useRef } from 'react';
 import { mergeRefs } from './merge-refs.ts';
 
-interface State<T> {
+interface HookState<T> {
   refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>;
   merged: Ref<T>;
 }
@@ -29,7 +29,7 @@ interface State<T> {
 export function useMergeRefs<T>(
   refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>,
 ): Ref<T> {
-  const stateRef = useRef<State<T>>(null);
+  const stateRef = useRef<HookState<T>>(null);
 
   // init state once
   if (stateRef.current === null) {
@@ -41,7 +41,9 @@ export function useMergeRefs<T>(
 
   const state = stateRef.current;
 
-  // change state if `refs` value is not equal shallow to previous value
+  // immediately update state if `refs` is not equals to current
+  // - useEffect is not used because value must be set during render, not after render
+  // - useMemo is not used to reduce amount of creating functions and arrays of deps
   if (!Object.is(state.refs, refs)) {
     if (state.refs.length !== refs.length) {
       state.refs = refs;

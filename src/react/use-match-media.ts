@@ -80,7 +80,14 @@ export function useMatchMedia(
     return () => {
       mql.removeEventListener('change', sync);
     };
-  }, [query, matchMedia, modeRef, handleChange]);
+  }, [
+    query,
+    matchMedia,
+
+    // stable
+    modeRef,
+    handleChange,
+  ]);
 
   return state;
 }

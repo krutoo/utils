@@ -25,8 +25,9 @@ import { type MutableRefObject, useRef } from 'react';
 export function useIdentityRef<T>(value: T): MutableRefObject<T> {
   const ref = useRef<T>(value);
 
-  // useEffect is replaced by useMemo here because we need to set actual value during render, not after render
-  // useMemo was replaced by if(...){...} to reduce amount of creating functions and arrays of deps
+  // immediately update value if it is not equals to current
+  // - useEffect is not used because value must be set during render, not after render
+  // - useMemo is not used to reduce amount of creating functions and arrays of deps
   if (!Object.is(ref.current, value)) {
     ref.current = value;
   }
