@@ -25,10 +25,14 @@ export interface UseDragAndDropOptions {
   /** Will be called when element is dropped. */
   onDrop?: DnDEventHandler;
 
+  /** Should return true if touch event should be prevented and false otherwise. */
+  needPreventTouchEvent?: (event: TouchEvent) => boolean;
+
+  /** Will be called on `pointerdown` event, if false returns than drag will no be started. */
+  needStartDrag?: (event: PointerEvent) => boolean;
+
   /** Extra deps for useEffect hook. */
   extraDeps?: DependencyList;
-
-  needPreventTouchEvent?: (event: TouchEvent) => boolean;
 }
 
 export interface UseDragAndDropReturn {
@@ -42,6 +46,7 @@ export interface UseDragAndDropReturn {
  */
 function getInitialState() {
   return {
+    pointerId: -1,
     captured: false,
     offset: Vector2.of(0, 0),
     innerOffset: Vector2.of(0, 0),
@@ -53,7 +58,7 @@ function getInitialState() {
  * @param event Event.
  * @returns Boolean.
  */
-function canStartDrag(event: TouchEvent | PointerEvent | MouseEvent): boolean {
+function canStartDragDefault(event: TouchEvent | PointerEvent | MouseEvent): boolean {
   if (
     event.target instanceof Element &&
     (event.target.tagName === 'BUTTON' ||
@@ -89,19 +94,24 @@ export function useDragAndDrop<T extends HTMLElement>(
     onMove,
     onDrop,
     extraDeps = zeroDeps,
-    needPreventTouchEvent = canStartDrag,
+    needPreventTouchEvent = canStartDragDefault,
+    needStartDrag = canStartDragDefault,
   }: UseDragAndDropOptions = {},
 ): void {
   const state = useMemo(getInitialState, zeroDeps);
 
   const onPointerDown = useStableCallback((event: PointerEvent) => {
+    if (state.captured) {
+      return;
+    }
+
     const element = ref.current;
 
     if (!element) {
       return;
     }
 
-    if (!canStartDrag(event)) {
+    if (!needStartDrag(event)) {
       return;
     }
 
@@ -118,6 +128,7 @@ export function useDragAndDrop<T extends HTMLElement>(
       .subtract(newInnerOffset)
       .subtract(getPositionedParentOffset(element, { strategy }));
 
+    state.pointerId = event.pointerId;
     state.captured = true;
     state.offset = newOffset;
     state.innerOffset = newInnerOffset;
@@ -131,6 +142,10 @@ export function useDragAndDrop<T extends HTMLElement>(
 
   const onPointerMove = useStableCallback((event: PointerEvent) => {
     if (!state.captured) {
+      return;
+    }
+
+    if (state.pointerId !== event.pointerId) {
       return;
     }
 
@@ -157,6 +172,10 @@ export function useDragAndDrop<T extends HTMLElement>(
 
   const onPointerUp = useStableCallback((event: PointerEvent) => {
     if (!state.captured) {
+      return;
+    }
+
+    if (state.pointerId !== event.pointerId) {
       return;
     }
 
