@@ -54,7 +54,7 @@
     "git-cliff": "^2.9.1",
     "globals": "^15.13.0",
     "husky": "^9.1.7",
-    "prettier": "^3.4.2",
+    "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "svgo": "^3.3.2",

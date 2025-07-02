@@ -1,0 +1,33 @@
+.canvas {
+  position: relative;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #eee;
+  background-image:
+    linear-gradient(#bbb 1px, transparent 1px), linear-gradient(90deg, #bbb 1px, transparent 1px);
+  background-size: 40px 40px;
+  user-select: none;
+  box-shadow: inset 0 0 0 2px #aaa;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  pointer-events: none;
+}
+
+.label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  white-space: nowrap;
+  padding: 3px 5px;
+  background: #fff;
+  line-height: 1;
+  border-radius: 4px;
+}
