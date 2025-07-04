@@ -24,6 +24,7 @@ export * from './use-resize.ts';
 export * from './use-storage-item.ts';
 export * from './use-visual-viewport.ts';
 export * from './use-window-size.ts';
+export * from './use-transition-status.ts';
 
 // merging refs
 export * from './merge-refs.ts';
