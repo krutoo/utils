@@ -1,9 +1,19 @@
+import { Callout } from '#components/callout/callout.tsx';
+
 # `useBoundingClientRect`
 
 export const meta = {
   category: 'React',
   title: 'useBoundingClientRect',
+  menuPriority: -100,
 };
+
+<Callout level='danger'>
+  <Callout.Heading>Deprecated</Callout.Heading>
+  <Callout.Main>
+    To use actual elements size use hook <a href='./?path=/react/use-resize'>useResize</a>
+  </Callout.Main>
+</Callout>
 
 React hook of state of bounding client rect of element.
 

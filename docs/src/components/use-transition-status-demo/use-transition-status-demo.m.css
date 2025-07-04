@@ -1,0 +1,89 @@
+.demo {
+  position: relative;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #eee;
+  box-shadow: inset 0 0 0 2px #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 300px;
+}
+
+.button {
+  font-size: 14px;
+  height: 32px;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+}
+
+.widget {
+  padding: 2rem;
+  background: #333;
+  color: #fff;
+  box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 0.75rem;
+}
+
+.widget-pre-opening {
+  opacity: 0;
+}
+
+.widget-opening {
+  animation-name: bounceIn;
+  animation-duration: 500ms;
+}
+
+.widget-pre-closing {
+  opacity: 1;
+}
+
+.widget-closing {
+  opacity: 0;
+  transform: scale(0.9) rotate3d(1, 0, 0, 20deg);
+  transition:
+    opacity 200ms,
+    transform 200ms;
+}
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}

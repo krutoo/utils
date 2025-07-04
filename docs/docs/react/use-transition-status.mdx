@@ -1,0 +1,61 @@
+import { UseTransitionStatusDemo } from '#components/use-transition-status-demo/use-transition-status-demo.tsx';
+
+<UseTransitionStatusDemo />
+
+# `useTransitionStatus`
+
+export const meta = {
+  category: 'React',
+  title: 'useTransitionStatus',
+};
+
+Hook for split boolean state to create transitions.
+Useful for creating animations for reveal/hiding some content.
+
+### Usage
+
+```tsx
+import { useTransitionStatus } from '@krutoo/utils/react';
+
+interface MyWidgetProps {
+  open: boolean;
+}
+
+function MyWidget({ open }: MyWidgetProps) {
+  // here we create status from our boolean flag
+  const status = useTransitionStatus({
+    open,
+    duration: 200,
+  });
+
+  // don't render content when it is closed
+  if (status === 'closed') {
+    return null;
+  }
+
+  // use status to make animation of reveal/hiding
+  return <div className={`widget widget-${status}`}>My Widget!</div>;
+}
+```
+
+Example of CSS
+
+```css
+.widget-pre-opening {
+  opacity: 0;
+}
+
+.widget-opening {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.widget-pre-closing {
+  opacity: 1;
+}
+
+.widget-closing {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+```
