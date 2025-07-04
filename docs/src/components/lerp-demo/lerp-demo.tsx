@@ -52,10 +52,12 @@ function useMousePosition<T extends HTMLElement>(ref: RefObject<T | null>) {
     };
 
     element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('touchstart', handleTouchMove);
     element.addEventListener('touchmove', handleTouchMove);
 
     return () => {
       element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('touchstart', handleTouchMove);
       element.removeEventListener('touchmove', handleTouchMove);
     };
   }, [ref]);
@@ -69,14 +71,22 @@ function toCssPos(point: { x: number; y: number }) {
 
 export function LerpDemo() {
   const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
 
   const area = useElementSize(ref);
-  const mouse = useMousePosition(ref);
+  const mouseActual = useMousePosition(ref);
 
   const center = {
     x: area.width / 2,
     y: area.height / 2,
   };
+
+  const mouseDefault = {
+    x: center.x + 120,
+    y: center.y - 80,
+  };
+
+  const mouse = hovered ? mouseActual : mouseDefault;
 
   const middle = {
     x: lerp(center.x, mouse.x, 0.5),
@@ -88,7 +98,13 @@ export function LerpDemo() {
   };
 
   return (
-    <div ref={ref} className={styles.canvas} style={rootStyle}>
+    <div
+      ref={ref}
+      className={styles.canvas}
+      style={rootStyle}
+      onMouseOver={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className={styles.dot} style={toCssPos(center)}>
         <div className={styles.label}>A</div>
       </div>
