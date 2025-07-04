@@ -103,6 +103,7 @@ function rectToState(rect: DOMRect | DOMRectReadOnly): DOMRectState {
  * @param ref Ref with element.
  * @param extraDeps Deps for force re init listeners.
  * @returns Rect state.
+ * @deprecated For detect element size use `useResize` instead.
  */
 export function useBoundingClientRect<T extends Element>(
   ref:
