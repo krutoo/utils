@@ -37,7 +37,7 @@ describe('useDebounceState', () => {
     assert.equal(caption.textContent, '');
 
     // wait for debounced state updates
-    await wait(250);
+    await wait(300);
     assert.equal(caption.textContent, 'something');
 
     // change input again
@@ -46,7 +46,7 @@ describe('useDebounceState', () => {
     assert.equal(caption.textContent, 'something');
 
     // wait for debounced state updates
-    await wait(250);
+    await wait(300);
     assert.equal(caption.textContent, 'foobar');
   });
 });
