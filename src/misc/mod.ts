@@ -9,3 +9,5 @@ export * from './throttle.ts';
 export * from './wait.ts';
 export * from './noop.ts';
 export * from './timer-pool.ts';
+export * from './identity.ts';
+export * from './merge-keys.ts';
