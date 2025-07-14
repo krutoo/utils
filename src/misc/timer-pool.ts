@@ -1,4 +1,4 @@
-type TimerData =
+export type TimerPoolEntry =
   | {
       type: 'timeout';
       id: ReturnType<typeof setTimeout>;
@@ -17,14 +17,14 @@ type TimerData =
  * Primarily exists for able to clear all registered timers.
  */
 export class TimerPool {
-  protected timers: Set<TimerData>;
+  protected timers: Set<TimerPoolEntry>;
 
   constructor() {
     this.timers = new Set();
   }
 
   setTimeout(callback: VoidFunction, ms?: number): ReturnType<typeof setTimeout> {
-    const entry: TimerData = {
+    const entry: TimerPoolEntry = {
       type: 'timeout',
       id: setTimeout(() => {
         callback();
@@ -38,7 +38,7 @@ export class TimerPool {
   }
 
   setInterval(callback: VoidFunction, ms?: number): ReturnType<typeof setInterval> {
-    const entry: TimerData = {
+    const entry: TimerPoolEntry = {
       type: 'interval',
       id: setInterval(() => {
         callback();
@@ -52,7 +52,7 @@ export class TimerPool {
   }
 
   requestAnimationFrame(callback: FrameRequestCallback): ReturnType<typeof requestAnimationFrame> {
-    const entry: TimerData = {
+    const entry: TimerPoolEntry = {
       type: 'raf',
       id: requestAnimationFrame(ts => {
         callback(ts);
