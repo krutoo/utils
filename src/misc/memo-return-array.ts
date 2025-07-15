@@ -1,11 +1,12 @@
 // @todo maybe replace memoReturnArray to shallowMemoize
-const stub = Symbol();
 
 /** Options for `memoReturnArray`. */
 export interface MemoReturnArrayOptions {
   /** Equality checker. */
   isEqual?: (a: any, b: any) => boolean;
 }
+
+const stub = Symbol();
 
 /**
  * Decorates given function (returns new function).

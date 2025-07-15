@@ -1,0 +1,71 @@
+# `keys`
+
+export const meta = {
+  category: 'Misc',
+  title: 'keys',
+};
+
+Returns generator that iterates over each unique own key of all given objects.
+
+### Usage
+
+You can iterate over returned generator:
+
+```ts
+import { keys } from '@krutoo/utils';
+
+const a = { foo: 1 };
+const b = { foo: 2, bar: 3 };
+const c = { bar: 4, baz: 5 };
+
+for (const key of keys(a, b, c)) {
+  console.log(key);
+}
+
+// logs: foo, bar, baz
+```
+
+You also can create array from iterator:
+
+```ts
+import { keys } from '@krutoo/utils';
+
+const a = { foo: 1 };
+const b = { foo: 2, bar: 3 };
+const c = { bar: 4, baz: 5 };
+
+const allKeys = [...keys(a, b)]; // foo, bar, baz
+```
+
+It works for single object:
+
+```ts
+import { keys } from '@krutoo/utils';
+
+const user = {
+  id: 1,
+  name: 'Jack',
+  age: 25,
+};
+
+for (const key of keys(user)) {
+  console.log(key);
+}
+
+// logs: id, name, age
+```
+
+### `mergeKeys`
+
+If your environment does not support generator functions or something else, you can use `mergeKeys`:
+
+```ts
+import { mergeKeys } from '@krutoo/utils';
+
+const a = { foo: 1 };
+const b = { foo: 2, bar: 3 };
+const c = { bar: 4, baz: 5 };
+
+// array of all keys
+const allKeys = mergeKeys(a, b, c);
+```
