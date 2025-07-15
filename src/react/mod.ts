@@ -1,11 +1,11 @@
 // core
+export * from './constants.ts';
 export * from './use-debounce-state.ts';
+export * from './use-dependent-ref.ts';
 export * from './use-identity-ref.ts';
 export * from './use-isomorphic-layout-effect.ts';
 export * from './use-previous-state.ts';
 export * from './use-stable-callback.ts';
-export * from './use-dependent-ref.ts';
-export * from './constants.ts';
 
 // context
 export * from './context/intersection-observer-context.ts';
@@ -22,15 +22,15 @@ export * from './use-match-media.ts';
 export * from './use-outside-click.ts';
 export * from './use-resize.ts';
 export * from './use-storage-item.ts';
+export * from './use-transition-status.ts';
 export * from './use-visual-viewport.ts';
 export * from './use-window-size.ts';
-export * from './use-transition-status.ts';
 
 // merging refs
 export * from './merge-refs.ts';
 export * from './use-merge-refs.ts';
 
-// react queries
+// queries
 export { useQuery } from './query/use-query.ts';
 export { useMutation } from './query/use-mutation.ts';
 export { QueryMangerProvider, useQueryManager } from './query/query-manager.tsx';

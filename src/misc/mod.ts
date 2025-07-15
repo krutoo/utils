@@ -11,3 +11,4 @@ export * from './noop.ts';
 export * from './timer-pool.ts';
 export * from './identity.ts';
 export * from './merge-keys.ts';
+export * from './keys.ts';
