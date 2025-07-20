@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import path from 'node:path';
 import type { RspackPluginFunction } from '@rspack/core';
 import {

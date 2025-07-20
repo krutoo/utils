@@ -1,6 +1,6 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { useState } from 'react';
 import { useTransitionStatus } from '@krutoo/utils/react';
+import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import classNames from 'classnames';
 import styles from './use-transition-status-demo.m.css';
 
@@ -8,12 +8,12 @@ export function UseTransitionStatusDemo() {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className={styles.demo}>
+    <DemoBanner className={styles.demo}>
       <button className={styles.button} onClick={() => setOpen(a => !a)}>
         {open ? 'Hide' : 'Show'}
       </button>
       <MyWidget open={open} />
-    </div>
+    </DemoBanner>
   );
 }
 

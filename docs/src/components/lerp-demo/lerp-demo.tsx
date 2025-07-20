@@ -1,7 +1,7 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { lerp } from '@krutoo/utils/math';
 import { useResize } from '@krutoo/utils/react';
 import { type RefObject, useEffect, useRef, useState } from 'react';
+import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import styles from './lerp-demo.m.css';
 
 function useElementSize<T extends Element>(ref: RefObject<T | null>) {
@@ -98,8 +98,8 @@ export function LerpDemo() {
   };
 
   return (
-    <div
-      ref={ref}
+    <DemoBanner
+      rootRef={ref}
       className={styles.canvas}
       style={rootStyle}
       onMouseOver={() => setHovered(true)}
@@ -116,6 +116,6 @@ export function LerpDemo() {
       <div className={styles.dot} style={{ ...toCssPos(middle), background: '#f00' }}>
         <div className={styles.label}>lerp(A, B, 0.5)</div>
       </div>
-    </div>
+    </DemoBanner>
   );
 }

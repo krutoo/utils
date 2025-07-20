@@ -1,0 +1,28 @@
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.block {
+  width: 200px;
+  height: 100px;
+  background: #1abc9c;
+  color: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 120ms;
+}
+
+.block:hover {
+  cursor: grab;
+}
+
+.block:active {
+  cursor: grabbing;
+  transform: scale(1.06);
+}

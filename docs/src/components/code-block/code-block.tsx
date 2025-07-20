@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 /* eslint-disable no-console */
 import { isValidElement, ReactNode, useMemo, useState } from 'react';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';

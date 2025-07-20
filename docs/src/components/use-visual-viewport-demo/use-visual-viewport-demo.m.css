@@ -1,0 +1,82 @@
+.banner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.75;
+}
+
+.frame {
+  color: #333;
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: inset 0 0 0 7px #aaa;
+  font-size: calc(min(var(--viewport-width), var(--viewport-height)) / 12);
+}
+
+.frame .subtitle {
+  font-size: 0.25em;
+}
+
+.frame-pre-opening {
+  top: var(--banner-top);
+  left: var(--banner-left);
+  width: var(--banner-width);
+  height: var(--banner-height);
+  border-radius: 12px;
+}
+
+.frame-opening {
+  top: var(--viewport-top);
+  left: var(--viewport-left);
+  width: var(--viewport-width);
+  height: var(--viewport-height);
+  border-radius: 12px;
+  transition:
+    width 320ms ease,
+    height 320ms ease,
+    top 320ms ease,
+    left 320ms ease;
+}
+
+.frame-open {
+  top: var(--viewport-top);
+  left: var(--viewport-left);
+  width: var(--viewport-width);
+  height: var(--viewport-height);
+}
+
+.frame-pre-closing {
+  top: var(--viewport-top);
+  left: var(--viewport-left);
+  width: var(--viewport-width);
+  height: var(--viewport-height);
+}
+
+.frame-closing {
+  top: var(--banner-top);
+  left: var(--banner-left);
+  width: var(--banner-width);
+  height: var(--banner-height);
+  border-radius: 12px;
+  transition:
+    width 320ms ease,
+    height 320ms ease,
+    top 320ms ease,
+    left 320ms ease;
+}
