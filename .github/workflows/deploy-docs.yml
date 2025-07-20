@@ -41,6 +41,7 @@ jobs:
         env:
           PUBLIC_PATH: /utils/
         run: |
+          npm run check
           npm run build
 
       - name: Upload docs build as artifact
