@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { AnchorHTMLAttributes, useEffect, useState } from 'react';
 
 export function Link({ href, target, ...restProps }: AnchorHTMLAttributes<HTMLAnchorElement>) {

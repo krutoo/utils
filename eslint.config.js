@@ -101,4 +101,11 @@ export default [
       'jsdoc/require-jsdoc': 'off',
     },
   },
+
+  {
+    files: ['docs/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
+      'jsdoc/require-jsdoc': 'off',
+    },
+  },
 ];

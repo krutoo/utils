@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable jsdoc/require-jsdoc */
 import { HTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './callout.m.css';
