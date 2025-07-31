@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { MatchMediaContext } from './context/match-media-context.ts';
 import { useStableCallback } from './use-stable-callback.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { noop } from '../misc/noop.ts';
 
 export interface UseMatchMediaOptions {
@@ -59,7 +59,7 @@ export function useMatchMedia(
   const { matchMedia } = useContext(MatchMediaContext);
   const [state, setState] = useState(defaultState);
 
-  const modeRef = useIdentityRef(mode);
+  const modeRef = useLatestRef(mode);
   const handleChange = useStableCallback(onChange);
 
   useIsomorphicLayoutEffect(() => {

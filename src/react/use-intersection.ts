@@ -1,6 +1,6 @@
 import { type RefObject, type MutableRefObject, useContext, useMemo } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
 
 /**
@@ -71,7 +71,7 @@ export function useIntersection<T extends Element>(
 ): void {
   const { getObserver } = useContext(IntersectionObserverContext);
 
-  const callbackRef = useIdentityRef(callback);
+  const callbackRef = useLatestRef(callback);
 
   // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
   // It is because in case we add `options` to deps - it will be changed

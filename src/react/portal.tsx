@@ -1,7 +1,7 @@
 import { type JSX, type ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 /**
  * Portal props.
@@ -69,11 +69,11 @@ export function Portal({
 }: PortalProps): JSX.Element | null {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
-  // IMPORTANT: this props is used through identity refs because
+  // IMPORTANT: this props is used through latest refs because
   // its changing between renders should not provide rerunning effect
-  const containerInitRef = useIdentityRef(containerInit);
-  const connectInitRef = useIdentityRef(connectInit);
-  const cleanupInitRef = useIdentityRef(cleanupInit);
+  const containerInitRef = useLatestRef(containerInit);
+  const connectInitRef = useLatestRef(connectInit);
+  const cleanupInitRef = useLatestRef(cleanupInit);
 
   useIsomorphicLayoutEffect(() => {
     const newContainerInit = containerInitRef.current;
@@ -135,7 +135,12 @@ export function Portal({
     return () => {
       cleanup?.(newContainer);
     };
-  }, [cleanupInitRef, connectInitRef, containerInitRef]);
+  }, [
+    // stable:
+    cleanupInitRef,
+    connectInitRef,
+    containerInitRef,
+  ]);
 
   if (container) {
     return createPortal(children, container, portalKey);

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 /** Storage item processor for parse/stringify value from storage automatically. */
 export interface StorageValueProcessor<T> {
@@ -150,8 +150,8 @@ export function useStorageItem<T>(
   }, [storage]);
 
   // @todo we loses function context here
-  const parseRef = useIdentityRef(processor.parse);
-  const stringifyRef = useIdentityRef(processor.stringify);
+  const parseRef = useLatestRef(processor.parse);
+  const stringifyRef = useLatestRef(processor.stringify);
 
   const value = useMemo(() => {
     return parseRef.current(state);

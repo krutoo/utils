@@ -1,8 +1,8 @@
-import assert from 'node:assert/strict';
 import { test, describe } from 'node:test';
 import { render } from '@testing-library/react';
-import { useIdentityRef } from '../use-identity-ref.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
 import { useEffect } from 'react';
+import { expect } from '@std/expect';
 
 interface TestComponentProps {
   value: number;
@@ -10,7 +10,7 @@ interface TestComponentProps {
 }
 
 function TestComponent({ value, onRefChange }: TestComponentProps) {
-  const ref = useIdentityRef<number>(value);
+  const ref = useLatestRef<number>(value);
 
   useEffect(() => {
     onRefChange?.();
@@ -19,7 +19,7 @@ function TestComponent({ value, onRefChange }: TestComponentProps) {
   return <div data-marker='display'>Ref value: {ref.current}</div>;
 }
 
-describe('useIdentityRef', () => {
+describe('useLatestRef', () => {
   test('should return stable ref with actual value', () => {
     let refChangeCount = 0;
 
@@ -32,15 +32,15 @@ describe('useIdentityRef', () => {
     );
 
     const display = getByTestId('display');
-    assert.equal(display.textContent, 'Ref value: 1');
-    assert.equal(1, refChangeCount);
+    expect(display.textContent).toBe('Ref value: 1');
+    expect(refChangeCount).toBe(1);
 
     rerender(<TestComponent value={12} onRefChange={handleRefChange} />);
-    assert.equal(display.textContent, 'Ref value: 12');
-    assert.equal(1, refChangeCount);
+    expect(display.textContent).toBe('Ref value: 12');
+    expect(refChangeCount).toBe(1);
 
     rerender(<TestComponent value={123} onRefChange={handleRefChange} />);
-    assert.equal(display.textContent, 'Ref value: 123');
-    assert.equal(1, refChangeCount);
+    expect(display.textContent).toBe('Ref value: 123');
+    expect(refChangeCount).toBe(1);
   });
 });

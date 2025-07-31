@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { TimerPool } from '../misc/timer-pool.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { zeroDeps } from './constants.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
@@ -45,8 +45,8 @@ export function useTransitionStatus({
   duration,
 }: UseTransitionStatusOptions): TransitionStatus {
   const [status, setStatus] = useState<TransitionStatus>(() => (defaultOpen ? 'open' : 'closed'));
-  const statusRef = useIdentityRef(status);
-  const durationRef = useIdentityRef(duration);
+  const statusRef = useLatestRef(status);
+  const durationRef = useLatestRef(duration);
   const timers = useMemo(createTimerPool, zeroDeps);
 
   useIsomorphicLayoutEffect(() => {

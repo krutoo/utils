@@ -1,5 +1,5 @@
 import { type RefObject } from 'react';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 
 /**
@@ -11,8 +11,8 @@ export function useOutsideClick<T extends Element>(
   elementRef: RefObject<T | undefined | null> | RefObject<T | undefined | null>[],
   callback?: (event: MouseEvent) => void,
 ): void {
-  const innerRef = useIdentityRef(elementRef);
-  const callbackRef = useIdentityRef(callback);
+  const innerRef = useLatestRef(elementRef);
+  const callbackRef = useLatestRef(callback);
 
   useIsomorphicLayoutEffect(() => {
     const handleClick = (event: MouseEvent) => {

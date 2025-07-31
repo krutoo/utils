@@ -1,5 +1,5 @@
 import { type MouseEventHandler, useCallback, useRef } from 'react';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 /** Options of `useExactClick` hook. */
 export interface UseExactClickOptions {
@@ -47,7 +47,7 @@ export function useExactClick(
   { onMouseDown, onMouseUp }: UseExactClickOptions = {},
 ): UseExactClickReturn {
   const mouseDownTargetRef = useRef<EventTarget | null>(null);
-  const callbackRef = useIdentityRef(onExactClick);
+  const callbackRef = useLatestRef(onExactClick);
 
   const handleMouseDown = useCallback<MouseEventHandler>(
     event => {

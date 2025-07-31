@@ -1,6 +1,6 @@
 import { type DependencyList, useCallback, useEffect, useMemo, useState, useContext } from 'react';
 import type { QueryControl, UseQueryOptions, UseQueryReturn } from './types.ts';
-import { useIdentityRef } from '../use-identity-ref.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
 import { QueryMangerContext } from './query-manager.tsx';
 import { MemoryQueryControl } from './memory-query-control.ts';
 
@@ -46,7 +46,7 @@ export function useQuery<T>(
 
   const [state, setState] = useState(() => control.getState());
 
-  const queryRef = useIdentityRef(query);
+  const queryRef = useLatestRef(query);
 
   const invalidate = useCallback(() => {
     // skip if disabled
@@ -62,7 +62,7 @@ export function useQuery<T>(
     control.makeQuery(queryRef.current);
   }, [enabled, control, queryRef]);
 
-  const invalidateRef = useIdentityRef(invalidate);
+  const invalidateRef = useLatestRef(invalidate);
 
   useEffect(() => {
     // skip if disabled

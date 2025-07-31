@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { RectSize } from '../math/mod.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { useStableCallback } from './use-stable-callback.ts';
 import { noop } from '../misc/noop.ts';
 
@@ -74,7 +74,7 @@ export function useWindowSize({
   defaultState = getInitialState,
 }: UseWindowSizeOptions = {}): RectSizeWithReady {
   const [state, setState] = useState<RectSizeWithReady>(defaultState);
-  const modeRef = useIdentityRef(mode);
+  const modeRef = useLatestRef(mode);
   const handleChange = useStableCallback(onChange);
 
   useIsomorphicLayoutEffect(() => {
