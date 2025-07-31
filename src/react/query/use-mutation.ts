@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useIdentityRef } from '../use-identity-ref.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
 import type { MutationState, UseMutationOptions, UseMutationReturn } from './types.ts';
 
 /**
@@ -61,9 +61,9 @@ export function useMutation<T, R = unknown>({
 }: UseMutationOptions<T, R>): UseMutationReturn<T, R> {
   const [state, setState] = useState<MutationState<R>>(getInitialState);
 
-  const mutationRef = useIdentityRef(mutation);
-  const onSuccessRef = useIdentityRef(onSuccess);
-  const onErrorRef = useIdentityRef(onError);
+  const mutationRef = useLatestRef(mutation);
+  const onSuccessRef = useLatestRef(onSuccess);
+  const onErrorRef = useLatestRef(onError);
 
   const mutate = useCallback(
     async (payload: T): Promise<R> => {

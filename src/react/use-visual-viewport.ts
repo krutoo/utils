@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { VisualViewportContext } from './context/visual-viewport-context.ts';
 import { useStableCallback } from './use-stable-callback.ts';
-import { useIdentityRef } from './use-identity-ref.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 import { noop } from '../misc/noop.ts';
 
 /**
@@ -140,7 +140,7 @@ export function useVisualViewport({
 }: UseVisualViewportOptions = {}): VisualViewportState {
   const { getVisualViewport } = useContext(VisualViewportContext);
   const [state, setState] = useState<VisualViewportState>(defaultState);
-  const modeRef = useIdentityRef(mode);
+  const modeRef = useLatestRef(mode);
   const handleChange = useStableCallback(onChange);
 
   useIsomorphicLayoutEffect(() => {
