@@ -19,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
   <MDXProvider components={components}>
     <ShowcaseApp
       stories={validStories}
+      storySearch
       title='@krutoo/utils'
       logoSrc='./public/logo.svg'
       headerLinks={[
