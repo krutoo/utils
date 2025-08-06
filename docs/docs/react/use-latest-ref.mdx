@@ -5,9 +5,25 @@ export const meta = {
   title: 'useLatestRef',
 };
 
-Hook for defining Ref that automatically gives actual value on each render.
+Hook for using ref that automatically updates value on each render.
 
-It is useful for example when you need to declare effect that uses some callback from props but you don't want to restart effect on callback change.
+This hook is enhanced (fixed) implementation of "[Latest Ref Pattern](https://www.epicreact.dev/the-latest-ref-pattern-in-react)"
+
+### Usage
+
+```tsx
+import { useLatestRef } from '@krutoo/utils/react';
+
+function App({ someValue }) {
+  const ref = useLatestRef(someValue);
+
+  // ...
+}
+```
+
+### Use cases
+
+It is useful for example when you need to declare effect that uses some callback from props but you don't want to rerun effect on callback change.
 
 Here is an example of how to create component with ability to listen when component is on screen:
 

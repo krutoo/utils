@@ -20,7 +20,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@krutoo/showcase": "^0.3.0",
+    "@krutoo/showcase": "^0.4.0",
     "@mdx-js/react": "^3.1.0",
     "classnames": "^2.5.1",
     "react": "^19.1.0",

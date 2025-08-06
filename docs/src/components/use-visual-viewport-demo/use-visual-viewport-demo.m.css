@@ -8,6 +8,10 @@
   font-size: 1.25rem;
 }
 
+.banner:hover {
+  cursor: pointer;
+}
+
 .subtitle {
   font-size: 1rem;
   opacity: 0.75;
