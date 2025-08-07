@@ -67,4 +67,68 @@ function App() {
 }
 ```
 
-TODO describe how to use `IntersectionObserverContext`
+### `IntersectionObserverContext`
+
+Under the hood this hook uses `IntersectionObserverContext` to create observer.
+`IntersectionObserverContext` by default uses global `window.IntersectionObserver`.
+
+But using global instance trough context gives you ability to _replace implementation whenever you want_.
+
+It means that you can:
+
+- provide polyfill implementation for environments that don't support `IntersectionObserver`;
+- provide implementation for SSR;
+- provide different implementations for different subtrees of your UI;
+- replace instance by mock in your unit tests.
+
+For example next we will use [IntersectionObserverMock](./?path=/testing/intersection-observer-mock):
+
+```tsx
+import { test, expect, act, render } from 'testing-sdk';
+import { useRef } from 'react';
+import { useIntersection, IntersectionObserverContext } from '@krutoo/utils/react';
+import { IntersectionObserverMock } from '@krutoo/utils/testing';
+
+function MyWidget() {
+  const ref = useRef(null);
+
+  useIntersection(ref, entry => {
+    ref.current.textContent = entry.isIntersecting ? 'I am on screen' : 'I am hidden';
+  });
+
+  return <div ref={ref} className='my-widget'></div>;
+}
+
+test('MyWidget should render message correctly', () => {
+  let observer;
+
+  const context = {
+    getObserver(...args) {
+      observer = new IntersectionObserverMock(...args);
+      return observer;
+    },
+  };
+
+  const { container } = render(
+    <IntersectionObserverContext value={context}>
+      <MyWidget />
+    </IntersectionObserverContext>,
+  );
+
+  expect(container.textContent).toBe('I am hidden');
+
+  act(() => {
+    observer.simulateIntersection([
+      {
+        target: document.querySelector('.my-widget'),
+        isIntersecting: true,
+      },
+    ]);
+  });
+
+  expect(container.textContent).toBe('I am on screen');
+});
+```
+
+This example shows that you don't need to use environment that implements `IntersectionObserver` during testing.
+So you can use [jsdom](https://github.com/jsdom/jsdom) for example.

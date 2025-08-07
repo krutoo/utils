@@ -22,4 +22,75 @@ function App() {
 }
 ```
 
-TODO describe how to use `ResizeObserverContext`
+### `ResizeObserverContext`
+
+Under the hood this hook uses `ResizeObserverContext` to create observer.
+`ResizeObserverContext` by default uses global `window.ResizeObserver`.
+
+But using global instance trough context gives you ability to _replace implementation whenever you want_.
+
+It means that you can:
+
+- provide polyfill implementation for environments that don't support `ResizeObserver`;
+- provide implementation for SSR;
+- provide different implementations for different subtrees of your UI;
+- replace instance by mock in your unit tests.
+
+For example next we will use [ResizeObserverMock](./?path=/testing/resize-observer-mock):
+
+```tsx
+import { test, expect, act, render } from 'testing-sdk';
+import { useState, useRef } from 'react';
+import { useResize, ResizeObserverContext } from '@krutoo/utils/react';
+import { ResizeObserverMock } from '@krutoo/utils/testing';
+
+function MyWidget() {
+  const [wide, setWide] = useState(false);
+  const ref = useRef(null);
+
+  useResize(ref, entry => {
+    const size = entry.borderBoxSize[0]?.inlineSize ?? 0;
+
+    setWide(size >= 720);
+  });
+
+  return (
+    <div ref={ref} className='my-widget'>
+      {wide ? 'I am wide' : 'I am thin'}
+    </div>
+  );
+}
+
+test('MyWidget should render message about width', () => {
+  let observer;
+
+  const context = {
+    getObserver(...args) {
+      observer = new ResizeObserverMock(...args);
+      return observer;
+    },
+  };
+
+  const { container } = render(
+    <ResizeObserverContext value={context}>
+      <MyWidget />
+    </ResizeObserverContext>,
+  );
+
+  expect(container.textContent).toBe('I am thin');
+
+  act(() => {
+    observer.simulateResize([
+      {
+        target: document.querySelector('.my-widget'),
+        borderBoxSize: [{ inlineSize: 800, blockSize: 100 }],
+      },
+    ]);
+  });
+
+  expect(container.textContent).toBe('I am wide');
+});
+```
+
+This example shows that you don't need to use environment that implements `ResizeObserver` during testing.
+So you can use [jsdom](https://github.com/jsdom/jsdom) for example.
