@@ -58,4 +58,57 @@ function App() {
 }
 ```
 
-TODO describe how to use `VisualViewportContext`
+### `VisualViewportContext`
+
+To define `VisualViewport` instance, hook uses `VisualViewportContext` under the hood.
+This context takes global instance from `window.visualViewport` by default.
+
+But using global instance trough context gives you ability to _replace implementation whenever you want_.
+
+It means that you can:
+
+- provide polyfill implementation for environments that don't support `visualViewport`;
+- provide implementation for SSR;
+- provide different implementations for different subtrees of your UI;
+- replace instance by mock in your unit tests.
+
+For example next we will use [VisualViewportMock](./?path=/testing/visual-viewport-mock):
+
+```tsx
+import { useVisualViewport, VisualViewportContext } from '@krutoo/utils/react';
+import { VisualViewportMock } from '@krutoo/utils/testing';
+import { test, render, expect } from 'testing-sdk';
+
+function MyWidget() {
+  const viewport = useVisualViewport();
+
+  return <div>Viewport width is {viewport.width}px</div>;
+}
+
+test('MyWidget should render message about width', () => {
+  const mock = new VisualViewportMock({
+    width: 1024,
+    height: 768,
+    scale: 1,
+    offsetLeft: 0,
+    offsetTop: 0,
+    pageLeft: 0,
+    pageTop: 0,
+  });
+
+  const context = {
+    getVisualViewport: () => mock,
+  };
+
+  const { container } = render(
+    <VisualViewportContext value={context}>
+      <MyWidget />
+    </VisualViewportContext>,
+  );
+
+  expect(container.textContent).toBe('Viewport width is 1024px');
+});
+```
+
+This example shows that you don't need to use environment that implements `VisualViewport` during testing.
+So you can use [jsdom](https://github.com/jsdom/jsdom) for example.

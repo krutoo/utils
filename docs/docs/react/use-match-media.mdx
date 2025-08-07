@@ -45,4 +45,61 @@ function App() {
 }
 ```
 
-TODO describe how to use `MatchMediaContext`
+### `MatchMediaContext`
+
+Under the hood this hook uses `MatchMediaContext` to create observer.
+`MatchMediaContext` by default uses global `window.matchMedia`.
+
+But using global instance trough context gives you ability to _replace implementation whenever you want_.
+
+It means that you can:
+
+- provide polyfill implementation for environments that don't support `matchMedia`;
+- provide implementation for SSR;
+- provide different implementations for different subtrees of your UI;
+- replace instance by mock in your unit tests.
+
+For example next we will use [MediaQueryListMock](./?path=/testing/media-query-list-mock):
+
+```tsx
+import { useMatchMedia, MatchMediaContext } from '@krutoo/utils/react';
+import { MediaQueryListMock } from '@krutoo/utils/testing';
+import { test, expect, act, render } from 'testing-sdk';
+
+function MyWidget() {
+  const mobile = useMatchMedia('(max-width: 1024px)');
+
+  return <div className='my-widget'>{mobile ? 'Mobile widget' : 'Desktop widget'}</div>;
+}
+
+test('MyWidget should render message correctly', () => {
+  let mql;
+
+  const context = {
+    matchMedia(query) {
+      mql = new MediaQueryListMock(query);
+
+      mql.simulateChange({ matches: true });
+
+      return mql;
+    },
+  };
+
+  const { container } = render(
+    <MatchMediaContext value={context}>
+      <MyWidget />
+    </MatchMediaContext>,
+  );
+
+  expect(container.textContent).toBe('Mobile widget');
+
+  act(() => {
+    mql.simulateResize({ matches: false });
+  });
+
+  expect(container.textContent).toBe('Desktop widget');
+});
+```
+
+This example shows that you don't need to use environment that implements `ResizeObserver` during testing.
+So you can use [jsdom](https://github.com/jsdom/jsdom) for example.
