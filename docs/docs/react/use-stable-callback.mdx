@@ -7,6 +7,28 @@ export const meta = {
 
 Hook that returns "stable" wrapper of given callback.
 
+### Usage
+
+```tsx
+import { useStableCallback } from '@krutoo/utils/react';
+
+function App({ onClick }) {
+  // works like useCallback but you don't need dependencies array
+  const handleClick = useStableCallback(() => {
+    // here we can use any dependencies (props, context, etc.)
+    onClick?.();
+  });
+
+  return (
+    <div className='app' onClick={handleClick}>
+      Hello, world!
+    </div>
+  );
+}
+```
+
+### Explanation
+
 "Stable" means that you can change callback on each render and returned function will call actual version but not be changed itself.
 
 Useful when you need to use callback in effects but you don't need to rerun effect each time callback changes.

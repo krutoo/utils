@@ -15,6 +15,7 @@
     "@rspack/core": "^1.4.11",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
+    "css-loader": "^7.1.2",
     "prettier": "^3.5.3",
     "tsimp": "^2.0.12",
     "typescript": "^5.8.3"
