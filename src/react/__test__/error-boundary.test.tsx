@@ -9,7 +9,7 @@ interface TestComponentProps {
 
 function TestComponent({ renderFail = false }: TestComponentProps) {
   if (renderFail) {
-    throw new Error('TestComponent: render error');
+    throw new Error('Fake error during render');
   }
 
   return <div>Test component</div>;
@@ -37,6 +37,6 @@ describe('ErrorBoundary', () => {
 
     expect(container.textContent).toBe('Fallback');
     expect(onError.mock.callCount()).toBe(1);
-    expect(onError.mock.calls[0]?.arguments[0]).toEqual(new Error('TestComponent: render error'));
+    expect(onError.mock.calls[0]?.arguments[0]).toEqual(new Error('Fake error during render'));
   });
 });

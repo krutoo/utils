@@ -79,6 +79,14 @@ export default {
 };
 ```
 
+**Testing** utils is available from `/testing` path.
+
+```js
+import { ResizeObserverMock } from '@krutoo/utils/testing';
+
+const mock = new ResizeObserverMock();
+```
+
 ## Development
 
 Minimum Node.js version is 22. Primarily It's because of `test` script in `package.json` which uses glob pattern.

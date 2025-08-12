@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict';
+import { expect } from '@std/expect';
 import { describe, test } from 'node:test';
 import { fireEvent, render } from '@testing-library/react';
 import { useState } from 'react';
@@ -28,25 +28,25 @@ describe('useDebounceState', () => {
     const caption = getByTestId('caption');
 
     // initial state
-    assert.equal(field.value, '');
-    assert.equal(caption.textContent, '');
+    expect(field.value).toBe('');
+    expect(caption.textContent).toBe('');
 
     // change input
     fireEvent.change(field, { target: { value: 'something' } });
-    assert.equal(field.value, 'something');
-    assert.equal(caption.textContent, '');
+    expect(field.value).toBe('something');
+    expect(caption.textContent).toBe('');
 
     // wait for debounced state updates
     await wait(300);
-    assert.equal(caption.textContent, 'something');
+    expect(caption.textContent).toBe('something');
 
     // change input again
     fireEvent.change(field, { target: { value: 'foobar' } });
-    assert.equal(field.value, 'foobar');
-    assert.equal(caption.textContent, 'something');
+    expect(field.value).toBe('foobar');
+    expect(caption.textContent).toBe('something');
 
     // wait for debounced state updates
     await wait(300);
-    assert.equal(caption.textContent, 'foobar');
+    expect(caption.textContent).toBe('foobar');
   });
 });
