@@ -1,12 +1,13 @@
 /**
  * This script will affect tests runtime to simulate browser environment.
  * It should be imported before any tests.
+ * Files like `{name}.web.test.{ext}` will be run with browser environment simulation.
  */
 import { before, after, afterEach } from 'node:test';
 import { GlobalRegistrator } from '@happy-dom/global-registrator';
 
 before(async context => {
-  if (context.filePath?.match(/\.node\.test\.(ts|tsx)$/)) {
+  if (!context.filePath?.match(/\.web\.test\.(ts|tsx)$/)) {
     return;
   }
 

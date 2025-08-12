@@ -95,9 +95,9 @@ Minimum Node.js version is 22. Primarily It's because of `test` script in `packa
 
 Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test.ts`.
 
-By default test environment is simulates browser.
+By default test environment is just Node.js environment.
 
-For write tests without browser environment simulation you need to name test file like `a.node.test.ts`.
+For write tests with simulating browser environment you need to name test file like `a.web.test.ts`.
 
 ## Q&A
 
