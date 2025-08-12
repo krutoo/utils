@@ -22,7 +22,7 @@ function TestComponent() {
 }
 
 describe('useDebounceState', () => {
-  test('Should return debounce state', async () => {
+  test('should return debounce state', async () => {
     const { getByTestId } = render(<TestComponent />);
     const field = getByTestId('field') as HTMLInputElement;
     const caption = getByTestId('caption');

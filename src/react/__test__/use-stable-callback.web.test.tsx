@@ -38,7 +38,7 @@ function TestComponent({ callback, trigger }: TestComponentProps) {
 }
 
 describe('useStableCallback', () => {
-  test('Should return stable wrapper of given callback', () => {
+  test('should return stable wrapper of given callback', () => {
     const log: Array<string> = [];
     let callbackChangeCount = 0;
     let stableCallbackChangeCount = 0;

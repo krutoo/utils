@@ -1,16 +1,4 @@
-import type { RectSize } from './types.ts';
+import { scaleRectToContain } from './scale-rect-to-contain.ts';
 
-/**
- * Returns a rectangle that fits into the specified rectangular area while maintaining the aspect ratio.
- * @param target Target box.
- * @param area Area box.
- * @returns New box that fits into area.
- */
-export function scaleToFit(target: RectSize, area: RectSize): RectSize {
-  const scale = Math.min(area.width / target.width, area.height / target.height);
-
-  return {
-    width: target.width * scale,
-    height: target.height * scale,
-  };
-}
+/** @deprecated Renamed to `scaleRectToContain`. */
+export const scaleToFit: typeof scaleRectToContain = scaleRectToContain;
