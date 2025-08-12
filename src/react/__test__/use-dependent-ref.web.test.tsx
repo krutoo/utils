@@ -5,7 +5,7 @@ import { useEffect, type RefObject } from 'react';
 import { render } from '@testing-library/react';
 
 describe('useDependentRef', () => {
-  test('Should work like useRef when no deps provided', () => {
+  test('should work like useRef when no deps provided', () => {
     function TestComponent() {
       const ref = useDependentRef<HTMLDivElement | null>(null);
 
@@ -44,7 +44,7 @@ describe('useDependentRef', () => {
     expect(getByTestId('test-root') === ref?.current).toBe(true);
   });
 
-  test('Should return new object when deps changed', () => {
+  test('should return new object when deps changed', () => {
     function TestComponent({ seed }: { seed: number }) {
       const ref = useDependentRef<HTMLDivElement | null>(null, [seed]);
 

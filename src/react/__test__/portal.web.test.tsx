@@ -24,7 +24,7 @@ function TestComponent() {
 }
 
 describe('Portal', () => {
-  test('Should create container, render content into, remove container', async () => {
+  test('should create container, render content into, remove container', async () => {
     const { baseElement, getByTestId } = render(<TestComponent />);
 
     expect(baseElement.children.length).toBe(1);

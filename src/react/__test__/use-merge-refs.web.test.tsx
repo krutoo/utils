@@ -33,7 +33,7 @@ function TestComponent({ refs, refCheck }: TestComponentProps) {
 }
 
 describe('useMergeRefs', () => {
-  test('Should set value to each ref', () => {
+  test('should set value to each ref', () => {
     let target: HTMLDivElement | null = null;
 
     const refObject = createRef<HTMLDivElement>();
@@ -54,7 +54,7 @@ describe('useMergeRefs', () => {
     expect(refObject.current === null).toBe(true);
   });
 
-  test('Should not change result ref when array is changed but items are same', () => {
+  test('should not change result ref when array is changed but items are same', () => {
     const ref1 = createRef<HTMLDivElement>();
     const ref2 = createRef<HTMLDivElement>();
     const ref3 = createRef<HTMLDivElement>();

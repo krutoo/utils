@@ -3,7 +3,7 @@ import { expect } from '@std/expect';
 import { once } from '../once.ts';
 
 describe('once', () => {
-  test('Should call wrapped function once', () => {
+  test('should call wrapped function once', () => {
     const spy = mock.fn(() => Math.random());
     const func = once(spy);
 

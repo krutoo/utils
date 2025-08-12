@@ -3,7 +3,7 @@ import { expect } from '@std/expect';
 import { findAncestor } from '../find-ancestor.ts';
 
 describe('findAncestor', () => {
-  test('Should find ancestor correctly', () => {
+  test('should find ancestor correctly', () => {
     const main = document.createElement('main');
     const article = document.createElement('article');
     const div = document.createElement('div');
