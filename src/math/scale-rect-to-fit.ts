@@ -7,7 +7,7 @@ import type { RectSize } from './types.ts';
  * @param area Area box.
  * @returns New box that fits into area.
  */
-export function scaleRectToContain(target: RectSize, area: RectSize): RectSize {
+export function scaleRectToFit(target: RectSize, area: RectSize): RectSize {
   const scale = Math.min(area.width / target.width, area.height / target.height);
 
   return {

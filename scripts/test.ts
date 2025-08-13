@@ -18,10 +18,13 @@ const config = parseArgs({
   },
 });
 
+const testsGlob = config.positionals[0] ?? 'src/**/*.test.{js,jsx,ts,tsx}';
+
 run({
-  globPatterns: [config.positionals[0] ?? 'src/**/*.test.{js,jsx,ts,tsx}'],
+  globPatterns: [testsGlob],
   coverage: config.values.coverage,
+  coverageExcludeGlobs: [testsGlob],
 })
-  .on('test:fail', () => (process.exitCode = 1))
+  .on('test:fail', () => void (process.exitCode = 1))
   .compose(spec)
   .pipe(process.stdout);
