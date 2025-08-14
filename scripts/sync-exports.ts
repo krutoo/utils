@@ -4,7 +4,6 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import glob from 'fast-glob';
 import { EOL } from 'node:os';
 
 interface Entrypoint {
@@ -63,7 +62,17 @@ function getExportsEntry(data: Entrypoint): [string, ImportDefinition] {
   ];
 }
 
-await glob('./src/**/mod.ts', { absolute: true })
+async function findEntrypoints(): Promise<string[]> {
+  const result: string[] = [];
+
+  for await (const pathname of fs.glob('./src/**/mod.ts')) {
+    result.push(path.resolve(pathname));
+  }
+
+  return result;
+}
+
+await findEntrypoints()
   .then(filenames => ({
     entrypoints: filenames
       .map(getEntrypoint)
