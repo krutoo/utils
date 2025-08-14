@@ -15,10 +15,13 @@ export function pluginStoriesEntry(config: PluginStoriesEntryOptions): RspackPlu
     let watchStarted = false;
 
     compiler.options.resolve.alias ??= {};
-    compiler.options.resolve.alias[config.entryAlias] ??= path.resolve(
-      process.cwd(),
-      config.filename,
-    );
+
+    if (compiler.options.resolve.alias) {
+      compiler.options.resolve.alias[config.entryAlias] ??= path.resolve(
+        process.cwd(),
+        config.filename,
+      );
+    }
 
     compiler.hooks.beforeRun.tapPromise('pluginStoriesEntry', async () => {
       await emitStoriesEntrypoint(config);
