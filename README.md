@@ -149,3 +149,11 @@ npx tsimp --clear
 # delete tsimp cache and stop daemon
 npx tsimp --clear
 ```
+
+### `npm install <something>` is infinite
+
+Temporary comment this line in `.npmrc`:
+
+```
+node-options='--import tsimp/import'
+```
