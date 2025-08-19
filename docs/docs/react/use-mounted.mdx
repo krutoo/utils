@@ -1,0 +1,22 @@
+# `useMounted`
+
+export const meta = {
+  category: 'React',
+  title: 'useMounted',
+};
+
+> Also known as `useIsClient/useIsBrowser` etc...
+
+Returns `true` after component is mounted (on client side), `false` otherwise. Useful for creating SSR ready UI.
+
+### Usage
+
+```tsx
+import { useMounted } from '@krutoo/utils/react';
+
+function App() {
+  const mounted = useMounted();
+
+  return mounted ? <PageContent /> : <LoadingSpinner />;
+}
+```
