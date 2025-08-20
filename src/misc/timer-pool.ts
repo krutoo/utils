@@ -42,7 +42,6 @@ export class TimerPool {
       type: 'interval',
       id: setInterval(() => {
         callback();
-        this.timers.delete(entry);
       }, ms),
     };
 
