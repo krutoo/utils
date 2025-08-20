@@ -38,6 +38,9 @@ describe('isShallowEqual', () => {
     expect(isShallowEqual({ a: 1, b: 2, c: 3 }, { a: 2, b: 4, c: 6 })).toBe(false);
     expect(isShallowEqual({ a: 1, b: 2, c: 3 }, { d: 1, e: 2, f: 3 })).toBe(false);
 
+    // objects with different amount of entries
+    expect(isShallowEqual({ a: 1, b: 2 }, { c: 3 })).toBe(false);
+
     // mixed
     expect(isShallowEqual(1, {})).toBe(false);
     expect(isShallowEqual(1, '1')).toBe(false);
