@@ -1,4 +1,5 @@
 // @todo maybe replace memoReturnArray to shallowMemoize
+// because in useSelector it is possible to use isShallowEqual
 
 /** Options for `memoReturnArray`. */
 export interface MemoReturnArrayOptions {
