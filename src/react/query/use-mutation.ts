@@ -1,18 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLatestRef } from '../use-latest-ref.ts';
 import type { MutationState, UseMutationOptions, UseMutationReturn } from './types.ts';
-
-/**
- * Returns initial state of mutation hook.
- * @returns State.
- */
-function getInitialState<T>(): MutationState<T> {
-  return {
-    status: 'initial',
-    data: null,
-    error: null,
-  };
-}
+import { useQueryControl } from './use-query-control.ts';
+import { generateId } from './utils.ts';
 
 /**
  * Mutation hook. Mutation is changing (create/update/delete) some entity in data source.
@@ -55,50 +45,48 @@ function getInitialState<T>(): MutationState<T> {
  * ```
  */
 export function useMutation<T, R = unknown>({
+  key: keyProp,
   mutation,
   onSuccess,
   onError,
 }: UseMutationOptions<T, R>): UseMutationReturn<T, R> {
-  const [state, setState] = useState<MutationState<R>>(getInitialState);
+  const key = useMemo(() => keyProp ?? generateId('mutation:'), [keyProp]);
+  const control = useQueryControl<R>(key);
+  const [state, setState] = useState<MutationState<R>>(() => control.getState());
 
   const mutationRef = useLatestRef(mutation);
   const onSuccessRef = useLatestRef(onSuccess);
   const onErrorRef = useLatestRef(onError);
 
+  useEffect(() => {
+    const onChanged = () => {
+      const newState = control.getState();
+
+      setState(newState);
+
+      if (newState.status === 'success') {
+        onSuccessRef.current?.(newState.data as R);
+      }
+
+      if (newState.status === 'failure') {
+        onErrorRef.current?.(newState.error);
+      }
+    };
+
+    setState(control.getState());
+
+    control.events.addEventListener('changed', onChanged);
+
+    return () => {
+      control.events.removeEventListener('changed', onChanged);
+    };
+  }, [control, onSuccessRef, onErrorRef]);
+
   const mutate = useCallback(
     async (payload: T): Promise<R> => {
-      setState(current => ({
-        ...current,
-        status: 'pending',
-      }));
-
-      try {
-        const result = await mutationRef.current(payload);
-
-        onSuccessRef.current?.(result);
-
-        setState(current => ({
-          ...current,
-          data: result,
-          status: 'success',
-          error: null,
-        }));
-
-        return result;
-      } catch (error) {
-        onErrorRef.current?.(error);
-
-        setState(current => ({
-          ...current,
-          error: error,
-          status: 'failure',
-        }));
-
-        // we do not mute error
-        throw error;
-      }
+      return control.makeQuery(() => mutationRef.current(payload));
     },
-    [mutationRef, onSuccessRef, onErrorRef],
+    [control, mutationRef],
   );
 
   return useMemo<UseMutationReturn<T, R>>(() => {

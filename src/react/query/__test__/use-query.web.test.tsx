@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
-import { useQuery } from '../use-query.ts';
 import { act, render } from '@testing-library/react';
+import { useQuery } from '../use-query.ts';
 
 interface RequestEventMap {
   success: CustomEvent<{ data: any }>;

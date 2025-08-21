@@ -1,8 +1,8 @@
-import { type DependencyList, useCallback, useEffect, useMemo, useState, useContext } from 'react';
-import type { QueryControl, UseQueryOptions, UseQueryReturn } from './types.ts';
+import { type DependencyList, useCallback, useEffect, useMemo, useState } from 'react';
+import type { UseQueryOptions, UseQueryReturn } from './types.ts';
 import { useLatestRef } from '../use-latest-ref.ts';
-import { QueryMangerContext } from './query-manager.tsx';
-import { MemoryQueryControl } from './memory-query-control.ts';
+import { useQueryControl } from './use-query-control.ts';
+import { generateId } from './utils.ts';
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).
@@ -40,10 +40,8 @@ export function useQuery<T>(
   { key: keyProp, query, enabled = true }: UseQueryOptions<T>,
   deps: DependencyList = [],
 ): UseQueryReturn<T> {
-  const key = useMemo(() => keyProp ?? `query:${Math.random().toString(16).slice(2)}`, [keyProp]);
-
+  const key = useMemo(() => keyProp ?? generateId('query:'), [keyProp]);
   const control = useQueryControl<T>(key);
-
   const [state, setState] = useState(() => control.getState());
 
   const queryRef = useLatestRef(query);
@@ -117,23 +115,4 @@ export function useQuery<T>(
     }),
     [state, invalidate],
   );
-}
-
-/**
- * Returns query control from manager from context.
- * When context is empty returns MemoryQueryControl.
- * @param key Key.
- * @returns QueryControl.
- */
-function useQueryControl<T>(key: string): QueryControl<T> {
-  const manager = useContext(QueryMangerContext);
-
-  return useMemo<QueryControl<T>>(() => {
-    // when manager is not provided - use in memory query control instance
-    if (!manager) {
-      return new MemoryQueryControl<T>();
-    }
-
-    return manager.getQueryControl(key);
-  }, [key, manager]);
 }

@@ -18,18 +18,20 @@ export class MemoryQueryControl<T> implements QueryControl<T> {
     return this.state;
   }
 
-  makeQuery(query: () => Promise<T>): void {
+  makeQuery(query: () => Promise<T>): Promise<T> {
     this.state = { ...this.state, status: 'pending' };
     this.events.dispatchEvent(new CustomEvent('changed'));
 
-    query()
+    return query()
       .then(data => {
         this.state = { ...this.state, data, status: 'success' };
         this.events.dispatchEvent(new CustomEvent('changed'));
+        return data;
       })
       .catch(error => {
         this.state = { ...this.state, error, status: 'failure' };
         this.events.dispatchEvent(new CustomEvent('changed'));
+        return Promise.reject(error);
       });
   }
 }
