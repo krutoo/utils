@@ -50,8 +50,8 @@ const DEFAULT_STATE: DOMRectState = {
  */
 function isRectsEqual(a: DOMRectShape, b: DOMRectShape): boolean {
   if (
-    // ВАЖНО: проверяем только позицию верхнего левого угла и размеры
-    // так как остальные значения зависят от позиции и размеров
+    // IMPORTANT: here we need to check size and position of top left corner
+    // since other values depend on the size ad position
     a.width !== b.width ||
     a.height !== b.height ||
     a.top !== b.top ||

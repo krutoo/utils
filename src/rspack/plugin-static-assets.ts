@@ -66,7 +66,7 @@ export function pluginStaticAssets({
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginStaticAssets', () => {
       if (byExt !== false) {
-        // ВАЖНО: по умолчанию обрабатываем известные типа изображений, аудио и видео
+        // IMPORTANT: by default we process known types of images, audio and video
         const defaultExtensions = [
           'apng',
           'avif',

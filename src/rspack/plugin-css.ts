@@ -58,7 +58,7 @@ export function pluginCSS({
             loader: 'css-loader',
             options: {
               url: {
-                // ВАЖНО: делаем поведение таким же как в HtmlRspackPlugin
+                // IMPORTANT: make behavior same as in HtmlRspackPlugin
                 filter: (url: string): boolean => !url.startsWith('/'),
               },
               modules: {
