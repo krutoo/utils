@@ -1,0 +1,81 @@
+# `useMutation`
+
+export const meta = {
+  category: 'React',
+  title: 'useMutation',
+};
+
+Simple analog of `useMutation` from TanStack. Made for educational purposes.
+
+### Basic usage
+
+Hook `useMutation` allows you to pushing data change to any source (HTTP api, GraphQL, RPC, etc.).
+
+Just provide `mutation` function that takes any payload and returns `Promise`.
+
+```tsx
+import { useMutation } from '@krutoo/utils/react';
+import { FormEvent } from 'react';
+import { logIn } from '#api';
+
+export default function Example() {
+  // 1) declare our mutation
+  const mutation = useMutation({
+    // 2) here we need to pass async function
+    mutation: logIn,
+  });
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const { login, password } = Object.fromEntries(formData.entries());
+
+    // 3) use mutation
+    mutation.mutate({ login, password }).catch(error => {
+      console.error(error);
+    });
+  };
+
+  // 4) render UI basic on mutation state:
+  if (mutation.status === 'pending') {
+    return <>Loading...</>;
+  }
+
+  if (mutation.status === 'failure') {
+    return <>Error: {mutation.error}`</>;
+  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <input name='login' />
+      <input name='password' />
+      <button type='submit'>Submit</button>
+    </form>
+  );
+}
+```
+
+### Using "Query manager"
+
+By default all queries/mutations will stored in component state.
+
+You can wrap your application to `QueryManager` implementation to control how to store mutations data.
+
+Package provides `MemoryQueryManager` - simple implementation of `QueryManager` interface that stores all data in memory.
+
+```tsx
+import { QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils/react';
+import { createRoot } from 'react-dom/client';
+import { App } from '#components/app';
+
+const manager = new MemoryQueryManager();
+
+createRoot(document.querySelector('#root')!).render(
+  <QueryMangerProvider manager={manager}>
+    <App />
+  </QueryMangerProvider>,
+);
+```
+
+TODO example of connecting `useMutation` to Redux through `QueryMangerProvider`

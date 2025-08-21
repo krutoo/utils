@@ -31,6 +31,8 @@ export interface UseQueryReturn<T = unknown> extends QueryState<T> {
 
 /** Options of `useMutation` hook. */
 export interface UseMutationOptions<T, R> {
+  key?: string;
+
   /** Mutation implementation. */
   mutation: (payload: T) => Promise<R>;
 
@@ -48,7 +50,7 @@ export interface UseMutationReturn<T, R> extends MutationState<R> {
 }
 
 /** State of mutation. */
-export interface MutationState<T> {
+export interface MutationState<T = unknown> {
   /** Status of mutation. */
   status: Status;
 
@@ -65,7 +67,7 @@ export interface QueryManager {
 }
 
 export interface QueryControl<T> {
-  makeQuery(query: () => Promise<T>): void;
+  makeQuery(query: () => Promise<T>): Promise<T>;
   getState(): QueryState<T>;
   events: QueryControlEvents;
 }
