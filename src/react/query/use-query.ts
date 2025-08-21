@@ -98,7 +98,7 @@ export function useQuery<T>(
       return;
     }
 
-    control.makeQuery(queryRef.current);
+    control.makeQuery(queryRef.current).catch(() => {});
   }, [
     enabled,
     control,
