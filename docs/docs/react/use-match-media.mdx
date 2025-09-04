@@ -64,7 +64,7 @@ For example next we will use [MediaQueryListMock](./?path=/testing/media-query-l
 ```tsx
 import { useMatchMedia, MatchMediaContext } from '@krutoo/utils/react';
 import { MediaQueryListMock } from '@krutoo/utils/testing';
-import { test, expect, act, render } from 'testing-sdk';
+import { test, expect, act, render } from '#testing';
 
 function MyWidget() {
   const mobile = useMatchMedia('(max-width: 1024px)');
