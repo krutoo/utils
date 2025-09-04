@@ -6,15 +6,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { EOL } from 'node:os';
 
-interface Entrypoint {
-  importPath: string;
-  srcRelativePath: string;
-}
-
-interface ImportDefinition {
-  import: string;
-  require: string;
-}
+type ExportsEntry = [
+  string,
+  {
+    types?: string;
+    import?: string;
+    require?: string;
+  },
+];
 
 class JsonFile {
   filename: string;
@@ -32,59 +31,60 @@ class JsonFile {
   }
 }
 
-function formatRelative(pathname: string) {
-  if (pathname === '.') {
-    return pathname;
-  }
-
-  return pathname.startsWith('./') ? pathname : `./${pathname}`;
-}
-
-function getEntrypoint(pathname: string): Entrypoint {
-  const relativePath = path.relative('./src', pathname);
-
-  return {
-    importPath: path.dirname(relativePath),
-    srcRelativePath: relativePath,
-  };
-}
-
-function getExportsEntry(data: Entrypoint): [string, ImportDefinition] {
-  const basename = path.basename(data.srcRelativePath, path.extname(data.srcRelativePath));
-  const relativeDistPath = path.join(path.dirname(data.srcRelativePath), `${basename}.js`);
-
-  return [
-    formatRelative(data.importPath),
-    {
-      import: formatRelative(path.join('dist/esm', relativeDistPath)),
-      require: formatRelative(path.join('dist/cjs', relativeDistPath)),
-    },
-  ];
-}
-
-async function findEntrypoints(): Promise<string[]> {
+async function glob(pattern: string) {
   const result: string[] = [];
 
-  for await (const pathname of fs.glob('./src/**/mod.ts')) {
-    result.push(path.resolve(pathname));
+  for await (const pathname of fs.glob(pattern)) {
+    result.push(path.relative('./', pathname));
   }
 
   return result;
 }
 
-await findEntrypoints()
-  .then(filenames => ({
-    entrypoints: filenames
-      .map(getEntrypoint)
-      .sort((a, b) => (a.importPath > b.importPath ? 1 : -1)),
-  }))
-  .then(ctx => ({
-    exports: Object.fromEntries(ctx.entrypoints.map(getExportsEntry)),
-  }))
-  .then(async ctx => {
-    await new JsonFile('./package.json').setProperty('exports', ctx.exports);
-  })
-  .then(() => {
-    // eslint-disable-next-line no-console
-    console.log('Exports synced with "src" folder');
-  });
+function formatPathname(pathname: string) {
+  if (pathname === '.' || pathname.startsWith('./') || pathname.startsWith('/')) {
+    return pathname;
+  }
+
+  return `./${pathname}`;
+}
+
+function exportsEntryFromEntrypoint(pathname: string): ExportsEntry {
+  const basename = path.basename(pathname, path.extname(pathname));
+  const srcRelativePath = path.relative('./src', pathname);
+  const distRelativePath = path.join(path.dirname(srcRelativePath), `${basename}.js`);
+
+  return [
+    formatPathname(path.dirname(srcRelativePath)),
+    {
+      import: formatPathname(path.join('dist/esm', distRelativePath)),
+      require: formatPathname(path.join('dist/cjs', distRelativePath)),
+    },
+  ];
+}
+
+function exportsEntryFromTyping(pathname: string): ExportsEntry {
+  return [
+    formatPathname(pathname.replace(/\.d\.ts$/, '')),
+    {
+      types: formatPathname(path.relative('./', pathname)),
+    },
+  ];
+}
+
+function compareEntries(a: ExportsEntry, b: ExportsEntry) {
+  return a[0].localeCompare(b[0]);
+}
+
+const entrypoints = await glob('./src/**/mod.ts');
+const typings = await glob('./public/**/*.d.ts');
+
+const exports = {
+  ...Object.fromEntries(entrypoints.map(exportsEntryFromEntrypoint).sort(compareEntries)),
+  ...Object.fromEntries(typings.map(exportsEntryFromTyping).sort(compareEntries)),
+};
+
+await new JsonFile('./package.json').setProperty('exports', exports);
+
+// eslint-disable-next-line no-console
+console.log('Exports synced');

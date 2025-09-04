@@ -50,7 +50,7 @@ export default {
 ### Tip: TypeScript definitions
 
 To provide information for the TypeScript about imported React-components from svg-files,
-you can add type declarations like this:
+you can manually add type declarations like this:
 
 ```ts
 // src/typings/react-svg.d.ts
@@ -59,3 +59,6 @@ declare module '*.svg' {
   export default Component;
 }
 ```
+
+Or you can use ready declarations from this package as described here:
+[Type declarations](./?path=/typings/overview)

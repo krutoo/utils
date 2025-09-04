@@ -26,5 +26,5 @@
 
     "verbatimModuleSyntax": true
   },
-  "exclude": ["node_modules", "tests-pkg", "tests-e2e", "docs", "dist"]
+  "exclude": ["public/typings", "node_modules", "tests-pkg", "tests-e2e", "docs", "dist"]
 }

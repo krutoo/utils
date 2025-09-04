@@ -101,6 +101,7 @@
   },
   "files": [
     "dist",
+    "public",
     "README.md"
   ],
   "exports": {
@@ -135,6 +136,12 @@
     "./types": {
       "import": "./dist/esm/types/mod.js",
       "require": "./dist/cjs/types/mod.js"
+    },
+    "./public/typings/css-modules": {
+      "types": "./public/typings/css-modules.d.ts"
+    },
+    "./public/typings/react-svg": {
+      "types": "./public/typings/react-svg.d.ts"
     }
   }
 }
