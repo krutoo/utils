@@ -1,15 +1,23 @@
-# `useWindowSize`
+import { Callout } from '#components/callout/callout';
 
 export const meta = {
   category: 'React',
   title: 'useWindowSize',
 };
 
+# `useWindowSize`
+
+<Callout level='danger'>
+  <Callout.Heading>Deprecated</Callout.Heading>
+  <Callout.Main>
+    Alternatively you can use [useVisualViewport](./?path=/react/use-visual-viewport) and multiply
+    sizes by `scale`.
+  </Callout.Main>
+</Callout>
+
 Hook that returns actual width and height of window.
 
 Uses `window.innerWidth` and `window.innerHeight`.
-
-Alternatively you can use "width" and "height" from `useVisualViewport` multiplied by "scale".
 
 ```tsx
 import { useWindowSize } from '@krutoo/utils/react';

@@ -1,7 +1,8 @@
-import { type RefObject, type MutableRefObject, useContext, useMemo } from 'react';
+import { type RefObject, type MutableRefObject, useContext, useMemo, useRef } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
+import { isShallowEqual } from '../mod.ts';
 
 /**
  * Rect hook of using IntersectionObserver on element.
@@ -24,16 +25,16 @@ import { IntersectionObserverContext } from './context/intersection-observer-con
  * #### Important
  *
  * Each known option' changing will provide recreating observer.
- * In case you have `threshold` as array - provide stable array (constant or memoized).
- * Otherwise hook will be recreate observer on each render.
+ * For `threshold` shallow equality check will be used because it can be array.
+ * In case you have `threshold` as array - try to provide stable array (constant or memoized).
  *
- * Wrong:
+ * This way will work but may be slow if threshold array has many items:
  * ```jsx
  * // Each render hook will take new array, so this options is "unstable"
  * useIntersection(ref, callback, { threshold: [0.1, 0.2, 0.3] });
  * ```
  *
- * Right
+ * Right:
  * ```jsx
  * // We memoize array, so it is "stable"
  * const threshold = useMemo(() => [0.1, 0.2, 0.3], []);
@@ -78,7 +79,10 @@ export function useIntersection<T extends Element>(
   // on every render if options passed as inline object.
   const hasOptions = useMemo(() => options !== undefined, [options]);
 
-  // IMPORTANT: don't use shallow equality because only used properties should be checked.
+  // IMPORTANT: use shallow equality check only for `threshold` because it is single non primitive option
+  const threshold = useShallowEqual(options?.threshold);
+
+  // IMPORTANT: don't use shallow equality because only used (known) properties should be checked.
   // Shallow equality check will be slow/wrong if `options` object has a lot of extra properties.
   const readyOptions = useMemo<IntersectionObserverInit | undefined>(() => {
     if (!hasOptions) {
@@ -90,11 +94,11 @@ export function useIntersection<T extends Element>(
     const result: IntersectionObserverInit = {
       root: options?.root,
       rootMargin: options?.rootMargin,
-      threshold: options?.threshold,
+      threshold: threshold,
     };
 
     return result;
-  }, [hasOptions, options?.root, options?.rootMargin, options?.threshold]);
+  }, [hasOptions, options?.root, options?.rootMargin, threshold]);
 
   useIsomorphicLayoutEffect(() => {
     const element = ref.current;
@@ -120,4 +124,19 @@ export function useIntersection<T extends Element>(
       observer.unobserve(element);
     };
   }, [ref, callbackRef, readyOptions, getObserver]);
+}
+
+/**
+ * Hook that updates return value when it is now shallow equal to given value.
+ * @param value Value.
+ * @returns Value.
+ */
+function useShallowEqual<T>(value: T): T {
+  const ref = useRef(value);
+
+  if (!isShallowEqual(ref.current, value)) {
+    ref.current = value;
+  }
+
+  return ref.current;
 }
