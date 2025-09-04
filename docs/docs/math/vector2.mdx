@@ -59,6 +59,54 @@ const vector = Vector2.of(10, 20);
 vector.setY(99);
 ```
 
+#### `addX`
+
+Adds value to the `x` coordinate.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+
+vector.addX(99);
+```
+
+#### `addY`
+
+Adds value to the `y` coordinate.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+
+vector.addY(99);
+```
+
+#### `subX`
+
+Subtracts value to the `x` coordinate.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+
+vector.subX(99);
+```
+
+#### `subY`
+
+Subtracts value to the `y` coordinate.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+
+vector.subY(99);
+```
+
 #### `add`
 
 Adds other vector.
@@ -107,6 +155,33 @@ Scales vector to make it length equal to 1.
 const vector = Vector2.of(10, 20);
 
 vector.normalize();
+```
+
+#### `rotate`
+
+Rotates vector around origin by given radians.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+
+// rotate by 3 radians
+vector.rotate(3);
+```
+
+#### `rotateAround`
+
+Rotates vector around origin by given radians.
+
+> This method is mutable
+
+```tsx
+const vector = Vector2.of(10, 20);
+const pivot = Vector2.of(5, 5);
+
+// rotate around pivot by 3 radians
+vector.rotateAround(pivot, 3);
 ```
 
 #### `getLength`
