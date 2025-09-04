@@ -81,6 +81,49 @@ export class Vector2 implements Point2d {
   }
 
   /**
+   * Adds value to the X coordinate.
+   * @param x X coordinate.
+   * @returns This.
+   */
+  addX(x: number): this {
+    this.x += x;
+
+    return this;
+  }
+
+  /**
+   * Adds value to the Y coordinate.
+   * @param y Y coordinate.
+   * @returns This.
+   */
+  addY(y: number): this {
+    this.y += y;
+
+    return this;
+  }
+  /**
+   * Subtracts value to the X coordinate.
+   * @param x X coordinate.
+   * @returns This.
+   */
+  subX(x: number): this {
+    this.x -= x;
+
+    return this;
+  }
+
+  /**
+   * Subtracts value to the Y coordinate.
+   * @param y Y coordinate.
+   * @returns This.
+   */
+  subY(y: number): this {
+    this.y -= y;
+
+    return this;
+  }
+
+  /**
    * Vector addition.
    * @param vector Vector.
    * @returns This.
@@ -165,5 +208,41 @@ export class Vector2 implements Point2d {
    */
   getLength(): number {
     return Math.sqrt(this.x ** 2 + this.y ** 2);
+  }
+
+  /**
+   * Rotates vector around origin.
+   * @param radians Angle in radians.
+   * @returns This.
+   */
+  rotate(radians: number): this {
+    this.rotateAround({ x: 0, y: 0 }, radians);
+
+    return this;
+  }
+
+  /**
+   * Rotates vector around given pivot.
+   * @param pivot Pivot.
+   * @param radians Angle in radians.
+   * @returns This.
+   */
+  rotateAround(pivot: Point2d, radians: number): this {
+    // translate the point so the pivot is at the origin
+    const translatedX = this.x - pivot.x;
+    const translatedY = this.y - pivot.y;
+
+    // rotate around the origin
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+
+    const rotatedX = translatedX * cos - translatedY * sin;
+    const rotatedY = translatedX * sin + translatedY * cos;
+
+    // translate back
+    this.x = rotatedX + pivot.x;
+    this.y = rotatedY + pivot.y;
+
+    return this;
   }
 }
