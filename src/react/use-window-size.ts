@@ -48,6 +48,8 @@ function getInitialState(): RectSizeWithReady {
  * Hook of actual state of window width and height.
  * Uses `window.innerWidth` and `window.innerHeight`.
  *
+ * @deprecated Use hook `useVisualViewport` instead dividing values by `scale`.
+ *
  * Alternatively you can use useVisualViewport "width" and "height" multiplied by "scale".
  *
  * @example
