@@ -1,3 +1,5 @@
+const hasOwn = Object.prototype.hasOwnProperty;
+
 /**
  * Checks that both arguments is shallow equal.
  * Shallow equality means that two objects with same keys and values are equal.
@@ -23,10 +25,7 @@ export function isShallowEqual(a: any, b: any): boolean {
   }
 
   for (let i = 0; i < keysA.length; i++) {
-    if (
-      !Object.prototype.hasOwnProperty.call(b, keysA[i]!) ||
-      !Object.is(a[keysA[i]!], b[keysA[i]!])
-    ) {
+    if (!hasOwn.call(b, keysA[i]!) || !Object.is(a[keysA[i]!], b[keysA[i]!])) {
       return false;
     }
   }
