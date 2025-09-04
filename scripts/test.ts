@@ -9,7 +9,7 @@ import { run } from 'node:test';
 import { spec } from 'node:test/reporters';
 import { parseArgs } from 'node:util';
 
-const config = parseArgs({
+const args = parseArgs({
   allowPositionals: true,
   allowNegative: true,
   options: {
@@ -18,14 +18,16 @@ const config = parseArgs({
   },
 });
 
-const testGlobs =
-  config.positionals.length > 0 ? config.positionals : ['src/**/*.test.{js,jsx,ts,tsx}'];
+const testGlobs = args.positionals.length ? args.positionals : ['src/**/*.test.{js,jsx,ts,tsx}'];
 
 run({
   globPatterns: testGlobs,
-  concurrency: config.values.concurrency,
-  coverage: config.values.coverage,
+  concurrency: args.values.concurrency,
+  coverage: args.values.coverage,
   coverageExcludeGlobs: [...testGlobs, 'scripts/**/*'],
+  lineCoverage: 80,
+  branchCoverage: 80,
+  functionCoverage: 80,
 })
   .on('test:fail', () => void (process.exitCode = 1))
   .compose(spec)

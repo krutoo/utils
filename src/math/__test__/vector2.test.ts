@@ -11,6 +11,22 @@ describe('Vector2', () => {
     expect(new Vector2(0, 0).setY(20)).toEqual(new Vector2(0, 20));
   });
 
+  test('addX', () => {
+    expect(new Vector2(2, 3).addX(4)).toEqual(new Vector2(6, 3));
+  });
+
+  test('addY', () => {
+    expect(new Vector2(2, 3).addY(4)).toEqual(new Vector2(2, 7));
+  });
+
+  test('subX', () => {
+    expect(new Vector2(3, 5).subX(2)).toEqual(new Vector2(1, 5));
+  });
+
+  test('subY', () => {
+    expect(new Vector2(3, 5).subY(2)).toEqual(new Vector2(3, 3));
+  });
+
   test('add', () => {
     expect(new Vector2(1, 2).add(new Vector2(3, 4))).toEqual(new Vector2(4, 6));
   });

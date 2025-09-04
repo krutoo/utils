@@ -46,5 +46,13 @@ describe('isShallowEqual', () => {
     expect(isShallowEqual(1, '1')).toBe(false);
     expect(isShallowEqual(false, 'false')).toBe(false);
     expect(isShallowEqual({ a: 123 }, 123)).toBe(false);
+
+    // same object
+    const obj = { id: 1 };
+    expect(isShallowEqual(obj, obj)).toBe(true);
+
+    // same function
+    const func = () => {};
+    expect(isShallowEqual(func, func)).toBe(true);
   });
 });
