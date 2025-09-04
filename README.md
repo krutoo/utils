@@ -99,6 +99,11 @@ By default test environment is just Node.js environment.
 
 For write tests with simulating browser environment you need to name test file like `a.web.test.ts`.
 
+### Package structure
+
+- `src` folder contains files that will be compiled
+- `public` folder contains files that will be copied as is
+
 ## Q&A
 
 Notable info about this package
