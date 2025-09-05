@@ -1,1 +1,1 @@
-/// <reference types="@krutoo/utils/public/typings/css-modules" />
+/// <reference types="@krutoo/utils/typings/css-modules" />

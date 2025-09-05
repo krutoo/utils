@@ -102,7 +102,7 @@ For write tests with simulating browser environment you need to name test file l
 ### Package structure
 
 - `src` folder contains files that will be compiled
-- `public` folder contains files that will be copied as is
+- `public` folder contains files that will be added to package as is
 
 ## Q&A
 
