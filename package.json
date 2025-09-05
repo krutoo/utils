@@ -43,7 +43,7 @@
     "lint": "eslint . && prettier . --check && ls-lint",
     "test": "node --import ./scripts/setup-tests.ts ./scripts/test.ts",
     "sync-exports": "node ./scripts/sync-exports.ts",
-    "build": "node ./scripts/build.ts",
+    "build": "node ./scripts/build.ts && npm run sync-exports",
     "commit": "better-commits",
     "changelog": "npx git-cliff -u"
   },
@@ -137,10 +137,10 @@
       "import": "./dist/esm/types/mod.js",
       "require": "./dist/cjs/types/mod.js"
     },
-    "./public/typings/css-modules": {
+    "./typings/css-modules": {
       "types": "./public/typings/css-modules.d.ts"
     },
-    "./public/typings/react-svg": {
+    "./typings/react-svg": {
       "types": "./public/typings/react-svg.d.ts"
     }
   }

@@ -65,7 +65,7 @@ function exportsEntryFromEntrypoint(pathname: string): ExportsEntry {
 
 function exportsEntryFromTyping(pathname: string): ExportsEntry {
   return [
-    formatPathname(pathname.replace(/\.d\.ts$/, '')),
+    formatPathname(path.relative('./public', pathname).replace(/\.d\.ts$/, '')),
     {
       types: formatPathname(path.relative('./', pathname)),
     },
