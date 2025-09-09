@@ -50,7 +50,9 @@ export default function Example() {
       </div>
 
       <div className={styles.controls}>
-        <button onClick={handleToggle}>Enabled: {enabled ? 'Yes' : 'No'}</button>
+        <button name='enabled' onClick={handleToggle}>
+          Enabled: {enabled ? 'Yes' : 'No'}
+        </button>
       </div>
     </SettingsContext>
   );
