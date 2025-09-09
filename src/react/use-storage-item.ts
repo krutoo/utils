@@ -18,6 +18,9 @@ export interface UseStorageItemOptions<T> {
 
   /** Item value processor. */
   processor: StorageValueProcessor<T>;
+
+  /** Default value. */
+  defaultValue?: string | null;
 }
 
 /** Return value type of `useStorageItem` hook. */
@@ -99,6 +102,7 @@ export function useStorageItem(
   options: {
     storage: Storage | (() => Storage);
     processor?: StorageValueProcessor<string | null>;
+    defaultValue?: string | null;
   },
 ): UseStorageItemReturn<string | null>;
 
@@ -138,55 +142,59 @@ export function useStorageItem<T>(
   {
     storage,
     processor = identityProcessor as unknown as StorageValueProcessor<T>,
+    defaultValue = null,
   }: {
     storage: Storage | (() => Storage);
     processor?: StorageValueProcessor<T>;
+    defaultValue?: string | null;
   },
 ): UseStorageItemReturn<T> {
-  const [state, setState] = useState<string | null>(null);
+  const [state, setState] = useState<string | null>(defaultValue);
 
   const getStorage = useCallback(() => {
     return typeof storage === 'function' ? storage() : storage;
   }, [storage]);
 
-  // @todo we loses function context here
-  const parseRef = useLatestRef(processor.parse);
-  const stringifyRef = useLatestRef(processor.stringify);
+  const processorRef = useLatestRef(processor);
 
   const value = useMemo(() => {
-    return parseRef.current(state);
-  }, [state, parseRef]);
+    return processorRef.current.parse(state);
+  }, [state, processorRef]);
+
+  const updateState = useCallback(
+    (newValue: string | null) => {
+      setState(newValue);
+
+      if (newValue === null) {
+        getStorage().removeItem(key);
+        return;
+      }
+
+      const exist = getStorage().getItem(key);
+
+      if (exist !== newValue) {
+        getStorage().setItem(key, newValue);
+      }
+    },
+    [key, getStorage],
+  );
 
   const setValue = useCallback(
     (newValue: T | null): void => {
       if (newValue === null) {
-        setState(null);
+        updateState(null);
         return;
       }
 
-      setState(stringifyRef.current(newValue));
+      updateState(processorRef.current.stringify(newValue));
     },
-    [stringifyRef],
+    [updateState, processorRef],
   );
 
   // when key or storage changes we need to update state
   useIsomorphicLayoutEffect(() => {
     setState(getStorage().getItem(key));
   }, [key, getStorage]);
-
-  // when state changes we need to set it to storage
-  useIsomorphicLayoutEffect(() => {
-    const exist = getStorage().getItem(key);
-
-    if (state === null) {
-      getStorage().removeItem(key);
-      return;
-    }
-
-    if (exist !== state) {
-      getStorage().setItem(key, state);
-    }
-  }, [key, getStorage, state]);
 
   return [value, setValue];
 }
