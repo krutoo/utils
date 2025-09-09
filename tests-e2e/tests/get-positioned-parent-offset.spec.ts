@@ -3,14 +3,12 @@ import { test, expect } from '@playwright/test';
 test('getPositionedParentOffset', async ({ page }) => {
   await page.goto('/sandbox.html?path=/get-positioned-parent-offset/primary');
 
-  await expect(page.locator('h1')).toHaveText('getPositionedParentOffset');
-
   expect(await page.getByTestId('target').count()).toBe(6);
 
-  await expect(page.locator('[name=enabled]')).not.toBeChecked();
+  await expect(page.locator('[name=enabled]')).not.toContainText('Yes');
 
-  await page.check('[name=enabled]');
-  await expect(page.locator('[name=enabled]')).toBeChecked();
+  await page.click('[name=enabled]');
+  await expect(page.locator('[name=enabled]')).toContainText('Yes');
 
   const mousePos = { x: 400, y: 100 };
   await page.mouse.move(mousePos.x, mousePos.y);
