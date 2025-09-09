@@ -14,6 +14,9 @@ import styles from './primary.m.css';
 export const meta = {
   category: 'DOM/getPositionedParentOffset',
   title: 'Primary example',
+  parameters: {
+    layout: 'fullscreen',
+  },
 };
 
 const SettingsContext = createContext<{ enabled: boolean }>({
@@ -23,26 +26,17 @@ const SettingsContext = createContext<{ enabled: boolean }>({
 export default function Example() {
   const [enabled, setEnabled] = useState(false);
 
-  const handleToggle = (event: { target: { checked: boolean } }) => {
-    setEnabled(event.target.checked);
+  const handleToggle = () => {
+    setEnabled(a => !a);
   };
 
   return (
     <SettingsContext value={{ enabled }}>
       <div className={styles.root}>
-        <h1 className={styles.title}>getPositionedParentOffset</h1>
-
-        <p className={styles.message}>The page is scrollable</p>
-
-        <p className={styles.message}>
-          <label>
-            <input type='checkbox' name='enabled' checked={enabled} onChange={handleToggle} />{' '}
-            Enabled
-          </label>
-        </p>
-
-        <Target strategy='fixed'>A_____</Target>
-        <Target strategy='absolute'>_A____</Target>
+        <Container heading='position: static'>
+          <Target strategy='fixed'>A_____</Target>
+          <Target strategy='absolute'>_A____</Target>
+        </Container>
 
         <Container heading='position: fixed' className={styles.fixed}>
           <Target strategy='fixed'>__A___</Target>
@@ -53,6 +47,10 @@ export default function Example() {
           <Target strategy='fixed'>____A_</Target>
           <Target strategy='absolute'>_____A</Target>
         </Container>
+      </div>
+
+      <div className={styles.controls}>
+        <button onClick={handleToggle}>Enabled: {enabled ? 'Yes' : 'No'}</button>
       </div>
     </SettingsContext>
   );
