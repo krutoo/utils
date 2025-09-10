@@ -88,7 +88,7 @@ function Target({
       return;
     }
 
-    let mouse: Point2d = { x: 0, y: 0 };
+    const mouse: Point2d = { x: 0, y: 0 };
 
     const moveToCursor = () => {
       const offset = getPositionedParentOffset(element, { strategy });
@@ -115,7 +115,7 @@ function Target({
       window.removeEventListener('scroll', moveToCursor);
       element.style.position = '';
     };
-  }, [enabled]);
+  }, [strategy, enabled]);
 
   return (
     <div
