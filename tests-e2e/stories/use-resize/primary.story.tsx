@@ -17,7 +17,7 @@ const styles = {
   } satisfies CSSProperties,
 };
 
-export default function () {
+export default function Example() {
   const [wide, setWide] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

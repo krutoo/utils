@@ -4,14 +4,15 @@ import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginJSDoc from 'eslint-plugin-jsdoc';
+import { defineConfig } from 'eslint/config';
+import { includeIgnoreFile } from '@eslint/compat';
+import { fileURLToPath } from 'node:url';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  // object with "ignores" only means global ignores in ESLint 9
-  // yes, this is awful design but we have what we have
-  {
-    ignores: ['**/.tsimp/*', '**/dist/*', '**/tests-pkg/*', '**/tests-e2e/*'],
-  },
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
+
+const config: ReturnType<typeof defineConfig> = defineConfig([
+  // Global ignores
+  includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 
   // Basics
   {
@@ -26,7 +27,7 @@ export default [
     },
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  tseslint.configs.recommended,
   {
     rules: {
       'no-console': 'error',
@@ -36,10 +37,16 @@ export default [
       '@typescript-eslint/no-shadow': 'error',
     },
   },
+  {
+    files: ['**/*.cjs'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
 
   // React
-  pluginReact.configs.flat.recommended,
-  pluginReact.configs.flat['jsx-runtime'],
+  pluginReact.configs.flat.recommended!,
+  pluginReact.configs.flat['jsx-runtime']!,
   {
     settings: {
       react: {
@@ -101,11 +108,18 @@ export default [
       'jsdoc/require-jsdoc': 'off',
     },
   },
-
   {
     files: ['docs/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     rules: {
       'jsdoc/require-jsdoc': 'off',
     },
   },
-];
+  {
+    files: ['tests-e2e/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
+      'jsdoc/require-jsdoc': 'off',
+    },
+  },
+]);
+
+export default config;
