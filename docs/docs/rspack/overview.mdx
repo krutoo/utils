@@ -15,8 +15,7 @@ All Rspack specific utils available from `/rspack` pathname.
 
 You can just import plugins to your Rspack configuration file (`.ts`, `.js`, CJS or ESM no matter) and use it:
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import * as utils from '@krutoo/utils/rspack';
 
 export default {
@@ -43,8 +42,7 @@ Features:
 - By default root tsconfig.json will be used for define path aliases so you don't need to add `resolve.alias.tsConfig` option to config
 - By default `js, jsx, ts, tsx, mts, cts` files handled
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
@@ -59,7 +57,7 @@ export default {
 
 CSS and css-modules support.
 
-```tsx
+```js title="rspack.config.js"
 import { pluginCSS } from '@krutoo/utils/rspack';
 
 export default {
@@ -75,7 +73,7 @@ export default {
 HTML file will be added to bundle.
 By default modern options is applied to builtin HTML plugin.
 
-```tsx
+```js title="rspack.config.js"
 import { pluginHTML } from '@krutoo/utils/rspack';
 
 export default {
@@ -94,7 +92,7 @@ Allows to import SVG files as React-components.
 
 > @svgr/webpack is a part of Webpack ecosystem but don't worry - it is compatible with Rspack
 
-```tsx
+```js title="rspack.config.js"
 import { pluginReactSVG } from '@krutoo/utils/rspack';
 
 export default {
@@ -109,7 +107,7 @@ export default {
 
 Folder "public" in project root will be copied to bundle as is.
 
-```tsx
+```js title="rspack.config.js"
 import { pluginPublicFiles } from '@krutoo/utils/rspack';
 
 export default {
@@ -127,7 +125,7 @@ Ability to import source code of file by:
 - adding `?raw` query to import specifier
 - or by adding import attribute like `with { type: 'text' }`
 
-```tsx
+```js title="rspack.config.js"
 import { pluginRawImport } from '@krutoo/utils/rspack';
 
 export default {
@@ -142,7 +140,7 @@ export default {
 
 Common file types like images, sounds and fonts will be imported as urls to resource so you don't need to add rules for it.
 
-```tsx
+```js title="rspack.config.js"
 import { pluginStaticAssets } from '@krutoo/utils/rspack';
 
 export default {
@@ -157,7 +155,7 @@ export default {
 
 Same as builtin [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environment-plugin) but allows to use variables as `import.meta.env.APP_NAME`.
 
-```tsx
+```js title="rspack.config.js"
 import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
 
 export default {

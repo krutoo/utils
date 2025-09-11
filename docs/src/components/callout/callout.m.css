@@ -2,11 +2,10 @@
   padding: 1.5rem 1.25rem;
   border-radius: 12px;
   background: #ecf0f1;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .danger {
-  background: rgba(195, 84, 72, 0.2);
+  background: rgba(211, 53, 36, 0.2);
 }
 
 .callout .heading {

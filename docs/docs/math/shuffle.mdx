@@ -7,7 +7,7 @@ export const meta = {
 
 Randomly sorts given array and returns it. This function mutates given array.
 
-```tsx
+```ts
 import { shuffle } from '@krutoo/utils';
 
 const array = [1, 2, 3, 4, 5, 6, 7];
@@ -18,7 +18,7 @@ shuffle(array);
 
 If you need to specify `random()` function you can use `options` argument:
 
-```tsx
+```ts
 shuffle(array, {
   random: myCustomRandomizer,
 });
@@ -28,7 +28,7 @@ shuffle(array, {
 
 `toShuffled` works exactly like `shuffle` but don't mutates given array, instead it returns new randomly sorted array.
 
-```tsx
+```ts
 import { toShuffled } from '@krutoo/utils';
 
 const array = [1, 2, 3, 4, 5, 6, 7];

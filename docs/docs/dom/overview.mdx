@@ -7,7 +7,7 @@ export const meta = {
 
 All helpers specific to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) available from package root.
 
-```tsx
+```ts
 import { findAncestor, isScrollable, getPositionedParentOffset } from '@krutoo/utils';
 ```
 
@@ -15,7 +15,7 @@ import { findAncestor, isScrollable, getPositionedParentOffset } from '@krutoo/u
 
 Checks that element is scrollable.
 
-```tsx
+```ts
 import { isScrollable } from '@krutoo/utils';
 
 const element = document.querySelector('#something');
@@ -27,7 +27,7 @@ isScrollable(element); // true or false
 
 Finds closest ancestor element that matches condition.
 
-```tsx
+```ts
 import { findAncestor } from '@krutoo/utils';
 
 const element = document.querySelector('#something');
@@ -46,7 +46,7 @@ Useful when you need to visually move element to position relative to viewport.
 
 For example when you need to move element to mouse you can do this:
 
-```tsx
+```ts
 import { getPositionedParentOffset } from '@krutoo/utils';
 
 const element = document.querySelector('#something');

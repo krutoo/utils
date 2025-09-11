@@ -11,8 +11,7 @@ It's same as [EnvironmentPlugin](https://rspack.dev/plugins/webpack/environment-
 
 ### Usage
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginImportMetaEnv } from '@krutoo/utils/rspack';
 
 export default {
@@ -28,8 +27,7 @@ export default {
 To provide information for the TypeScript about the variables provided by the plugin,
 you can add type declarations like this:
 
-```ts
-// src/typings/import-meta.d.ts
+```ts title="src/typings/import-meta.d.ts"
 interface ImportMetaEnv {
   [key: string]: any;
 

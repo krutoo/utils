@@ -1,7 +1,9 @@
 import path from 'node:path';
 import type { Configuration } from '@rspack/core';
+import type { CompileOptions } from '@mdx-js/mdx';
 import * as utils from '@krutoo/utils/rspack';
 import { aliasesToSource, pluginStoriesEntry } from './.rspack/utils.ts';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
 
@@ -27,7 +29,8 @@ export default {
         loader: '@mdx-js/loader',
         options: {
           providerImportSource: '@mdx-js/react',
-        },
+          rehypePlugins: [rehypeMdxCodeProps],
+        } satisfies CompileOptions,
       },
     ],
   },

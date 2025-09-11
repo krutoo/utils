@@ -7,7 +7,7 @@ export const meta = {
 
 Returns float random value between `min` and `max`.
 
-```tsx
+```ts
 import { randomFloat } from '@krutoo/utils';
 
 randomFloat(0.2, 0.5); // float number in range 0.2-0.5
@@ -17,7 +17,7 @@ Under the hood the `Math.random()` is used.
 
 If you want to create you own `randomFloat` with custom `random` function you can use `createRandomFloat`:
 
-```tsx
+```ts
 import { createRandomFloat } from '@krutoo/utils';
 
 // customRandom should return number in range from 0 to 1
