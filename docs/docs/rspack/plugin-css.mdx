@@ -114,15 +114,19 @@ export default {
 To provide information for the TypeScript about css-modules files,
 you can manually add type declarations like this:
 
-```ts
-// src/typings/css-modules.d.ts
+```ts title="src/typings/css-modules.d.ts"
+// regular css
+declare module '*.css' {}
+
+// css-modules
 declare module '*.module.css' {
-  const styles: { [key: string]: string };
+  const styles: { [key: string]: string | undefined };
   export default styles;
 }
 
+// css-modules (short syntax)
 declare module '*.m.css' {
-  const styles: { [key: string]: string };
+  const styles: { [key: string]: string | undefined };
   export default styles;
 }
 ```
