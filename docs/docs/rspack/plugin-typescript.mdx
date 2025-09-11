@@ -10,8 +10,7 @@ Rspack plugin that adds support of TypeScript and modern JavaScript.
 
 ## Basic usage
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
@@ -32,8 +31,7 @@ Default rule also uses `automatic` React runtime in SWC config.
 
 You can change options for SWC by `swcLoaderOptions` option:
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
@@ -53,8 +51,7 @@ export default {
 
 You also can override any rule options by provide `ruleOverride`:
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
@@ -75,8 +72,7 @@ So you don't need to add `resolve.extensions` in your configuration.
 
 If you want to change extensions that will be added to config you can use `resolveExtensions` option:
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {
@@ -101,7 +97,7 @@ Under the hood this plugin adds item to `module.rules` in your configuration.
 
 You can configure how to add rule by set `ruleInsert` option:
 
-```tsx
+```js title="rspack.config.js"
 import { pluginTypeScript } from '@krutoo/utils/rspack';
 
 export default {

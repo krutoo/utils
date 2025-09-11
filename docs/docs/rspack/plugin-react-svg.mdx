@@ -16,8 +16,7 @@ npm install --save-dev @svgr/webpack
 
 You can use this plugin like regular plugins.
 
-```tsx
-// rspack.config.js
+```js title="rspack.config.js"
 import { pluginReactSVG } from '@krutoo/utils/rspack';
 
 export default {
@@ -34,7 +33,7 @@ Under the hood this plugin adds item to `module.rules` in your configuration.
 
 You can configure how to add rule by set `ruleInsert` option:
 
-```tsx
+```js title="rspack.config.js"
 import { pluginReactSVG } from '@krutoo/utils/rspack';
 
 export default {
@@ -52,8 +51,7 @@ export default {
 To provide information for the TypeScript about imported React-components from svg-files,
 you can manually add type declarations like this:
 
-```ts
-// src/typings/react-svg.d.ts
+```ts title="src/typings/react-svg.d.ts"
 declare module '*.svg' {
   const Component: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   export default Component;

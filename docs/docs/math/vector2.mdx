@@ -9,7 +9,7 @@ Class that represents a point in a 2-dimensional space.
 
 ## Usage
 
-```tsx
+```ts
 import { Vector2 } from '@krutoo/utils';
 
 const vector = new Vector2(10, 20);
@@ -21,7 +21,7 @@ const vector = new Vector2(10, 20);
 
 Creates new vector by `x` and `y`.
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 ```
 
@@ -29,7 +29,7 @@ const vector = Vector2.of(10, 20);
 
 Creates new vector from object that implements `{ x: number; y: number }`.
 
-```tsx
+```ts
 const vector = Vector2.from({ x: 10, y: 20 });
 ```
 
@@ -41,7 +41,7 @@ Changes `x` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.setX(99);
@@ -53,7 +53,7 @@ Changes `y` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.setY(99);
@@ -65,7 +65,7 @@ Adds value to the `x` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.addX(99);
@@ -77,7 +77,7 @@ Adds value to the `y` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.addY(99);
@@ -89,7 +89,7 @@ Subtracts value to the `x` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.subX(99);
@@ -101,7 +101,7 @@ Subtracts value to the `y` coordinate.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.subY(99);
@@ -113,7 +113,7 @@ Adds other vector.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -126,7 +126,7 @@ Subtracts other vector.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -139,7 +139,7 @@ Scale vector by scalar.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.scale(10);
@@ -151,7 +151,7 @@ Scales vector to make it length equal to 1.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.normalize();
@@ -163,7 +163,7 @@ Rotates vector around origin by given radians.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 // rotate by 3 radians
@@ -176,7 +176,7 @@ Rotates vector around origin by given radians.
 
 > This method is mutable
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 const pivot = Vector2.of(5, 5);
 
@@ -188,7 +188,7 @@ vector.rotateAround(pivot, 3);
 
 Returns vector length.
 
-```tsx
+```ts
 const vector = Vector2.of(10, 20);
 
 vector.getLength(); // number
@@ -198,7 +198,7 @@ vector.getLength(); // number
 
 Returns distance to other vector.
 
-```tsx
+```ts
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -209,7 +209,7 @@ vector1.getDistance(vector2); // number
 
 Checks that vector is equal to other vector.
 
-```tsx
+```ts
 const vector1 = Vector2.of(10, 20);
 const vector2 = Vector2.of(20, 30);
 
@@ -224,7 +224,7 @@ Most of the methods are _mutable_ so it changes the instance.
 
 But you can use `clone()` to work in immutable manner.
 
-```tsx
+```ts
 const vector1 = Vector2.of(10, 20);
 const vector2 = vector1.clone();
 
@@ -236,7 +236,7 @@ console.log(vector1.equalsTo(vector2)); // true
 
 Returns plain object with vector coordinates.
 
-```tsx
+```ts
 const vector = new Vector2(10, 20);
 
 console.log(vector.toJSON()); // { x: 10, y: 20 }
@@ -246,7 +246,7 @@ console.log(vector.toJSON()); // { x: 10, y: 20 }
 
 Most ot the instance methods are [_chainable_](https://en.wikipedia.org/wiki/Method_chaining):
 
-```tsx
+```ts
 const vector = new Vector2(10, 20);
 
 vector

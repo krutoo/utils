@@ -1,5 +1,41 @@
+.root {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background: #222;
+}
+
+.header {
+  font-family:
+    Menlo,
+    Consolas,
+    Monaco,
+    Liberation Mono,
+    Lucida Console,
+    monospace;
+  font-size: 14px;
+  min-height: 48px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #767c9d;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header + div.codeblock > pre {
+  padding-top: 8px;
+}
+
 div.codeblock > pre {
   background: #222;
+  margin: 0;
   color: #ccc;
   font-size: 14px;
   line-height: 1.5;

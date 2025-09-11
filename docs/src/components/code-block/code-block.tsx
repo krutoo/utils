@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import { isValidElement, ReactNode, useMemo, useState } from 'react';
+import { isValidElement, ReactNode, useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import { codeToHtml } from 'shiki';
 import styles from './code-block.m.css';
 
 export interface CodeBlockProps {
+  title?: string;
   children?: ReactNode;
 }
 
@@ -13,19 +14,29 @@ interface CodeProps {
   className?: string;
 }
 
-export function CodeBlock({ children }: { children?: ReactNode }) {
+export function CodeBlock({ title, children }: CodeBlockProps) {
   const [content, setContent] = useState('');
+  const [background, setBackground] = useState<string | undefined>(undefined);
+  const blockRef = useRef<HTMLDivElement>(null);
+
+  useIsomorphicLayoutEffect(() => {
+    const code = blockRef.current?.children[0];
+
+    if (!code) {
+      return;
+    }
+
+    setBackground(getComputedStyle(code).backgroundColor);
+  }, [content]);
 
   const sourceCode = useMemo(() => {
-    if (!isValidElement<CodeProps>(children)) {
-      return null;
-    }
-
-    if (children.type !== 'code') {
-      return null;
-    }
-
-    if (typeof children.props.children !== 'string') {
+    if (
+      !(
+        isValidElement<CodeProps>(children) &&
+        children.type === 'code' &&
+        typeof children.props.children === 'string'
+      )
+    ) {
       return null;
     }
 
@@ -56,13 +67,20 @@ export function CodeBlock({ children }: { children?: ReactNode }) {
       .catch(console.error);
   }, [sourceCode]);
 
-  if (content) {
-    return <div className={styles.codeblock} dangerouslySetInnerHTML={{ __html: content }} />;
-  }
-
   return (
-    <div className={styles.codeblock}>
-      <pre>{children}</pre>
+    <div className={styles.root} style={{ background }}>
+      {title && <div className={styles.header}>{title}</div>}
+      {content ? (
+        <div
+          ref={blockRef}
+          className={styles.codeblock}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <div className={styles.codeblock}>
+          <pre>{children}</pre>
+        </div>
+      )}
     </div>
   );
 }
