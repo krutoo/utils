@@ -4,10 +4,10 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "noEmit": false,
-    "declaration": false,
-    "isolatedDeclarations": false,
-    "sourceMap": true,
-    "outDir": "dist/esm"
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "sourceMap": false,
+    "outDir": "dist/types"
   },
   "include": ["src"],
   "exclude": [

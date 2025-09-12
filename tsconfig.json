@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "rootDir": "./",
+    "baseUrl": "./",
     "noEmit": true,
     "target": "ESNext",
     "module": "NodeNext",
