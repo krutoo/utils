@@ -16,6 +16,9 @@ await execAsync('npx tsc -p tsconfig.build-esm.json');
 // build cjs files
 await execAsync('npx tsc -p tsconfig.build-cjs.json');
 
+// build d.ts files
+await execAsync('npx tsc -p tsconfig.build-types.json');
+
 // format (for reduce package size by replacing indent from 4 to 2)
 await execAsync('npx prettier "dist/**/*.js" --write --ignore-path=./.nonexistent');
 

@@ -108,35 +108,43 @@
   "exports": {
     ".": {
       "import": "./dist/esm/mod.js",
-      "require": "./dist/cjs/mod.js"
+      "require": "./dist/cjs/mod.js",
+      "types": "./dist/types/mod.d.ts"
     },
     "./dom": {
       "import": "./dist/esm/dom/mod.js",
-      "require": "./dist/cjs/dom/mod.js"
+      "require": "./dist/cjs/dom/mod.js",
+      "types": "./dist/types/dom/mod.d.ts"
     },
     "./math": {
       "import": "./dist/esm/math/mod.js",
-      "require": "./dist/cjs/math/mod.js"
+      "require": "./dist/cjs/math/mod.js",
+      "types": "./dist/types/math/mod.d.ts"
     },
     "./misc": {
       "import": "./dist/esm/misc/mod.js",
-      "require": "./dist/cjs/misc/mod.js"
+      "require": "./dist/cjs/misc/mod.js",
+      "types": "./dist/types/misc/mod.d.ts"
     },
     "./react": {
       "import": "./dist/esm/react/mod.js",
-      "require": "./dist/cjs/react/mod.js"
+      "require": "./dist/cjs/react/mod.js",
+      "types": "./dist/types/react/mod.d.ts"
     },
     "./rspack": {
       "import": "./dist/esm/rspack/mod.js",
-      "require": "./dist/cjs/rspack/mod.js"
+      "require": "./dist/cjs/rspack/mod.js",
+      "types": "./dist/types/rspack/mod.d.ts"
     },
     "./testing": {
       "import": "./dist/esm/testing/mod.js",
-      "require": "./dist/cjs/testing/mod.js"
+      "require": "./dist/cjs/testing/mod.js",
+      "types": "./dist/types/testing/mod.d.ts"
     },
     "./types": {
       "import": "./dist/esm/types/mod.js",
-      "require": "./dist/cjs/types/mod.js"
+      "require": "./dist/cjs/types/mod.js",
+      "types": "./dist/types/types/mod.d.ts"
     },
     "./typings/css-modules": {
       "types": "./public/typings/css-modules.d.ts"
