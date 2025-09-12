@@ -44,6 +44,21 @@ const config: ReturnType<typeof defineConfig> = defineConfig([
     },
   },
 
+  // Import/export
+  {
+    files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    rules: {
+      'no-restricted-exports': [
+        'error',
+        {
+          restrictDefaultExports: {
+            direct: true,
+          },
+        },
+      ],
+    },
+  },
+
   // React
   pluginReact.configs.flat.recommended!,
   pluginReact.configs.flat['jsx-runtime']!,

@@ -38,6 +38,8 @@ for (const [a, b] of pairs(list)) {
 
 [React](https://react.dev/) must be installed in your project.
 
+All React utilities, components and hooks are 100% SSR ready.
+
 ```jsx
 import { useMatchMedia } from '@krutoo/utils/react';
 
@@ -103,6 +105,10 @@ For write tests with simulating browser environment you need to name test file l
 
 - `src` folder contains files that will be compiled
 - `public` folder contains files that will be added to package as is
+
+### Exports convention
+
+Any exported file from this package should not contain default exports (`export default ...`). Defaults exports are hard to work with and less compatible between ESM and CJS.
 
 ## Q&A
 

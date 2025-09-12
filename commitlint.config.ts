@@ -5,4 +5,4 @@ export default {
     'body-max-line-length': [0],
     'subject-case': [0],
   },
-};
+} as const;
