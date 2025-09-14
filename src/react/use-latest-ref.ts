@@ -7,21 +7,6 @@ import { type MutableRefObject, useRef } from 'react';
  * This is a corrected implementation of "Latest Ref" pattern in React
  * that is described here: https://www.epicreact.dev/the-latest-ref-pattern-in-react.
  *
- * @example
- * ```tsx
- * import { useLatestRef } from "@krutoo/utils/react";
- *
- * function App ({ count }: { count: number }) {
- *   const countRef = useLatestRef(count);
- *
- *   // ref will always contain actual value
- *   // so you can read this ref inside effects without rerunning
- *   console.assert(count === countRef.current);
- *
- *   return <div>Count: {count}</div>;
- * }
- * ```
- *
  * @param value Current value.
  * @returns Ref object.
  */

@@ -17,28 +17,9 @@ export interface PluginCssOptions extends RuleInsertOptions {
 /**
  * Rspack plugin that adds support of importing CSS files.
  * CSS-modules enabled by default for files like `some.module.css` and `some.m.css`.
+ *
  * It uses `css-loader` and `CssExtractRspackPlugin` under the hood.
- *
  * The `css-loader` is optional peer dependency of this package, so you need to install it.
- * @example
- * ```bash
- * npm install --save-dev css-loader
- * ```
- *
- * You can use this plugin like regular plugins.
- * @example
- * ```js
- * // rspack.config.js
- * import { pluginCSS } from '@krutoo/utils/rspack';
- *
- * export default {
- *   plugins: [
- *     pluginCSS(),
- *   ],
- *   // ...other config
- * };
- * ```
- *
  * @param options Options.
  * @returns Plugin function.
  */

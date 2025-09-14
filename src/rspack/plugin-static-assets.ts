@@ -33,27 +33,6 @@ export interface PluginStaticAssetsOptions extends RuleInsertOptions {
  * By default popular file extensions (image, audio, video) will be handled by this rule:
  * apng, avif, gif, jpg, jpeg, png, webp, mp3, ogg, wav, mp4, 3gp, webm.
  *
- *
- * @example You can also import any file as url by import attribute:
- * ```js
- * import fileUrl from './my-file.txt' with { type: 'url' };
- * ```
- *
- * By default static assets will be emitted to "static" folder in root of bundle folder.
- *
- * @example
- * ```js
- * // rspack.config.js
- * import { pluginStaticAssets } from '@krutoo/utils/rspack';
- *
- * export default {
- *   plugins: [
- *     pluginStaticAssets(),
- *   ],
- *   // ...other config
- * };
- * ```
- *
  * @param options Options.
  * @returns Plugin function.
  */

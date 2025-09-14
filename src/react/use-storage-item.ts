@@ -34,68 +34,14 @@ const identityProcessor: StorageValueProcessor<string | null> = {
 
 /**
  * Hook for working with storage item.
- *
  * You need to provide key and storage for getting actual value from storage.
  *
  * By default result value is raw value from storage.
- *
  * You can provide processor for parse/stringify value automatically.
  *
  * @param key Storage item key.
  * @param options Options.
  * @returns Tuple like `[state, setState]`.
- *
- * @example By default state type is `string | null`.
- * ```tsx
- * import { useStorageItem } from "@krutoo/utils/react";
- *
- * function App ({ count }: { count: number }) {
- *   const [value, setValue] = useStorageItem('someValue', {
- *     storage: localStorage,
- *   });
- *
- *   return <div>Value is {value}</div>;
- * }
- * ```
- *
- * @example You can provide processor for parse raw string from storage and stringify your data for storing.
- * ```tsx
- * import { useStorageItem } from "@krutoo/utils/react";
- *
- * function App ({ count }: { count: number }) {
- *   const [age, setAge] = useStorageItem<number>('age', {
- *     storage: sessionStorage,
- *     processor: {
- *       parse: Number,
- *       stringify: String,
- *     },
- *   });
- *
- *   return <input value={value} />;
- * }
- * ```
- *
- * @example If you want to get/set JSON, you can use special utility `getJsonProcessor`.
- * ```tsx
- * import { useStorageItem, getJsonProcessor } from "@krutoo/utils/react";
- *
- * interface MyData {
- *   value: string
- * }
- *
- * function App ({ count }: { count: number }) {
- *   // first we use generic for bind type of value
- *   const [data, setData] = useStorageItem<MyData>('value', {
- *     storage: localStorage,
- *
- *     // `getJsonProcessor` first argument is placeholder for cases when
- *     // value in storage is null or JSON.parse is failed
- *     processor: getJsonProcessor({ value: '...' }),
- *   });
- *
- *   return <div>Value is {data.value}</div>;
- * }
- * ```
  */
 export function useStorageItem(
   key: string,

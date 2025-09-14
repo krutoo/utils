@@ -49,23 +49,7 @@ function getInitialState(): RectSizeWithReady {
  * Uses `window.innerWidth` and `window.innerHeight`.
  *
  * @deprecated Use hook `useVisualViewport` instead dividing values by `scale`.
- *
  * Alternatively you can use useVisualViewport "width" and "height" multiplied by "scale".
- *
- * @example
- * ```tsx
- * import { useWindowSize } from '@krutoo/utils/react';
- *
- * export function App() {
- *   const size = useWindowSize();
- *
- *   return (
- *     <p>
- *       Your window size is {size.width} x {size.height}px
- *     </p>
- *   );
- * }
- * ```
  *
  * @param options Options.
  * @returns Window size object with `width` and `height` properties.

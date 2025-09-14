@@ -6,43 +6,9 @@ import { generateId } from './utils.ts';
 
 /**
  * Mutation hook. Mutation is changing (create/update/delete) some entity in data source.
- *
  * This is a minimalistic analogue of `useMutation` from `@tanstack/react-query` made for educational purposes.
- *
  * @param options Mutation options.
  * @returns Mutation.
- *
- * @example
- * ```tsx
- * import { useMutation } from '@krutoo/utils/react';
- *
- * function App () {
- *   const creating = useMutation({
- *     async mutation (data: { name: string, price: number }) {
- *       const response = await fetch('api/item', {
- *         method: 'POST',
- *         body: JSON.stringify(data),
- *       });
- *
- *       if (!response.ok) {
- *         throw "Error during fetching data";
- *       }
- *
- *       return await response.json();
- *     }
- *   });
- *
- *   return (
- *     <form onSubmit={() => creating.mutate({ name: 'foo', price: 99 })}>
- *       <input name="name" />
- *       <input name="price" />
- *       <button type="submit" disabled={creating.status === 'fetching'}>
- *         Submit
- *       </button>
- *     </form>
- *   );
- * }
- * ```
  */
 export function useMutation<T, R = unknown>({
   key: keyProp,

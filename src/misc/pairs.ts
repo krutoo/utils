@@ -1,22 +1,5 @@
 /**
  * Returns generator that iterates each pair of elements in array.
- *
- * @example
- * ```ts
- * import { pairs } from "@krutoo/utils";
- *
- * const list = [1, 2, 3];
- *
- * for (const [a, b] of pairs(list)) {
- *   console.log(a, b);
- * }
- *
- * // output:
- * // 1 2
- * // 1 3
- * // 2 3
- * ```
- *
  * @param array Array.
  * @yields Each unique pair.
  */

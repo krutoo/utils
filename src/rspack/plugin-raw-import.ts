@@ -25,20 +25,6 @@ export interface PluginRawImportOptions extends RuleInsertOptions {
  * Rspack plugin that that allows importing files as a string (`with { type: 'text' }` or by `?raw` query).
  * By query logic is analogue of `raw-loader` that adds rule with `resourceQuery` and `type: 'asset/source'`.
  * By default it uses `?raw` query so every file can be imported as string with this query.
- *
- * @example
- * ```js
- * // rspack.config.js
- * import { pluginRawImport } from '@krutoo/utils/rspack';
- *
- * export default {
- *   plugins: [
- *     pluginRawImport(),
- *   ],
- *   // ...other config
- * };
- * ```
- *
  * @param options Options.
  * @returns Plugin function.
  */

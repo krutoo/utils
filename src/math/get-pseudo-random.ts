@@ -1,18 +1,6 @@
 /**
  * Returns a pseudo random number generator based on seed from first argument.
  * Thanks for author of this article: http://indiegamr.com/generate-repeatable-random-numbers-in-js/.
- *
- * @example
- * ```ts
- * import { getPseudoRandom } from "@krutoo/utils";
- *
- * // First we create a "random" function...
- * const random = getPseudoRandom(123);
- *
- * // ...and it works like Math.random()
- * console.log(random()); // 0.11539780521262002
- * ```
- *
  * @param seed Seed - finite number.
  * @returns Function that returns pseudo random number from 0 to 1.
  */

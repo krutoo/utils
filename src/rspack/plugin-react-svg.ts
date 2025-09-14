@@ -34,28 +34,9 @@ export const SVGO_DEFAULTS: Config = {
 
 /**
  * Rspack plugin that adds support of importing svg files as React-components.
+ *
  * It uses `@svgr/webpack` so this package should be installed in your project.
- *
  * The `@svgr/webpack` is optional peer dependency of this package, so you need to install it.
- * @example
- * ```bash
- * npm install --save-dev @svgr/webpack
- * ```
- *
- * You can use this plugin like regular plugins.
- * @example
- * ```js
- * // rspack.config.js
- * import { pluginReactSVG } from '@krutoo/utils/rspack';
- *
- * export default {
- *   plugins: [
- *     pluginReactSVG(),
- *   ],
- *   // ...other config
- * };
- * ```
- *
  * @param options Options.
  * @returns Plugin function.
  */

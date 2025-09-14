@@ -31,20 +31,6 @@ export interface PluginTypeScriptOptions extends RuleInsertOptions {
  * It adds items to `resolve.extensions` in configuration (by default `.ts, .tsx` will be added).
  * It adds `resolve.tsConfig` with path to `tsconfig.json` in project root (when it is not provided in config).
  * By default it uses `automatic` React runtime in SWC config.
- *
- * @example
- * ```js
- * // rspack.config.js
- * import { pluginTypeScript } from '@krutoo/utils/rspack';
- *
- * export default {
- *   plugins: [
- *     pluginTypeScript(),
- *   ],
- *   // ...other config
- * };
- * ```
- *
  * @param options Options.
  * @returns Plugin function.
  */
