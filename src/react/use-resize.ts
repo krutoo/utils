@@ -5,22 +5,6 @@ import { ResizeObserverContext } from './context/resize-observer-context.ts';
 
 /**
  * React hook for observe element resizing.
- *
- * @example
- * ```tsx
- * import { useResize } from '@krutoo/utils/react';
- *
- * export function App () {
- *   const ref = useRef<HTMLDivElement>(null);
- *
- *   useResize(ref, (entry) => {
- *     console.log(`Element was resized`);
- *   });
- *
- *   return <div ref={ref}>Hello!</div>;
- * }
- * ```
- *
  * @param ref Element ref.
  * @param callback Resize observer callback.
  * @param options Resize observer options.

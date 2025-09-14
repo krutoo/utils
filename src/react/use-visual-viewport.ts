@@ -114,22 +114,6 @@ function observe(viewport: VisualViewport, callback: () => void): () => void {
 
 /**
  * Hook of window.visualViewport state.
- *
- * @example
- * ```tsx
- * import { useVisualViewport } from '@krutoo/utils/react';
- *
- * export function App() {
- *   const viewport = useVisualViewport();
- *
- *   return (
- *     <p>
- *       Your viewport size is {viewport.width} x {viewport.height}px
- *     </p>
- *   );
- * }
- * ```
- *
  * @param options Options.
  * @returns State of visualViewport (width, height, etc).
  */

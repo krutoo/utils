@@ -31,14 +31,14 @@ function App() {
 
 Each known option' changing will provide recreating observer.
 
-In case you have `threshold` as array - **provide stable array (constant or memoized)**.
-Otherwise hook will be recreate observer on each render.
+For `threshold` **shallow equality** check will be used because it can be array.
+In case you have `threshold` as array - try to provide stable array (constant or memoized).
 
-Wrong:
+Will work but long arrays can cause performance issues:
 
 ```jsx
 // Each render hook will take new array
-// So this options is "unstable" and provide recreating observer after each render
+// So this value is "unstable"
 useIntersection(ref, callback, { threshold: [0.1, 0.2, 0.3] });
 ```
 

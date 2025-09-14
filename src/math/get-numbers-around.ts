@@ -16,20 +16,6 @@ export interface GetNumbersAroundOptions {
  * @param target Target value.
  * @param options Options of borders and range of result set of numbers.
  * @returns Array of sorted numbers.
- * @example
- * ```ts
- * import { getNumbersAround } from "@krutoo/utils";
- *
- * getNumbersAround(5); // [4, 5, 6]
- *
- * getNumbersAround(5, { range: 2 }); // [3, 4, 5, 6, 7]
- *
- * getNumbersAround(1, { range: 2 }); // [-1, 0, 1, 2, 3]
- *
- * getNumbersAround(1, { min: -1, range: 2 }); // [-1, 0, 1, 2, 3]
- *
- * getNumbersAround(99, { range: 2, max: 100 }); // [97, 98, 99, 100]
- * ```
  */
 export function getNumbersAround(
   target: number,

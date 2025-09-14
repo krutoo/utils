@@ -6,35 +6,10 @@ import { generateId } from './utils.ts';
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).
- *
  * This is a minimalistic analogue of `useQuery` from `@tanstack/react-query` made for educational purposes.
- *
  * @param options Query configuration.
  * @param deps Dependencies that will invalidate query.
  * @returns State of query: data, error status and more.
- *
- * @example
- * ```tsx
- * import { useQuery } from '@krutoo/utils/react';
- *
- * function App () {
- *   const user = useQuery({
- *     async query() {
- *       return fetch('/api/user/current').then(res => res.json());
- *     },
- *   });
- *
- *   if (user.status === 'fetching') {
- *     return 'Loading...';
- *   }
- *
- *   if (user.status === 'failure') {
- *     return `Error: ${user.error}`;
- *   }
- *
- *   return <div>Hello, {user.name}!</div>;
- * }
- * ```
  */
 export function useQuery<T>(
   { key: keyProp, query, enabled = true }: UseQueryOptions<T>,

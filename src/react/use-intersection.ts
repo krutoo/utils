@@ -6,55 +6,6 @@ import { isShallowEqual } from '../mod.ts';
 
 /**
  * Rect hook of using IntersectionObserver on element.
- *
- * @example
- * ```tsx
- * import { useIntersection } from '@krutoo/utils/react';
- *
- * export function App () {
- *   const ref = useRef<HTMLDivElement>(null);
- *
- *   useIntersection(ref, (entry) => {
- *     console.log(entry.isIntersecting ? 'On screen' : 'Off screen');
- *   });
- *
- *   return <div ref={ref}>Hello!</div>;
- * }
- * ```
- *
- * #### Important
- *
- * Each known option' changing will provide recreating observer.
- * For `threshold` shallow equality check will be used because it can be array.
- * In case you have `threshold` as array - try to provide stable array (constant or memoized).
- *
- * This way will work but may be slow if threshold array has many items:
- * ```jsx
- * // Each render hook will take new array, so this options is "unstable"
- * useIntersection(ref, callback, { threshold: [0.1, 0.2, 0.3] });
- * ```
- *
- * Right:
- * ```jsx
- * // We memoize array, so it is "stable"
- * const threshold = useMemo(() => [0.1, 0.2, 0.3], []);
- * useIntersection(ref, callback, { threshold });
- * ```
- *
- * Also right:
- * ```jsx
- * // We use constant outside component, so it is "stable"
- * const THRESHOLD = [0.1, 0.2, 0.3]
- *
- * function App () {
- *   // ...
- *
- *   useIntersection(ref, callback, { threshold: THRESHOLD });
- *
- *   // ...
- * }
- * ```
- *
  * @param ref Ref with element.
  * @param callback Observer callback.
  * @param options Observe options.

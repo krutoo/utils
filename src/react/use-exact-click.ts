@@ -22,22 +22,6 @@ export interface UseExactClickReturn {
 /**
  * Calls callback when click was started and ended on same element.
  * Useful for "backdrop" elements of modal windows.
- *
- * @example
- * ```tsx
- * import { useExactClick } from '@krutoo/utils/react';
- *
- * export function MyModal({ onClose }: { onClose?: VoidFunction }) {
- *   const backdropClickProps = useExactClick(onClose);
- *
- *   return (
- *     <div className='backdrop' {...backdropClickProps}>
- *       <div className='modal'></div>
- *     </div>
- *   );
- * }
- * ```
- *
  * @param onExactClick Click event callback.
  * @param options Options.
  * @returns Props for HTMLElement.
