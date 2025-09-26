@@ -1,0 +1,19 @@
+export const meta = {
+  category: 'Rspack',
+  title: 'pluginExec',
+};
+
+# `pluginExec`
+
+Plugin that runs shell scripts on `afterEmit` event.
+
+```js title="rspack.config.js"
+import { pluginExec } from '@krutoo/utils/rspack';
+
+export default {
+  plugins: [
+    // just use plugin function
+    pluginExec({ script: 'node dist/index.js' }),
+  ],
+};
+```

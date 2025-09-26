@@ -28,10 +28,10 @@ function App() {
     <>
       <button onClick={() => setOpen(a => !a)}>Toggle</button>
 
-      {/* Modal render its children only when open is true */}
+      {/* Modal renders its children only when open is true */}
       <Modal open={open}>
         {/* So you can declaratively handle mount using Lifecycle */}
-        <Lifecycle onMount={() => console.log('popup is rendered')}>
+        <Lifecycle onMount={() => console.log('Dialog is rendered')}>
           <h1>Some dialog</h1>
         </Lifecycle>
       </Modal>
