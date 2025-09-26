@@ -142,6 +142,9 @@ export function Portal({
     containerInitRef,
   ]);
 
+  // @todo идея для SSR:
+  // контекст с fallback-функцией которая вызывается если !container и принимает ReactNode
+  // в SSR накапливание ReactNode и отдельный render куда надо
   if (container) {
     return createPortal(children, container, portalKey);
   }

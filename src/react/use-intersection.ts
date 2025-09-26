@@ -1,8 +1,21 @@
-import { type RefObject, type MutableRefObject, useContext, useMemo, useRef } from 'react';
+import {
+  type RefObject,
+  type MutableRefObject,
+  useContext,
+  useMemo,
+  useRef,
+  type DependencyList,
+} from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
 import { isShallowEqual } from '../mod.ts';
+import { zeroDeps } from './constants.ts';
+
+export interface UseIntersectionOptions extends IntersectionObserverInit {
+  /** Dependencies that triggers checking ref and recreating observer. */
+  extraDeps?: DependencyList;
+}
 
 /**
  * Rect hook of using IntersectionObserver on element.
@@ -19,7 +32,7 @@ export function useIntersection<T extends Element>(
     | MutableRefObject<T | null>
     | MutableRefObject<T | undefined>,
   callback: (entry: IntersectionObserverEntry) => void,
-  options?: IntersectionObserverInit,
+  { extraDeps = zeroDeps, ...options }: UseIntersectionOptions = {},
 ): void {
   const { getObserver } = useContext(IntersectionObserverContext);
 
@@ -28,7 +41,10 @@ export function useIntersection<T extends Element>(
   // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
   // It is because in case we add `options` to deps - it will be changed
   // on every render if options passed as inline object.
-  const hasOptions = useMemo(() => options !== undefined, [options]);
+  const hasOptions = useMemo<boolean>(
+    () => Boolean(options.root ?? options.rootMargin ?? options.threshold),
+    [options],
+  );
 
   // IMPORTANT: use shallow equality check only for `threshold` because it is single non primitive option
   const threshold = useShallowEqual(options?.threshold);
@@ -74,7 +90,15 @@ export function useIntersection<T extends Element>(
     return () => {
       observer.unobserve(element);
     };
-  }, [ref, callbackRef, readyOptions, getObserver]);
+  }, [
+    ref,
+    callbackRef,
+    readyOptions,
+    getObserver,
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...extraDeps,
+  ]);
 }
 
 /**
