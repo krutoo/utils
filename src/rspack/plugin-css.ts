@@ -28,7 +28,7 @@ export function pluginCSS({
   cssModules,
   ruleInsert,
 }: PluginCssOptions = {}): RspackPluginFunction {
-  // @todo scss support
+  // @todo scss support?
   return compiler => {
     compiler.hooks.afterEnvironment.tap('krutoo:pluginCSS', () => {
       const rule: RuleSetRule = {

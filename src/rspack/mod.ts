@@ -1,4 +1,5 @@
 export * from './plugin-css.ts';
+export * from './plugin-exec.ts';
 export * from './plugin-html.ts';
 export * from './plugin-import-meta-env.ts';
 export * from './plugin-public-files.ts';
