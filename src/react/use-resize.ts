@@ -1,7 +1,19 @@
-import { type RefObject, type MutableRefObject, useContext, useMemo } from 'react';
+import {
+  type RefObject,
+  type MutableRefObject,
+  useContext,
+  useMemo,
+  type DependencyList,
+} from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 import { ResizeObserverContext } from './context/resize-observer-context.ts';
+import { zeroDeps } from './constants.ts';
+
+export interface UseResizeOptions extends ResizeObserverOptions {
+  /** Dependencies that triggers checking ref and recreating observer. */
+  extraDeps?: DependencyList;
+}
 
 /**
  * React hook for observe element resizing.
@@ -18,7 +30,7 @@ export function useResize<T extends Element>(
     | MutableRefObject<T | null>
     | MutableRefObject<T | undefined>,
   callback: (entry: ResizeObserverEntry) => void,
-  options?: ResizeObserverOptions,
+  { extraDeps = zeroDeps, ...options }: UseResizeOptions = {},
 ): void {
   const { getObserver } = useContext(ResizeObserverContext);
   const callbackRef = useLatestRef(callback);
@@ -26,7 +38,7 @@ export function useResize<T extends Element>(
   // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
   // It is because in case we add `options` to deps - it will be changed
   // on every render if options passed as inline object.
-  const hasOptions = useMemo(() => !!options, [options]);
+  const hasOptions = useMemo(() => Boolean(options.box), [options]);
 
   // IMPORTANT: don't use shallow equality because only used properties should be checked.
   // Shallow equality check will be slow/wrong if `options` object has a lot of extra properties.
@@ -65,5 +77,13 @@ export function useResize<T extends Element>(
     return () => {
       observer.unobserve(element);
     };
-  }, [ref, callbackRef, getObserver, readyOptions]);
+  }, [
+    ref,
+    callbackRef,
+    getObserver,
+    readyOptions,
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...extraDeps,
+  ]);
 }
