@@ -34,7 +34,7 @@ export function pluginCSS({
       const rule: RuleSetRule = {
         test: /\.css$/i,
         use: [
-          ...(extract !== false ? [rspack.CssExtractRspackPlugin.loader] : []),
+          rspack.CssExtractRspackPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -42,6 +42,7 @@ export function pluginCSS({
                 // IMPORTANT: make behavior same as in HtmlRspackPlugin
                 filter: (url: string): boolean => !url.startsWith('/'),
               },
+              exportOnlyLocals: extract === false,
               modules: {
                 ...cssModules,
                 auto: cssModules?.auto ?? /\.(module|m)\.css$/i,
