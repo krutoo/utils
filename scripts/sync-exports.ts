@@ -8,11 +8,14 @@ import { EOL } from 'node:os';
 
 type ExportsEntry = [
   string,
-  {
-    types?: string;
-    import?: string;
-    require?: string;
-  },
+  (
+    | string
+    | {
+        types?: string;
+        import?: string;
+        require?: string;
+      }
+  ),
 ];
 
 class JsonFile {
@@ -53,17 +56,10 @@ function exportsEntryFromEntrypoint(pathname: string): ExportsEntry {
   const basename = path.basename(pathname, path.extname(pathname));
   const srcRelativePath = path.relative('./src', pathname);
   const distRelativePath = path.join(path.dirname(srcRelativePath), `${basename}.js`);
-  const distRelativePathDts = path.join(path.dirname(srcRelativePath), `${basename}.d.ts`);
 
   return [
     formatPathname(path.dirname(srcRelativePath)),
-    {
-      import: formatPathname(path.join('dist/esm', distRelativePath)),
-      require: formatPathname(path.join('dist/cjs', distRelativePath)),
-
-      // According to https://mayank.co/blog/dual-packages
-      types: formatPathname(path.join('dist/types', distRelativePathDts)),
-    },
+    formatPathname(path.join('dist', distRelativePath)),
   ];
 }
 
