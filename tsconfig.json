@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "rootDir": "./",
-    "baseUrl": "./",
     "noEmit": true,
     "target": "ESNext",
     "module": "NodeNext",
@@ -26,7 +25,11 @@
     // because "isolatedDeclarations" does not work without it
     "declaration": true,
 
-    "verbatimModuleSyntax": true
+    // import types only with type keyword
+    "verbatimModuleSyntax": true,
+
+    // no enums, namespaces, parameter properties, etc
+    "erasableSyntaxOnly": true
   },
-  "exclude": ["public/typings", "node_modules", "tests-pkg", "tests-e2e", "docs", "dist"]
+  "exclude": ["node_modules", "public/typings", "tests-pkg", "tests-e2e", "docs", "dist"]
 }

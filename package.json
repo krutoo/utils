@@ -126,6 +126,11 @@
       "require": "./dist/cjs/misc/mod.js",
       "types": "./dist/types/misc/mod.d.ts"
     },
+    "./nano-store": {
+      "import": "./dist/esm/nano-store/mod.js",
+      "require": "./dist/cjs/nano-store/mod.js",
+      "types": "./dist/types/nano-store/mod.d.ts"
+    },
     "./react": {
       "import": "./dist/esm/react/mod.js",
       "require": "./dist/cjs/react/mod.js",
