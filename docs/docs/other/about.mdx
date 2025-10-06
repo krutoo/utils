@@ -1,0 +1,61 @@
+export const meta = {
+  title: 'Store',
+  category: 'Other',
+};
+
+# Store
+
+Package provides simples implementation of "store".
+
+Store - is a subscribable state container. It means you can:
+
+- get value from store;
+- set value to store;
+- subscribe to value change.
+
+It useful for experiments and tests and also in cases when you need to something simple to work with.
+
+## Usage
+
+```js
+import { createStore } from '@krutoo/utils/store';
+
+const counter = createStore(0);
+
+// get current value:
+counter.get();
+
+// set value:
+counter.set(12);
+
+// add listener:
+const unsubscribe = counter.subscribe(() => {
+  console.log(`Actual count is ${count.get()}`);
+});
+
+// remove listener:
+unsubscribe();
+```
+
+### React
+
+In React synchronizing UI state with store can be achieved with `useSyncExternalStore`:
+
+```jsx
+import { createStore } from '@krutoo/utils/store';
+import { useSyncExternalStore } from 'react';
+
+const counter = createStore(0);
+
+function App() {
+  const count = useSyncExternalStore(store.subscribe, store.get);
+
+  return (
+    <>
+      Count: {count}
+      <button onClick={() => counter.set(counter.get() - 1)}>-</button>
+      <button onClick={() => counter.set(counter.get() + 1)}>+</button>
+    </>
+  );
+}
+```
