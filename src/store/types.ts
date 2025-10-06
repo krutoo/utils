@@ -1,5 +1,5 @@
 /**
- * Simple state container interface.
+ * Simplest state container interface.
  */
 export interface StateContainer<T> {
   /** Get value. */
@@ -10,7 +10,7 @@ export interface StateContainer<T> {
 }
 
 /**
- * Simple subscribable interface.
+ * Simplest subscribable interface.
  */
 export interface Subscribable {
   /**
@@ -22,6 +22,6 @@ export interface Subscribable {
 }
 
 /**
- * Store - subscribable state container.
+ * "Nano store" - subscribable state container.
  */
 export interface Store<T> extends Subscribable, StateContainer<T> {}

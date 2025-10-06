@@ -1,7 +1,7 @@
 import type { Store } from './types.ts';
 
 /**
- * Creates nano store.
+ * Creates "nano store".
  * @param initialValue Initial value.
  * @returns Nano store.
  */
