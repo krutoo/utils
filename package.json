@@ -110,9 +110,9 @@
     "./dom": "./dist/dom/mod.js",
     "./math": "./dist/math/mod.js",
     "./misc": "./dist/misc/mod.js",
-    "./nano-store": "./dist/nano-store/mod.js",
     "./react": "./dist/react/mod.js",
     "./rspack": "./dist/rspack/mod.js",
+    "./store": "./dist/store/mod.js",
     "./testing": "./dist/testing/mod.js",
     "./types": "./dist/types/mod.js",
     "./typings/css-modules": {

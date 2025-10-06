@@ -1,8 +1,8 @@
 import { test, describe, mock } from 'node:test';
 import { expect } from '@std/expect';
-import { createStore } from '../nano-store.ts';
+import { createStore } from '../create-store.ts';
 
-describe('createNanoStore', () => {
+describe('createStore', () => {
   test('should create working store', () => {
     const store = createStore<number>(1);
     const spy = mock.fn();
