@@ -61,7 +61,7 @@ export function useIntersection<T extends Element>(
     const result: IntersectionObserverInit = {
       root: options?.root,
       rootMargin: options?.rootMargin,
-      threshold: threshold,
+      threshold,
     };
 
     return result;

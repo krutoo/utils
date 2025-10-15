@@ -30,11 +30,18 @@ const config: ReturnType<typeof defineConfig> = defineConfig([
   tseslint.configs.recommended,
   {
     rules: {
+      'object-shorthand': 'error',
       'no-console': 'error',
       eqeqeq: 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        {
+          allowInterfaces: 'always',
+        },
+      ],
     },
   },
   {
