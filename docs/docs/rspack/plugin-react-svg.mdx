@@ -53,7 +53,10 @@ you can manually add type declarations like this:
 
 ```ts title="src/typings/react-svg.d.ts"
 declare module '*.svg' {
-  const Component: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  import type { ComponentType, SVGProps } from 'react';
+
+  const Component: ComponentType<SVGProps<SVGSVGElement>>;
+
   export default Component;
 }
 ```
