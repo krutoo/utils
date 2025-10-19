@@ -1,0 +1,149 @@
+export const meta = {
+  title: 'Overview',
+  category: 'DI',
+  menuPriority: 90,
+};
+
+# `DI`
+
+The package provides very basic but powerful utilities to implement IoC in your projects.
+
+## Basics
+
+_Inversion of control_ (IoC) - is a set of patterns that make defining dependencies in your projects easier.
+
+One of such patterns is making _DI container_ - object that can be used to register components of your system and automatically resolves dependencies between them.
+When you take a component out from container, it automatically gets all the required dependencies.
+
+For example your application has http client and it depends on logger, it logs every request and response info to console or Sentry or something else. You just resolves client from container and uses instance that automatically created inside container and takes all dependencies.
+
+### DI in JavaScript context
+
+Classically DI containers are implemented over popular feature that many languages support - reflections.
+In a few words, reflections - is an ability **in runtime** to get information like
+
+- "what is type of argument of this function?";
+- "what type of return value of this function?"
+- etc.
+
+In JS we don't have this feature. Maximum that we have is.
+Good news is that reflections is not strictly required to achieve DI container features.
+
+### Reflections vs identifiers
+
+In JS we have no type annotations =). Annotations is needed to detect dependencies. So what if we use just strings? Let's bind components in container by string identifiers, not interfaces.
+
+We can implement it and use for example like this:
+
+```js
+import { Container } from '@my-org/ioc';
+import { MyCustomLogger } from '#logger';
+
+const container = new Container();
+
+container.register('Logger', MyCustomLogger);
+
+// ...later, instead this:
+const logger = new Logger(config.appName, config.appVersion);
+
+logger.transport = new Transport(config.bufferSize);
+
+// you just do this:
+const logger = container.get('Logger');
+
+logger.info('App started...');
+```
+
+Under the hood you need to just return component from hash table.
+
+### Identifiers and TypeScript
+
+The problem of previous example is that we can't attach some type or interface to string identifier.
+
+Technically we of course can do it but we need something like builder pattern:
+
+```ts
+import { Container } from '@my-org/ioc';
+
+export const container = new Container()
+  .add<Logger>('Logger', MyLogger)
+  .add<HttpClient>('Client', MyClient);
+
+const logger = container.get('Logger'); // will have type Logger
+```
+
+This will work but this is very inconvenient:
+you will have to import this particular container everywhere where you want to get a component from it.
+
+This library provides another way to automatically bind some type to identifier.
+
+### Extending identifiers
+
+Since we can't bind a type to a string identifier, we need something else.
+What if we use an object instead of a primitive? We can easily attach a specific type to objects.
+
+We'll replace the concept of an "identifier" with the concept of a "token".
+_Token_ - is an object that can be used as an identifier and to which a specific interface can be assigned.
+
+We can use this in the following way. First we need to define our tokens:
+
+```ts title="app/token.ts"
+import { createToken } from '@krutoo/utils/di';
+
+export const TOKEN = {
+  logger: createToken<Logger>(),
+  client: createToken<HttpClient>(),
+};
+```
+
+Then we need to define "component providers" - functions that returns component implementation:
+
+```ts title="app/providers.ts"
+import { TOKEN } from '#app/token';
+import type { Resolve } from '@krutoo/utils/di';
+
+export function provideLogger() {
+  return new MyLogger();
+}
+
+export function provideClient(resolve: Resolve) {
+  // here we use logger from container as dependency of client
+  const logger = resolve(TOKEN.logger);
+
+  return new HttpClient({
+    onError: logger.error,
+  });
+}
+```
+
+And now we need to create container and fill it by providers:
+
+```ts title="app/container.ts";
+import { createContainer } from '@krutoo/utils/di';
+import { TOKEN } from '#app/token';
+import { provideClient, provideLogger } from '#app/providers';
+
+export function createAppContainer() {
+  const container = createContainer();
+
+  container.set(TOKEN.client, provideClient);
+  container.set(TOKEN.logger, provideLogger);
+
+  return container;
+}
+```
+
+After it you can get components from container in any order and each container will automatically resolves its dependencies.
+
+```ts title="index.ts"
+import { TOKEN } from '#app/token';
+import { createAppContainer } from '#app/container';
+
+const container = createAppContainer();
+
+const client = container.get(TOKEN.client);
+
+const response = await client.get('/api/user/me');
+```
+
+Here `response` will have type `HttpClient` because we use `TOKEN.client` to get it.

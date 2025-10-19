@@ -33,6 +33,10 @@
         "label": "types"
       },
       {
+        "value": "di",
+        "label": "di"
+      },
+      {
         "value": "",
         "label": "none"
       }
