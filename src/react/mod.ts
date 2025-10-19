@@ -50,3 +50,7 @@ export type {
 export * from './error-boundary.tsx';
 export * from './lifecycle.tsx';
 export * from './portal.tsx';
+
+// IOC
+export { ContainerContext } from './context/container-context.ts';
+export { useDependency } from './use-dependency.ts';

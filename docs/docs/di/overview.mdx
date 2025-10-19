@@ -1,12 +1,11 @@
 export const meta = {
   title: 'Overview',
   category: 'DI',
-  menuPriority: 90,
 };
 
-# `DI`
+# Dependency injection
 
-The package provides very basic but powerful utilities to implement IoC in your projects.
+The package provides very basic but powerful utilities to implement DI in your projects.
 
 ## Basics
 
@@ -85,9 +84,12 @@ What if we use an object instead of a primitive? We can easily attach a specific
 We'll replace the concept of an "identifier" with the concept of a "token".
 _Token_ - is an object that can be used as an identifier and to which a specific interface can be assigned.
 
-We can use this in the following way. First we need to define our tokens:
+## Usage
 
-```ts title="app/token.ts"
+With this library you can implement DI with next steps.
+First we need to define our tokens:
+
+```ts title="./src/app/token.ts"
 import { createToken } from '@krutoo/utils/di';
 
 export const TOKEN = {
@@ -98,7 +100,7 @@ export const TOKEN = {
 
 Then we need to define "component providers" - functions that returns component implementation:
 
-```ts title="app/providers.ts"
+```ts title="./src/app/providers.ts"
 import { TOKEN } from '#app/token';
 import type { Resolve } from '@krutoo/utils/di';
 
@@ -118,7 +120,7 @@ export function provideClient(resolve: Resolve) {
 
 And now we need to create container and fill it by providers:
 
-```ts title="app/container.ts";
+```ts title="./src/app/container.ts"
 import { createContainer } from '@krutoo/utils/di';
 import { TOKEN } from '#app/token';
 import { provideClient, provideLogger } from '#app/providers';
@@ -135,7 +137,7 @@ export function createAppContainer() {
 
 After it you can get components from container in any order and each container will automatically resolves its dependencies.
 
-```ts title="index.ts"
+```ts title="./src/index.ts"
 import { TOKEN } from '#app/token';
 import { createAppContainer } from '#app/container';
 

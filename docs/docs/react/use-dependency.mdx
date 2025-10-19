@@ -1,0 +1,33 @@
+export const meta = {
+  category: 'React',
+  title: 'useDependency',
+};
+
+# `useDependency`
+
+React hook that resolves some component (not UI component) from DI container, provided by special context.
+
+You can read more about DI container here: [DI overview](./?path=/di/overview)
+
+## Usage
+
+```tsx
+import { useEffect } from 'react';
+import { useDependency } from '@krutoo/utils/react';
+import { TOKEN } from '#app/token';
+
+function App() {
+  const logger = useDependency(TOKEN.logger);
+
+  useEffect(() => {
+    logger.info('App mounted');
+  }, []);
+
+  return (
+    <main>
+      <h1>My app</h1>
+      {/* ... */}
+    </main>
+  );
+}
+```
