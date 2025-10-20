@@ -12,7 +12,7 @@
   "devDependencies": {
     "@krutoo/showcase": "^0.4.0",
     "@mdx-js/loader": "^3.1.0",
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.56.1",
     "@rspack/cli": "^1.4.11",
     "@rspack/core": "^1.4.11",
     "@types/node": "^24.2.1",
