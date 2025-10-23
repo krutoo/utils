@@ -110,6 +110,13 @@ For write tests with simulating browser environment you need to name test file l
 
 Any exported file from this package should not contain default exports (`export default ...`). Defaults exports are hard to work with and less compatible between ESM and CJS.
 
+### VSCode setup
+
+```shell
+# Will update .vscode/settings.json
+npm run setup -- --vscode
+```
+
 ## Q&A
 
 Notable info about this package
