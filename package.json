@@ -38,6 +38,7 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "node ./scripts/git-hooks.js",
+    "setup": "node ./scripts/setup.ts",
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
     "lint": "eslint . && prettier . --check && ls-lint",
@@ -107,6 +108,7 @@
   ],
   "exports": {
     ".": "./dist/mod.js",
+    "./di": "./dist/di/mod.js",
     "./dom": "./dist/dom/mod.js",
     "./math": "./dist/math/mod.js",
     "./misc": "./dist/misc/mod.js",
