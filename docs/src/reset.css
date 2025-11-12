@@ -35,8 +35,8 @@ ul > li {
 code:not(pre > code):not(h1 > code):not(h2 > code):not(h3 > code):not(h4 > code):not(h5 > code):not(
     h6 > code
   ) {
-  background: #f5f5f5;
-  box-shadow: inset 0 0 0 1px #ddd;
+  background: var(--code-bg-color, #f5f5f5);
+  box-shadow: inset 0 0 0 1px var(--code-outline-color, #ddd);
   border-radius: 4px;
   padding: 2px 4px;
   box-sizing: content-box;
@@ -68,4 +68,10 @@ input:not([type='checkbox']) {
   padding: 0 8px;
   box-shadow: inset 0 0 0 2px #000;
   border-radius: 6px;
+}
+
+:root[data-color-scheme='dark'] {
+  background: var(--showcase-ui-background);
+  --code-bg-color: #2e3440;
+  --code-outline-color: #4b525c;
 }

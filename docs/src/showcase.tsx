@@ -21,7 +21,14 @@ createRoot(document.getElementById('root')!).render(
       stories={validStories}
       storySearch
       title='@krutoo/utils'
-      logoSrc='./public/logo.svg'
+      logoSrc={{
+        light: './public/logo.svg',
+        dark: './public/logo.dark.svg',
+      }}
+      colorSchemes={{
+        enabled: true,
+        attributeTarget: 'documentElement',
+      }}
       headerLinks={[
         {
           name: 'GitHub',
