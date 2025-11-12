@@ -5,6 +5,7 @@
     linear-gradient(#bbb 1px, transparent 1px), linear-gradient(90deg, #bbb 1px, transparent 1px);
   background-size: 40px 40px;
   user-select: none;
+  color: #333;
 }
 
 .dot {
