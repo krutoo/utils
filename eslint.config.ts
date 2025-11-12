@@ -81,9 +81,11 @@ const config: ReturnType<typeof defineConfig> = defineConfig([
   },
 
   // React hooks
-  pluginReactHooks.configs['recommended-latest'],
+  pluginReactHooks.configs.flat.recommended,
   {
     rules: {
+      'react-hooks/refs': 'off',
+      'react-hooks/set-state-in-effect': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': [
         'warn',

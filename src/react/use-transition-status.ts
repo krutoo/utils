@@ -47,7 +47,7 @@ export function useTransitionStatus({
   const [status, setStatus] = useState<TransitionStatus>(() => (defaultOpen ? 'open' : 'closed'));
   const statusRef = useLatestRef(status);
   const durationRef = useLatestRef(duration);
-  const timers = useMemo(createTimerPool, zeroDeps);
+  const timers = useMemo(createTimerPool, zeroDeps); // eslint-disable-line react-hooks/use-memo
 
   useIsomorphicLayoutEffect(() => {
     const actualStatus = statusRef.current;
