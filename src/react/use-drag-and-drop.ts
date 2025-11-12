@@ -25,7 +25,10 @@ export interface UseDragAndDropOptions {
   /** Will be called when element is dropped. */
   onDrop?: DnDEventHandler;
 
-  /** Should return true if touch event should be prevented and false otherwise. */
+  /**
+   * Should return true if touch event should be prevented and false otherwise.
+   * @deprecated Don't use this option. Will be removed in future.
+   */
   needPreventTouchEvent?: (event: TouchEvent) => boolean;
 
   /** Will be called on `pointerdown` event, if false returns than drag will no be started. */
@@ -75,6 +78,14 @@ function canStartDragDefault(event: TouchEvent | PointerEvent | MouseEvent): boo
 }
 
 /**
+ * Returns `false`.
+ * @returns False.
+ */
+function getFalse(): false {
+  return false;
+}
+
+/**
  * Hook of simple "drag and drop".
  * @param ref Target element.
  * @param options Options.
@@ -94,7 +105,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     onMove,
     onDrop,
     extraDeps = zeroDeps,
-    needPreventTouchEvent = canStartDragDefault,
+    needPreventTouchEvent = getFalse,
     needStartDrag = canStartDragDefault,
   }: UseDragAndDropOptions = {},
 ): void {
