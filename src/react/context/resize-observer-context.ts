@@ -9,3 +9,5 @@ export const ResizeObserverContext: Context<ResizeObserverContextValue> = create
     return new ResizeObserver(callback);
   },
 });
+
+ResizeObserverContext.displayName = 'ResizeObserverContext';
