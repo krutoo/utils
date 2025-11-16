@@ -11,3 +11,5 @@ export const MatchMediaContext: Context<MatchMediaContextValue> = createContext(
     return matchMedia(query);
   },
 });
+
+MatchMediaContext.displayName = 'MatchMediaContext';

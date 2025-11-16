@@ -9,3 +9,5 @@ export const VisualViewportContext: Context<VisualViewportContextValue> = create
     return window.visualViewport;
   },
 });
+
+VisualViewportContext.displayName = 'VisualViewportContext';

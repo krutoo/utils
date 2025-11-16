@@ -5,6 +5,8 @@ export const QueryMangerContext: Context<QueryManager | null> = createContext<Qu
   null,
 );
 
+QueryMangerContext.displayName = 'QueryMangerContext';
+
 /**
  * Provider of query manager.
  * @param props Props.

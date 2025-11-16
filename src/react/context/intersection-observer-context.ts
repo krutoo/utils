@@ -14,3 +14,5 @@ export const IntersectionObserverContext: Context<IntersectionObserverContextVal
     },
   },
 );
+
+IntersectionObserverContext.displayName = 'IntersectionObserverContext';
