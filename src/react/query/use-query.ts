@@ -1,8 +1,9 @@
-import { type DependencyList, useCallback, useEffect, useMemo, useState } from 'react';
+import { type DependencyList, useCallback, useMemo, useState } from 'react';
 import type { UseQueryOptions, UseQueryReturn } from './types.ts';
 import { useLatestRef } from '../use-latest-ref.ts';
 import { useQueryControl } from './use-query-control.ts';
 import { generateId } from './utils.ts';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).
@@ -37,7 +38,7 @@ export function useQuery<T>(
 
   const invalidateRef = useLatestRef(invalidate);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // skip if disabled
     if (!enabled) {
       return;
@@ -62,7 +63,7 @@ export function useQuery<T>(
     };
   }, [enabled, control, invalidateRef]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // skip if disabled
     if (!enabled) {
       return;
