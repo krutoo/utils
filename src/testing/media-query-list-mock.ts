@@ -87,7 +87,7 @@ export class MediaQueryListMock extends EventTarget implements MediaQueryList {
 
   /**
    * @inheritdoc
-   * @deprecated
+   * @deprecated According to MDN.
    */
   addListener(callback: ((this: MediaQueryList, event: MediaQueryListEvent) => any) | null): void {
     if (callback) {
@@ -97,7 +97,7 @@ export class MediaQueryListMock extends EventTarget implements MediaQueryList {
 
   /**
    * @inheritdoc
-   * @deprecated
+   * @deprecated According to MDN.
    */
   removeListener(
     callback: ((this: MediaQueryList, event: MediaQueryListEvent) => any) | null,

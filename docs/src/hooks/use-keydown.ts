@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useIdentityRef } from '@krutoo/utils/react';
+import { useLatestRef } from '@krutoo/utils/react';
 
 export function useKeydown(
   callback: (event: KeyboardEvent) => void,
   { key }: { key?: string } = {},
 ) {
-  const keyRef = useIdentityRef(key);
-  const callbackRef = useIdentityRef(callback);
+  const keyRef = useLatestRef(key);
+  const callbackRef = useLatestRef(callback);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {

@@ -25,12 +25,6 @@ export interface UseDragAndDropOptions {
   /** Will be called when element is dropped. */
   onDrop?: DnDEventHandler;
 
-  /**
-   * Should return true if touch event should be prevented and false otherwise.
-   * @deprecated Don't use this option. Will be removed in future.
-   */
-  needPreventTouchEvent?: (event: TouchEvent) => boolean;
-
   /** Will be called on `pointerdown` event, if false returns than drag will no be started. */
   needStartDrag?: (event: PointerEvent) => boolean;
 
@@ -78,14 +72,6 @@ function canStartDragDefault(event: TouchEvent | PointerEvent | MouseEvent): boo
 }
 
 /**
- * Returns `false`.
- * @returns False.
- */
-function getFalse(): false {
-  return false;
-}
-
-/**
  * Hook of simple "drag and drop".
  * @param ref Target element.
  * @param options Options.
@@ -105,7 +91,6 @@ export function useDragAndDrop<T extends HTMLElement>(
     onMove,
     onDrop,
     extraDeps = zeroDeps,
-    needPreventTouchEvent = getFalse,
     needStartDrag = canStartDragDefault,
   }: UseDragAndDropOptions = {},
 ): void {
@@ -207,12 +192,6 @@ export function useDragAndDrop<T extends HTMLElement>(
     state.captured = false;
   });
 
-  const onTouchStart = useStableCallback((event: TouchEvent) => {
-    if (needPreventTouchEvent(event)) {
-      event.preventDefault();
-    }
-  });
-
   useIsomorphicLayoutEffect(() => {
     const element = ref.current;
 
@@ -220,13 +199,11 @@ export function useDragAndDrop<T extends HTMLElement>(
       return;
     }
 
-    element.addEventListener('touchstart', onTouchStart);
     element.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
 
     return () => {
-      element.removeEventListener('touchstart', onTouchStart);
       element.removeEventListener('pointerdown', onPointerDown);
       element.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
@@ -238,7 +215,6 @@ export function useDragAndDrop<T extends HTMLElement>(
     onPointerDown,
     onPointerMove,
     onPointerUp,
-    onTouchStart,
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,
