@@ -2,7 +2,6 @@
 export * from './constants.ts';
 export * from './use-debounce-state.ts';
 export * from './use-dependent-ref.ts';
-export * from './use-identity-ref.ts';
 export * from './use-isomorphic-layout-effect.ts';
 export * from './use-latest-ref.ts';
 export * from './use-previous-state.ts';
@@ -16,7 +15,6 @@ export * from './context/resize-observer-context.ts';
 export * from './context/visual-viewport-context.ts';
 
 // web api
-export * from './use-bounding-client-rect.ts';
 export * from './use-drag-and-drop.ts';
 export * from './use-exact-click.ts';
 export * from './use-intersection.ts';
@@ -26,7 +24,6 @@ export * from './use-resize.ts';
 export * from './use-storage-item.ts';
 export * from './use-transition-status.ts';
 export * from './use-visual-viewport.ts';
-export * from './use-window-size.ts';
 
 // merging refs
 export * from './merge-refs.ts';
