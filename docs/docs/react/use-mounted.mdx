@@ -20,3 +20,19 @@ function App() {
   return mounted ? <PageContent /> : <LoadingSpinner />;
 }
 ```
+
+### Why is naming a hook "useIsClient/useIsBrowser" wrong?
+
+This is because with right implementation you will receive `false` on first render on client (in browser) but actually your code already runs on client.
+
+Wrong implementation will return `true` exactly when code runs on client but it is not SSR friendly because result is unstable between server and client.
+
+Here is an example of hook that is bad for SSR:
+
+```ts
+export function useIsClient() {
+  return typeof window !== 'undefined';
+  // or return typeof document !== 'undefined';
+  // etc.
+}
+```

@@ -53,8 +53,8 @@ function App() {
   return (
     <>
       Count: {count}
-      <button onClick={() => counter.set(counter.get() - 1)}>-</button>
-      <button onClick={() => counter.set(counter.get() + 1)}>+</button>
+      <button onClick={() => counter.set(count - 1)}>-</button>
+      <button onClick={() => counter.set(count + 1)}>+</button>
     </>
   );
 }
