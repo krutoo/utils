@@ -1,4 +1,5 @@
 import path from 'node:path';
+import fs from 'node:fs/promises';
 import type { RspackPluginFunction } from '@rspack/core';
 import {
   type EmitStoriesEntrypointConfig,
@@ -39,15 +40,17 @@ export function pluginStoriesEntry(config: PluginStoriesEntryOptions): RspackPlu
   };
 }
 
-export function aliasesToSource(fromPath: string): Record<string, string> {
+export async function aliasesToSource(fromPath: string): Promise<Record<string, string>> {
+  const packageJson = JSON.parse(
+    await fs.readFile(path.resolve(import.meta.dirname, '../../package.json'), 'utf-8'),
+  );
+
   return {
-    '@krutoo/utils$': path.resolve(fromPath, '../src/mod.ts'),
-    '@krutoo/utils/dom$': path.resolve(fromPath, '../src/dom/mod.ts'),
-    '@krutoo/utils/math$': path.resolve(fromPath, '../src/math/mod.ts'),
-    '@krutoo/utils/misc$': path.resolve(fromPath, '../src/misc/mod.ts'),
-    '@krutoo/utils/react$': path.resolve(fromPath, '../src/react/mod.ts'),
-    '@krutoo/utils/rspack$': path.resolve(fromPath, '../src/rspack/mod.ts'),
-    '@krutoo/utils/types$': path.resolve(fromPath, '../src/types/mod.ts'),
+    ...Object.fromEntries(
+      Object.keys(packageJson.exports)
+        .filter(key => !key.startsWith('./typings'))
+        .map(key => [`${key}$`, path.resolve(fromPath, `${key}/mod.ts`)]),
+    ),
 
     // for avoiding errors about multiple react versions on the page
     react$: path.resolve(fromPath, 'node_modules/react'),
