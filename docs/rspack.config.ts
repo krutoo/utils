@@ -2,7 +2,7 @@ import path from 'node:path';
 import type { Configuration } from '@rspack/core';
 import type { CompileOptions } from '@mdx-js/mdx';
 import * as utils from '@krutoo/utils/rspack';
-import { aliasesToSource, pluginStoriesEntry } from './.rspack/utils.ts';
+import { pluginStoriesEntry } from './.rspack/utils.ts';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
@@ -19,7 +19,10 @@ export default {
   },
   resolve: {
     alias: {
-      ...(PKG_IMPL === 'src' && (await aliasesToSource(import.meta.dirname))),
+      ...(PKG_IMPL === 'src' && {
+        // for avoiding errors about multiple react versions on the page
+        react$: path.resolve('./node_modules/react'),
+      }),
     },
   },
   module: {
@@ -43,7 +46,7 @@ export default {
       rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
     }),
     utils.pluginTypeScript({
-      tsConfig: PKG_IMPL === 'tarball' ? false : undefined,
+      tsConfig: PKG_IMPL === 'installed' ? false : undefined,
     }),
     utils.pluginCSS(),
     utils.pluginRawImport(),
@@ -65,6 +68,7 @@ export default {
   },
   devServer: {
     port: 3000,
+    static: false,
     hot: false,
     liveReload: true,
   },

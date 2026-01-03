@@ -32,7 +32,7 @@ export default defineConfig({
   ],
   webServer: isCI
     ? {
-        command: 'PKG_IMPL=tarball npm run dev',
+        command: 'PKG_IMPL=installed npm run dev',
         timeout: 20000,
         url: 'http://127.0.0.1:3000',
       }
