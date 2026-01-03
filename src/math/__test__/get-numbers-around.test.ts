@@ -16,5 +16,6 @@ describe('getNumbersAround', () => {
     expect(getNumbersAround(3, { range: 3 })).toEqual([0, 1, 2, 3, 4, 5, 6]);
     expect(getNumbersAround(97, { range: 2, max: 98 })).toEqual([95, 96, 97, 98]);
     expect(getNumbersAround(99, { range: 2, max: 100 })).toEqual([97, 98, 99, 100]);
+    expect(getNumbersAround(1, { range: 2 })).toEqual([-1, 0, 1, 2, 3]);
   });
 });

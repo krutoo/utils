@@ -13,14 +13,14 @@ The most common place to use debounces in the frontend is a request to the serve
 ```ts
 import { debounce } from '@krutoo/utils';
 
-function filterSuggestions(query) {
+function fetchSuggestions(query) {
   // ...suggestion request
 }
 
 const handleInput = debounce(event => {
-  filterSuggestions(event.target.value);
+  fetchSuggestions(event.target.value);
 }, 500);
 
-// filterSuggestions will be executed 500ms after user has stopped typing
+// fetchSuggestions will be executed 500ms after user has stopped typing
 field.addEventListener('input', handleInput);
 ```
