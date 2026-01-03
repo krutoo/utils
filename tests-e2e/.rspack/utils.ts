@@ -1,5 +1,4 @@
 import path from 'node:path';
-import fs from 'node:fs/promises';
 import type { RspackPluginFunction } from '@rspack/core';
 import {
   type EmitStoriesEntrypointConfig,
@@ -37,22 +36,5 @@ export function pluginStoriesEntry(config: PluginStoriesEntryOptions): RspackPlu
       watchStories(config);
       watchStarted = true;
     });
-  };
-}
-
-export async function aliasesToSource(fromPath: string): Promise<Record<string, string>> {
-  const packageJson = JSON.parse(
-    await fs.readFile(path.resolve(import.meta.dirname, '../../package.json'), 'utf-8'),
-  );
-
-  return {
-    ...Object.fromEntries(
-      Object.keys(packageJson.exports)
-        .filter(key => !key.startsWith('./typings'))
-        .map(key => [`${key}$`, path.resolve(fromPath, `${key}/mod.ts`)]),
-    ),
-
-    // for avoiding errors about multiple react versions on the page
-    react$: path.resolve(fromPath, 'node_modules/react'),
   };
 }
