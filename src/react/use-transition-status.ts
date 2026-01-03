@@ -55,16 +55,14 @@ export function useTransitionStatus({
     if (open && actualStatus !== 'open') {
       timers.clearAll();
       setStatus('pre-opening');
-    }
-
-    if (!open && actualStatus !== 'closed') {
+    } else if (!open && actualStatus !== 'closed') {
       timers.clearAll();
       setStatus('pre-closing');
     }
   }, [
     open,
 
-    // stable
+    // stable:
     timers,
     statusRef,
   ]);
@@ -75,12 +73,10 @@ export function useTransitionStatus({
     }
 
     if (status === 'opening') {
-      const openingDuration =
-        typeof durationRef.current === 'number'
-          ? durationRef.current
-          : durationRef.current?.opening;
+      const durationInit = durationRef.current;
+      const ms = typeof durationInit === 'number' ? durationInit : durationInit?.opening;
 
-      timers.setTimeout(() => setStatus('open'), openingDuration);
+      timers.setTimeout(() => setStatus('open'), ms);
     }
 
     if (status === 'pre-closing') {
@@ -88,17 +84,15 @@ export function useTransitionStatus({
     }
 
     if (status === 'closing') {
-      const closingDuration =
-        typeof durationRef.current === 'number'
-          ? durationRef.current
-          : durationRef.current?.closing;
+      const durationInit = durationRef.current;
+      const ms = typeof durationInit === 'number' ? durationInit : durationInit?.closing;
 
-      timers.setTimeout(() => setStatus('closed'), closingDuration);
+      timers.setTimeout(() => setStatus('closed'), ms);
     }
   }, [
     status,
 
-    // stable
+    // stable:
     timers,
     durationRef,
   ]);
