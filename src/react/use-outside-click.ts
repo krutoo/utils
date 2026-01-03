@@ -16,25 +16,21 @@ export function useOutsideClick<T extends Element>(
 
   useIsomorphicLayoutEffect(() => {
     const handleClick = (event: MouseEvent) => {
-      const refOrRefs = innerRef.current;
-      const refs = Array.isArray(refOrRefs) ? refOrRefs : [refOrRefs];
+      if (!(event.target instanceof Node)) {
+        return;
+      }
 
-      let isOutside = true;
+      const refsInit = innerRef.current;
+      const refs = Array.isArray(refsInit) ? refsInit : [refsInit];
 
       for (const { current: element } of refs) {
-        if (
-          element &&
-          event.target instanceof Node &&
-          (element === event.target || element.contains(event.target))
-        ) {
-          isOutside = false;
-          break;
+        // IMPORTANT: element.contains returns true when receives himself
+        if (element && element.contains(event.target)) {
+          return;
         }
       }
 
-      if (isOutside) {
-        callbackRef.current?.(event);
-      }
+      callbackRef.current?.(event);
     };
 
     const handleClickOptions = {

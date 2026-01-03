@@ -68,7 +68,7 @@ export function useMatchMedia(
     query,
     matchMedia,
 
-    // stable
+    // stable:
     modeRef,
     handleChange,
   ]);
