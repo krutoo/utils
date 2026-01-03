@@ -24,4 +24,16 @@ describe('scaleRectToFit', () => {
       height: 7.5,
     });
   });
+
+  test('should scale target rect to fit area rect', () => {
+    expect(scaleRectToFit({ width: 5, height: 5 }, { width: 10, height: 20 }, 'cover')).toEqual({
+      width: 20,
+      height: 20,
+    });
+
+    expect(scaleRectToFit({ width: 5, height: 5 }, { width: 30, height: 20 }, 'cover')).toEqual({
+      width: 30,
+      height: 30,
+    });
+  });
 });

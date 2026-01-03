@@ -1,9 +1,18 @@
+import { Callout } from '#components/callout/callout.tsx';
+
 # `scaleRectToCover`
 
 export const meta = {
   title: 'scaleRectToCover',
   category: 'Math',
 };
+
+<Callout level='danger'>
+  <Callout.Heading>Deprecated</Callout.Heading>
+  <Callout.Main>
+    Use <a href='./?path=/math/scale-rect-to-fit'>scaleRectToFit</a> instead
+  </Callout.Main>
+</Callout>
 
 Takes "target" rectangle and "area" rectangle and returns rectangle that has same ratio as "target" but covers "area" by size.
 
