@@ -17,3 +17,33 @@ export default {
   ],
 };
 ```
+
+### Example: run Node.js app in watch mode
+
+If you build your Node.js app and you want to run it during development in watch mode you can configure Rspack like this:
+
+```js title="rspack.config.js"
+import utils from '@kruoo/utils/rspack';
+
+export default {
+  mode: 'development',
+  target: 'node',
+  output: {
+    filename: 'index.js'
+  }
+  externalsPresets: {
+    node: true,
+  },
+  externals: [
+    // if you want NOT to bundle dependencies from node_modules
+    utils.nodeExternals(),
+  ],
+  plugins: [
+    utils.pluginExec({
+      when: 'watch', // run script only in watch mode
+      script: 'node dist/index.js',
+      blocking: false, // not wait process closing to continue compilation
+    }),
+  ],
+};
+```
