@@ -7,4 +7,5 @@ export * from './plugin-raw-import.ts';
 export * from './plugin-react-svg.ts';
 export * from './plugin-static-assets.ts';
 export * from './plugin-typescript.ts';
+export * from './node-externals.ts';
 export type * from './types.ts';
