@@ -54,18 +54,3 @@ for (const key of keys(user)) {
 
 // logs: id, name, age
 ```
-
-### `mergeKeys`
-
-If your environment does not support generator functions or something else, you can use `mergeKeys`:
-
-```ts
-import { mergeKeys } from '@krutoo/utils';
-
-const a = { foo: 1 };
-const b = { foo: 2, bar: 3 };
-const c = { bar: 4, baz: 5 };
-
-// array of all keys
-const allKeys = mergeKeys(a, b, c);
-```
