@@ -8,7 +8,10 @@ export type AllowlistItemFunction = (request: string) => boolean;
 export type AllowlistItem = string | RegExp | AllowlistItemFunction;
 
 export interface NodeExternalsOptions {
+  /** Method of importing requested module. */
   importType?: ExternalsType;
+
+  /** Defines modules that should be included to bundle. */
   allow?: AllowlistItem | AllowlistItem[];
 }
 
@@ -35,6 +38,7 @@ export function nodeExternals({
   };
 
   return async ({ request, context, getResolve }: ExternalItemFunctionData) => {
+    // @todo по идее isAllowed надо применять только после проверки node_modules
     if (!context || !request || isAllowed(request)) {
       return;
     }
