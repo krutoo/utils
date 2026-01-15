@@ -12,6 +12,7 @@ describe('isShallowEqual', () => {
     expect(isShallowEqual(1, 0)).toBe(false);
     expect(isShallowEqual(0, 1)).toBe(false);
     expect(isShallowEqual(0.0001, 0.0)).toBe(false);
+    expect(isShallowEqual(NaN, NaN)).toBe(true);
 
     // booleans
     expect(isShallowEqual(true, true)).toBe(true);

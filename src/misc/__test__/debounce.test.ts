@@ -35,4 +35,28 @@ describe('debounce', () => {
 
     mock.timers.reset();
   });
+
+  test('.cancel() should works correctly', () => {
+    mock.timers.enable({ apis: ['setTimeout'] });
+
+    const spy = mock.fn();
+    const debounced = debounce(spy, 200);
+
+    expect(spy.mock.callCount()).toEqual(0);
+
+    debounced();
+    expect(spy.mock.callCount()).toEqual(0);
+
+    mock.timers.tick(200);
+    expect(spy.mock.callCount()).toEqual(1);
+
+    debounced();
+    expect(spy.mock.callCount()).toEqual(1);
+
+    debounced.cancel();
+    expect(spy.mock.callCount()).toEqual(1);
+
+    mock.timers.tick(200);
+    expect(spy.mock.callCount()).toEqual(1);
+  });
 });
