@@ -15,7 +15,7 @@ Just provide `mutation` function that takes any payload and returns `Promise`.
 
 ```tsx
 import { useMutation } from '@krutoo/utils/react';
-import { FormEvent } from 'react';
+import { type FormEvent } from 'react';
 import { logIn } from '#api';
 
 export default function Example() {
@@ -25,7 +25,7 @@ export default function Example() {
     mutation: logIn,
   });
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -37,7 +37,7 @@ export default function Example() {
     });
   };
 
-  // 4) render UI basic on mutation state:
+  // 4) render UI depends on mutation state:
   if (mutation.status === 'pending') {
     return <>Loading...</>;
   }
@@ -47,7 +47,7 @@ export default function Example() {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <input name='login' />
       <input name='password' />
       <button type='submit'>Submit</button>

@@ -22,6 +22,7 @@ export interface PluginExecOptions {
 
 /**
  * Plugin that runs given shell script on `afterEmit` event.
+ * Can be used instead `nodemon-webpack-plugin`.
  * @param options Options.
  * @returns Plugin.
  */
