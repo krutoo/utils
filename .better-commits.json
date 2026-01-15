@@ -41,5 +41,8 @@
         "label": "none"
       }
     ]
+  },
+  "breaking_change": {
+    "add_exclamation_to_title": true
   }
 }
