@@ -1,5 +1,4 @@
 export * from './debounce.ts';
-export * from './for-each-pair.ts';
 export * from './is-object.ts';
 export * from './is-shallow-equal.ts';
 export * from './memo-return-array.ts';
@@ -10,5 +9,4 @@ export * from './wait.ts';
 export * from './noop.ts';
 export * from './timer-pool.ts';
 export * from './identity.ts';
-export * from './merge-keys.ts';
 export * from './keys.ts';
