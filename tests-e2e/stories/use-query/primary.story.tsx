@@ -1,9 +1,10 @@
-import { useQuery, QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils/react';
+import { useQuery, QueryMangerContext, MemoryQueryManager } from '@krutoo/utils/react';
 import { wait } from '@krutoo/utils';
 
 export const meta = {
   category: 'React hooks/useQuery',
   title: 'Primary example',
+  menuPriority: 100,
 };
 
 async function getProfileData() {
@@ -47,12 +48,12 @@ function UserDataView() {
   );
 }
 
-const queryManager = new MemoryQueryManager();
+const manager = new MemoryQueryManager();
 
 export default function Example() {
   return (
-    <QueryMangerProvider manager={queryManager}>
+    <QueryMangerContext value={manager}>
       <UserDataView />
-    </QueryMangerProvider>
+    </QueryMangerContext>
   );
 }

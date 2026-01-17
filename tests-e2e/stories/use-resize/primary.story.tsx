@@ -2,7 +2,7 @@ import { CSSProperties, useRef, useState } from 'react';
 import { useResize } from '@krutoo/utils/react';
 
 export const meta = {
-  title: 'Primary',
+  title: 'Primary example',
   category: 'React hooks/useResize',
 };
 
@@ -29,7 +29,7 @@ export default function Example() {
 
   return (
     <div ref={ref} style={styles.widget}>
-      {wide ? 'I am wide' : 'I am thin'}
+      {wide ? 'I am WIDE' : 'I am THIN'}
     </div>
   );
 }

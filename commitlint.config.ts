@@ -3,6 +3,7 @@ export default {
   rules: {
     'header-max-length': [0],
     'body-max-line-length': [0],
+    'footer-max-line-length': [0],
     'subject-case': [0],
   },
 } as const;
