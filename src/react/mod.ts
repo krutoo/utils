@@ -32,13 +32,20 @@ export * from './use-merge-refs.ts';
 // queries
 export { useQuery } from './query/use-query.ts';
 export { useMutation } from './query/use-mutation.ts';
-export { QueryMangerProvider, useQueryManager } from './query/query-manager.tsx';
+export { QueryMangerContext } from './query/query-manager-context.tsx';
 export { MemoryQueryManager } from './query/memory-query-manager.ts';
+export { MemoryQuery } from './query/memory-query.ts';
 export type {
+  Query,
   QueryState,
+  QueryManager,
+  QueryContext,
+  QueryEvents,
+  QueryEventMap,
+  QueryDoneEvent,
+  QueryFailedEvent,
   UseQueryOptions,
   UseQueryReturn,
-  MutationState,
   UseMutationOptions,
   UseMutationReturn,
 } from './query/types.ts';

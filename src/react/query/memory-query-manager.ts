@@ -1,11 +1,11 @@
-import { MemoryQueryControl } from './memory-query-control.ts';
-import type { QueryControl, QueryManager } from './types.ts';
+import { MemoryQuery } from './memory-query.ts';
+import type { Query, QueryManager } from './types.ts';
 
 /**
  * Simple implementation of `QueryManager` to store queries in memory.
  */
 export class MemoryQueryManager implements QueryManager {
-  private pool: Map<string, QueryControl<any>>;
+  private pool: Map<string, Query<any>>;
 
   constructor() {
     this.pool = new Map();
@@ -22,18 +22,18 @@ export class MemoryQueryManager implements QueryManager {
   }
 
   /**
-   * Returns query control instance by key.
+   * Returns query instance by key.
    * @param key Key.
-   * @returns Query control instance.
+   * @returns Query instance.
    */
-  getQueryControl<T>(key: string): QueryControl<T> {
+  getQuery<T>(key: string): Query<T> {
     let result = this.pool.get(key);
 
     if (result) {
       return result;
     }
 
-    result = new MemoryQueryControl<T>();
+    result = new MemoryQuery<T>();
 
     this.pool.set(key, result);
 

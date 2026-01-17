@@ -44,6 +44,52 @@ function App() {
 }
 ```
 
+### Example: lazy Loading
+
+To accumulate data in one query you can use `prevData` from query context.
+
+```tsx
+import { useQuery } from '@krutoo/utils';
+import { getPosts } from '#api/posts';
+
+function usePosts() {
+  return useQuery({
+    key: 'posts',
+    async query(ctx) {
+      const prevData = ctx.prevData ?? {
+        items: [],
+        page: 1,
+        hasMore: true,
+      };
+
+      const response = await getPosts({
+        page: prevData.page + 1,
+      });
+
+      return {
+        items: [...prevData.items, response.items],
+        page: response.page,
+        hasMore: response.hasMore,
+      };
+    },
+  });
+}
+
+function App() {
+  const posts = usePosts();
+
+  return (
+    <>
+      {posts.data.map(item => (
+        <article key={item.id}>{item.title}</article>
+      ))}
+
+      {posts.data.hasMore && <button onClick={() => posts.invalidate()}>Next page</button>}
+    </>
+  );
+}
+```
+
 ### Using "Query manager"
 
 By default all queries will stored in component state.

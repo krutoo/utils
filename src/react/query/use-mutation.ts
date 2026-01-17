@@ -1,61 +1,70 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLatestRef } from '../use-latest-ref.ts';
-import type { MutationState, UseMutationOptions, UseMutationReturn } from './types.ts';
-import { useQueryControl } from './use-query-control.ts';
+import type {
+  QueryState,
+  QueryDoneEvent,
+  QueryFailedEvent,
+  UseMutationOptions,
+  UseMutationReturn,
+} from './types.ts';
+import { useQueryInstance } from './use-query-instance.ts';
 import { generateId } from './utils.ts';
+import { useStableCallback } from '../use-stable-callback.ts';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 
 /**
- * Mutation hook. Mutation is changing (create/update/delete) some entity in data source.
- * This is a minimalistic analogue of `useMutation` from `@tanstack/react-query` made for educational purposes.
+ * Mutation hook. Mutation is changing (create/update/delete) something in data source.
+ * This is a minimalistic analogue of `useMutation` from `@tanstack/react-query`.
  * @param options Mutation options.
  * @returns Mutation.
  */
-export function useMutation<T, R = unknown>({
+export function useMutation<P, R = unknown>({
   key: keyProp,
-  mutation,
+  mutation: mutationProp,
   onSuccess,
   onError,
-}: UseMutationOptions<T, R>): UseMutationReturn<T, R> {
+}: UseMutationOptions<P, R>): UseMutationReturn<P, R> {
   const key = useMemo(() => keyProp ?? generateId('mutation:'), [keyProp]);
-  const control = useQueryControl<R>(key);
-  const [state, setState] = useState<MutationState<R>>(() => control.getState());
+  const instance = useQueryInstance<R>(key);
+  const [state, setState] = useState<QueryState<R>>(() => instance.getState());
 
-  const mutationRef = useLatestRef(mutation);
+  const mutation = useStableCallback(mutationProp);
   const onSuccessRef = useLatestRef(onSuccess);
   const onErrorRef = useLatestRef(onError);
 
-  useEffect(() => {
-    const onChanged = () => {
-      const newState = control.getState();
-
-      setState(newState);
-
-      if (newState.status === 'success') {
-        onSuccessRef.current?.(newState.data as R);
-      }
-
-      if (newState.status === 'failure') {
-        onErrorRef.current?.(newState.error);
-      }
+  useIsomorphicLayoutEffect(() => {
+    const onDone = (event: QueryDoneEvent<R>) => {
+      setState(instance.getState());
+      onSuccessRef.current?.(event.detail.data);
     };
 
-    setState(control.getState());
+    const onFailed = (event: QueryFailedEvent) => {
+      setState(instance.getState());
+      onErrorRef.current?.(event.detail.error);
+    };
 
-    control.events.addEventListener('changed', onChanged);
+    const onChanged = () => {
+      setState(instance.getState());
+    };
+
+    setState(instance.getState());
+
+    instance.events.addEventListener('done', onDone);
+    instance.events.addEventListener('failed', onFailed);
+    instance.events.addEventListener('changed', onChanged);
 
     return () => {
-      control.events.removeEventListener('changed', onChanged);
+      instance.events.removeEventListener('done', onDone);
+      instance.events.removeEventListener('failed', onFailed);
+      instance.events.removeEventListener('changed', onChanged);
     };
-  }, [control, onSuccessRef, onErrorRef]);
+  }, [instance, onSuccessRef, onErrorRef]);
 
-  const mutate = useCallback(
-    async (payload: T): Promise<R> => {
-      return control.makeQuery(() => mutationRef.current(payload));
-    },
-    [control, mutationRef],
-  );
+  const mutate = useStableCallback(async (payload: P): Promise<R> => {
+    return await instance.execute(() => mutation(payload));
+  });
 
-  return useMemo<UseMutationReturn<T, R>>(() => {
+  return useMemo<UseMutationReturn<P, R>>(() => {
     return {
       ...state,
       mutate,
