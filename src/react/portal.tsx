@@ -60,43 +60,36 @@ const DEFAULTS = {
  * @param props Props.
  * @returns JSX.Element or null.
  */
-export function Portal({
-  children,
-  container: containerInit = DEFAULTS.container,
-  connect: connectInit,
-  cleanup: cleanupInit,
-  portalKey,
-}: PortalProps): JSX.Element | null {
+export function Portal(props: PortalProps): JSX.Element | null {
+  const { children, portalKey } = props;
+
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
-  // IMPORTANT: this props is used through latest refs because
+  // IMPORTANT: props is used through latest ref because
   // its changing between renders should not provide rerunning effect
-  const containerInitRef = useLatestRef(containerInit);
-  const connectInitRef = useLatestRef(connectInit);
-  const cleanupInitRef = useLatestRef(cleanupInit);
+  const propsRef = useLatestRef(props);
 
   useIsomorphicLayoutEffect(() => {
-    const newContainerInit = containerInitRef.current;
+    const { container: containerInit, connect: connectInit } = propsRef.current;
 
     let newContainer: HTMLElement | null;
 
-    if (typeof newContainerInit === 'function') {
-      newContainer = newContainerInit();
+    if (typeof containerInit === 'function') {
+      newContainer = containerInit();
+    } else if (containerInit) {
+      newContainer = containerInit;
     } else {
-      newContainer = newContainerInit;
+      newContainer = DEFAULTS.container();
     }
 
     if (!newContainer) {
       return;
     }
 
-    let connect = connectInitRef.current;
+    let connect = connectInit;
 
     switch (connect) {
-      case undefined: {
-        connect = DEFAULTS.connect;
-        break;
-      }
+      case undefined:
       case true: {
         connect = DEFAULTS.connect;
         break;
@@ -111,35 +104,37 @@ export function Portal({
 
     setContainer(newContainer);
 
-    let cleanup = cleanupInitRef.current;
-
-    switch (cleanup) {
-      case undefined: {
-        if (newContainerInit === DEFAULTS.container) {
-          cleanup = DEFAULTS.cleanup;
-        } else {
-          cleanup = undefined;
-        }
-        break;
-      }
-      case true: {
-        cleanup = DEFAULTS.cleanup;
-        break;
-      }
-      case false: {
-        cleanup = undefined;
-        break;
-      }
-    }
-
     return () => {
+      // IMPORTANT: must read propsRef.current inside cleanup function
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      const { cleanup: cleanupInit } = propsRef.current;
+
+      let cleanup = cleanupInit;
+
+      switch (cleanup) {
+        case undefined: {
+          if (!containerInit) {
+            cleanup = DEFAULTS.cleanup;
+          } else {
+            cleanup = undefined;
+          }
+          break;
+        }
+        case true: {
+          cleanup = DEFAULTS.cleanup;
+          break;
+        }
+        case false: {
+          cleanup = undefined;
+          break;
+        }
+      }
+
       cleanup?.(newContainer);
     };
   }, [
     // stable:
-    cleanupInitRef,
-    connectInitRef,
-    containerInitRef,
+    propsRef,
   ]);
 
   // @todo идея для SSR:

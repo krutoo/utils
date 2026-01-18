@@ -30,13 +30,13 @@ class ContainerImpl implements Container {
   }
 
   get<T>(token: Token<T>): T {
-    const resolve = <C>(tkn: Token<C>, chain: Token<any>[] = []): C => {
+    const resolve = <C>(tkn: Token<C>, chain: Token<any>[]): C => {
       if (this.cache.has(tkn.key)) {
         return this.cache.get(tkn.key);
       }
 
       if (chain.includes(tkn)) {
-        throw Error(`Cycle dependency found: ${[...chain, tkn].join(', ')}`);
+        throw new Error(`Cycle dependency found: ${[...chain, tkn].join(', ')}`);
       }
 
       chain.push(tkn);
@@ -44,7 +44,7 @@ class ContainerImpl implements Container {
       const provider = this.registry.get(tkn.key);
 
       if (!provider) {
-        throw Error(`Provider for ${tkn} not found`);
+        throw new Error(`Provider for ${tkn} not found`);
       }
 
       const component = provider(t => resolve(t, chain));
@@ -54,7 +54,7 @@ class ContainerImpl implements Container {
       return component;
     };
 
-    return resolve(token);
+    return resolve(token, []);
   }
 }
 
