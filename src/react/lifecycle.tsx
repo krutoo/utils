@@ -1,9 +1,9 @@
 import { type JSX, type ReactNode, useEffect } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useStableCallback } from './use-stable-callback.ts';
-import { noop } from '../misc/noop.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 export interface LifecycleProps {
+  /** Content. */
   children?: ReactNode;
 
   /** Will be called after component mounted. */
@@ -21,37 +21,34 @@ export interface LifecycleProps {
 
 /**
  * Component for working with lifecycle trough event callbacks.
+ * Allows to handle mount/unmount events.
  * @param props Props.
  * @returns JSX Element.
  */
-export function Lifecycle({
-  children,
-  onMount = noop,
-  onUnmount = noop,
-  onMountSync = noop,
-  onUnmountSync = noop,
-}: LifecycleProps): JSX.Element {
-  const onMountStable = useStableCallback(onMount);
-  const onUnmountStable = useStableCallback(onUnmount);
+export function Lifecycle(props: LifecycleProps): JSX.Element {
+  const { children } = props;
 
-  const onMountSyncStable = useStableCallback(onMountSync);
-  const onUnmountSyncStable = useStableCallback(onUnmountSync);
+  // because it is "event callbacks", we should call actual functions (from last render),
+  // so we will use props trough ref in effects
+  const propsRef = useLatestRef(props);
 
   useIsomorphicLayoutEffect(() => {
-    onMountSyncStable();
+    propsRef.current.onMountSync?.();
 
     return () => {
-      onUnmountSyncStable();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      propsRef.current.onUnmountSync?.();
     };
-  }, [onMountSyncStable, onUnmountSyncStable]);
+  }, [propsRef]);
 
   useEffect(() => {
-    onMountStable();
+    propsRef.current.onMount?.();
 
     return () => {
-      onUnmountStable();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      propsRef.current.onUnmount?.();
     };
-  }, [onMountStable, onUnmountStable]);
+  }, [propsRef]);
 
   return <>{children}</>;
 }
