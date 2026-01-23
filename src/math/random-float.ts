@@ -6,9 +6,7 @@ import type { RandomBetween } from './types.ts';
  * @param max End of range.
  * @returns Random number.
  */
-export function randomFloat(min: number, max: number): number {
-  return min + Math.random() * (max - min);
-}
+export const randomFloat: RandomBetween = createRandomFloat();
 
 /**
  * Returns random float number generator.
