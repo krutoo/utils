@@ -23,15 +23,3 @@ shuffle(array, {
   random: myCustomRandomizer,
 });
 ```
-
-### `toShuffled`
-
-`toShuffled` works exactly like `shuffle` but don't mutates given array, instead it returns new randomly sorted array.
-
-```ts
-import { toShuffled } from '@krutoo/utils';
-
-const array = [1, 2, 3, 4, 5, 6, 7];
-
-const newArray = toShuffled(array); // same items but randomly sorted
-```

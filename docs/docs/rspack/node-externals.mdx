@@ -1,0 +1,33 @@
+export const meta = {
+  category: 'Rspack',
+  title: 'nodeExternals',
+};
+
+# `nodeExternals`
+
+Simple modern alternative to `webpack-node-externals`.
+
+This utility function marks all dependencies from node_modules as `external`.
+It means that such dependencies will not be included to bundle.
+
+Typically it can be useful when you bundle server application for running in Node.js.
+
+### Usage
+
+```js title="rspack.config.js"
+import { nodeExternals } from '@kruoo/utils/rspack';
+
+export default {
+  mode: 'development',
+  target: 'node',
+  output: {
+    filename: 'index.js'
+  }
+  externalsPresets: {
+    node: true,
+  },
+  externals: [
+    nodeExternals(),
+  ],
+};
+```

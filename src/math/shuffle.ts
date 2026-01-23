@@ -4,6 +4,7 @@ export interface ShuffleOptions {
 
 /**
  * Randomly sorts items in given array.
+ * Mutates given array. For immutability use `shuffle([...list])`.
  * @param list Source array.
  * @param options Options.
  * @returns Exactly given array.
@@ -20,15 +21,4 @@ export function shuffle<T extends any[]>(
   }
 
   return list;
-}
-
-/**
- * Returns new array with random sorted items.
- * @param list Source array.
- * @param options Options.
- * @returns New randomly sorted array.
- * @see https://stackoverflow.com/a/12646864
- */
-export function toShuffled<T>(list: Array<T>, options: ShuffleOptions = {}): Array<T> {
-  return shuffle([...list], options);
 }
