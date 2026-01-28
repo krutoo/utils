@@ -1,11 +1,4 @@
-import {
-  type RefObject,
-  type MutableRefObject,
-  useContext,
-  useMemo,
-  useRef,
-  type DependencyList,
-} from 'react';
+import { type RefObject, useContext, useMemo, useRef, type DependencyList } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
@@ -24,13 +17,7 @@ export interface UseIntersectionOptions extends IntersectionObserverInit {
  * @param options Observe options.
  */
 export function useIntersection<T extends Element>(
-  ref:
-    | RefObject<T>
-    | RefObject<T | null>
-    | RefObject<T | undefined>
-    | MutableRefObject<T>
-    | MutableRefObject<T | null>
-    | MutableRefObject<T | undefined>,
+  ref: RefObject<T> | RefObject<T | null> | RefObject<T | undefined>,
   callback: (entry: IntersectionObserverEntry) => void,
   { extraDeps = zeroDeps, ...options }: UseIntersectionOptions = {},
 ): void {

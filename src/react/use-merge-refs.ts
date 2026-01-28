@@ -1,8 +1,8 @@
-import { type Ref, type RefCallback, type RefObject, type MutableRefObject, useRef } from 'react';
+import { type Ref, type RefCallback, type RefObject, useRef } from 'react';
 import { mergeRefs } from './merge-refs.ts';
 
 interface HookState<T> {
-  refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>;
+  refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | null | undefined>;
   merged: Ref<T>;
 }
 
@@ -12,7 +12,7 @@ interface HookState<T> {
  * @returns Merged ref.
  */
 export function useMergeRefs<T>(
-  refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>,
+  refs: Array<Ref<T> | RefObject<T> | RefCallback<T> | null | undefined>,
 ): Ref<T> {
   const stateRef = useRef<HookState<T>>(null);
 

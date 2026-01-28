@@ -9,7 +9,7 @@ export interface DebouncedFunction<T extends (this: any, ...args: any[]) => any>
  * Simplest implementation of "debounce" function.
  * Returns function wrapper that delays original function call
  * until timeout since last call will be reached.
- * Analogue of debounce from lodash/underscore.
+ * Similar to `debounce` from lodash/underscore.
  *
  * @param func Function.
  * @param timeout Timeout in milliseconds.

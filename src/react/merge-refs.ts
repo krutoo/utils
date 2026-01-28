@@ -1,4 +1,4 @@
-import type { Ref, RefObject, RefCallback, MutableRefObject } from 'react';
+import type { Ref, RefObject, RefCallback } from 'react';
 
 /**
  * Create ref that updates all accepted refs from list.
@@ -7,7 +7,7 @@ import type { Ref, RefObject, RefCallback, MutableRefObject } from 'react';
  * @returns Merged ref.
  */
 export function mergeRefs<T>(
-  list: Array<Ref<T> | RefObject<T> | RefCallback<T> | MutableRefObject<T> | null | undefined>,
+  list: Array<Ref<T> | RefObject<T> | RefCallback<T> | null | undefined>,
 ): Ref<T> {
   return (value: T) => {
     for (const ref of list) {

@@ -1,4 +1,4 @@
-import { type MutableRefObject, useRef } from 'react';
+import { type RefObject, useRef } from 'react';
 
 /**
  * Returns ref that automatically actualizes current value each render.
@@ -10,7 +10,7 @@ import { type MutableRefObject, useRef } from 'react';
  * @param value Current value.
  * @returns Ref object.
  */
-export function useLatestRef<T>(value: T): MutableRefObject<T> {
+export function useLatestRef<T>(value: T): RefObject<T> {
   const ref = useRef<T>(value);
 
   // immediately update value if it is not equals to current

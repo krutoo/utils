@@ -1,4 +1,4 @@
-import { type RefObject, type DependencyList, type MutableRefObject, useMemo } from 'react';
+import { type RefObject, type DependencyList, useMemo } from 'react';
 import { type Point2d, Vector2 } from '../math/mod.ts';
 import { getPositionedParentOffset } from '../dom/mod.ts';
 import { useIsomorphicLayoutEffect } from '../react/use-isomorphic-layout-effect.ts';
@@ -77,13 +77,7 @@ function canStartDragDefault(event: TouchEvent | PointerEvent | MouseEvent): boo
  * @param options Options.
  */
 export function useDragAndDrop<T extends HTMLElement>(
-  ref:
-    | RefObject<T>
-    | RefObject<T | null>
-    | RefObject<T | undefined>
-    | MutableRefObject<T>
-    | MutableRefObject<T | null>
-    | MutableRefObject<T | undefined>,
+  ref: RefObject<T> | RefObject<T | null> | RefObject<T | undefined>,
   {
     strategy = 'absolute',
     disabled,

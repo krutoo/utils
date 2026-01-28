@@ -1,10 +1,4 @@
-import {
-  type RefObject,
-  type MutableRefObject,
-  useContext,
-  useMemo,
-  type DependencyList,
-} from 'react';
+import { type RefObject, useContext, useMemo, type DependencyList } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 import { ResizeObserverContext } from './context/resize-observer-context.ts';
@@ -22,13 +16,7 @@ export interface UseResizeOptions extends ResizeObserverOptions {
  * @param options Resize observer options.
  */
 export function useResize<T extends Element>(
-  ref:
-    | RefObject<T>
-    | RefObject<T | null>
-    | RefObject<T | undefined>
-    | MutableRefObject<T>
-    | MutableRefObject<T | null>
-    | MutableRefObject<T | undefined>,
+  ref: RefObject<T> | RefObject<T | null> | RefObject<T | undefined>,
   callback: (entry: ResizeObserverEntry) => void,
   { extraDeps = zeroDeps, ...options }: UseResizeOptions = {},
 ): void {
