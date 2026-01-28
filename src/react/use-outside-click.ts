@@ -42,5 +42,9 @@ export function useOutsideClick<T extends Element>(
     return () => {
       document.documentElement.removeEventListener('click', handleClick, handleClickOptions);
     };
-  }, [innerRef, callbackRef]);
+  }, [
+    // stable:
+    innerRef,
+    callbackRef,
+  ]);
 }

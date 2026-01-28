@@ -67,9 +67,11 @@ export function useResize<T extends Element>(
     };
   }, [
     ref,
-    callbackRef,
     getObserver,
     readyOptions,
+
+    // stable:
+    callbackRef,
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,

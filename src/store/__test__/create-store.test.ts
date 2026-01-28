@@ -38,4 +38,21 @@ describe('createStore', () => {
     store.set(-100);
     expect(spy.mock.callCount()).toBe(1);
   });
+
+  test('methods should works without call context', () => {
+    const { get, set, subscribe } = createStore(1);
+
+    const spy = mock.fn();
+    const unsubscribe = subscribe(spy);
+
+    expect(get()).toBe(1);
+    expect(spy.mock.callCount()).toBe(0);
+
+    expect(set(123));
+    expect(spy.mock.callCount()).toBe(1);
+
+    unsubscribe();
+    expect(set(234));
+    expect(spy.mock.callCount()).toBe(1);
+  });
 });

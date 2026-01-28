@@ -4,7 +4,6 @@ export * from './use-debounce-state.ts';
 export * from './use-dependent-ref.ts';
 export * from './use-isomorphic-layout-effect.ts';
 export * from './use-latest-ref.ts';
-export * from './use-previous-state.ts';
 export * from './use-stable-callback.ts';
 export * from './use-mounted.ts';
 
