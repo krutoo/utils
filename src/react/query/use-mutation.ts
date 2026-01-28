@@ -58,7 +58,13 @@ export function useMutation<P, R = unknown>({
       instance.events.removeEventListener('failed', onFailed);
       instance.events.removeEventListener('changed', onChanged);
     };
-  }, [instance, onSuccessRef, onErrorRef]);
+  }, [
+    instance,
+
+    // stable:
+    onSuccessRef,
+    onErrorRef,
+  ]);
 
   const mutate = useStableCallback(async (payload: P): Promise<R> => {
     return await instance.execute(() => mutation(payload));

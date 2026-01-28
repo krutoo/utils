@@ -79,9 +79,11 @@ export function useIntersection<T extends Element>(
     };
   }, [
     ref,
-    callbackRef,
     readyOptions,
     getObserver,
+
+    // stable:
+    callbackRef,
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,

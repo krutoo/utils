@@ -147,7 +147,13 @@ export function useVisualViewport({
     sync();
 
     return observe(visualViewport, sync);
-  }, [getVisualViewport, modeRef, handleChange]);
+  }, [
+    getVisualViewport,
+
+    // stable:
+    modeRef,
+    handleChange,
+  ]);
 
   return state;
 }

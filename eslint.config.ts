@@ -33,6 +33,7 @@ const config: ReturnType<typeof defineConfig> = defineConfig([
       'object-shorthand': 'error',
       'no-console': 'error',
       eqeqeq: 'error',
+      'no-param-reassign': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
@@ -44,8 +45,10 @@ const config: ReturnType<typeof defineConfig> = defineConfig([
       ],
     },
   },
+
+  // CommonJS
   {
-    files: ['**/*.cjs'],
+    files: ['**/*.{cjs,cts}'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
     },
