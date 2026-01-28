@@ -1,4 +1,4 @@
-import { Component, type ErrorInfo, type JSX, type ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 export interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   /** @inheritdoc */
-  override render(): JSX.Element {
+  override render(): ReactNode {
     const { children, fallback } = this.props;
 
     return <>{this.state.hasError ? fallback : children}</>;

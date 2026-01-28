@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
@@ -60,7 +60,7 @@ const DEFAULTS = {
  * @param props Props.
  * @returns JSX.Element or null.
  */
-export function Portal(props: PortalProps): JSX.Element | null {
+export function Portal(props: PortalProps): ReactNode {
   const { children, portalKey } = props;
 
   const [container, setContainer] = useState<HTMLElement | null>(null);

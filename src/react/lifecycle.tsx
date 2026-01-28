@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
 
@@ -25,7 +25,7 @@ export interface LifecycleProps {
  * @param props Props.
  * @returns JSX Element.
  */
-export function Lifecycle(props: LifecycleProps): JSX.Element {
+export function Lifecycle(props: LifecycleProps): ReactNode {
   const { children } = props;
 
   // because it is "event callbacks", we should call actual functions (from last render),
