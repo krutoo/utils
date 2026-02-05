@@ -23,3 +23,13 @@ shuffle(array, {
   random: myCustomRandomizer,
 });
 ```
+
+### Why not immutable?
+
+In modern JS you can simply make behavior immutable by spread syntax:
+
+```js
+const list = [1, 2, 3, 4, 5];
+
+const shuffled = shuffle([...list]);
+```

@@ -1,7 +1,6 @@
 export * from './debounce.ts';
 export * from './is-object.ts';
 export * from './is-shallow-equal.ts';
-export * from './memo-return-array.ts';
 export * from './pairs.ts';
 export * from './plural.ts';
 export * from './throttle.ts';
