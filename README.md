@@ -91,8 +91,6 @@ const mock = new ResizeObserverMock();
 
 ## Development
 
-Minimum Node.js version is `22.6.0`, minimum NPM version is `10.9.3`. Primarily It's because of `test` script in `package.json` which uses glob pattern.
-
 ### How to write unit-tests?
 
 Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test.ts`.

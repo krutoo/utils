@@ -20,6 +20,15 @@ body {
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+html:not([data-color-scheme='dark']) {
+  --showcase-ui-main-color: #3c3c43;
+  --showcase-ui-menuitem-color: #3c3c43;
+}
+
+html[data-color-scheme='dark'] {
+  --showcase-ui-main-color: #fff;
+}
+
 a {
   color: #3498db;
 }
