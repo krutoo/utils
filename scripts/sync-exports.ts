@@ -2,55 +2,11 @@
  * This script updates "exports" field in package.json according to "src" folder.
  * Each `mod.ts` in "src" folder will be interpreted as entrypoint.
  */
-import fs from 'node:fs/promises';
 import path from 'node:path';
-import { EOL } from 'node:os';
+import { JsonFile, normalizePathname } from './utils.ts';
+import { glob } from 'node:fs/promises';
 
-type ExportsEntry = [
-  string,
-  (
-    | string
-    | {
-        types?: string;
-        import?: string;
-        require?: string;
-      }
-  ),
-];
-
-class JsonFile {
-  filename: string;
-
-  constructor(filename: string) {
-    this.filename = filename;
-  }
-
-  async setProperty(key: string, value: any) {
-    const data = JSON.parse(await fs.readFile(this.filename, 'utf-8'));
-
-    data[key] = value;
-
-    await fs.writeFile(this.filename, `${JSON.stringify(data, null, 2)}${EOL}`);
-  }
-}
-
-async function glob(pattern: string) {
-  const result: string[] = [];
-
-  for await (const pathname of fs.glob(pattern)) {
-    result.push(path.relative('./', pathname));
-  }
-
-  return result;
-}
-
-function formatPathname(pathname: string) {
-  if (pathname === '.' || pathname.startsWith('./') || pathname.startsWith('/')) {
-    return pathname;
-  }
-
-  return `./${pathname}`;
-}
+type ExportsEntry = [string, string | { types?: string }];
 
 function exportsEntryFromEntrypoint(pathname: string): ExportsEntry {
   const basename = path.basename(pathname, path.extname(pathname));
@@ -58,26 +14,26 @@ function exportsEntryFromEntrypoint(pathname: string): ExportsEntry {
   const distRelativePath = path.join(path.dirname(srcRelativePath), `${basename}.js`);
 
   return [
-    formatPathname(path.dirname(srcRelativePath)),
-    formatPathname(path.join('dist', distRelativePath)),
+    normalizePathname(path.dirname(srcRelativePath)),
+    normalizePathname(path.join('dist', distRelativePath)),
   ];
 }
 
 function exportsEntryFromTyping(pathname: string): ExportsEntry {
   return [
-    formatPathname(path.relative('./public', pathname).replace(/\.d\.ts$/, '')),
+    normalizePathname(path.relative('./public', pathname).replace(/\.d\.ts$/, '')),
     {
-      types: formatPathname(path.relative('./', pathname)),
+      types: normalizePathname(path.relative('./', pathname)),
     },
   ];
 }
 
-function compareEntries(a: ExportsEntry, b: ExportsEntry) {
-  return a[0].localeCompare(b[0]);
+function compareEntries([a]: ExportsEntry, [b]: ExportsEntry) {
+  return a.localeCompare(b);
 }
 
-const entrypoints = await glob('./src/**/mod.ts');
-const typings = await glob('./public/**/*.d.ts');
+const entrypoints = await Array.fromAsync(glob('./src/**/mod.ts'));
+const typings = await Array.fromAsync(glob('./public/**/*.d.ts'));
 
 const exports = {
   ...Object.fromEntries(entrypoints.map(exportsEntryFromEntrypoint).sort(compareEntries)),

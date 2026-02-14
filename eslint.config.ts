@@ -16,7 +16,7 @@ const config: Config[] = defineConfig([
 
   // Basics
   {
-    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
   },
   {
     languageOptions: {
@@ -63,6 +63,10 @@ const config: Config[] = defineConfig([
         {
           restrictDefaultExports: {
             direct: true,
+            named: true,
+            defaultFrom: true,
+            namedFrom: true,
+            namespaceFrom: true,
           },
         },
       ],

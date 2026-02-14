@@ -1,7 +1,9 @@
-/* eslint-disable no-console */
-import fs from 'node:fs/promises';
-import path from 'node:path';
+/**
+ * This script will setup dev environment.
+ * Currently only VSCode supported.
+ */
 import { parseArgs } from 'node:util';
+import { JsonFile } from './utils.ts';
 
 const config = parseArgs({
   options: {
@@ -12,43 +14,39 @@ const config = parseArgs({
   allowNegative: true,
 });
 
-async function setVscodeSettings(update: (actual: Record<string, any>) => Record<string, any>) {
-  const settingsPath = path.resolve(import.meta.dirname, '../.vscode/settings.json');
-
-  const currentSettings = await fs
-    .readFile(settingsPath, 'utf-8')
-    .then(JSON.parse)
-    .catch(() => ({}));
-
-  const updatedSettings = {
-    ...currentSettings,
-    ...update(currentSettings),
-  };
-
-  await fs.mkdir(path.dirname(settingsPath), { recursive: true });
-  await fs.writeFile(settingsPath, JSON.stringify(updatedSettings, null, 2));
-}
-
-if (config.values['vscode-typescript'] ?? config.values.vscode) {
-  await setVscodeSettings(actual => ({
-    ...actual,
-    'typescript.tsdk': 'node_modules/typescript/lib',
-  }));
-
-  console.log('setup: vscode typescript - done');
-} else {
-  console.log('setup: vscode typescript - skip');
-}
-
-if (config.values['vscode-eslint'] ?? config.values.vscode) {
-  await setVscodeSettings(actual => ({
-    'eslint.execArgv': ['--experimental-strip-types'],
-    'eslint.options': {
-      ...actual?.['eslint.options'],
-      flags: ['unstable_native_nodejs_ts_config'],
+const entries = [
+  {
+    name: 'vscode-typescript',
+    enabled: config.values['vscode-typescript'] ?? config.values.vscode,
+    async apply() {
+      await new JsonFile('.vscode/settings.json').setProperty(
+        'typescript.tsdk',
+        'node_modules/typescript/lib',
+      );
     },
-  }));
-  console.log('setup: vscode eslint - done');
-} else {
-  console.log('setup: vscode eslint - skip');
+  },
+  {
+    name: 'vscode-eslint',
+    enabled: config.values['vscode-eslint'] ?? config.values.vscode,
+    async apply() {
+      await new JsonFile('.vscode/settings.json').setContent((actual: any) => ({
+        ...actual,
+        'eslint.execArgv': ['--experimental-strip-types'],
+        'eslint.options': {
+          ...actual?.['eslint.options'],
+          flags: ['unstable_native_nodejs_ts_config'],
+        },
+      }));
+    },
+  },
+];
+
+for (const entry of entries) {
+  if (!entry.enabled) {
+    console.log(`setup: ${entry.name} - skip`); // eslint-disable-line no-console
+    continue;
+  }
+
+  await entry.apply();
+  console.log(`setup: ${entry.name} - done`); // eslint-disable-line no-console
 }

@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "noEmit": false,
+    "declaration": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "inlineSourceMap": false,
+    "isolatedDeclarations": false,
+    "removeComments": true,
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "tests-pkg",
+    "tests-e2e",
+    "docs",
+    "dist",
+    "./src/**/*.test.ts",
+    "./src/**/*.test.tsx"
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
+}
