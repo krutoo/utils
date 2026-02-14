@@ -3,8 +3,9 @@
   "compilerOptions": {
     "rootDir": "./src",
     "noEmit": false,
+    "emitDeclarationOnly": true,
     "declaration": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "dist"
   },
   "include": ["src"],
