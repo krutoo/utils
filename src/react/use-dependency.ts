@@ -7,7 +7,7 @@ import type { Token } from '../di/mod.ts';
  * @param token Token.
  * @returns Component implementation.
  */
-export function useDependency<T>(token: Token<T>): T | undefined {
+export function useDependency<T>(token: Token<T>): T {
   const container = useContext(ContainerContext);
 
   if (!container) {
