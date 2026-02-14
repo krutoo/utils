@@ -11,12 +11,12 @@ export interface DebouncedFunction<T extends (this: any, ...args: any[]) => any>
  * until timeout since last call will be reached.
  * Similar to `debounce` from lodash/underscore.
  *
- * @param func Function.
+ * @param fn Function.
  * @param timeout Timeout in milliseconds.
  * @returns Debounced function.
  */
 export function debounce<T extends (...args: any) => any>(
-  func: T,
+  fn: T,
   timeout: number,
 ): DebouncedFunction<T> {
   let timerId: ReturnType<typeof setTimeout>;
@@ -24,7 +24,7 @@ export function debounce<T extends (...args: any) => any>(
   const debounced: DebouncedFunction<T> = function (...args) {
     clearTimeout(timerId);
 
-    timerId = setTimeout(() => func.apply(this, args), timeout);
+    timerId = setTimeout(() => fn.apply(this, args), timeout);
   };
 
   debounced.cancel = () => {
