@@ -5,6 +5,6 @@
   "version": "0.0.0",
   "scripts": {
     "preparing": "npm i --no-save ../krutoo-utils-0.0.0.tgz",
-    "test": "node --test test.cjs test.mjs"
+    "test": "node --test test.cts test.mts"
   }
 }
