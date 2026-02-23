@@ -37,6 +37,8 @@
   },
   "sideEffects": false,
   "scripts": {
+    "prepack": "node ./scripts/prepack.ts",
+    "postpack": "node ./scripts/postpack.ts",
     "prepare": "node ./scripts/git-hooks.ts",
     "setup": "node ./scripts/setup.ts",
     "check": "tsc -p . --noEmit",
