@@ -16,13 +16,13 @@ export function wait(ms: number, options: WaitOptions = {}): Promise<void> {
     return Promise.reject(signal.reason);
   }
 
-  return new Promise((resolve, reject) => {
-    const timerId = setTimeout(() => resolve(), ms);
+  return new Promise((done, fail) => {
+    const timerId = setTimeout(() => done(), ms);
 
     if (signal) {
       const handleAbort = () => {
         clearTimeout(timerId);
-        reject(signal.reason);
+        fail(signal.reason);
       };
 
       signal.addEventListener('abort', handleAbort, { once: true });

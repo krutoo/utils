@@ -32,4 +32,24 @@ describe('keys', () => {
 
     expect([...keys(a, b, c, d)]).toEqual(['name', 'age', 'sex', 'role']);
   });
+
+  test('should handle empty key properly', () => {
+    const a = { '': 'FooBar' };
+
+    expect([...keys(a)]).toEqual(['']);
+  });
+
+  test('should handle reserved keys properly', () => {
+    const a = { toString: 1 };
+    const b = { valueOf: 2 };
+
+    expect([...keys(a, b)]).toEqual(['toString', 'valueOf']);
+  });
+
+  test('should handle arrays', () => {
+    const a = [1, 1, 1];
+    const b = [2, 2, 2, 2, 2];
+
+    expect([...keys(a, b)]).toEqual(['0', '1', '2', '3', '4']);
+  });
 });
