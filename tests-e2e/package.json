@@ -6,8 +6,8 @@
   "scripts": {
     "preparing": "npm i --no-save ../krutoo-utils-0.0.0.tgz",
     "check": "tsc -p . --noEmit",
-    "dev": "rspack serve",
-    "build": "rspack"
+    "dev": "npx rspack serve",
+    "build": "npx rspack"
   },
   "devDependencies": {
     "@krutoo/showcase": "^0.4.0",
@@ -20,7 +20,6 @@
     "@types/react-dom": "^19.1.7",
     "css-loader": "^7.1.2",
     "prettier": "^3.6.2",
-    "tsimp": "^2.0.12",
     "typescript": "^5.9.2"
   },
   "dependencies": {
