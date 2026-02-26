@@ -26,13 +26,13 @@
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": ">=22.6.0",
-      "onFail": "warn"
+      "version": ">=24.6.0",
+      "onFail": "error"
     },
     "packageManager": {
       "name": "npm",
       "version": ">=10.9.3",
-      "onFail": "warn"
+      "onFail": "error"
     }
   },
   "sideEffects": false,
@@ -44,7 +44,7 @@
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
     "lint": "eslint . && prettier . --check && ls-lint",
-    "test": "node --import ./scripts/setup-tests.ts ./scripts/test.ts",
+    "test": "node --import tsimp/import --import ./scripts/setup-tests.ts ./scripts/test.ts",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node ./scripts/build.ts && npm run sync-exports",
     "commit": "better-commits",

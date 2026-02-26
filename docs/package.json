@@ -18,7 +18,6 @@
     "css-loader": "^7.1.2",
     "prettier": "^3.6.2",
     "rehype-mdx-code-props": "^3.0.1",
-    "tsimp": "^2.0.12",
     "typescript": "^5.9.2"
   },
   "dependencies": {
