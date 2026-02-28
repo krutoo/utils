@@ -183,6 +183,31 @@ export function useDragAndDrop<T extends HTMLElement>(
       clientPosition,
     });
 
+    state.pointerId = -1;
+    state.captured = false;
+  });
+
+  // handle touchend because scrolling inside target mutes pointer events
+  const onTouchEnd = useStableCallback((event: TouchEvent) => {
+    const element = ref.current;
+
+    if (!element) {
+      return;
+    }
+
+    if (!(event.target instanceof Node && ref.current?.contains(event.target))) {
+      return;
+    }
+
+    const clientPosition = Vector2.of(event.touches[0]?.clientX ?? 0, event.touches[0]?.clientY);
+
+    onDrop?.({
+      target: element,
+      offset: state.offset.clone(),
+      clientPosition,
+    });
+
+    state.pointerId = -1;
     state.captured = false;
   });
 
@@ -196,12 +221,13 @@ export function useDragAndDrop<T extends HTMLElement>(
     element.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('touchend', onTouchEnd, true);
 
     return () => {
       element.removeEventListener('pointerdown', onPointerDown);
-      element.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('touchend', onTouchEnd, true);
     };
   }, [
     ref,
@@ -209,6 +235,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onTouchEnd,
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,
