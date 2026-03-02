@@ -23,3 +23,23 @@ wait().then(() => {
   console.log('Timeout passed');
 });
 ```
+
+### Aborting
+
+You can pass _abort signal_ from [AbortController](https://developer.mozilla.org/ru/docs/Web/API/AbortController) to reject promise:
+
+```js
+import { wait } from '@krutoo/utils';
+
+const controller = new AbortController();
+
+wait(1000, { signal: controller.signal })
+  .then(() => {
+    // ...
+  })
+  .catch(reason => {
+    console.log(reason); // "Fake reason"
+  });
+
+controller.abort('Fake reason');
+```
