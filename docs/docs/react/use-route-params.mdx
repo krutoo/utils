@@ -1,0 +1,41 @@
+export const meta = {
+  category: 'React',
+  title: 'useRouteParams',
+};
+
+# `useRouteParams`
+
+React hook to exec _pathname pattern_ and read params from current location.
+
+### Usage
+
+```tsx
+import { useRouteParams } from '@krutoo/utils/react';
+
+function App() {
+  const { userId } = useRouteParams('/users/:userId');
+
+  return <>{/* ... */}</>;
+}
+```
+
+### Requirements
+
+You need to wrap your root component to special `RouterContext` to make router specific hooks working:
+
+```tsx
+import { createRoot } from 'react-dom';
+import { BrowserRouter } from '@krutoo/utils/router';
+import { RouterContext } from '@krutoo/utils/react';
+import { App } from '#components/app';
+
+const router = new BrowserRouter();
+
+router.connect();
+
+createRoot(document.querySelector('#root')).render(
+  <RouterContext value={router}>
+    <App />
+  </RouterContext>,
+);
+```

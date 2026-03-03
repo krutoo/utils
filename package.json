@@ -115,6 +115,7 @@
     "./math": "./dist/math/mod.js",
     "./misc": "./dist/misc/mod.js",
     "./react": "./dist/react/mod.js",
+    "./router": "./dist/router/mod.js",
     "./rspack": "./dist/rspack/mod.js",
     "./store": "./dist/store/mod.js",
     "./testing": "./dist/testing/mod.js",

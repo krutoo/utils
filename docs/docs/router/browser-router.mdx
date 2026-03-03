@@ -1,0 +1,158 @@
+import { Callout } from '#components/callout/callout.tsx';
+
+export const meta = {
+  category: 'Router',
+  title: 'BrowserRouter',
+};
+
+# Router
+
+Package provides `BrowserRouter` - basic implementation for controlling _client routing_ in browser.
+
+<Callout>
+  <Callout.Heading>SSR ready</Callout.Heading>
+  <Callout.Main>
+    Can be used in Node.js for Server Side Rendering or Static Site Generation, see next articles.
+  </Callout.Main>
+</Callout>
+
+### Basic usage
+
+```tsx
+import { BrowserRouter } from '@krutoo/utils/router';
+
+const router = new BrowserRouter();
+
+// connect router to Web APIs
+router.connect();
+
+// now we can use it to get location info...
+console.log(router.getLocation().pathname);
+
+// ...and for redirects
+router.navigate('/profile/settings');
+
+// external links also supported
+router.navigate('https://google.com');
+
+// you can navigate by history (back for example)
+router.go(-1);
+```
+
+### React bindings
+
+Package provides some hooks and context for working with router in components.
+
+You need to wrap your root component to special `RouterContext` to make router specific hooks working:
+
+```tsx
+import { createRoot } from 'react-dom';
+import { BrowserRouter } from '@krutoo/utils/router';
+import { RouterContext } from '@krutoo/utils/react';
+import { App } from '#components/app';
+
+// we use provided implementation here but you can use your own
+const router = new BrowserRouter();
+
+// to make it works you need to call connect
+router.connect();
+
+createRoot(document.querySelector('#root')).render(
+  <RouterContext value={router}>
+    <App />
+  </RouterContext>,
+);
+```
+
+Now you can implement simple routing for example like this:
+
+```tsx
+const ROUTES = [
+  {
+    path: '/',
+    render: () => <MainPage />,
+  },
+  {
+    path: '/profile',
+    render: () => <ProfilePage />,
+  },
+  {
+    path: '/items/:itemId',
+    render: () => <ItemPage />,
+  },
+];
+
+function App() {
+  const { pathname } = useLocation();
+
+  // find current route
+  const currentRoute = useMemo(() => {
+    for (const route of ROUTES) {
+      const pattern = new URLPattern({ pathname: route.path });
+
+      if (pattern.test({ pathname })) {
+        return route;
+      }
+    }
+  }, [pathname]);
+
+  // render current route
+  <>{currentRoute?.render()}</>;
+}
+```
+
+And of course you can use other hooks in any of your components:
+
+```tsx
+function ItemPage() {
+  // current location info
+  const { pathname, hash, search } = useLocation();
+
+  // route params
+  const { groupId, itemId } = useRouteParams('/items/:groupId/:itemId');
+
+  // navigate function
+  const navigate = useNavigate();
+
+  return <>{/* ... */}</>;
+}
+```
+
+### Using for SSR or SSG
+
+`BrowserRouter` can be used in Node.js (or other server environment) to implement Server Side Rendering or Static Site Generation.
+
+You just don't call `connect()` method because under the hood it accesses browser APIs.
+
+Next example shows how you can implement SSR with React:
+
+```tsx
+import express from 'express';
+import { renderToString } from 'react-dom';
+import { BrowserRouter } from '@krutoo/utils/router';
+import { RouterContext } from '@krutoo/utils/react';
+import { ROUTES } from '#app/routes';
+import { App } from '#components/app';
+
+const app = express();
+
+for (const route of ROUTES) {
+  app.get(ROUTES.path, (req, res) => {
+    const router = new BrowserRouter({
+      defaultLocation: { pathname: req.path },
+    });
+
+    const markup = renderToString(
+      <RouterContext value={router}>
+        <App />
+      </RouterContext>,
+    );
+
+    res.send(markup);
+  });
+}
+
+app.listen(8080, () => {
+  console.log(`Server running at http://localhost:${8080}`);
+});
+```
