@@ -31,5 +31,8 @@
     // no enums, namespaces, parameter properties, etc
     "erasableSyntaxOnly": true
   },
-  "exclude": ["node_modules", "public/typings", "tests-pkg", "tests-e2e", "docs", "dist"]
+  "exclude": ["node_modules", "public/typings", "tests-pkg", "tests-e2e", "docs", "dist"],
+  "ts-loader": {
+    "verbose": true
+  }
 }
