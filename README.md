@@ -119,24 +119,6 @@ npm run setup -- --vscode
 
 Notable info about this package
 
-### How Node.js scripts works with TypeScript?
-
-In `package.json` you can see something like:
-
-```json
-{
-  "scripts": {
-    "hello": "node ./scripts/hello.ts"
-  }
-}
-```
-
-It is working because in `.npmrc` there is:
-
-```
-node-options='--import tsimp/import'
-```
-
 ### What is a custom `sideEffects` property in `package.json`?
 
 This property need for bundlers like **Webpack** and **Rspack** that uses it for check that Tree Shaking is available.
