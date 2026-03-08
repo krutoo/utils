@@ -29,6 +29,10 @@ html[data-color-scheme='dark'] {
   --showcase-ui-main-color: #fff;
 }
 
+html[data-color-scheme='dark'] [data-marker='callout'][data-intent='info'] {
+  --callout-bg-color: #2d3544;
+}
+
 a {
   color: #3498db;
 }

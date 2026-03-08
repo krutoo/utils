@@ -12,7 +12,12 @@ export interface CalloutMainProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function Callout({ level = 'info', children, className, ...restProps }: CalloutProps) {
   return (
-    <div {...restProps} className={classNames(styles.callout, styles[level], className)}>
+    <div
+      {...restProps}
+      className={classNames(styles.callout, styles[level], className)}
+      data-intent={level}
+      data-marker='callout'
+    >
       {children}
     </div>
   );

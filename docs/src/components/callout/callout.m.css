@@ -1,11 +1,11 @@
 .callout {
   padding: 1.5rem 1.25rem;
   border-radius: 12px;
-  background: #ecf0f1;
+  background: var(--callout-bg-color, #ecf0f1);
 }
 
-.danger {
-  background: rgba(211, 53, 36, 0.2);
+.callout[data-intent='danger'] {
+  background: var(--callout-bg-color, rgba(211, 53, 36, 0.2));
 }
 
 .callout .heading {
