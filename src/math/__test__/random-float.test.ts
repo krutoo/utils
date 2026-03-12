@@ -1,6 +1,6 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
-import { randomFloat, createRandomFloat } from '../random-float.ts';
+import { createRandomFloat, randomFloat } from '../random-float.ts';
 
 describe('randomFloat', () => {
   test('should return number in bounds', () => {

@@ -1,5 +1,5 @@
-import { useQuery, QueryMangerContext, MemoryQueryManager } from '@krutoo/utils/react';
-import { wait, randomInteger } from '@krutoo/utils';
+import { randomInteger, wait } from '@krutoo/utils';
+import { MemoryQueryManager, QueryMangerContext, useQuery } from '@krutoo/utils/react';
 
 export const meta = {
   category: 'React hooks/useQuery',

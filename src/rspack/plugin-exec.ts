@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import type { RspackPluginFunction } from '@rspack/core';
 import { type ChildProcess, spawn } from 'node:child_process';
+import type { RspackPluginFunction } from '@rspack/core';
 
 export interface PluginExecOptions {
   /**

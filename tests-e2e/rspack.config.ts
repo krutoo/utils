@@ -1,6 +1,6 @@
 import path from 'node:path';
-import type { Configuration } from '@rspack/core';
 import * as utils from '@krutoo/utils/rspack';
+import type { Configuration } from '@rspack/core';
 import { pluginStoriesEntry } from './.rspack/utils.ts';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';

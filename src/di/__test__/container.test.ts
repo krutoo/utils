@@ -1,7 +1,7 @@
 import { describe, mock, test } from 'node:test';
+import { expect } from '@std/expect';
 import { createContainer } from '../container.ts';
 import { createToken } from '../token.ts';
-import { expect } from '@std/expect';
 
 interface Logger {
   info(message: string): void;

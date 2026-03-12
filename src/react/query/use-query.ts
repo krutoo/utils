@@ -1,10 +1,10 @@
 import { type DependencyList, useMemo, useState } from 'react';
+import { zeroDeps } from '../constants.ts';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
+import { useStableCallback } from '../use-stable-callback.ts';
 import type { UseQueryOptions, UseQueryReturn } from './types.ts';
 import { useQueryInstance } from './use-query-instance.ts';
 import { generateId } from './utils.ts';
-import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
-import { useStableCallback } from '../use-stable-callback.ts';
-import { zeroDeps } from '../constants.ts';
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).

@@ -1,8 +1,8 @@
-import { type RefObject, useContext, useMemo, type DependencyList } from 'react';
+import { type DependencyList, type RefObject, useContext, useMemo } from 'react';
+import { zeroDeps } from './constants.ts';
+import { ResizeObserverContext } from './context/resize-observer-context.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
 import { useLatestRef } from './use-latest-ref.ts';
-import { ResizeObserverContext } from './context/resize-observer-context.ts';
-import { zeroDeps } from './constants.ts';
 
 export interface UseResizeOptions extends ResizeObserverOptions {
   /** Dependencies that triggers checking ref and recreating observer. */

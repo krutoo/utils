@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
+import { renderToString } from 'react-dom/server';
 import { expect } from '@std/expect';
 import { Portal } from '../portal.tsx';
-import { renderToString } from 'react-dom/server';
 
 function TestComponent() {
   return (

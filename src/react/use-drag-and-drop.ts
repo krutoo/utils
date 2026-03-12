@@ -1,6 +1,6 @@
-import { type RefObject, type DependencyList, useMemo } from 'react';
-import { type Point2d, Vector2 } from '../math/mod.ts';
+import { type DependencyList, type RefObject, useMemo } from 'react';
 import { getPositionedParentOffset } from '../dom/mod.ts';
+import { type Point2d, Vector2 } from '../math/mod.ts';
 import { useIsomorphicLayoutEffect } from '../react/use-isomorphic-layout-effect.ts';
 import { useStableCallback } from '../react/use-stable-callback.ts';
 import { zeroDeps } from './constants.ts';

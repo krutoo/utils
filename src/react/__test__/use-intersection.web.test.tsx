@@ -1,10 +1,10 @@
 import { describe, test } from 'node:test';
+import { useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { useIntersection } from '../use-intersection.ts';
-import { useRef, useState } from 'react';
-import { IntersectionObserverContext, type IntersectionObserverContextValue } from '../mod.ts';
 import { IntersectionObserverMock } from '../../testing/mod.ts';
+import { IntersectionObserverContext, type IntersectionObserverContextValue } from '../mod.ts';
+import { useIntersection } from '../use-intersection.ts';
 
 function TestComponent() {
   const ref = useRef<HTMLDivElement>(null);

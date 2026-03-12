@@ -1,7 +1,7 @@
 import { useContext, useMemo } from 'react';
-import type { Query } from './types.ts';
 import { MemoryQuery } from './memory-query.ts';
 import { QueryMangerContext } from './query-manager-context.tsx';
+import type { Query } from './types.ts';
 
 /**
  * Returns query instance from manager that provided context.

@@ -1,5 +1,5 @@
-import { useVisualViewport } from '@krutoo/utils/react';
 import { CSSProperties } from 'react';
+import { useVisualViewport } from '@krutoo/utils/react';
 
 export const meta = {
   category: 'React hooks/useVisualViewport',

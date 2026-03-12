@@ -1,4 +1,4 @@
-import { useStorageItem, getJsonProcessor } from '@krutoo/utils/react';
+import { getJsonProcessor, useStorageItem } from '@krutoo/utils/react';
 
 export const meta = {
   category: 'React hooks/useStorageItem',

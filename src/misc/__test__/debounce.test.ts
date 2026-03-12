@@ -1,6 +1,6 @@
-import { describe, test, mock } from 'node:test';
-import { debounce } from '../debounce.ts';
+import { describe, mock, test } from 'node:test';
 import { expect } from '@std/expect';
+import { debounce } from '../debounce.ts';
 
 describe('debounce', () => {
   test('should work properly', () => {

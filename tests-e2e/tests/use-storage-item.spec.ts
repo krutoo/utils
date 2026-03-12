@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const targetText = 'Fill value and then reload page to see that value is saved';
 

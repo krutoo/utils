@@ -1,4 +1,4 @@
-import { useMemo, useRef, type DependencyList, type RefObject } from 'react';
+import { type DependencyList, type RefObject, useMemo, useRef } from 'react';
 import { zeroDeps } from './constants.ts';
 
 /**

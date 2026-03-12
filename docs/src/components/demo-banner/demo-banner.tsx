@@ -1,4 +1,4 @@
-import { type Ref, type HTMLAttributes } from 'react';
+import { type HTMLAttributes, type Ref } from 'react';
 import classNames from 'classnames';
 import styles from './demo-banner.m.css';
 

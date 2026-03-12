@@ -1,9 +1,9 @@
 import { CSSProperties, useRef, useState } from 'react';
 import { useTransitionStatus, useVisualViewport } from '@krutoo/utils/react';
-import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import classNames from 'classnames';
-import styles from './use-visual-viewport-demo.m.css';
+import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import { useKeydown } from '../../hooks/use-keydown.ts';
+import styles from './use-visual-viewport-demo.m.css';
 
 function getStubRect() {
   return { width: 0, height: 0, top: 0, left: 0 };

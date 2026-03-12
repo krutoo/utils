@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTransitionStatus } from '@krutoo/utils/react';
-import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import classNames from 'classnames';
+import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import styles from './use-transition-status-demo.m.css';
 
 export function UseTransitionStatusDemo() {

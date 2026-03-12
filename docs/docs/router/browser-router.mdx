@@ -47,8 +47,8 @@ You need to wrap your root component to special `RouterContext` to make router s
 
 ```tsx
 import { createRoot } from 'react-dom';
-import { BrowserRouter } from '@krutoo/utils/router';
 import { RouterContext } from '@krutoo/utils/react';
+import { BrowserRouter } from '@krutoo/utils/router';
 import { App } from '#components/app';
 
 // we use provided implementation here but you can use your own
@@ -127,10 +127,10 @@ You just don't call `connect()` method because under the hood it accesses browse
 Next example shows how you can implement SSR with React:
 
 ```tsx
-import express from 'express';
 import { renderToString } from 'react-dom';
-import { BrowserRouter } from '@krutoo/utils/router';
 import { RouterContext } from '@krutoo/utils/react';
+import { BrowserRouter } from '@krutoo/utils/router';
+import express from 'express';
 import { ROUTES } from '#app/routes';
 import { App } from '#components/app';
 

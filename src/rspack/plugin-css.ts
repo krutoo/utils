@@ -1,7 +1,7 @@
 import rspack, {
-  type RuleSetRule,
   type CssExtractRspackPluginOptions,
   type RspackPluginFunction,
+  type RuleSetRule,
 } from '@rspack/core';
 import type { RuleInsertOptions } from './types.ts';
 import { insertRule } from './utils.ts';

@@ -1,6 +1,6 @@
-import { test, describe } from 'node:test';
-import { isObject } from '../is-object.ts';
+import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
+import { isObject } from '../is-object.ts';
 
 describe('isObject', () => {
   test('should works correctly for all values', () => {

@@ -1,9 +1,9 @@
-import { expect } from '@std/expect';
 import { describe, test } from 'node:test';
-import { fireEvent, render } from '@testing-library/react';
 import { useState } from 'react';
-import { useDebounceState } from '../use-debounce-state.ts';
+import { expect } from '@std/expect';
+import { fireEvent, render } from '@testing-library/react';
 import { wait } from '../../misc/mod.ts';
+import { useDebounceState } from '../use-debounce-state.ts';
 
 function TestComponent() {
   const [value, setValue] = useState('');

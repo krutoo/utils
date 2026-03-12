@@ -1,8 +1,8 @@
 import { describe, mock, test } from 'node:test';
-import { expect } from '@std/expect';
 import { useContext, useEffect } from 'react';
-import { IntersectionObserverContext } from '../intersection-observer-context.ts';
+import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
+import { IntersectionObserverContext } from '../intersection-observer-context.ts';
 
 describe('IntersectionObserverContext', () => {
   test('should use global IntersectionObserver by default', () => {

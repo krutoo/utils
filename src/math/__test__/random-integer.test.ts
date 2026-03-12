@@ -1,6 +1,6 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
-import { randomInteger, createRandomInteger } from '../random-integer.ts';
+import { createRandomInteger, randomInteger } from '../random-integer.ts';
 
 describe('randomInteger', () => {
   test('should return number in bounds', () => {

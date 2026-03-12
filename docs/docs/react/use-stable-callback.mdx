@@ -83,8 +83,8 @@ will cause resubscribing `keydown` event on each render.
 With `useStableCallback` you can done it like this:
 
 ```tsx
-import { useStableCallback } from '@krutoo/utils/react';
 import { useEffect } from 'react';
+import { useStableCallback } from '@krutoo/utils/react';
 
 interface Props {
   onClose: VoidFunction;

@@ -1,8 +1,8 @@
 import { describe, mock, test } from 'node:test';
-import { expect } from '@std/expect';
 import { useContext, useEffect } from 'react';
-import { ResizeObserverContext } from '../resize-observer-context.ts';
+import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
+import { ResizeObserverContext } from '../resize-observer-context.ts';
 
 describe('ResizeObserverContext', () => {
   test('should use global ResizeObserver by default', () => {

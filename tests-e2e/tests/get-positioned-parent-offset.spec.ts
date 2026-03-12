@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('getPositionedParentOffset', async ({ page }) => {
   await page.goto('/sandbox.html?path=/get-positioned-parent-offset/primary');

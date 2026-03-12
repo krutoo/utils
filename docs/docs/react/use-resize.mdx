@@ -8,8 +8,8 @@ export const meta = {
 Hook that provides ability to listen element resizing.
 
 ```tsx
-import { useResize } from '@krutoo/utils/react';
 import { useRef } from 'react';
+import { useResize } from '@krutoo/utils/react';
 
 function App() {
   const ref = useRef<HTMLDivElement>(null);
@@ -39,10 +39,10 @@ It means that you can:
 For example next we will use [ResizeObserverMock](./?path=/testing/resize-observer-mock):
 
 ```tsx
-import { test, expect, act, render } from '#testing';
-import { useState, useRef } from 'react';
-import { useResize, ResizeObserverContext } from '@krutoo/utils/react';
+import { useRef, useState } from 'react';
+import { ResizeObserverContext, useResize } from '@krutoo/utils/react';
 import { ResizeObserverMock } from '@krutoo/utils/testing';
+import { act, expect, render, test } from '#testing';
 
 function MyWidget() {
   const [wide, setWide] = useState(false);

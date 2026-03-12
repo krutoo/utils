@@ -1,10 +1,10 @@
-import { describe, mock, test, type Mock } from 'node:test';
+import { type Mock, describe, mock, test } from 'node:test';
+import { useRef } from 'react';
 import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
-import { useRef } from 'react';
-import { useResize } from '../use-resize.ts';
-import { ResizeObserverContext, type ResizeObserverContextValue } from '../mod.ts';
 import { ResizeObserverMock } from '../../testing/mod.ts';
+import { ResizeObserverContext, type ResizeObserverContextValue } from '../mod.ts';
+import { useResize } from '../use-resize.ts';
 
 function TestComponent({ onResize }: { onResize?: VoidFunction }) {
   const ref = useRef<HTMLDivElement>(null);

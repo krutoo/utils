@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('useVisualViewport', async ({ page }) => {
   await page.goto('/sandbox.html?path=/use-visual-viewport/primary');

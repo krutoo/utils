@@ -1,4 +1,4 @@
-import { test, describe } from 'node:test';
+import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { isScrollable } from '../is-scrollable.ts';
 

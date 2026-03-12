@@ -1,4 +1,4 @@
-import { test, describe } from 'node:test';
+import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { isShallowEqual } from '../is-shallow-equal.ts';
 

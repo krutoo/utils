@@ -133,8 +133,8 @@ You can wrap your application to `QueryManager` implementation to control how to
 Package provides `MemoryQueryManager` - simple implementation of `QueryManager` interface that stores all data in memory.
 
 ```tsx
-import { QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils/react';
 import { createRoot } from 'react-dom/client';
+import { MemoryQueryManager, QueryMangerProvider } from '@krutoo/utils/react';
 import { App } from './components/app.tsx';
 
 const manager = new MemoryQueryManager();

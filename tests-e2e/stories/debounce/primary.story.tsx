@@ -1,5 +1,5 @@
-import { debounce } from '@krutoo/utils';
 import { useMemo, useState } from 'react';
+import { debounce } from '@krutoo/utils';
 
 export const meta = {
   category: 'Misc/debounce',

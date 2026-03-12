@@ -1,8 +1,8 @@
 import { describe, mock, test } from 'node:test';
-import { expect } from '@std/expect';
 import { useContext, useEffect } from 'react';
-import { VisualViewportContext } from '../visual-viewport-context.ts';
+import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
+import { VisualViewportContext } from '../visual-viewport-context.ts';
 
 describe('VisualViewportContext', () => {
   test('should use global visualViewport by default', () => {

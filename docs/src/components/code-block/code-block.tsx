@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { isValidElement, ReactNode, useMemo, useRef, useState } from 'react';
+import { ReactNode, isValidElement, useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import { codeToHtml } from 'shiki';
 import styles from './code-block.m.css';

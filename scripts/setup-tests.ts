@@ -3,7 +3,7 @@
  * It should be imported before any tests.
  * Files like `{name}.web.test.{ext}` will be run with browser environment simulation.
  */
-import { before, after, afterEach } from 'node:test';
+import { after, afterEach, before } from 'node:test';
 import { GlobalRegistrator } from '@happy-dom/global-registrator';
 
 before(async context => {

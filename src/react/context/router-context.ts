@@ -1,6 +1,6 @@
-import { createContext, type Context } from 'react';
-import { getStubLocation } from '../../router/utils.ts';
+import { type Context, createContext } from 'react';
 import type { Router } from '../../router/types.ts';
+import { getStubLocation } from '../../router/utils.ts';
 
 export const RouterContext: Context<Router> = createContext<Router>({
   getLocation: getStubLocation,

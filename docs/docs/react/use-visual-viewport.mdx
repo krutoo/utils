@@ -39,8 +39,8 @@ This will result in the return value not being up to date so you can ignore it.
 To listen changes you also can set callback to `onChange` option.
 
 ```tsx
-import { useVisualViewport } from '@krutoo/utils/react';
 import { useRef } from 'react';
+import { useVisualViewport } from '@krutoo/utils/react';
 
 function App() {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,9 +75,9 @@ It means that you can:
 For example next we will use [VisualViewportMock](./?path=/testing/visual-viewport-mock):
 
 ```tsx
-import { useVisualViewport, VisualViewportContext } from '@krutoo/utils/react';
+import { VisualViewportContext, useVisualViewport } from '@krutoo/utils/react';
 import { VisualViewportMock } from '@krutoo/utils/testing';
-import { test, render, expect } from '#testing';
+import { expect, render, test } from '#testing';
 
 function MyWidget() {
   const viewport = useVisualViewport();
