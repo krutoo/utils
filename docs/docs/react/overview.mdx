@@ -1,14 +1,22 @@
-# React utils
+import { Callout } from '#components/callout/callout';
 
 export const meta = {
   title: '',
   category: 'React',
 };
 
-All [React](https://react.dev/) specific utils available from `/react` pathname.
+# React utils
 
-React utils including components and hooks. All components and hooks are ready for SSR.
+All [React](https://react.dev/) specific utils, components and hooks available from `/react` pathname.
 
 ```ts
 import { Portal, useStableCallback, mergeRefs } from '@krutoo/utils/react';
 ```
+
+<Callout>
+  <Callout.Heading>SSR ready</Callout.Heading>
+  <Callout.Main>
+    Every hook and component is designed to be used in both the client and server parts of your
+    applications.
+  </Callout.Main>
+</Callout>

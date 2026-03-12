@@ -8,7 +8,7 @@ export interface BrowserRouterConfig {
 
 /**
  * Router implementation for using in browser environment.
- * Can be used in Node.js (or other server environment) while `.connect()` is not called.
+ * Can be used in Node.js (or other server environment: Deno, Bun etc.) while `.connect()` is not called.
  */
 export class BrowserRouter implements Router {
   private location: RouterLocation;

@@ -44,6 +44,40 @@ function App() {
 }
 ```
 
+### Example: declarative invalidation
+
+You can create your own query-hook based on `useQuery` that accepts some payload for query. In such cases you need to invalidate your query when payload changes.
+
+Let's see first example when your payload is simple id for some entity:
+
+```ts
+export function useUserQuery({ userId }) {
+  return useQuery({
+    // We can make key depends on `userId` to make query invalidated when userId changed
+    key: `user[${userid}]`,
+    query() {
+      return api.getUserById(userId);
+    },
+  });
+}
+```
+
+In next example our payload is more complex that just single `id`, so we can use second argument - dependency list:
+
+```tsx
+export function usePosts({ search, page, sort }) {
+  return useQuery(
+    {
+      key: `posts`,
+      query() {
+        return api.getPosts({ search, page, sort });
+      },
+    },
+    [page, search, posts], // This array works like in useEffect
+  );
+}
+```
+
 ### Example: lazy Loading
 
 To accumulate data in one query you can use `prevData` from query context.

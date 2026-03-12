@@ -13,7 +13,7 @@ export interface UseMatchMediaOptions {
    * - `stateful` (default) - hook will update returned state and cause rerender.
    * - `stateless` - hook will not update returned state.
    *
-   * If you can observe media query list without re-renders
+   * If you want to observe media query list without re-renders
    * you can set `mode: 'stateless'` and also `onChange` to listen changes.
    */
   mode?: 'stateful' | 'stateless';

@@ -1,11 +1,14 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { Configuration } from '@rspack/core';
+import { type Configuration } from '@rspack/core';
 import type { CompileOptions } from '@mdx-js/mdx';
 import * as utils from '@krutoo/utils/rspack';
 import { pluginStoriesEntry } from './.rspack/utils.ts';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
+
+await fs.rm('dist', { recursive: true, force: true });
 
 export default {
   entry: {
@@ -14,7 +17,7 @@ export default {
   },
   output: {
     path: path.resolve(import.meta.dirname, 'dist'),
-    filename: `[name].js`,
+    filename: `[name].[contenthash].js`,
     publicPath: process.env.PUBLIC_PATH || undefined,
   },
   resolve: {
@@ -48,7 +51,7 @@ export default {
     utils.pluginTypeScript({
       tsConfig: PKG_IMPL === 'installed' ? false : undefined,
     }),
-    utils.pluginCSS(),
+    utils.pluginCSS({ extract: { filename: '[name].[contenthash].css' } }),
     utils.pluginRawImport(),
     utils.pluginHTML({
       filename: 'index.html',
