@@ -14,11 +14,12 @@ export function useNavigate(): UseNavigateReturn {
   const router = useContext(RouterContext);
 
   return useMemo<UseNavigateReturn>(() => {
-    const navigateWrapper: UseNavigateReturn = (url: string) => router.navigate(url);
+    const navigate: UseNavigateReturn = (url: string) => router.navigate(url);
 
+    // IMPORTANT: arrow function is needed here to  prevent lost call context
     // eslint-disable-next-line react-hooks/immutability
-    navigateWrapper.go = router.go;
+    navigate.go = delta => router.go(delta);
 
-    return navigateWrapper;
+    return navigate;
   }, [router]);
 }
