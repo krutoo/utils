@@ -1,9 +1,9 @@
 import { describe, test } from 'node:test';
+import { useState } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
-import { useMutation } from '../use-mutation.ts';
-import { useState } from 'react';
 import { wait } from '../../../mod.ts';
+import { useMutation } from '../use-mutation.ts';
 
 async function logIn(payload: { login: string; password: string }) {
   await wait(200);

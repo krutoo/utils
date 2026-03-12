@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { TimerPool } from '../misc/timer-pool.ts';
-import { useLatestRef } from './use-latest-ref.ts';
 import { zeroDeps } from './constants.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 /** Transition status. */
 export type TransitionStatus =

@@ -2,9 +2,9 @@
  * This script updates "exports" field in package.json according to "src" folder.
  * Each `mod.ts` in "src" folder will be interpreted as entrypoint.
  */
+import { glob } from 'node:fs/promises';
 import path from 'node:path';
 import { JsonFile, normalizePathname } from './utils.ts';
-import { glob } from 'node:fs/promises';
 
 type ExportsEntry = [string, string | { types?: string }];
 

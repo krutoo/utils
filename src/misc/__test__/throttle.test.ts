@@ -1,4 +1,4 @@
-import { describe, test, mock } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import { expect } from '@std/expect';
 import { throttle } from '../throttle.ts';
 

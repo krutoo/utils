@@ -1,8 +1,8 @@
 import { describe, mock, test } from 'node:test';
-import { expect } from '@std/expect';
 import { useContext, useEffect } from 'react';
-import { MatchMediaContext } from '../match-media-context.ts';
+import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
+import { MatchMediaContext } from '../match-media-context.ts';
 
 describe('MatchMediaContext', () => {
   test('should use global matchMedia by default', () => {

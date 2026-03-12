@@ -1,4 +1,4 @@
-import { test, describe, mock } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import { expect } from '@std/expect';
 import { once } from '../once.ts';
 

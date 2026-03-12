@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
+import { useState } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
-import { useState } from 'react';
 import { Portal } from '../portal.tsx';
 
 function TestComponent() {

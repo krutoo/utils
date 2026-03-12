@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useLatestRef } from '../use-latest-ref.ts';
+import { useStableCallback } from '../use-stable-callback.ts';
 import type {
-  QueryState,
   QueryDoneEvent,
   QueryFailedEvent,
+  QueryState,
   UseMutationOptions,
   UseMutationReturn,
 } from './types.ts';
 import { useQueryInstance } from './use-query-instance.ts';
 import { generateId } from './utils.ts';
-import { useStableCallback } from '../use-stable-callback.ts';
-import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 
 /**
  * Mutation hook. Mutation is changing (create/update/delete) something in data source.

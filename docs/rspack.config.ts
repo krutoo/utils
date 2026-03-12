@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { type Configuration } from '@rspack/core';
-import type { CompileOptions } from '@mdx-js/mdx';
 import * as utils from '@krutoo/utils/rspack';
-import { pluginStoriesEntry } from './.rspack/utils.ts';
+import type { CompileOptions } from '@mdx-js/mdx';
+import { type Configuration } from '@rspack/core';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
+import { pluginStoriesEntry } from './.rspack/utils.ts';
 
 const PKG_IMPL = process.env.PKG_IMPL ?? 'src';
 

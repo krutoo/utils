@@ -1,8 +1,8 @@
-import { test, describe } from 'node:test';
-import { render } from '@testing-library/react';
-import { useLatestRef } from '../use-latest-ref.ts';
+import { describe, test } from 'node:test';
 import { useEffect } from 'react';
 import { expect } from '@std/expect';
+import { render } from '@testing-library/react';
+import { useLatestRef } from '../use-latest-ref.ts';
 
 interface TestComponentProps {
   value: number;

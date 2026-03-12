@@ -1,7 +1,7 @@
-import { test, describe, mock } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import { expect } from '@std/expect';
-import { getPositionedParentOffset } from '../get-positioned-parent-offset.ts';
 import { DOMRectReadOnlyMock } from '../../testing/dom-rect-mock.ts';
+import { getPositionedParentOffset } from '../get-positioned-parent-offset.ts';
 
 describe('getPositionedParentOffset', () => {
   test('should return offset correctly', () => {

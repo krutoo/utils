@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
+import { renderToString } from 'react-dom/server';
 import { expect } from '@std/expect';
 import { useStorageItem } from '../use-storage-item.ts';
-import { renderToString } from 'react-dom/server';
 
 describe('useStorageItem', () => {
   test('should works on server', () => {

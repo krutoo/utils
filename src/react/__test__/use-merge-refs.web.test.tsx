@@ -1,8 +1,8 @@
-import { expect } from '@std/expect';
 import { describe, mock, test } from 'node:test';
+import { type Ref, type RefCallback, createRef, useEffect, useState } from 'react';
+import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
 import { useMergeRefs } from '../use-merge-refs.ts';
-import { createRef, type Ref, type RefCallback, useEffect, useState } from 'react';
 
 export interface TestComponentProps {
   refs: Ref<HTMLDivElement>[];

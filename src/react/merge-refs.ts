@@ -1,4 +1,4 @@
-import type { Ref, RefObject, RefCallback } from 'react';
+import type { Ref, RefCallback, RefObject } from 'react';
 
 /**
  * Create ref that updates all accepted refs from list.

@@ -1,5 +1,5 @@
+import { type Context, createContext } from 'react';
 import type { Container } from '../../di/mod.ts';
-import { createContext, type Context } from 'react';
 
 /**
  * Context for providing DI-container to component tree.

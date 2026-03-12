@@ -1,10 +1,10 @@
 import path from 'node:path';
-import type { RspackPluginFunction } from '@rspack/core';
 import {
   type EmitStoriesEntrypointConfig,
   emitStoriesEntrypoint,
   watchStories,
 } from '@krutoo/showcase/build';
+import type { RspackPluginFunction } from '@rspack/core';
 
 export interface PluginStoriesEntryOptions extends EmitStoriesEntrypointConfig {
   entryAlias: string;

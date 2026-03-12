@@ -1,5 +1,5 @@
-import { Portal } from '@krutoo/utils/react';
 import { useState } from 'react';
+import { Portal } from '@krutoo/utils/react';
 
 export const meta = {
   category: 'React components/Portal',

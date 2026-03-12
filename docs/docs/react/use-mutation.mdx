@@ -14,8 +14,8 @@ Hook `useMutation` allows you to pushing data change to any source (HTTP api, Gr
 Just provide `mutation` function that takes any payload and returns `Promise`.
 
 ```tsx
-import { useMutation } from '@krutoo/utils/react';
 import { type FormEvent } from 'react';
+import { useMutation } from '@krutoo/utils/react';
 import { logIn } from '#api';
 
 export default function Example() {
@@ -65,8 +65,8 @@ You can wrap your application to `QueryManager` implementation to control how to
 Package provides `MemoryQueryManager` - simple implementation of `QueryManager` interface that stores all data in memory.
 
 ```tsx
-import { QueryMangerProvider, MemoryQueryManager } from '@krutoo/utils/react';
 import { createRoot } from 'react-dom/client';
+import { MemoryQueryManager, QueryMangerProvider } from '@krutoo/utils/react';
 import { App } from '#components/app';
 
 const manager = new MemoryQueryManager();

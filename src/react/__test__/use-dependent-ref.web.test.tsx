@@ -1,8 +1,8 @@
 import { describe, test } from 'node:test';
+import { type RefObject, useEffect } from 'react';
 import { expect } from '@std/expect';
-import { useDependentRef } from '../use-dependent-ref.ts';
-import { useEffect, type RefObject } from 'react';
 import { render } from '@testing-library/react';
+import { useDependentRef } from '../use-dependent-ref.ts';
 
 describe('useDependentRef', () => {
   test('should work like useRef when no deps provided', () => {

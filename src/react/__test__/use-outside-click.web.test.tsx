@@ -1,7 +1,7 @@
 import { describe, mock, test } from 'node:test';
+import { useRef } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
-import { useRef } from 'react';
 import { useOutsideClick } from '../use-outside-click.ts';
 
 interface TestComponentProps {

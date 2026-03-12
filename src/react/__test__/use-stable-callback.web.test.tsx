@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
+import { useEffect } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
-import { useEffect } from 'react';
 import { useStableCallback } from '../use-stable-callback.ts';
 
 interface TestComponentProps {

@@ -1,7 +1,7 @@
 import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
+import { isObject } from '../misc/mod.ts';
 import type { RuleInsertOptions } from './types.ts';
 import { insertRule } from './utils.ts';
-import { isObject } from '../misc/mod.ts';
 
 export interface PluginRawImportOptions extends RuleInsertOptions {
   /** Allows to use `with { type: 'text' }` to import file source as string. */

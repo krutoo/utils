@@ -1,4 +1,4 @@
-import type { ExternalItem, ExternalsType, ExternalItemFunctionData } from '@rspack/core';
+import type { ExternalItem, ExternalItemFunctionData, ExternalsType } from '@rspack/core';
 import { isObject } from '../misc/is-object.ts';
 
 type ResolveAsync = (context: string, request: string) => Promise<string>;

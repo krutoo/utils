@@ -1,7 +1,7 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
-import { useStorageItem } from '../use-storage-item.ts';
 import { fireEvent, render } from '@testing-library/react';
+import { useStorageItem } from '../use-storage-item.ts';
 
 describe('useStorageItem', () => {
   test('should works correctly without processor', () => {

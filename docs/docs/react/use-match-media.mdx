@@ -62,9 +62,9 @@ It means that you can:
 For example next we will use [MediaQueryListMock](./?path=/testing/media-query-list-mock):
 
 ```tsx
-import { useMatchMedia, MatchMediaContext } from '@krutoo/utils/react';
+import { MatchMediaContext, useMatchMedia } from '@krutoo/utils/react';
 import { MediaQueryListMock } from '@krutoo/utils/testing';
-import { test, expect, act, render } from '#testing';
+import { act, expect, render, test } from '#testing';
 
 function MyWidget() {
   const mobile = useMatchMedia('(max-width: 1024px)');

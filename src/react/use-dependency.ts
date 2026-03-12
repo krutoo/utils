@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
-import { ContainerContext } from './context/container-context.ts';
 import type { Token } from '../di/mod.ts';
+import { ContainerContext } from './context/container-context.ts';
 
 /**
  * Returns component from container by token.

@@ -1,9 +1,9 @@
-import { type RefObject, useContext, useMemo, useRef, type DependencyList } from 'react';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useLatestRef } from './use-latest-ref.ts';
-import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
+import { type DependencyList, type RefObject, useContext, useMemo, useRef } from 'react';
 import { isShallowEqual } from '../mod.ts';
 import { zeroDeps } from './constants.ts';
+import { IntersectionObserverContext } from './context/intersection-observer-context.ts';
+import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 export interface UseIntersectionOptions extends IntersectionObserverInit {
   /** Dependencies that triggers checking ref and recreating observer. */

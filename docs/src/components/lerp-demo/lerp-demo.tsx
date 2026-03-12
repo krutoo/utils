@@ -1,6 +1,6 @@
+import { type RefObject, useEffect, useRef, useState } from 'react';
 import { lerp } from '@krutoo/utils/math';
 import { useResize } from '@krutoo/utils/react';
-import { type RefObject, useEffect, useRef, useState } from 'react';
 import { DemoBanner } from '#components/demo-banner/demo-banner.tsx';
 import styles from './lerp-demo.m.css';
 

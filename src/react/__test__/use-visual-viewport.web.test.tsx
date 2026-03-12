@@ -1,9 +1,9 @@
 import { describe, test } from 'node:test';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { useVisualViewport } from '../use-visual-viewport.ts';
-import { VisualViewportContext } from '../mod.ts';
 import { VisualViewportMock } from '../../testing/mod.ts';
+import { VisualViewportContext } from '../mod.ts';
+import { useVisualViewport } from '../use-visual-viewport.ts';
 
 function TestComponent() {
   const viewport = useVisualViewport();

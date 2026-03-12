@@ -1,6 +1,6 @@
 import { type RefObject } from 'react';
-import { useLatestRef } from './use-latest-ref.ts';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
+import { useLatestRef } from './use-latest-ref.ts';
 
 /**
  * Fires callback when click is outside target element(s).
