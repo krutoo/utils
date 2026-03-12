@@ -4,6 +4,7 @@ import { useQueryInstance } from './use-query-instance.ts';
 import { generateId } from './utils.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useStableCallback } from '../use-stable-callback.ts';
+import { zeroDeps } from '../constants.ts';
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).
@@ -14,7 +15,7 @@ import { useStableCallback } from '../use-stable-callback.ts';
  */
 export function useQuery<T>(
   { key: keyProp, query, enabled = true }: UseQueryOptions<T>,
-  deps: DependencyList = [],
+  deps: DependencyList = zeroDeps,
 ): UseQueryReturn<T> {
   const key = useMemo(() => keyProp ?? generateId('query:'), [keyProp]);
 

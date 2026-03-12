@@ -11,6 +11,8 @@ import type { Container, Provider, Token } from './types.ts';
  *
  * Resolved components are cached, so second resolving will get same value.
  * To make component always new on resolving, just make factory wrapper.
+ *
+ * @internal
  */
 class ContainerImpl implements Container {
   protected registry: Map<symbol, Provider<any>>;

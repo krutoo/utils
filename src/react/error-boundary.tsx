@@ -11,7 +11,7 @@ export interface ErrorBoundaryState {
 }
 
 /**
- * Component for handling of render errors via props.
+ * Component for declarative handling render errors via props.
  */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static getDerivedStateFromError(): ErrorBoundaryState {
