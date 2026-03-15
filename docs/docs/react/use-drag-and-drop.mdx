@@ -52,3 +52,95 @@ function App() {
   return <div ref={ref}>This block is draggable</div>;
 }
 ```
+
+### Controlling drag start
+
+By default hook start dragging immediately on `pointerdown` event.
+
+To disable or change this behavior you can call `preventDefault` on grab event.
+
+For example you can start drag only if some child element is pressed:
+
+```ts
+const needStartDrag = event => {
+  return event.nativeEvent.target.classList.contains('handle');
+};
+
+useDragAndDrop(ref, {
+  onGrab(event) {
+    if (needStartDrag(event)) {
+      return event.preventDefault();
+    }
+
+    // ... your state logic
+  },
+});
+```
+
+Or you can implement dragging activation only after some shift threshold reached:
+
+```ts
+const threshold = 8;
+
+const needStartDrag = event => {
+  return Math.abs(event.offset.x - event.startOffset.x) >= threshold;
+};
+```
+
+### Plugins
+
+Hook provides ability to define plugins to extend basic drag-and-drop behavior.
+
+```ts
+useDragAndDrop(ref, {
+  plugins: [myPlugin, myOtherPlugin],
+  // ...other options
+});
+```
+
+Plugin can add hooks for some events:
+
+- `init` - here you can add some listeners
+- `grab` - calls hook right after dispatching `grab` event
+- `move`- calls hook right after dispatching `move` event
+- `drop`- calls hook right after dispatching `drop` event
+- `destroy` - here you can remove some listeners
+
+By default hook uses some builtin plugins.
+
+You can disable this plugins by passing array:
+
+```ts
+useDragAndDrop(ref, {
+  // no plugins and no builtins
+  plugins: [],
+});
+
+useDragAndDrop(ref, {
+  // only your plugin and no builtins
+  plugins: [myPlugin],
+});
+```
+
+#### Builtin plugin `cleanSelection`
+
+Plugin that cleans selection during drag.
+
+#### Builtin plugin `preventClick`
+
+Plugin that prevents click if target element was moved by drag-and-drop.
+
+#### Builtin plugin `touchScroll`
+
+Plugin that prevents page scroll and "pull-to-refresh" for draggable element.
+
+#### Using builtins selectively
+
+```ts
+import { DragAndDropBuiltinPlugins, useDragAndDrop } from '@krutoo/utils/react';
+
+useDragAndDrop(ref, {
+  // Using only `touchScroll` plugin from builtins
+  plugins: [DragAndDropBuiltinPlugins.touchScroll],
+});
+```

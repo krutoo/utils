@@ -14,7 +14,6 @@ export * from './context/resize-observer-context.ts';
 export * from './context/visual-viewport-context.ts';
 
 // web api
-export * from './use-drag-and-drop.ts';
 export * from './use-exact-click.ts';
 export * from './use-intersection.ts';
 export * from './use-match-media.ts';
@@ -23,6 +22,21 @@ export * from './use-resize.ts';
 export * from './use-storage-item.ts';
 export * from './use-transition-status.ts';
 export * from './use-visual-viewport.ts';
+
+// drag-and-drop
+export type {
+  UseDragAndDropOptions,
+  UseDragAndDropReturn,
+  DragAndDropEvent,
+  DragAndDropEventHandler,
+  DragAndDropPlugin,
+  DragAndDropPluginAPI,
+  DragAndDropPluginHook,
+  DragAndDropPluginHookContext,
+  DragAndDropState,
+} from './drag-and-drop/types.ts';
+export { useDragAndDrop } from './drag-and-drop/use-drag-and-drop.ts';
+export { DragAndDropBuiltinPlugins } from './drag-and-drop/builtin-plugins.ts';
 
 // merging refs
 export * from './merge-refs.ts';
