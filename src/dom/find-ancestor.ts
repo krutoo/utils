@@ -3,6 +3,7 @@
  * @param element Target element to find ancestor.
  * @param predicate Function that check ancestor.
  * @returns Element or null.
+ * @todo Replace by `findClosest`?
  */
 export function findAncestor(
   element: Element,
