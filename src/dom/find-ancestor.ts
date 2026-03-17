@@ -3,7 +3,7 @@
  * @param element Target element to find ancestor.
  * @param predicate Function that check ancestor.
  * @returns Element or null.
- * @todo Replace by `findClosest`?
+ * @deprecated Use `findClosest(element.parentElement)` instead.
  */
 export function findAncestor(
   element: Element,
