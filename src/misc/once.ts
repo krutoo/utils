@@ -6,7 +6,7 @@
  */
 export function once<T extends (this: any, ...args: any[]) => any>(
   fn: T,
-): (this: any, ...args: Parameters<T>) => ReturnType<T> {
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => ReturnType<T> {
   let done = false;
   let result: ReturnType<T>;
 
