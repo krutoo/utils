@@ -14,5 +14,5 @@ import { findClosest } from '@krutoo/utils';
 const element = document.querySelector('#something');
 
 // element or null returns
-const closestTarget = findClosest(element, parent => parent.classList.contains('target'));
+const closestTarget = findClosest(element, el => el.classList.contains('target'));
 ```

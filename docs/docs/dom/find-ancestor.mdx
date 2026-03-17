@@ -1,10 +1,19 @@
-# `findAncestor`
+import { Callout } from '#components/callout/callout';
 
 export const meta = {
   title: 'findAncestor',
   category: 'DOM',
   menuPriority: 90,
 };
+
+# `findAncestor`
+
+<Callout intent='danger'>
+  <Callout.Heading>Deprecated</Callout.Heading>
+  <Callout.Main>
+    Use [findClosest](./?path=/dom/find-closest) with `element.parentElement` instead.
+  </Callout.Main>
+</Callout>
 
 Finds closest ancestor element that matches condition.
 

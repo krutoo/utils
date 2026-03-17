@@ -1,5 +1,5 @@
 import type { Point2d } from '../math/mod.ts';
-import { findAncestor } from './find-ancestor.ts';
+import { findClosest } from './find-closest.ts';
 import { isScrollable } from './is-scrollable.ts';
 
 export interface PositioningOptions {
@@ -21,10 +21,12 @@ export function getPositionedParentOffset(
     return { x: 0, y: 0 };
   }
 
-  const offsetParent = findAncestor(
-    element,
-    strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock,
-  );
+  const offsetParent = element.parentElement
+    ? findClosest(
+        element.parentElement,
+        strategy === 'fixed' ? isContainingBlockForFixed : isContainingBlock,
+      )
+    : null;
 
   const offset: Point2d = {
     x: 0,
@@ -48,7 +50,9 @@ export function getPositionedParentOffset(
     offset.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
-  const scrollParent = findAncestor(element, isScrollable) ?? document.documentElement;
+  const scrollParent =
+    (element.parentElement ? findClosest(element.parentElement, isScrollable) : null) ??
+    document.documentElement;
 
   // IMPORTANT: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && offsetParent === scrollParent) {

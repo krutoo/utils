@@ -3,19 +3,19 @@ import classNames from 'classnames';
 import styles from './callout.m.css';
 
 export interface CalloutProps extends HTMLAttributes<HTMLDivElement> {
-  level?: 'info' | 'danger';
+  intent?: 'info' | 'danger';
 }
 
 export interface CalloutHeadingProps extends HTMLAttributes<HTMLHeadingElement> {}
 
 export interface CalloutMainProps extends HTMLAttributes<HTMLDivElement> {}
 
-export function Callout({ level = 'info', children, className, ...restProps }: CalloutProps) {
+export function Callout({ intent = 'info', children, className, ...restProps }: CalloutProps) {
   return (
     <div
       {...restProps}
-      className={classNames(styles.callout, styles[level], className)}
-      data-intent={level}
+      className={classNames(styles.callout, className)}
+      data-intent={intent}
       data-marker='callout'
     >
       {children}
