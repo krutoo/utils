@@ -9,23 +9,20 @@ export const meta = {
 
 export default function Example() {
   const ref = useRef<HTMLDivElement>(null);
-  const [grabbed, setGrabbed] = useState(false);
+  const [moved, setMoved] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   useDragAndDrop(ref, {
     onGrab(event) {
-      setGrabbed(true);
       setOffset(event.offset);
     },
     onMove(event) {
+      setMoved(true);
       setOffset(event.offset);
-    },
-    onDrop() {
-      setGrabbed(false);
     },
   });
 
-  const style: CSSProperties = grabbed
+  const style: CSSProperties = moved
     ? {
         position: 'absolute',
         left: offset.x,
@@ -35,8 +32,14 @@ export default function Example() {
 
   return (
     <div className={style.container}>
-      <div ref={ref} style={style} className={styles.draggable}>
+      <div ref={ref} style={style} className={styles.draggable} data-marker='draggable'>
         This block is draggable
+        <div className={styles.actions}>
+          <button onClick={() => alert('Button clicked!')}>Button</button>
+          <a href='https://google.com' target='_blank' rel='noreferrer'>
+            Link
+          </a>
+        </div>
       </div>
     </div>
   );

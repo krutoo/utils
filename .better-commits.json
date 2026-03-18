@@ -5,6 +5,10 @@
     "initial_value": "",
     "options": [
       {
+        "value": "di",
+        "label": "di"
+      },
+      {
         "value": "dom",
         "label": "dom"
       },
@@ -21,8 +25,16 @@
         "label": "react"
       },
       {
+        "value": "router",
+        "label": "router"
+      },
+      {
         "value": "rspack",
         "label": "rspack"
+      },
+      {
+        "value": "store",
+        "label": "store"
       },
       {
         "value": "testing",
@@ -31,10 +43,6 @@
       {
         "value": "types",
         "label": "types"
-      },
-      {
-        "value": "di",
-        "label": "di"
       },
       {
         "value": "",

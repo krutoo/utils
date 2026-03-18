@@ -1,0 +1,32 @@
+.container {
+  height: 200vh;
+}
+
+.draggable {
+  width: 240px;
+  height: 320px;
+  background: #1abc9c;
+  color: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  transition: transform 120ms;
+}
+
+.scrollable {
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
+}
+
+.draggable:hover {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
