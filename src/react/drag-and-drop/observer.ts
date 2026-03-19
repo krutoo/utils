@@ -129,7 +129,7 @@ export class DragAndDropObserver {
    * @param ctx Context.
    */
   protected handlePointerRelease(event: PointerEvent, ctx: DragAndDropObserverContext): void {
-    if (!this.state.grabbed || this.state.pointerId !== event.pointerId) {
+    if (!this.state.pressed || this.state.pointerId !== event.pointerId) {
       return;
     }
 

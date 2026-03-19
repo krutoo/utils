@@ -91,27 +91,39 @@ const mock = new ResizeObserverMock();
 
 ## Development
 
-### How to write unit-tests?
+Repo description and how to work with
+
+### File structure
+
+- `src` folder contains files that will be compiled
+- `public` folder contains files that will be added to package as is
+
+### Writing unit-tests
 
 Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test.ts`.
 
 By default test environment is just Node.js environment.
 
-For write tests with simulating browser environment you need to name test file like `a.web.test.ts`.
-
-### Package structure
-
-- `src` folder contains files that will be compiled
-- `public` folder contains files that will be added to package as is
+For write tests with simulating browser environment you need to name test file like `*.web.test.ts`.
 
 ### Exports convention
 
-Any exported file from this package should not contain default exports (`export default ...`). Defaults exports are hard to work with and less compatible between ESM and CJS.
+Any exported file from this package should not contain default exports (`export default ...`).
+Defaults exports are hard to work with and less compatible between ESM and CJS.
+
+### Environment setup
+
+First you need to use suitable Node.js version, for example by `nvm`:
+
+```shell
+nvm use && npm install
+```
 
 ### VSCode setup
 
+This command will create/update `.vscode/settings.json`
+
 ```shell
-# Will update .vscode/settings.json
 npm run setup -- --vscode
 ```
 
