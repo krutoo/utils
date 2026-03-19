@@ -36,7 +36,7 @@ export default function Example() {
         This block is draggable
         <div className={styles.actions}>
           <button onClick={() => alert('Button clicked!')}>Button</button>
-          <a href='https://google.com' target='_blank' rel='noreferrer'>
+          <a href='https://www.google.com' target='_blank' rel='noreferrer'>
             Link
           </a>
         </div>

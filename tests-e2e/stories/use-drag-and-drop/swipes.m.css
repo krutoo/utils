@@ -1,0 +1,50 @@
+.list {
+  margin: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background: #ddd;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.list .item + .item {
+  border-top: 1px solid #ddd;
+}
+
+.item {
+  position: relative;
+  display: flex;
+}
+
+.draggable {
+  flex-grow: 1;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  background: #fff;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.draggable:hover {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.rubber {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(246, 75, 75);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
