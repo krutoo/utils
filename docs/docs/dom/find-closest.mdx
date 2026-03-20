@@ -16,3 +16,17 @@ const element = document.querySelector('#something');
 // element or null returns
 const closestTarget = findClosest(element, el => el.classList.contains('target'));
 ```
+
+### Option `needBreakLoop`
+
+By default `findClosest` traverses DOM tree until predicate returns true or there is no `parentElement`.
+
+In some cases you may need to NOT mark element as suitable but also break loop and not search anymore.
+
+For this cases you can use `needBreakLoop` option:
+
+```js
+const foundElement = findClosest(element, el => el.classList.contains('target'), {
+  needBreakLoop: el => el.id === 'root',
+});
+```
