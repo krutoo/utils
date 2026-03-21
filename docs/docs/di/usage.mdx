@@ -59,7 +59,7 @@ export function createAppContainer() {
 }
 ```
 
-After it you can get components from container in any order and each container will automatically resolves its dependencies.
+Finally you can get components from container in any order and each component will automatically resolves its dependencies.
 
 ```ts title="./src/index.ts"
 import { createAppContainer } from '#app/container';
@@ -72,4 +72,6 @@ const client = container.get(TOKEN.client);
 const response = await client.get('/api/user/me');
 ```
 
-Here `response` will have type `HttpClient` because we use `TOKEN.client` to get it.
+In this code `client` will automatically have type `HttpClient` because we use `TOKEN.client` to get it.
+
+Error will thrown if container has not bound providers for this token or some dependencies missed.
