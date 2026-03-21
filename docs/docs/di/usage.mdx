@@ -1,0 +1,75 @@
+export const meta = {
+  title: 'Usage',
+  category: 'DI',
+};
+
+# Using DI utils
+
+With this library you can implement DI with next steps.
+First we need to define our _tokens_:
+
+```ts title="./src/app/token.ts"
+import { createToken } from '@krutoo/utils/di';
+
+export const TOKEN = {
+  logger: createToken<Logger>(),
+  client: createToken<HttpClient>(),
+};
+```
+
+Then we need to define "providers" - functions that returns component implementation:
+
+```ts title="./src/app/providers.ts"
+import type { Resolve } from '@krutoo/utils/di';
+import { TOKEN } from '#app/token';
+
+export function provideLogger() {
+  return new MyLogger();
+}
+
+export function provideClient(resolve: Resolve) {
+  // here we use logger from container as dependency of client
+  const logger = resolve(TOKEN.logger);
+
+  return new HttpClient({
+    onError: logger.error,
+  });
+}
+```
+
+The pitfall here is that you can pass the resolve function as an argument to another function to call it internally or even later.
+Don't do this! This will turn your container into a _service locator_, which is bad practice.
+
+---
+
+And now we need to create container and fill it by providers:
+
+```ts title="./src/app/container.ts"
+import { createContainer } from '@krutoo/utils/di';
+import { provideClient, provideLogger } from '#app/providers';
+import { TOKEN } from '#app/token';
+
+export function createAppContainer() {
+  const container = createContainer();
+
+  container.set(TOKEN.client, provideClient);
+  container.set(TOKEN.logger, provideLogger);
+
+  return container;
+}
+```
+
+After it you can get components from container in any order and each container will automatically resolves its dependencies.
+
+```ts title="./src/index.ts"
+import { createAppContainer } from '#app/container';
+import { TOKEN } from '#app/token';
+
+const container = createAppContainer();
+
+const client = container.get(TOKEN.client);
+
+const response = await client.get('/api/user/me');
+```
+
+Here `response` will have type `HttpClient` because we use `TOKEN.client` to get it.
