@@ -31,3 +31,26 @@ function App() {
   );
 }
 ```
+
+### Context for DI-container
+
+Hook `useDependency` will throw error if component is not wrapped by `ContainerContext` by design.
+
+You can make this in your app' entrypoint:
+
+```js
+import { createRoot } from 'react-dom/client';
+import { createContainer } from '@krutoo/utils/di';
+import { ContainerContext } from '@krutoo/utils/react';
+import { App } from '#components/app';
+
+const container = createContainer();
+
+// ...fill your container
+
+createRoot(document.querySelector('#root')).render(
+  <ContainerContext value={container}>
+    <App />
+  </ContainerContext>,
+);
+```
