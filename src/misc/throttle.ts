@@ -1,3 +1,5 @@
+import type { AnyFunction } from '../mod.ts';
+
 export interface ThrottleOptions {
   leading?: boolean;
   trailing?: boolean;
@@ -10,7 +12,7 @@ export interface ThrottleOptions {
  * @param options Options.
  * @returns Throttled function.
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends AnyFunction>(
   fn: T,
   timeout = 0,
   { leading = true, trailing = false }: ThrottleOptions = {},

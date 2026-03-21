@@ -1,6 +1,7 @@
 import { useRef } from 'react';
+import type { AnyFunction } from '../mod.ts';
 
-interface HookState<T extends (...args: any[]) => any> {
+interface HookState<T extends AnyFunction> {
   callback: T;
   stable: (...args: Parameters<T>) => ReturnType<T>;
 }
@@ -15,7 +16,7 @@ interface HookState<T extends (...args: any[]) => any> {
  * @param callback Callback.
  * @returns Stable callback.
  */
-export function useStableCallback<T extends (...args: any[]) => any>(
+export function useStableCallback<T extends AnyFunction>(
   callback: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
   const stateRef = useRef<HookState<T>>(null);
