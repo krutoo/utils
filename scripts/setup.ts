@@ -20,7 +20,7 @@ const entries = [
     enabled: config.values['vscode-typescript'] ?? config.values.vscode,
     async apply() {
       await new JsonFile('.vscode/settings.json').setProperty(
-        'typescript.tsdk',
+        'js/ts.tsdk.path',
         'node_modules/typescript/lib',
       );
     },
