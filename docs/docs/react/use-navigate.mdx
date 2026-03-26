@@ -15,20 +15,20 @@ import { useNavigate } from '@krutoo/utils/react';
 function App() {
   const navigate = useNavigate();
 
-  const handleAvatarClick = () => {
+  const goToProfile = () => {
     // navigating to specific route
     navigate('/profile');
   };
 
-  const handleBackClick = () => {
+  const goBack = () => {
     // navigating over history
     navigate.go(-1);
   };
 
   return (
     <main>
-      <img onClick={handleBackClick} src='/me/avatar.png' />
-      <button onClick={handleProfileClick}>My profile</button>
+      <button onClick={goBack}>Back</button>
+      <img onClick={goToProfile} src='/me/avatar.png' />
       {/* ... */}
     </main>
   );
