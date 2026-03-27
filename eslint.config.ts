@@ -123,6 +123,7 @@ const config: Config[] = defineConfig([
       'jsdoc/require-param-type': 'off',
       'jsdoc/require-property-type': 'off',
       'jsdoc/require-returns-type': 'off',
+      'jsdoc/require-yields-type': 'off',
       'jsdoc/tag-lines': 'off',
       'jsdoc/require-jsdoc': 'error',
     },
