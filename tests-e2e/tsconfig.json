@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
     "noEmit": true,
     "target": "ESNext",
     "module": "NodeNext",
@@ -13,18 +14,7 @@
     "noUnusedLocals": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "allowImportingTsExtensions": true,
-    "paths": {
-      "@krutoo/utils": ["../src/mod.ts"],
-      "@krutoo/utils/di": ["../src/di/mod.ts"],
-      "@krutoo/utils/dom": ["../src/dom/mod.ts"],
-      "@krutoo/utils/math": ["../src/math/mod.ts"],
-      "@krutoo/utils/misc": ["../src/misc/mod.ts"],
-      "@krutoo/utils/react": ["../src/react/mod.ts"],
-      "@krutoo/utils/router": ["../src/router/mod.ts"],
-      "@krutoo/utils/rspack": ["../src/rspack/mod.ts"],
-      "@krutoo/utils/types": ["../src/types/mod.ts"]
-    }
+    "allowImportingTsExtensions": true
   },
   "exclude": ["node_modules"]
 }

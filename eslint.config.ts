@@ -83,6 +83,7 @@ const config: Config[] = defineConfig([
       },
     },
     rules: {
+      'react/prop-types': 'off',
       'react/jsx-curly-brace-presence': 'error',
     },
   },
