@@ -21,6 +21,11 @@ export class DragAndDropObserver {
 
   protected plugins: DragAndDropPluginManager;
 
+  protected observation?: {
+    readonly element: HTMLElement;
+    readonly unobserve: VoidFunction;
+  };
+
   constructor(options: DragAndDropObserverOptions = {}) {
     this.options = options;
     this.state = {
@@ -36,10 +41,20 @@ export class DragAndDropObserver {
 
   /**
    * Connects instance to given element.
+   * An observer can only observe one element at a time.
    * @param element Element.
    * @returns Unobserve function.
+   * @throws When trying to observe second element.
    */
   observe(element: HTMLElement): VoidFunction {
+    if (this.observation) {
+      if (this.observation.element !== element) {
+        throw new Error('Only single element can be observed');
+      }
+
+      return this.observation.unobserve;
+    }
+
     const ctx: DragAndDropObserverContext = {
       element,
       getOffsets: (
@@ -66,7 +81,9 @@ export class DragAndDropObserver {
     this.plugins.actions.addPlugins(this.options.plugins ?? []);
     this.plugins.actions.hookInit(ctx);
 
-    return () => {
+    const disconnect = () => {
+      delete this.observation;
+
       element.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerRelease);
@@ -74,6 +91,13 @@ export class DragAndDropObserver {
       this.plugins.actions.hookDestroy(ctx);
       this.plugins.actions.clearPlugins();
     };
+
+    this.observation = {
+      element,
+      unobserve: disconnect,
+    };
+
+    return disconnect;
   }
 
   /**

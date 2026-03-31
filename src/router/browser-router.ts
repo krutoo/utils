@@ -12,7 +12,12 @@ export interface BrowserRouterConfig {
  */
 export class BrowserRouter implements Router {
   private location: RouterLocation;
+
   private listeners: Set<VoidFunction>;
+
+  private connection?: {
+    readonly disconnect: VoidFunction;
+  };
 
   constructor({ defaultLocation }: BrowserRouterConfig = {}) {
     this.location = defaultLocation ?? getStubLocation();
@@ -20,6 +25,7 @@ export class BrowserRouter implements Router {
   }
 
   private setLocation(location: RouterLocation): void {
+    // @todo skip if given location is same as current?
     this.location = normalizeLocation(location);
 
     for (const listener of this.listeners) {
@@ -51,7 +57,12 @@ export class BrowserRouter implements Router {
     window.history.go(delta);
   }
 
-  connect(): () => void {
+  // @todo add argument `window: Window`?
+  connect(): VoidFunction {
+    if (this.connection) {
+      return this.connection.disconnect;
+    }
+
     const sync = () => {
       const url = new URL(window.location.href);
 
@@ -66,12 +77,20 @@ export class BrowserRouter implements Router {
 
     window.addEventListener('popstate', sync);
 
-    return () => {
+    const disconnect = () => {
+      delete this.connection;
+
       window.removeEventListener('popstate', sync);
     };
+
+    this.connection = {
+      disconnect,
+    };
+
+    return disconnect;
   }
 
-  subscribe(listener: VoidFunction): () => void {
+  subscribe(listener: VoidFunction): VoidFunction {
     this.listeners.add(listener);
 
     return () => {
