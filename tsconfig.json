@@ -11,6 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,

@@ -44,7 +44,7 @@ All React utilities, components and hooks are 100% SSR ready.
 import { useMatchMedia } from '@krutoo/utils/react';
 
 function App() {
-  const isMobile = useMatchMedia('(max-width: 1024px)');
+  const mobile = useMatchMedia('(max-width: 1024px)');
 
   return <>...</>;
 }
@@ -61,22 +61,12 @@ import * as utils from '@krutoo/utils/rspack';
 export default {
   entry: './src/index.ts',
   plugins: [
-    // typescript support (with alias from "paths" of tsconfig and `resolve.alias` extending)
     utils.pluginTypeScript(),
-
-    // css and css-modules support ("css-loader" must be added to your project)
     utils.pluginCSS(),
-
-    // html file will be added to bundle
-    utils.pluginHTML({ template: './src/index.html' }),
-
-    // import file source code by `?raw` query or `with { type: 'text' }`
+    utils.pluginHTML(),
     utils.pluginRawImport(),
-
-    // "public" folder will be copied to bundle
     utils.pluginPublicFiles(),
-
-    // ...and other
+    // ...and more
   ],
 };
 ```
@@ -101,8 +91,6 @@ Repo description and how to work with
 ### Writing unit-tests
 
 Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test.ts`.
-
-By default test environment is just Node.js environment.
 
 For write tests with simulating browser environment you need to name test file like `*.web.test.ts`.
 
