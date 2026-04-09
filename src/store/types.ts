@@ -22,6 +22,6 @@ export interface Subscribable {
 }
 
 /**
- * "Nano store" - subscribable state container.
+ * "Store" - subscribable state container.
  */
 export interface Store<T> extends Subscribable, StateContainer<T> {}

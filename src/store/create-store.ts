@@ -1,26 +1,26 @@
 import type { Store } from './types.ts';
 
 /**
- * Creates "nano store".
+ * Creates "store" - subscribable state container.
  * @param initialValue Initial value.
- * @returns Nano store.
+ * @returns Store.
  */
 export function createStore<T>(initialValue: T): Store<T> {
   const listeners = new Set<VoidFunction>();
 
-  let currentValue: T = initialValue;
+  let value: T = initialValue;
 
   return {
     get(): T {
-      return currentValue;
+      return value;
     },
 
     set(nextValue: T): void {
-      if (Object.is(currentValue, nextValue)) {
+      if (Object.is(value, nextValue)) {
         return;
       }
 
-      currentValue = nextValue;
+      value = nextValue;
 
       for (const listener of listeners) {
         listener();
