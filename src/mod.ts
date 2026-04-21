@@ -2,6 +2,7 @@
 // IMPORTANT: "./rspack/mod.ts" is not added here by the same reason
 // IMPORTANT: "./testing/mod.ts" is not added here because in practice it need only in test environment
 // IMPORTANT: "./store/mod.ts" is not added here because it is a little bit more than just utility
+// IMPORTANT: "./router/mod.ts" is not added here by the same reason
 export * from './dom/mod.ts';
 export * from './math/mod.ts';
 export * from './types/mod.ts';
