@@ -1,4 +1,4 @@
-import { exec } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import { EOL } from 'node:os';
 import path from 'node:path';
@@ -11,12 +11,30 @@ export function normalizePathname(pathname: string): string {
   return `./${pathname}`;
 }
 
-export async function execAsync(cmd: string): Promise<void> {
-  return await new Promise<void>((done, fail) => {
-    const proc = exec(cmd, err => (err ? fail(err) : done()));
+/**
+ * Runs shell script using `spawn`.
+ * @param cmd Command to run.
+ * @returns Promise that resolves when process closed.
+ */
+export function $(cmd: string): Promise<void> {
+  return new Promise((done, fail) => {
+    const child = spawn(cmd, {
+      stdio: 'inherit',
+      shell: true,
+      env: { ...process.env, FORCE_COLOR: '3' },
+    });
 
-    proc.stdout?.pipe(process.stdout);
-    proc.stderr?.pipe(process.stderr);
+    child.on('error', fail);
+
+    child.on('close', (code, signal) => {
+      if (code === 0) {
+        done();
+      } else {
+        fail(
+          new Error(signal ? `Process killed, signal ${signal}` : `Process exited, code ${code}`),
+        );
+      }
+    });
   });
 }
 

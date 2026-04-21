@@ -15,7 +15,6 @@ temp
 
 # npm pack result
 *.tgz
-!tarballs/krutoo-ts-loader-0.0.0.tgz
 
 # vscode
 .vscode/settings.json
