@@ -22,7 +22,7 @@ export interface PluginTypeScriptOptions extends RuleInsertOptions {
   ruleEnabled?: boolean;
 
   /** Rule extension/override. */
-  ruleOverride?: RuleSetRule;
+  ruleOverride?: Omit<RuleSetRule, 'use'>;
 }
 
 /**
@@ -68,6 +68,7 @@ export function pluginTypeScript({
     compiler.hooks.afterEnvironment.tap('krutoo:pluginTypeScript', () => {
       if (ruleEnabled) {
         // rule for handling TypeScript source files
+        // @todo переделать множественный spread на функцию которая получает дефолт и возвращает SwcLoaderOptions
         const ruleOptions: SwcLoaderOptions = {
           ...swcLoaderOptions,
           jsc: {
@@ -84,7 +85,7 @@ export function pluginTypeScript({
               },
             },
           },
-        };
+        } as SwcLoaderOptions;
 
         const rule: RuleSetRule = {
           test: /\.(js|jsx|ts|tsx|mts|cts)$/i,

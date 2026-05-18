@@ -57,7 +57,7 @@
     "@eslint/js": "^9.35.0",
     "@happy-dom/global-registrator": "^20.8.9",
     "@ls-lint/ls-lint": "^2.3.1",
-    "@rspack/core": "^1.5.5",
+    "@rspack/core": "^2.0.3",
     "@std/expect": "npm:@jsr/std__expect@^1.0.17",
     "@testing-library/react": "^16.1.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
@@ -81,7 +81,7 @@
     "typescript-eslint": "^8.57.2"
   },
   "peerDependencies": {
-    "@rspack/core": "^1.1.8",
+    "@rspack/core": "^1.1.8 || ^2",
     "@svgr/webpack": "^8.1.0",
     "css-loader": "^7.1.2",
     "react": "^17 || ^18 || ^19",

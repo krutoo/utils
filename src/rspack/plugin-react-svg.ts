@@ -8,7 +8,7 @@ export interface PluginReactSVG extends RuleInsertOptions {
   svgoConfig?: Config;
 
   /** Rule extension/override. */
-  ruleOverride?: RuleSetRule;
+  ruleOverride?: Omit<RuleSetRule, 'use'>;
 }
 
 export const SVGO_DEFAULTS: Config = {
