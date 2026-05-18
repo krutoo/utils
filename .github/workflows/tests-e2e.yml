@@ -38,6 +38,7 @@ jobs:
       - name: Run tests
         working-directory: ./tests-e2e
         run: |
+          npm run check
           npx playwright test
 
       - uses: actions/upload-artifact@v4

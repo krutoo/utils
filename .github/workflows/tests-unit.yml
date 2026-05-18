@@ -49,3 +49,9 @@ jobs:
         run: |
           npm run preparing
           npm run test
+
+      - name: Docs tests
+        working-directory: ./docs
+        run: |
+          npm run preparing
+          npm run check

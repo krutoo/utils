@@ -11,6 +11,7 @@ export default {
     showcase: './src/showcase.tsx',
   },
   output: {
+    module: true,
     path: path.resolve(import.meta.dirname, 'dist'),
     filename: `[name].js`,
   },
@@ -56,7 +57,6 @@ export default {
   ],
   experiments: {
     css: false,
-    outputModule: true,
   },
   devServer: {
     port: 3000,
