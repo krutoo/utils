@@ -11,8 +11,9 @@
   },
   "devDependencies": {
     "@mdx-js/loader": "^3.1.0",
-    "@rspack/cli": "^1.4.11",
-    "@rspack/core": "^1.4.11",
+    "@rspack/cli": "^2.0.3",
+    "@rspack/core": "^2.0.3",
+    "@rspack/dev-server": "^2.0.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "css-loader": "^7.1.2",

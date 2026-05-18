@@ -6,6 +6,7 @@ import type { RuleInsertOptions } from './types.ts';
  * @param rule Rule.
  * @param options Insert options.
  * @param rules Array to insert.
+ * @internal
  */
 export function insertRule(
   rule: RuleSetRule,
