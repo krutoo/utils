@@ -98,7 +98,7 @@ const config: Config[] = defineConfig([
       'react-hooks/exhaustive-deps': [
         'warn',
         {
-          additionalHooks: '(useIsomorphicLayoutEffect)',
+          additionalHooks: '(useIsomorphicLayoutEffect|useInstantEffect)',
         },
       ],
     },
