@@ -1,0 +1,54 @@
+import { Callout } from '#components/callout/callout';
+
+export const meta = {
+  category: 'React',
+  title: 'useInstantEffect',
+};
+
+# `useInstantEffect`
+
+React hook that calls callback immediately (during render) if dependencies changed since last render.
+
+Useful when you don't need to wait for DOM changes.
+
+<Callout>
+  <Callout.Heading>Important</Callout.Heading>
+  <Callout.Main>
+    Because "instant effect" runs immediately - it runs both on server and client side, so you need
+    to check window/document/etc before use.
+  </Callout.Main>
+</Callout>
+
+### Usage
+
+Can be used like `useEffect`:
+
+```jsx
+function MyComponent({ someValue }) {
+  useInstantEffect(() => {
+    console.log(`Actual value is ${someValue}`);
+  }, [someValue]);
+}
+```
+
+### Why
+
+Inspired by this article:
+https://react.dev/learn/you-might-not-need-an-effect
+
+Here is excerpt from section "Adjusting some state when a prop changes":
+
+```jsx
+function List({ items }) {
+  const [isReverse, setIsReverse] = useState(false);
+  const [selection, setSelection] = useState(null);
+
+  // 🔴 Avoid: Adjusting state on prop change in an Effect
+  useEffect(() => {
+    setSelection(null);
+  }, [items]);
+  // ...
+}
+```
+
+> [When using useEffect], every time the items change, the List and its child components will render with a stale selection value at first. Then React will update the DOM and run the Effects. Finally, the setSelection(null) call will cause another re-render of the List and its child components, restarting this whole process again.
