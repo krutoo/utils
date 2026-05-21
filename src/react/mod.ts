@@ -70,8 +70,9 @@ export * from './lifecycle.tsx';
 export * from './portal.tsx';
 
 // IOC
-export { ContainerContext } from './context/container-context.ts';
-export { useDependency } from './use-dependency.ts';
+export { ContainerContext } from './di/container-context.ts';
+export { type ContainerProviderProps, ContainerProvider } from './di/container-provider.tsx';
+export { type DependencyHook, useDependency, createDependencyHook } from './di/use-dependency.ts';
 
 // router
 export { RouterContext } from './context/router-context.ts';
