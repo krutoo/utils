@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import type { Router } from '../../router/types.ts';
-import { RouterContext } from '../context/router-context.ts';
+import { RouterContext } from '../router/router-context.ts';
 
 export type UseNavigateReturn = Router['navigate'] & {
   go: Router['go'];

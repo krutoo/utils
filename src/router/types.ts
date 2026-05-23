@@ -1,10 +1,16 @@
+import type { Subscribable } from '../store/types.ts';
+
 export interface RouterLocation {
   pathname: string;
   hash: string;
   search: string;
 }
 
-export interface Router {
+/**
+ * Router. Extends Subscribable.
+ * Calls listeners passed to `subscribe` when location changes.
+ */
+export interface Router extends Subscribable {
   /**
    * Get current location.
    * @returns Location.
@@ -28,11 +34,4 @@ export interface Router {
    * @returns Disconnect function.
    */
   connect(): () => void;
-
-  /**
-   * Register location change handler.
-   * @param listener Listener.
-   * @returns Unsubscribe function.
-   */
-  subscribe(listener: VoidFunction): () => void;
 }

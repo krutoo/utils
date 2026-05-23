@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import type { RouterLocation } from '../../router/types.ts';
-import { RouterContext } from '../context/router-context.ts';
+import { RouterContext } from '../router/router-context.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 
 /**
