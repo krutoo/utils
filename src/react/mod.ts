@@ -1,20 +1,23 @@
 // core
 export * from './constants.ts';
+export * from './error-boundary.tsx';
+export * from './lifecycle.tsx';
+export * from './merge-refs.ts';
 export * from './use-debounce-state.ts';
 export * from './use-dependent-ref.ts';
+export * from './use-instant-effect.ts';
 export * from './use-isomorphic-layout-effect.ts';
 export * from './use-latest-ref.ts';
-export * from './use-stable-callback.ts';
+export * from './use-merge-refs.ts';
 export * from './use-mounted.ts';
-export * from './use-instant-effect.ts';
+export * from './use-stable-callback.ts';
 
-// context
+// web api
 export * from './context/intersection-observer-context.ts';
 export * from './context/match-media-context.ts';
 export * from './context/resize-observer-context.ts';
 export * from './context/visual-viewport-context.ts';
-
-// web api
+export * from './portal.tsx';
 export * from './use-exact-click.ts';
 export * from './use-intersection.ts';
 export * from './use-match-media.ts';
@@ -39,10 +42,6 @@ export type {
 export { useDragAndDrop } from './drag-and-drop/use-drag-and-drop.ts';
 export { DragAndDropBuiltinPlugins } from './drag-and-drop/builtin-plugins.ts';
 
-// merging refs
-export * from './merge-refs.ts';
-export * from './use-merge-refs.ts';
-
 // queries
 export { useQuery } from './query/use-query.ts';
 export { useMutation } from './query/use-mutation.ts';
@@ -64,18 +63,13 @@ export type {
   UseMutationReturn,
 } from './query/types.ts';
 
-// components
-export * from './error-boundary.tsx';
-export * from './lifecycle.tsx';
-export * from './portal.tsx';
+// router
+export { RouterContext } from './router/router-context.ts';
+export { type UseNavigateReturn, useNavigate } from './router/use-navigate.ts';
+export { useLocation } from './router/use-location.ts';
+export { useRouteParams } from './router/use-route-params.ts';
 
 // IOC
 export { ContainerContext } from './di/container-context.ts';
 export { type ContainerProviderProps, ContainerProvider } from './di/container-provider.tsx';
 export { type DependencyHook, useDependency, createDependencyHook } from './di/use-dependency.ts';
-
-// router
-export { RouterContext } from './context/router-context.ts';
-export { type UseNavigateReturn, useNavigate } from './router/use-navigate.ts';
-export { useLocation } from './router/use-location.ts';
-export { useRouteParams } from './router/use-route-params.ts';
