@@ -38,7 +38,7 @@ export function provideClient(resolve: Resolve) {
 ```
 
 The pitfall here is that you can pass the resolve function as an argument to another function to call it internally or even later.
-Don't do this! This will turn your container into a _service locator_, which is bad practice.
+Don't do this! This will turn your container into a _service locator_, which is bad practice in most cases.
 
 ---
 
@@ -75,3 +75,5 @@ const response = await client.get('/api/user/me');
 In this code `client` will automatically have type `HttpClient` because we use `TOKEN.client` to get it.
 
 Error will thrown if container has not bound providers for this token or some dependencies missed.
+
+A repeated attempt to resolve a component from a container will return exactly the same instance that was created once during the first attempt to resolve it.

@@ -25,12 +25,12 @@ In a few words, reflections - is an ability **in runtime** to get information li
 - "what type of return value of this function?"
 - etc.
 
-In JS we don't have this feature. Maximum that we have is.
+In JS we don't have this feature. Maximum that we have is `typeof` operator but this is not enough.
 Good news is that reflections is not strictly required to achieve DI container features.
 
 ### Reflections vs identifiers
 
-In JS we have no type annotations =). Annotations is needed to detect dependencies. So what if we use just strings? Let's bind components in container by string identifiers, not interfaces.
+In JS we have no type annotations =) (we have it in TS but more on that later). Annotations is needed to detect dependencies. So what if we use just strings? Let's bind components in container by string identifiers, not interfaces.
 
 We can implement it and use for example like this:
 
@@ -53,7 +53,7 @@ const logger = container.get('Logger');
 logger.info('App started...');
 ```
 
-Under the hood you need to just return component from hash table.
+Under the hood of `Container` in this example you need to just return component from hash table.
 
 ### Identifiers and TypeScript
 
@@ -71,15 +71,18 @@ export const container = new Container()
 const logger = container.get('Logger'); // will have type Logger
 ```
 
-This will work but this is very inconvenient:
-you will have to import this particular container everywhere where you want to get a component from it.
+This example will work but this is very inconvenient:
+you will have to import this particular container everywhere where you want to get a component from it. So, it more looks like "Service locator", but not "DI container"
 
-This library provides another way to automatically bind some type to identifier.
+Service locators is almost like DI containers, but with one problem - they exist as global variables in your project. Generally, this is not always a bad pattern.
+For example, in game development, this is a common approach that works quite well.
+
+This library provides ability to define exactly DI containers without without the need to create global variables.
 
 ### Extending identifiers
 
 Since we can't bind a type to a string identifier, we need something else.
-What if we use an object instead of a primitive? We can easily attach a specific type to objects.
+What if we use an object instead of a primitive? We can easily attach a specific type to objects in TypeScript.
 
 We'll replace the concept of an "identifier" with the concept of a "token".
 _Token_ - is an object that can be used as an identifier and to which a specific interface can be assigned.
