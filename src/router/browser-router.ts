@@ -1,5 +1,5 @@
 import type { Router, RouterLocation } from './types.ts';
-import { getStubLocation, normalizeLocation } from './utils.ts';
+import { getStubLocation, isEqualLocations, normalizeLocation } from './utils.ts';
 
 export interface BrowserRouterConfig {
   /** Useful when you use BrowserRouter on server. */
@@ -48,9 +48,11 @@ export class BrowserRouter implements Router {
 
     const location = normalizeLocation(nextUrl);
 
-    window.history.pushState(null, '', `${location.pathname}${location.search}${location.hash}`);
-    window.scrollTo(0, 0);
-    this.setLocation(location);
+    if (!isEqualLocations(location, this.location)) {
+      window.history.pushState(null, '', `${location.pathname}${location.search}${location.hash}`);
+      window.scrollTo(0, 0);
+      this.setLocation(location);
+    }
   }
 
   go(delta: number): void {

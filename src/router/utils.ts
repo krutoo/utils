@@ -37,3 +37,14 @@ export function normalizeLocation(location: RouterLocation): RouterLocation {
 export function normalizePathname(pathname: string): string {
   return pathname.replace(/\/+$/, '') || '/';
 }
+
+/**
+ * Checks that location is equal to other.
+ * @param a Location.
+ * @param b Location.
+ * @returns True if equal.
+ * @internal
+ */
+export function isEqualLocations(a: RouterLocation, b: RouterLocation): boolean {
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash;
+}

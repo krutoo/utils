@@ -25,7 +25,7 @@ export function useOutsideClick<T extends Element>(
 
       for (const { current: element } of refs) {
         // IMPORTANT: element.contains returns true when receives himself
-        if (element && element.contains(event.target)) {
+        if (element?.contains(event.target)) {
           return;
         }
       }
