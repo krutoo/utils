@@ -25,6 +25,9 @@ createRoot(document.getElementById('root')!).render(
         light: './public/logo.svg',
         dark: './public/logo.dark.svg',
       }}
+      defaultStory={{
+        pathname: '/main',
+      }}
       colorSchemes={{
         enabled: true,
         attributeTarget: 'documentElement',
