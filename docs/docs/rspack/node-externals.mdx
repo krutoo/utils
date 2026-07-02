@@ -31,3 +31,15 @@ export default {
   ],
 };
 ```
+
+### Option `allow`
+
+To force add some dependencies to bundle you can use `allow` option:
+
+```js
+nodeExternals({
+  allow: ['@my-org/my-components', /(react|react-dom)/],
+});
+```
+
+By default it contains `css-loader` because it injects some code into runtime.
