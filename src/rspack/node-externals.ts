@@ -23,7 +23,9 @@ export interface NodeExternalsOptions {
  */
 export function nodeExternals({
   importType = 'commonjs',
-  allow,
+
+  // css-loader allowed by default to prevent errors about css-loader' runtime code was not found
+  allow = [/css-loader/],
 }: NodeExternalsOptions = {}): ExternalItem {
   const allowPredicates = allowToPredicates(allow);
 
