@@ -4,6 +4,7 @@ import { wait } from '@krutoo/utils';
 import { useNavigate, useResize } from '@krutoo/utils/react';
 import classNames from 'classnames';
 import { Check, Copy } from 'lucide-react';
+import { withPublicPath } from '../../utils.ts';
 import { DemoDots } from './demo-dots.ts';
 import styles from './homepage.m.css';
 
@@ -114,7 +115,7 @@ export function Homepage() {
         <div className={styles.links}>
           <a
             className={classNames(styles.link, 'appearance-button')}
-            href='?path=/about'
+            href={withPublicPath('./about')}
             onClick={handleLinkClick}
           >
             Docs
