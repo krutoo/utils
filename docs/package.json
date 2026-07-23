@@ -17,12 +17,13 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "css-loader": "^7.1.2",
+    "dotenv": "^17.4.2",
     "prettier": "^3.6.2",
     "rehype-mdx-code-props": "^3.0.1",
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@krutoo/showcase": "^0.7.1",
+    "@krutoo/showcase": "^0.7.2",
     "@mdx-js/react": "^3.1.0",
     "classnames": "^2.5.1",
     "lucide-react": "^1.17.0",
