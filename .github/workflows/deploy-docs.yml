@@ -39,7 +39,9 @@ jobs:
       - name: Build docs
         working-directory: ./docs
         env:
+          NODE_ENV: production
           PUBLIC_PATH: /utils/
+          TEMPLATES_DIR: temp/templates
         run: |
           npm run check
           npm run build

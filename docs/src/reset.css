@@ -75,7 +75,7 @@ button:disabled {
   background: #333;
 }
 
-input:not([type='checkbox']) {
+input {
   font-size: 16px;
   height: 36px;
   padding: 0 8px;
