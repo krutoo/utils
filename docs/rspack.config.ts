@@ -101,6 +101,7 @@ export default [
   // client
   {
     name: 'client',
+    dependencies: ['server'],
     target: 'web',
     mode: isProd ? 'production' : 'development',
     entry: {

@@ -6,8 +6,8 @@
   "scripts": {
     "preparing": "npm i --no-save ../krutoo-utils-0.0.0.tgz",
     "check": "tsc -p . --noEmit",
-    "dev": "rspack serve",
-    "build": "rspack"
+    "dev": "rspack dev",
+    "build": "rspack build"
   },
   "devDependencies": {
     "@mdx-js/loader": "^3.1.0",
