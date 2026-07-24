@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { filterValidStories } from '@krutoo/showcase/runtime';
 import { BrowserRouter } from '@krutoo/utils/router';
 import { App } from '#components/app/app.tsx';
@@ -12,11 +12,22 @@ import './reset.css';
 const { validStories } = filterValidStories(foundStories);
 
 for (const item of validStories) {
-  const outputPath = path.join(import.meta.env.TEMPLATES_DIR, `.${item.pathname}.html`);
+  await emitTemplate(item);
+
+  if (item.pathname === '/main') {
+    await emitTemplate(item, `./_default.html`);
+  }
+}
+
+async function emitTemplate(
+  story: (typeof validStories)[number],
+  filename = `.${story.pathname}.html`,
+) {
+  const outputPath = path.join(import.meta.env.TEMPLATES_DIR, filename);
 
   const router = new BrowserRouter({
     defaultLocation: {
-      pathname: withPublicPath(`.${item.pathname}`),
+      pathname: withPublicPath(`.${story.pathname}`),
       search: '',
       hash: '',
     },
@@ -33,15 +44,3 @@ for (const item of validStories) {
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   await fs.writeFile(outputPath, markup);
 }
-
-// also emit default template with empty root
-const outputPath = path.join(import.meta.env.TEMPLATES_DIR, `./_default.html`);
-
-const markup = `<!doctype html>${renderToStaticMarkup(
-  <Helmet>
-    <div id='root'></div>
-  </Helmet>,
-)}`;
-
-await fs.mkdir(path.dirname(outputPath), { recursive: true });
-await fs.writeFile(outputPath, markup);

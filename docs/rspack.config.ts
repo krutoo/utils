@@ -17,6 +17,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const pkgImpl = process.env.PKG_IMPL ?? 'src';
 
 await fs.rm('dist', { recursive: true, force: true });
+await fs.rm('temp', { recursive: true, force: true });
 
 const storiesConfig: PluginStoriesEntryOptions = {
   entryAlias: '#found-stories',
