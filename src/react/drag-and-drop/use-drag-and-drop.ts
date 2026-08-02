@@ -22,6 +22,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     onMove,
     onDrop,
     plugins,
+    reuseEvent,
     extraDeps = zeroDeps,
   }: UseDragAndDropOptions = {},
 ): void {
@@ -39,6 +40,7 @@ export function useDragAndDrop<T extends HTMLElement>(
 
     const observer = new DragAndDropObserver({
       strategy,
+      reuseEvent,
       onGrab: handleGrab,
       onMove: handleMove,
       onDrop: handleDrop,
@@ -54,6 +56,7 @@ export function useDragAndDrop<T extends HTMLElement>(
     ref,
     disabled,
     strategy,
+    reuseEvent,
 
     // stable:
     handleGrab,

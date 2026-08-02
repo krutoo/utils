@@ -21,13 +21,18 @@ export class DragAndDropObserver {
 
   protected plugins: DragAndDropPluginManager;
 
+  protected sharedEvent?: DnDEvent<Event>;
+
   protected observation?: {
     readonly element: HTMLElement;
     readonly unobserve: VoidFunction;
   };
 
   constructor(options: DragAndDropObserverOptions = {}) {
-    this.options = options;
+    this.options = {
+      reuseEvent: true,
+      ...options,
+    };
     this.state = {
       pointerId: -1,
       pressed: false,
@@ -57,16 +62,11 @@ export class DragAndDropObserver {
 
     const ctx: DragAndDropObserverContext = {
       element,
-      getOffsets: (
-        clientPosition: Vector2,
-        innerOffset = clientPosition.clone().subtract(element.getBoundingClientRect()),
-      ) => {
-        const offset = clientPosition
+      calcOffset: (clientPosition, innerOffset) => {
+        return clientPosition
           .clone()
           .subtract(innerOffset)
           .subtract(getPositionedParentOffset(element, this.options));
-
-        return { offset, innerOffset };
       },
     };
 
@@ -111,7 +111,8 @@ export class DragAndDropObserver {
     }
 
     const clientPosition = Vector2.of(event.clientX, event.clientY);
-    const { offset, innerOffset } = ctx.getOffsets(clientPosition);
+    const innerOffset = clientPosition.clone().subtract(ctx.element.getBoundingClientRect());
+    const offset = ctx.calcOffset(clientPosition, innerOffset);
 
     this.state.pressed = true;
     this.state.pointerId = event.pointerId;
@@ -133,7 +134,7 @@ export class DragAndDropObserver {
     }
 
     const clientPosition = Vector2.of(event.clientX, event.clientY);
-    const { offset } = ctx.getOffsets(clientPosition, this.state.innerOffset);
+    const offset = ctx.calcOffset(clientPosition, this.state.innerOffset);
 
     this.state.offset = offset;
 
@@ -142,7 +143,7 @@ export class DragAndDropObserver {
     }
 
     if (this.state.grabbed) {
-      this.options.onMove?.(new DnDEvent(ctx.element, this.state, event, clientPosition));
+      this.options.onMove?.(this.getEvent(ctx.element, this.state, event, clientPosition));
       this.plugins.actions.hookMove(ctx);
     }
   }
@@ -163,7 +164,7 @@ export class DragAndDropObserver {
     this.state.grabbed = false;
     this.state.pressed = false;
 
-    this.options.onDrop?.(new DnDEvent(ctx.element, this.state, event, clientPosition));
+    this.options.onDrop?.(this.getEvent(ctx.element, this.state, event, clientPosition));
     this.plugins.actions.hookDrop(ctx);
   }
 
@@ -179,7 +180,7 @@ export class DragAndDropObserver {
     clientPosition: Point2d,
   ): void {
     const nextState = { ...this.state, grabbed: true };
-    const dndEvent = new DnDEvent(element, nextState, nativeEvent, clientPosition);
+    const dndEvent = this.getEvent(element, nextState, nativeEvent, clientPosition);
 
     this.options.onGrab?.(dndEvent);
 
@@ -187,5 +188,43 @@ export class DragAndDropObserver {
       this.plugins.actions.hookGrab({ element });
       this.state = nextState;
     }
+  }
+
+  /**
+   * Returns DnDEvent from payload.
+   * @param target Element.
+   * @param state State.
+   * @param nativeEvent Native event.
+   * @param clientPosition Client position.
+   * @returns Event.
+   */
+  protected getEvent<E extends Event>(
+    target: HTMLElement,
+    state: DragAndDropState,
+    nativeEvent: E,
+    clientPosition: Point2d,
+  ): DnDEvent<E> {
+    if (!this.options.reuseEvent) {
+      return new DnDEvent(target, state, nativeEvent, clientPosition);
+    }
+
+    if (!this.sharedEvent) {
+      this.sharedEvent = new DnDEvent(target, state, nativeEvent, clientPosition);
+
+      return this.sharedEvent as DnDEvent<E>;
+    }
+
+    this.sharedEvent.target = target;
+    this.sharedEvent.nativeEvent = nativeEvent;
+    this.sharedEvent.clientPosition = clientPosition;
+    this.sharedEvent.grabbed = state.grabbed;
+    this.sharedEvent.pressed = state.pressed;
+    this.sharedEvent.offset = state.offset;
+    this.sharedEvent.startOffset = state.startOffset;
+    this.sharedEvent.innerOffset = state.innerOffset;
+
+    DnDEvent.resetPrevention(this.sharedEvent);
+
+    return this.sharedEvent as DnDEvent<E>;
   }
 }
