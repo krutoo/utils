@@ -1,5 +1,7 @@
 import type { Point2d } from './types.ts';
 
+const ORIGIN: Point2d = { x: 0, y: 0 };
+
 /**
  * Operations with two-dimensional vector.
  */
@@ -56,6 +58,18 @@ export class Vector2 implements Point2d {
    */
   clone(): Vector2 {
     return new Vector2(this.x, this.y);
+  }
+
+  /**
+   * Copies coordinates from given vector.
+   * @param vector Vector.
+   * @returns This.
+   */
+  copy(vector: Point2d): this {
+    this.x = vector.x;
+    this.y = vector.y;
+
+    return this;
   }
 
   /**
@@ -216,7 +230,7 @@ export class Vector2 implements Point2d {
    * @returns This.
    */
   rotate(radians: number): this {
-    this.rotateAround({ x: 0, y: 0 }, radians);
+    this.rotateAround(ORIGIN, radians);
 
     return this;
   }

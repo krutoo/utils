@@ -87,6 +87,25 @@ describe('Vector2', () => {
     expect(b.equalsTo(a)).toBe(true);
   });
 
+  test('copy', () => {
+    const a = new Vector2(20, 30);
+    const b = new Vector2(135, 246);
+
+    expect(a.x).toBe(20);
+    expect(a.y).toBe(30);
+
+    expect(b.x).toBe(135);
+    expect(b.y).toBe(246);
+
+    a.copy(b);
+
+    expect(a.x).toBe(135);
+    expect(a.y).toBe(246);
+
+    expect(b.x).toBe(135);
+    expect(b.y).toBe(246);
+  });
+
   test('static method "of"', () => {
     expect(Vector2.of(1, 2)).toStrictEqual(new Vector2(1, 2));
   });
