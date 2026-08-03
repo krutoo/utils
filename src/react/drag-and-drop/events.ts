@@ -2,21 +2,25 @@ import type { Point2d } from '../../mod.ts';
 import type { DragAndDropEvent, DragAndDropState } from './types.ts';
 
 export class DnDEvent<E extends Event> implements DragAndDropEvent<E> {
-  readonly target: HTMLElement;
+  static resetPrevention<E extends Event>(event: DnDEvent<E>): void {
+    event._defaultPrevented = false;
+  }
 
-  readonly nativeEvent: E;
+  target: HTMLElement;
 
-  readonly clientPosition: Point2d;
+  nativeEvent: E;
 
-  readonly grabbed: boolean;
+  clientPosition: Point2d;
 
-  readonly pressed: boolean;
+  grabbed: boolean;
 
-  readonly offset: Point2d;
+  pressed: boolean;
 
-  readonly startOffset: Point2d;
+  offset: Point2d;
 
-  readonly innerOffset: Point2d;
+  startOffset: Point2d;
+
+  innerOffset: Point2d;
 
   protected _defaultPrevented: boolean;
 

@@ -44,6 +44,9 @@ export interface UseDragAndDropOptions {
   /** When true, Drag-And-Drop will be disabled. */
   disabled?: boolean;
 
+  /** If `true`, single event will be mutated and passed to callbacks. */
+  reuseEvent?: boolean;
+
   /** Will be called when element is grabbed. */
   onGrab?: DragAndDropEventHandler<PointerEvent>;
 
@@ -124,6 +127,7 @@ export interface DragAndDropPluginManager {
 /** @internal */
 export interface DragAndDropObserverOptions {
   strategy?: 'fixed' | 'absolute';
+  reuseEvent?: boolean;
   onGrab?: DragAndDropEventHandler<PointerEvent>;
   onMove?: DragAndDropEventHandler<PointerEvent>;
   onDrop?: DragAndDropEventHandler<PointerEvent>;
@@ -133,8 +137,5 @@ export interface DragAndDropObserverOptions {
 /** @internal */
 export interface DragAndDropObserverContext {
   element: HTMLElement;
-  getOffsets(
-    clientPosition: Vector2,
-    innerOffset?: Vector2,
-  ): { offset: Vector2; innerOffset: Vector2 };
+  calcOffset(clientPosition: Vector2, innerOffset: Vector2): Vector2;
 }
