@@ -1,4 +1,6 @@
-export interface DebouncedFunction<T extends (this: any, ...args: any[]) => any> {
+import type { AnyFunction } from '../mod.ts';
+
+export interface DebouncedFunction<T extends AnyFunction> {
   (this: ThisParameterType<T>, ...args: Parameters<T>): void;
 
   /** Cancels registered future calls if exists. */
@@ -15,10 +17,7 @@ export interface DebouncedFunction<T extends (this: any, ...args: any[]) => any>
  * @param timeout Timeout in milliseconds.
  * @returns Debounced function.
  */
-export function debounce<T extends (...args: any) => any>(
-  fn: T,
-  timeout: number,
-): DebouncedFunction<T> {
+export function debounce<T extends AnyFunction>(fn: T, timeout: number): DebouncedFunction<T> {
   let timerId: ReturnType<typeof setTimeout>;
 
   const debounced: DebouncedFunction<T> = function (...args) {

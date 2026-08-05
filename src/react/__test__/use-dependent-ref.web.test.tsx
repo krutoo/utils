@@ -20,7 +20,8 @@ describe('useDependentRef', () => {
       );
     }
 
-    let ref: RefObject<HTMLDivElement | null> | null = null as any;
+    let ref: RefObject<HTMLDivElement | null> | null =
+      null as RefObject<HTMLDivElement | null> | null;
     let refChangeCount = 0;
 
     window.addEventListener('ref/change', event => {
@@ -59,7 +60,8 @@ describe('useDependentRef', () => {
       );
     }
 
-    let ref: RefObject<HTMLDivElement | null> | null = null as any;
+    let ref: RefObject<HTMLDivElement | null> | null =
+      null as RefObject<HTMLDivElement | null> | null;
     let refChangeCount = 0;
 
     window.addEventListener('ref/change', event => {

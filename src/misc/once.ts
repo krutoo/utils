@@ -1,10 +1,12 @@
+import type { AnyFunction } from '../mod.ts';
+
 /**
  * Returns function that calls original function only once.
  * All next calls will return result from first call.
  * @param fn Function.
  * @returns New wrapper function.
  */
-export function once<T extends (this: any, ...args: any[]) => any>(
+export function once<T extends AnyFunction>(
   fn: T,
 ): (this: ThisParameterType<T>, ...args: Parameters<T>) => ReturnType<T> {
   let done = false;

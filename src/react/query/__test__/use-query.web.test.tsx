@@ -4,7 +4,7 @@ import { act, render } from '@testing-library/react';
 import { useQuery } from '../use-query.ts';
 
 interface RequestEventMap {
-  success: CustomEvent<{ data: any }>;
+  success: CustomEvent<{ data: { message: string } }>;
   failure: CustomEvent<{ error: unknown }>;
 }
 
