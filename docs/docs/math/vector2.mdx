@@ -232,6 +232,20 @@ console.log(vector1 === vector2); // false
 console.log(vector1.equalsTo(vector2)); // true
 ```
 
+#### `copy`
+
+Copies coordinate values from given vector like object.
+
+Mutates instance.
+
+```ts
+const vector = Vector2.of(10, 20);
+
+vector.copy({ x: 9.9, y: 11.5 });
+
+console.log(vector.x, vector.y); // 9.9 11.5
+```
+
 #### `toJSON`
 
 Returns plain object with vector coordinates.
