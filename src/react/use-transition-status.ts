@@ -6,12 +6,7 @@ import { useLatestRef } from './use-latest-ref.ts';
 
 /** Transition status. */
 export type TransitionStatus =
-  | 'pre-opening'
-  | 'opening'
-  | 'open'
-  | 'pre-closing'
-  | 'closing'
-  | 'closed';
+  'pre-opening' | 'opening' | 'open' | 'pre-closing' | 'closing' | 'closed';
 
 /** Options for useTransitionStatus. */
 export interface UseTransitionStatusOptions {
@@ -47,7 +42,7 @@ export function useTransitionStatus({
   const [status, setStatus] = useState<TransitionStatus>(() => (defaultOpen ? 'open' : 'closed'));
   const statusRef = useLatestRef(status);
   const durationRef = useLatestRef(duration);
-  const timers = useMemo(createTimerPool, zeroDeps); // eslint-disable-line react-hooks/use-memo
+  const timers = useMemo(createTimerPool, zeroDeps);
 
   useIsomorphicLayoutEffect(() => {
     const actualStatus = statusRef.current;

@@ -8,7 +8,7 @@ export function Link({ href, target, ...restProps }: AnchorHTMLAttributes<HTMLAn
       return;
     }
 
-    setInternal(new URL(new Request(href).url).hostname === new URL(location.href).hostname);
+    setInternal(new URL(new Request(href).url).hostname === new URL(window.location.href).hostname);
   }, [href]);
 
   const resultTarget = target ?? (!internal ? '_blank' : undefined);

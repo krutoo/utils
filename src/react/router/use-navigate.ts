@@ -17,7 +17,6 @@ export function useNavigate(): UseNavigateReturn {
     const navigate: UseNavigateReturn = (url: string) => router.navigate(url);
 
     // IMPORTANT: arrow function is needed here to  prevent lost call context
-    // eslint-disable-next-line react-hooks/immutability
     navigate.go = delta => router.go(delta);
 
     return navigate;

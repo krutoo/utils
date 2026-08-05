@@ -30,13 +30,11 @@ export function CodeBlock({ title, children }: CodeBlockProps) {
   }, [content]);
 
   const sourceCode = useMemo(() => {
-    if (
-      !(
-        isValidElement<CodeProps>(children) &&
-        children.type === 'code' &&
-        typeof children.props.children === 'string'
-      )
-    ) {
+    if (!(
+      isValidElement<CodeProps>(children) &&
+      children.type === 'code' &&
+      typeof children.props.children === 'string'
+    )) {
       return null;
     }
 
