@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { type ChildProcess, spawn } from 'node:child_process';
 import type { RspackPluginFunction } from '@rspack/core';
 
@@ -34,6 +33,8 @@ export function pluginExec({
   const pluginName = 'pluginExec';
 
   return compiler => {
+    const logger = compiler.getInfrastructureLogger(pluginName);
+
     if (when === 'watch' && !compiler.options.watch) {
       return;
     }
@@ -48,13 +49,13 @@ export function pluginExec({
       if (childProcess) {
         childProcess.kill();
         childProcess = null;
-        console.log(`[${pluginName}] Previous process killed`);
+        logger.log(`Previous process killed`);
       }
     });
 
     compiler.hooks.afterEmit.tapPromise({ name: pluginName }, async compilation => {
       if (compilation.errors.length > 0) {
-        console.log(`[${pluginName}] Skip because of compilation errors`);
+        logger.log(`Skip because of compilation errors`);
         return;
       }
 
@@ -65,7 +66,7 @@ export function pluginExec({
         });
 
         childProcess.on('spawn', () => {
-          console.log(`[${pluginName}] Child process started, pid: ${childProcess?.pid}`);
+          logger.log(`Child process started, pid: ${childProcess?.pid}`);
         });
 
         childProcess.on('error', error => {
