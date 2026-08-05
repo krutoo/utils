@@ -3,7 +3,7 @@
  * @param objects Objects to pick keys.
  * @yields Every unique own key.
  */
-export function* keys(...objects: Array<Record<string, any>>): Generator<string, void, unknown> {
+export function* keys(...objects: object[]): Generator<string, void, unknown> {
   // Object.create(null) instead Set for more efficiently memory usage on small objects
   const seen: Record<string, boolean> = Object.create(null);
 

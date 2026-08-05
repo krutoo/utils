@@ -15,8 +15,8 @@ import type { Container, Provider, Token } from './types.ts';
  * @internal
  */
 class ContainerImpl implements Container {
-  protected registry: Map<symbol, Provider<any>>;
-  protected cache: Map<symbol, any>;
+  protected registry: Map<symbol, Provider<unknown>>;
+  protected cache: Map<symbol, unknown>;
 
   constructor() {
     this.registry = new Map();
@@ -32,9 +32,9 @@ class ContainerImpl implements Container {
   }
 
   get<T>(token: Token<T>): T {
-    const resolve = <C>(tkn: Token<C>, chain: Token<any>[]): C => {
+    const resolve = <C>(tkn: Token<C>, chain: Token<unknown>[]): C => {
       if (this.cache.has(tkn.key)) {
-        return this.cache.get(tkn.key);
+        return this.cache.get(tkn.key) as C;
       }
 
       if (chain.includes(tkn)) {
@@ -53,7 +53,7 @@ class ContainerImpl implements Container {
 
       this.cache.set(tkn.key, component);
 
-      return component;
+      return component as C;
     };
 
     return resolve(token, []);

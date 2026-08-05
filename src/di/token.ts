@@ -8,7 +8,7 @@ class TokenImpl<T> implements Token<T> {
   }
 
   resolve(source: unknown): T {
-    return (source as Map<symbol, any>).get(this.key);
+    return (source as Map<symbol, unknown>).get(this.key) as T;
   }
 
   toString(): string {

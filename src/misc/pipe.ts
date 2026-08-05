@@ -46,16 +46,16 @@ export function pipe<Funcs extends AnyFunction[]>(
   }
 
   if (funcs.length === 1) {
-    return (...args: any[]) => funcs[0](...args);
+    return (...args: unknown[]) => funcs[0](...args);
   }
 
-  return (...args: any[]): any => {
-    let acc: any = funcs[0]!(...args);
+  return ((...args: unknown[]): unknown => {
+    let acc: unknown = funcs[0]!(...args);
 
     for (let i = 1; i < funcs.length; i++) {
       acc = funcs[i]!(acc);
     }
 
     return acc;
-  };
+  }) as LastItemReturnType<Funcs>;
 }
