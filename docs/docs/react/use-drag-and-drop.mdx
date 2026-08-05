@@ -53,6 +53,26 @@ function App() {
 }
 ```
 
+This example uses state for style but you can set position to style directly
+to element in event callbacks using ref or `event.target`.
+
+```ts
+useDragAndDrop(ref, {
+  onGrab(event) {
+    event.target.style.position = 'absolute';
+    event.target.style.left = `${event.offset.x}px`;
+    event.target.style.top = `${event.offset.y}px`;
+  },
+  onMove(event) {
+    event.target.style.left = `${event.offset.x}px`;
+    event.target.style.top = `${event.offset.y}px`;
+  },
+  onDrop(event) {
+    event.target.style.position = 'static';
+  },
+});
+```
+
 ### Controlling drag start
 
 By default hook start dragging immediately on `pointerdown` event.
@@ -144,3 +164,8 @@ useDragAndDrop(ref, {
   plugins: [DragAndDropBuiltinPlugins.touchScroll],
 });
 ```
+
+### Optimization
+
+By default observer uses same event object between callbacks, just change property values.
+You can disable this behavior by passing option `reuseEvent: false`.
