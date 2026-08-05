@@ -1,15 +1,15 @@
-import { MouseEvent, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ColorSchemesContext } from '@krutoo/showcase/runtime-showcase';
 import { wait } from '@krutoo/utils';
-import { useNavigate, useResize } from '@krutoo/utils/react';
+import { useResize } from '@krutoo/utils/react';
 import classNames from 'classnames';
 import { Check, Copy } from 'lucide-react';
+import { Link } from '#components/link/link.tsx';
 import { withPublicPath } from '../../utils.ts';
 import { DemoDots } from './demo-dots.ts';
 import styles from './homepage.m.css';
 
 export function Homepage() {
-  const navigate = useNavigate();
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
@@ -23,13 +23,6 @@ export function Homepage() {
         .writeText(content)
         .then(() => setCopied(true))
         .catch(() => {});
-    }
-  };
-
-  const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (event.currentTarget.target !== '_blank') {
-      event.preventDefault();
-      navigate(event.currentTarget.href);
     }
   };
 
@@ -113,22 +106,20 @@ export function Homepage() {
           </button>
         </div>
         <div className={styles.links}>
-          <a
+          <Link
             className={classNames(styles.link, 'appearance-button')}
             href={withPublicPath('./about')}
-            onClick={handleLinkClick}
           >
             Docs
-          </a>
-          <a
+          </Link>
+          <Link
             className={classNames(styles.link, styles.secondary, 'appearance-button')}
             href='https://github.com/krutoo/utils'
             target='_blank'
             rel='noreferrer'
-            onClick={handleLinkClick}
           >
             GitHub
-          </a>
+          </Link>
         </div>
       </div>
     </div>

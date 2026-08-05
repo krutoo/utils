@@ -1,9 +1,9 @@
-# `useIntersection`
-
 export const meta = {
-  category: 'React',
+  category: 'React DOM',
   title: 'useIntersection',
 };
+
+# `useIntersection`
 
 Hook for detection element intersections with viewport or other elements by [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 
@@ -81,7 +81,7 @@ It means that you can:
 - provide different implementations for different subtrees of your UI;
 - replace instance by mock in your unit tests.
 
-For example next we will use [IntersectionObserverMock](./?path=/testing/intersection-observer-mock):
+For example next we will use [IntersectionObserverMock](/utils/testing/intersection-observer-mock):
 
 ```tsx
 import { useRef } from 'react';
