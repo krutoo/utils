@@ -1,36 +1,4 @@
 {
-  "compilerOptions": {
-    "rootDir": "./",
-    "noEmit": true,
-    "target": "ESNext",
-    "module": "NodeNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "noUnusedLocals": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "allowImportingTsExtensions": true,
-
-    // so that the compiled code has the correct paths (`import './a.ts'` >> `import './a.js'`)
-    "rewriteRelativeImportExtensions": true,
-
-    // to make code comply with the "no-slow-types" rule from JSR
-    "isolatedDeclarations": true,
-
-    // because "isolatedDeclarations" does not work without it
-    "declaration": true,
-
-    // import types only with type keyword
-    "verbatimModuleSyntax": true,
-
-    // no enums, namespaces, parameter properties, etc
-    "erasableSyntaxOnly": true
-  },
+  "extends": "@krutoo/presets/tsconfig.check.json",
   "exclude": ["node_modules", "public/typings", "tests-pkg", "tests-e2e", "docs", "dist"]
 }

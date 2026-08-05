@@ -1,139 +1,12 @@
-import { fileURLToPath } from 'node:url';
-import { includeIgnoreFile } from '@eslint/compat';
-import pluginJs from '@eslint/js';
-import pluginJSDoc from 'eslint-plugin-jsdoc';
-import pluginReact from 'eslint-plugin-react';
-import pluginReactHooks from 'eslint-plugin-react-hooks';
-import { type Config, defineConfig } from 'eslint/config';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import preset from '@krutoo/presets/eslint';
+import type { Config } from 'eslint/config';
 
-const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-
-const config: Config[] = defineConfig([
-  // Global ignores
-  includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
-
-  // Basics
-  {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}'],
-  },
-  {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-  },
-  pluginJs.configs.recommended,
-  tseslint.configs.recommended,
+const config: Config[] = [
+  ...preset,
   {
     rules: {
-      'object-shorthand': 'error',
-      'no-console': 'error',
-      eqeqeq: 'error',
-      'no-param-reassign': 'error',
+      // any is widely used in this project but it is justified
       '@typescript-eslint/no-explicit-any': 'off',
-      'no-shadow': 'off',
-      '@typescript-eslint/no-shadow': 'error',
-      '@typescript-eslint/no-empty-object-type': [
-        'error',
-        {
-          allowInterfaces: 'always',
-        },
-      ],
-    },
-  },
-
-  // CommonJS
-  {
-    files: ['**/*.{cjs,cts}'],
-    rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-    },
-  },
-
-  // Import/export
-  {
-    files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    rules: {
-      'no-restricted-exports': [
-        'error',
-        {
-          restrictDefaultExports: {
-            direct: true,
-            named: true,
-            defaultFrom: true,
-            namedFrom: true,
-            namespaceFrom: true,
-          },
-        },
-      ],
-    },
-  },
-
-  // React
-  pluginReact.configs.flat.recommended!,
-  pluginReact.configs.flat['jsx-runtime']!,
-  {
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      'react/prop-types': 'off',
-      'react/jsx-curly-brace-presence': 'error',
-    },
-  },
-
-  // React hooks
-  pluginReactHooks.configs.flat.recommended,
-  {
-    rules: {
-      'react-hooks/refs': 'off',
-      'react-hooks/set-state-in-effect': 'off',
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': [
-        'warn',
-        {
-          additionalHooks: '(useIsomorphicLayoutEffect|useInstantEffect)',
-        },
-      ],
-    },
-  },
-
-  // JSDoc
-  pluginJSDoc.configs['flat/recommended'],
-  {
-    rules: {
-      'jsdoc/require-description-complete-sentence': 'warn',
-      'jsdoc/require-param': [
-        'warn',
-        {
-          checkDestructured: false,
-        },
-      ],
-      'jsdoc/check-param-names': [
-        'warn',
-        {
-          checkDestructured: false,
-        },
-      ],
-      'jsdoc/require-param-type': 'off',
-      'jsdoc/require-property-type': 'off',
-      'jsdoc/require-returns-type': 'off',
-      'jsdoc/require-yields-type': 'off',
-      'jsdoc/require-throws-type': 'off',
-      'jsdoc/tag-lines': 'off',
-      'jsdoc/require-jsdoc': 'error',
-    },
-  },
-  {
-    files: ['**/*.test.{js,mjs,cjs,ts,jsx,tsx}'],
-    rules: {
-      'jsdoc/require-jsdoc': 'off',
     },
   },
   {
@@ -154,6 +27,6 @@ const config: Config[] = defineConfig([
       'jsdoc/require-jsdoc': 'off',
     },
   },
-]);
+];
 
 export default config;

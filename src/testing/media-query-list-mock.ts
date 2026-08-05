@@ -91,7 +91,7 @@ export class MediaQueryListMock extends EventTarget implements MediaQueryList {
    */
   addListener(callback: ((this: MediaQueryList, event: MediaQueryListEvent) => any) | null): void {
     if (callback) {
-      this.addEventListener('change', callback as any);
+      this.addEventListener('change', callback);
     }
   }
 
@@ -103,7 +103,7 @@ export class MediaQueryListMock extends EventTarget implements MediaQueryList {
     callback: ((this: MediaQueryList, event: MediaQueryListEvent) => any) | null,
   ): void {
     if (callback) {
-      this.removeEventListener('change', callback as any);
+      this.removeEventListener('change', callback);
     }
   }
 

@@ -53,9 +53,8 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@eslint/compat": "^2.0.3",
-    "@eslint/js": "^9.35.0",
     "@happy-dom/global-registrator": "^20.8.9",
+    "@krutoo/presets": "^0.0.1",
     "@ls-lint/ls-lint": "^2.3.1",
     "@rspack/core": "^2.0.3",
     "@std/expect": "npm:@jsr/std__expect@^1.0.17",
@@ -66,9 +65,6 @@
     "@types/react-dom": "^19.2.3",
     "better-commits": "^1.17.0",
     "eslint": "^9.35.0",
-    "eslint-plugin-jsdoc": "^62.8.1",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
     "git-cliff": "^2.9.1",
     "globals": "^16.3.0",
     "husky": "^9.1.7",
@@ -77,8 +73,7 @@
     "react-dom": "^19.1.0",
     "svgo": "^4.0.0",
     "ts-loader": "npm:@krutoo/ts-loader@^0.0.4",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.2"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@rspack/core": "^1.1.8 || ^2",
