@@ -7,7 +7,6 @@ import { type Configuration } from '@rspack/core';
 import dotenv from 'dotenv';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
 import { type PluginStoriesEntryOptions, pluginStoriesEntry } from './.rspack/utils.ts';
-import packageJson from './package.json' with { type: 'json' };
 
 if (process.env.NODE_ENV) {
   dotenv.config({ path: `.env.${process.env.NODE_ENV}`, quiet: true });
@@ -43,10 +42,10 @@ export default [
       module: true,
     },
     devtool: isProd ? false : undefined,
-    // externals: utils.nodeExternals(),
-    externals: Object.fromEntries(
-      Object.entries(packageJson.dependencies).map(([key]) => [key, key]),
-    ),
+    externals: utils.nodeExternals({
+      importType: 'module',
+      allow: [/css-loader/, /\.css$/i],
+    }),
     externalsPresets: {
       node: true,
     },
