@@ -32,6 +32,10 @@ export default {
 };
 ```
 
+### Option `importType`
+
+Tells Rspack how to import external dependency. By default it is `module`.
+
 ### Option `allow`
 
 To force add some dependencies to bundle you can use `allow` option:
@@ -42,4 +46,6 @@ nodeExternals({
 });
 ```
 
-By default it contains `css-loader` because it injects some code into runtime.
+By default `css-loader` and `*.css` files allowed.
+Files from `css-loader` allowed because it injects some code into runtime.
+CSS files allowed to easy use styles from libraries like `overlay-scrollbars` or `@krutoo/showcase`.
