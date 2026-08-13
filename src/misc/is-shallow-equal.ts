@@ -2,17 +2,17 @@ const hasOwn = Object.prototype.hasOwnProperty;
 
 /**
  * Checks that both arguments is shallow equal.
- * Shallow equality means that two objects with same keys and values are equal.
+ * "Shallow equality" means that two objects with same keys and values are equal.
  * @param a First value.
  * @param b Second value.
- * @returns True when values is shallow equal, false otherwise.
+ * @returns `true` when values is shallow equal, `false` otherwise.
  */
 export function isShallowEqual(a: any, b: any): boolean {
   if (Object.is(a, b)) {
     return true;
   }
 
-  // @todo how to be with functions?
+  // IMPORTANT: cannot use `isObject` here because it returns true for functions
   if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
     return false;
   }

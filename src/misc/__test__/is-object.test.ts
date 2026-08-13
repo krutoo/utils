@@ -13,7 +13,7 @@ describe('isObject', () => {
     // array
     expect(isObject([1, 2, 3])).toBe(true);
 
-    // function
+    // function (callable object)
     expect(isObject(() => {})).toBe(true);
 
     // boolean
