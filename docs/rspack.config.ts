@@ -42,10 +42,7 @@ export default [
       module: true,
     },
     devtool: isProd ? false : undefined,
-    externals: utils.nodeExternals({
-      importType: 'module',
-      allow: [/css-loader/, /\.css$/i],
-    }),
+    externals: utils.nodeExternals(),
     externalsPresets: {
       node: true,
     },

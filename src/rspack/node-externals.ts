@@ -8,24 +8,36 @@ export type AllowlistItemFunction = (request: string) => boolean;
 export type AllowlistItem = string | RegExp | AllowlistItemFunction;
 
 export interface NodeExternalsOptions {
-  /** Method of importing requested module. */
+  /**
+   * Method of importing requested module.
+   * @default `module`
+   */
   importType?: ExternalsType;
 
-  /** Defines modules that should be included to bundle. */
+  /**
+   * Defines modules that should be included to bundle.
+   * By default css-loader and `*.css` files allowed.
+   */
   allow?: AllowlistItem | AllowlistItem[];
 }
 
+const NODE_EXTERNALS_DEFAULT_ALLOW: AllowlistItem[] = [
+  // `css-loader` allowed by default to prevent errors about css-loader' runtime code was not found
+  /css-loader/,
+
+  // css files allowed by default for using files from libraries like `overlay-scrollbars` or `@krutoo/showcase`
+  /\.css$/,
+];
+
 /**
- * Simple analogue of `webpack-node-externals`.
- * Marks all files from node_modules as externals.
+ * Simple modern analogue of `webpack-node-externals`.
+ * Marks all files from `node_modules` as externals.
  * @param options Options.
  * @returns Externals function.
  */
 export function nodeExternals({
-  importType = 'commonjs',
-
-  // css-loader allowed by default to prevent errors about css-loader' runtime code was not found
-  allow = [/css-loader/],
+  importType = 'module',
+  allow = NODE_EXTERNALS_DEFAULT_ALLOW,
 }: NodeExternalsOptions = {}): ExternalItem {
   const allowPredicates = allowToPredicates(allow);
 
