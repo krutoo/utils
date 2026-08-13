@@ -1,7 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useLatestRef } from './use-latest-ref.ts';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
 
 /**
  * Portal props.

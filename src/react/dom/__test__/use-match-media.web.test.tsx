@@ -2,8 +2,8 @@ import { describe, test } from 'node:test';
 import { useRef } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { MediaQueryListMock } from '../../testing/mod.ts';
-import { MatchMediaContext, type MatchMediaContextValue } from '../mod.ts';
+import { MediaQueryListMock } from '../../../testing/mod.ts';
+import { MatchMediaContext, type MatchMediaContextValue } from '../match-media-context.ts';
 import { useMatchMedia } from '../use-match-media.ts';
 
 describe('useMatchMedia', () => {
