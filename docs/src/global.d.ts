@@ -1,4 +1,5 @@
 /// <reference types="@krutoo/utils/typings/css-modules" />
+/// <reference types="@krutoo/utils/typings/css" />
 
 interface ImportMetaEnv {
   [key: string]: any;
