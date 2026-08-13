@@ -116,6 +116,9 @@
     "./store": "./dist/store/mod.js",
     "./testing": "./dist/testing/mod.js",
     "./types": "./dist/types/mod.js",
+    "./typings/css": {
+      "types": "./public/typings/css.d.ts"
+    },
     "./typings/css-modules": {
       "types": "./public/typings/css-modules.d.ts"
     },

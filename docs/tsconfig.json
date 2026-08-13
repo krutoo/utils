@@ -14,6 +14,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "allowImportingTsExtensions": true,
+    "noUncheckedSideEffectImports": true,
     "paths": {
       "#components/*": ["./src/components/*"],
       "@krutoo/utils": ["../src/mod.ts"],

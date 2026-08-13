@@ -52,7 +52,7 @@ function App() {
 
 **Rspack** utils is available from `/rspack` path.
 
-[Rspack](https://rspack.dev/) must be installed in your project.
+[Rspack](https://rspack.rs/) must be installed in your project.
 
 ```js
 // rspack.config.js
