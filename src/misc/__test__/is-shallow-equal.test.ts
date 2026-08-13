@@ -55,5 +55,11 @@ describe('isShallowEqual', () => {
     // same function
     const func = () => {};
     expect(isShallowEqual(func, func)).toBe(true);
+
+    // different functions
+    const funcA = () => 123;
+    const funcB = () => 123;
+
+    expect(isShallowEqual(funcA, funcB)).toBe(false);
   });
 });
