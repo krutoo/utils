@@ -1,5 +1,5 @@
 import { type MouseEventHandler, useCallback, useRef } from 'react';
-import { useLatestRef } from './use-latest-ref.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
 
 /** Options of `useExactClick` hook. */
 export interface UseExactClickOptions {

@@ -2,8 +2,11 @@ import { describe, test } from 'node:test';
 import { useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { IntersectionObserverMock } from '../../testing/mod.ts';
-import { IntersectionObserverContext, type IntersectionObserverContextValue } from '../mod.ts';
+import { IntersectionObserverMock } from '../../../testing/mod.ts';
+import {
+  IntersectionObserverContext,
+  type IntersectionObserverContextValue,
+} from '../intersection-observer-context.ts';
 import { useIntersection } from '../use-intersection.ts';
 
 function TestComponent() {

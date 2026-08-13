@@ -11,21 +11,21 @@ export * from './use-latest-ref.ts';
 export * from './use-merge-refs.ts';
 export * from './use-mounted.ts';
 export * from './use-stable-callback.ts';
-
-// web api
-export * from './context/intersection-observer-context.ts';
-export * from './context/match-media-context.ts';
-export * from './context/resize-observer-context.ts';
-export * from './context/visual-viewport-context.ts';
-export * from './portal.tsx';
-export * from './use-exact-click.ts';
-export * from './use-intersection.ts';
-export * from './use-match-media.ts';
-export * from './use-outside-click.ts';
-export * from './use-resize.ts';
 export * from './use-storage-item.ts';
 export * from './use-transition-status.ts';
-export * from './use-visual-viewport.ts';
+
+// web api
+export * from './dom/intersection-observer-context.ts';
+export * from './dom/match-media-context.ts';
+export * from './dom/resize-observer-context.ts';
+export * from './dom/visual-viewport-context.ts';
+export * from './dom/portal.tsx';
+export * from './dom/use-exact-click.ts';
+export * from './dom/use-intersection.ts';
+export * from './dom/use-match-media.ts';
+export * from './dom/use-outside-click.ts';
+export * from './dom/use-resize.ts';
+export * from './dom/use-visual-viewport.ts';
 
 // drag-and-drop
 export type {
@@ -42,7 +42,7 @@ export type {
 export { useDragAndDrop } from './drag-and-drop/use-drag-and-drop.ts';
 export { DragAndDropBuiltinPlugins } from './drag-and-drop/builtin-plugins.ts';
 
-// queries
+// query
 export { useQuery } from './query/use-query.ts';
 export { useMutation } from './query/use-mutation.ts';
 export { QueryMangerContext } from './query/query-manager-context.tsx';
@@ -69,7 +69,7 @@ export { type UseNavigateReturn, useNavigate } from './router/use-navigate.ts';
 export { useLocation } from './router/use-location.ts';
 export { useRouteParams } from './router/use-route-params.ts';
 
-// IOC
+// DI
 export { ContainerContext } from './di/container-context.ts';
 export { type ContainerProviderProps, ContainerProvider } from './di/container-provider.tsx';
 export { type DependencyHook, useDependency, createDependencyHook } from './di/use-dependency.ts';

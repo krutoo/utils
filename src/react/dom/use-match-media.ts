@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
-import { noop } from '../misc/noop.ts';
-import { MatchMediaContext } from './context/match-media-context.ts';
-import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect.ts';
-import { useLatestRef } from './use-latest-ref.ts';
-import { useStableCallback } from './use-stable-callback.ts';
+import { noop } from '../../misc/noop.ts';
+import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
+import { useLatestRef } from '../use-latest-ref.ts';
+import { useStableCallback } from '../use-stable-callback.ts';
+import { MatchMediaContext } from './match-media-context.ts';
 
 export interface UseMatchMediaOptions {
   /**
