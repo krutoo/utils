@@ -12,21 +12,39 @@ export type TimerPoolEntry =
       id: ReturnType<typeof requestAnimationFrame>;
     };
 
+export interface TimersAPI {
+  setTimeout: typeof setTimeout;
+  clearTimeout: typeof clearTimeout;
+
+  setInterval: typeof setInterval;
+  clearInterval: typeof clearInterval;
+
+  requestAnimationFrame: typeof requestAnimationFrame;
+  cancelAnimationFrame: typeof cancelAnimationFrame;
+}
+
+export interface TimerPoolOptions {
+  /** Timers API. By default global functions will be used. */
+  timersAPI?: TimersAPI;
+}
+
 /**
  * Timer pool.
  * Primarily exists for able to clear all registered timers.
  */
 export class TimerPool {
+  protected api: TimersAPI;
   protected timers: Set<TimerPoolEntry>;
 
-  constructor() {
+  constructor(options?: TimerPoolOptions) {
+    this.api = options?.timersAPI ?? globalThis;
     this.timers = new Set();
   }
 
   setTimeout(callback: VoidFunction, ms?: number): ReturnType<typeof setTimeout> {
     const entry: TimerPoolEntry = {
       type: 'timeout',
-      id: setTimeout(() => {
+      id: this.api.setTimeout(() => {
         callback();
         this.timers.delete(entry);
       }, ms),
@@ -40,7 +58,7 @@ export class TimerPool {
   setInterval(callback: VoidFunction, ms?: number): ReturnType<typeof setInterval> {
     const entry: TimerPoolEntry = {
       type: 'interval',
-      id: setInterval(() => {
+      id: this.api.setInterval(() => {
         callback();
       }, ms),
     };
@@ -53,7 +71,7 @@ export class TimerPool {
   requestAnimationFrame(callback: FrameRequestCallback): ReturnType<typeof requestAnimationFrame> {
     const entry: TimerPoolEntry = {
       type: 'raf',
-      id: requestAnimationFrame(ts => {
+      id: this.api.requestAnimationFrame(ts => {
         callback(ts);
         this.timers.delete(entry);
       }),
@@ -68,15 +86,15 @@ export class TimerPool {
     for (const item of this.timers) {
       switch (item.type) {
         case 'timeout': {
-          clearTimeout(item.id);
+          this.api.clearTimeout(item.id);
           continue;
         }
         case 'interval': {
-          clearInterval(item.id);
+          this.api.clearInterval(item.id);
           continue;
         }
         case 'raf': {
-          cancelAnimationFrame(item.id);
+          this.api.cancelAnimationFrame(item.id);
           continue;
         }
       }
