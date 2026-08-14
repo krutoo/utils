@@ -59,7 +59,6 @@
     "@rspack/core": "^2.0.3",
     "@std/expect": "npm:@jsr/std__expect@^1.0.17",
     "@testing-library/react": "^16.1.0",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^24.2.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

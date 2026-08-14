@@ -11,6 +11,10 @@ interface Calculator {
   sum(a: number, b: number): number;
 }
 
+interface HttpClient {
+  request(method: string, resource: string): Promise<{ status: number }>;
+}
+
 describe('Container', () => {
   test('basic behavior', () => {
     const TOKEN = {
@@ -114,5 +118,52 @@ describe('Container', () => {
     expect(() => container.get(TOKEN.logger)).toThrow(
       new Error('Cycle dependency found: Token(logger), Token(calculator), Token(logger)'),
     );
+  });
+
+  test('should not throw circular dep error when dep used in two components', () => {
+    const TOKEN = {
+      main: createToken<VoidFunction>('main'),
+      logger: createToken<Logger>('logger'),
+      http: {
+        client: createToken<HttpClient>('httpClient'),
+      },
+    };
+
+    const container = createContainer();
+
+    container.set(TOKEN.main, resolve => {
+      const logger = resolve(TOKEN.logger);
+      const client = resolve(TOKEN.http.client);
+
+      return () => {
+        logger.info('App started');
+        client.request('POST', '/api/analytics?event=app_start');
+      };
+    });
+
+    container.set(TOKEN.http.client, resolve => {
+      const logger = resolve(TOKEN.logger);
+
+      return {
+        request() {
+          const status = 201;
+
+          logger.info(`incoming request done, status: ${status}`);
+
+          return Promise.resolve({ status });
+        },
+      };
+    });
+
+    container.set(TOKEN.logger, () => {
+      return {
+        info(message) {
+          // eslint-disable-next-line no-console
+          console.log(`msg: ${message}`);
+        },
+      };
+    });
+
+    expect(() => container.get(TOKEN.main)).not.toThrow();
   });
 });
