@@ -11,7 +11,9 @@ before(async context => {
     return;
   }
 
-  GlobalRegistrator.register();
+  GlobalRegistrator.register({
+    url: 'http://localhost:8080',
+  });
 
   // dynamic import because https://github.com/capricorn86/happy-dom/issues/1636#issuecomment-2568308938
   const { configure } = await import('@testing-library/react');

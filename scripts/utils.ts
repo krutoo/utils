@@ -24,14 +24,23 @@ export function $(cmd: string): Promise<void> {
       env: { ...process.env, FORCE_COLOR: '3' },
     });
 
-    child.on('error', fail);
+    const handleSigint = () => child.kill();
+
+    process.on('SIGINT', handleSigint);
+
+    child.on('error', error => {
+      process.off('SIGINT', handleSigint);
+      fail(error);
+    });
 
     child.on('close', (code, signal) => {
+      process.off('SIGINT', handleSigint);
+
       if (code === 0) {
         done();
       } else {
         fail(
-          new Error(signal ? `Process killed, signal ${signal}` : `Process exited, code ${code}`),
+          new Error(signal ? `Process closed, signal: ${signal}` : `Process exited, code: ${code}`),
         );
       }
     });
