@@ -8,14 +8,14 @@ export function Link({
   ...restProps
 }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const navigate = useNavigate();
-  const [internal, setInternal] = useState(false);
+  const [external, setExternal] = useState(false);
 
   useEffect(() => {
     if (!href) {
       return;
     }
 
-    setInternal(new URL(new Request(href).url).hostname === new URL(window.location.href).hostname);
+    setExternal(new URL(new Request(href).url).hostname !== new URL(window.location.href).hostname);
   }, [href]);
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -29,7 +29,7 @@ export function Link({
     navigate(event.currentTarget.href);
   };
 
-  const resultTarget = target ?? (!internal ? '_blank' : undefined);
+  const resultTarget = target ?? (external ? '_blank' : undefined);
 
   return <a href={href} target={resultTarget} {...restProps} onClick={handleClick} />;
 }

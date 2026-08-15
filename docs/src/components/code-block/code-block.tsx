@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ReactNode, isValidElement, useMemo, useRef, useState } from 'react';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
-import { codeToHtml } from 'shiki';
+import { getProcessedLang, useHighlighter } from './utils.ts';
 import styles from './code-block.m.css';
 
 export interface CodeBlockProps {
@@ -15,6 +15,7 @@ interface CodeProps {
 }
 
 export function CodeBlock({ title, children }: CodeBlockProps) {
+  const highlighter = useHighlighter();
   const [content, setContent] = useState('');
   const [background, setBackground] = useState<string | undefined>(undefined);
   const blockRef = useRef<HTMLDivElement>(null);
@@ -38,32 +39,30 @@ export function CodeBlock({ title, children }: CodeBlockProps) {
       return null;
     }
 
-    let lang = /^language-(.+)$/g.exec(children.props.className ?? '')?.[1];
-
-    if (!lang) {
-      lang = 'plaintext';
-    }
-
-    // traffic economy - load one bundle of shiki syntax for multiple syntaxes
-    if (['js', 'jsx', 'ts', 'javascript', 'typescript'].includes(lang.toLowerCase())) {
-      lang = 'tsx';
-    }
+    const lang = /^language-(.+)$/g.exec(children.props.className ?? '')?.[1] ?? 'plaintext';
 
     return {
       code: children.props.children,
-      lang,
+      lang: getProcessedLang(lang),
     };
   }, [children]);
 
   useIsomorphicLayoutEffect(() => {
-    if (!sourceCode) {
+    if (!highlighter || !sourceCode) {
       return;
     }
 
-    codeToHtml(sourceCode.code, { lang: sourceCode.lang, theme: 'poimandres' })
-      .then(setContent)
-      .catch(console.error);
-  }, [sourceCode]);
+    try {
+      const html = highlighter.codeToHtml(sourceCode.code, {
+        lang: sourceCode.lang,
+        theme: 'poimandres',
+      });
+
+      setContent(html);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [highlighter, sourceCode]);
 
   return (
     <div className={styles.root} style={{ background }}>
