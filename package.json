@@ -45,6 +45,7 @@
     "fmt": "prettier . --write",
     "lint": "eslint . && prettier . --check && ls-lint",
     "test": "node --import ts-loader --import ./scripts/setup-tests.ts ./scripts/test.ts",
+    "test:coverage": "c8 node --enable-source-maps --import ts-loader --import ./scripts/setup-tests.ts ./scripts/test.ts",
     "sync-exports": "node ./scripts/sync-exports.ts",
     "build": "node ./scripts/build.ts && npm run sync-exports",
     "commit": "better-commits",
@@ -63,6 +64,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "better-commits": "^1.17.0",
+    "c8": "^12.0.0",
     "eslint": "^9.35.0",
     "git-cliff": "^2.9.1",
     "globals": "^16.3.0",
@@ -71,7 +73,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "svgo": "^4.0.0",
-    "ts-loader": "npm:@krutoo/ts-loader@^0.0.4",
+    "ts-loader": "npm:@krutoo/ts-loader@^0.0.5",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
