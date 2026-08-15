@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.item {
+  width: 0;
+  flex-grow: 1;
+  flex-basis: calc(50% - 6px);
+  transition: scale 200ms;
+}
+
+.item:hover {
+  scale: 1.025;
+}
+
+a.item {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+@media (max-width: 1024px) {
+  .item {
+    flex-basis: 100%;
+  }
+}
