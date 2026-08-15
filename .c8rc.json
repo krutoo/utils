@@ -1,0 +1,13 @@
+{
+  "include": ["src/**/*"],
+  "exclude": [
+    "**/*.test.{ts,tsx}",
+    "src/rspack/**/*",
+    "src/types/**/*",
+    "**/types.ts",
+    "**/mod.ts"
+  ],
+  "extension": [".ts", ".tsx"],
+  "reporter": ["text", "html"],
+  "all": true
+}
