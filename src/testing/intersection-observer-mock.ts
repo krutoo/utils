@@ -17,8 +17,8 @@ export class IntersectionObserverMock implements IntersectionObserver {
   /** @inheritdoc */
   readonly thresholds: ReadonlyArray<number>;
 
-  /** Callback. */
-  protected readonly callback: IntersectionObserverCallback;
+  /** Callbacks. */
+  protected readonly callbacks: Set<IntersectionObserverCallback>;
 
   /** Observed elements. */
   protected readonly elements: Set<Element>;
@@ -28,7 +28,7 @@ export class IntersectionObserverMock implements IntersectionObserver {
     this.rootMargin = init?.rootMargin ?? '0px 0px 0px 0px';
     this.thresholds = Array.isArray(init?.threshold) ? init.threshold : [init?.threshold ?? 0];
 
-    this.callback = callback;
+    this.callbacks = new Set([callback]);
     this.elements = new Set();
   }
 
@@ -82,6 +82,18 @@ export class IntersectionObserverMock implements IntersectionObserver {
       });
     }
 
-    this.callback(readyEntries, this);
+    this.callbacks.forEach(fn => fn(readyEntries, this));
+  }
+
+  /**
+   * Adds callback.
+   * Useful to define single observer during tests and add callbacks to it.
+   * @param callback Callback.
+   * @returns This instance.
+   */
+  addCallback(callback: IntersectionObserverCallback): this {
+    this.callbacks.add(callback);
+
+    return this;
   }
 }

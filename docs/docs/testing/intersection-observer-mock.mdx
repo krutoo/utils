@@ -30,3 +30,65 @@ observer.simulateIntersection([
   },
 ]);
 ```
+
+### Typical unit-test
+
+Here is an example of unit test with `IntersectionObserverMock`. For implementation `useIntersection` is used:
+
+```tsx
+import { IntersectionObserverContext, useIntersection } from '@krutoo/utils/react';
+import { IntersectionObserverMock } from '@krutoo/utils/testing';
+import { act, render } from '@testing-library/react';
+import { describe, expect, mock, test } from '#test-utils';
+
+function MyComponent({ onChange }) {
+  const ref = useRef(null);
+
+  useIntersection(ref, () => {
+    onChange?.();
+  });
+
+  return (
+    <div ref={ref} data-testid='my-component'>
+      Hello from my component
+    </div>
+  );
+}
+
+describe('MyComponent', () => {
+  test('should call onChange on intersection change', () => {
+    const observer = new ResizeObserverMock(() => {});
+
+    const context = {
+      getObserver(callback: IntersectionObserverCallback) {
+        return observer.addCallback(callback);
+      },
+    };
+
+    const spy = mock.fn();
+
+    const { getByTestId } = render(
+      <IntersectionObserverContext value={context}>
+        <MyComponent onChange={spy} />
+      </IntersectionObserverContext>,
+    );
+
+    // no calls after render
+    expect(spy.mock.callCount()).toBe(0);
+
+    // one call after intersection simulated
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: getByTestId('my-component'),
+          isIntersecting: true,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+  });
+});
+```
+
+As you can see, mock includes chainable `addCallback` method.
+You can use it to provide one observer for multiple components during test.

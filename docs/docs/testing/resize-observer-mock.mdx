@@ -29,3 +29,64 @@ observer.simulateResize([
   },
 ]);
 ```
+
+### Typical unit-test
+
+Here is an example of unit test with `ResizeObserverMock`. For implementation `useResize` is used:
+
+```tsx
+import { ResizeObserverContext, useResize } from '@krutoo/utils/react';
+import { ResizeObserverMock } from '@krutoo/utils/testing';
+import { act, render } from '@testing-library/react';
+import { describe, expect, mock, test } from '#test-utils';
+
+function MyComponent({ onResize }) {
+  const ref = useRef(null);
+
+  useResize(ref, () => {
+    onResize?.();
+  });
+
+  return (
+    <div ref={ref} data-testid='my-component'>
+      Hello from my component
+    </div>
+  );
+}
+
+describe('MyComponent', () => {
+  test('should call onResize on resize', () => {
+    const observer = new ResizeObserverMock(() => {});
+
+    const context = {
+      getObserver(callback: ResizeObserverCallback) {
+        return observer.addCallback(callback);
+      },
+    };
+
+    const spy = mock.fn();
+
+    const { getByTestId } = render(
+      <ResizeObserverContext value={context}>
+        <MyComponent onResize={spy} />
+      </ResizeObserverContext>,
+    );
+
+    // no calls after render
+    expect(spy.mock.callCount()).toBe(0);
+
+    // one call after resize simulated
+    act(() => {
+      observer.simulateResize([
+        {
+          target: getByTestId('my-component'),
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+  });
+});
+```
+
+As you can see, mock includes chainable `addCallback` method.
+You can use it to provide one observer for multiple components during test.
