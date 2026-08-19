@@ -1,4 +1,4 @@
-import { describe, test } from 'node:test';
+import { describe, mock, test } from 'node:test';
 import { useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
@@ -9,12 +9,13 @@ import {
 } from '../intersection-observer-context.ts';
 import { useIntersection } from '../use-intersection.ts';
 
-function TestComponent() {
+function TestComponent({ onChange }: { onChange?: VoidFunction }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const [visible, setVisible] = useState(false);
 
   useIntersection(ref, entry => {
+    onChange?.();
     setVisible(entry.isIntersecting);
   });
 
@@ -27,13 +28,11 @@ function TestComponent() {
 
 describe('useIntersection', () => {
   test('should call callback on intersection change', () => {
-    let observer: IntersectionObserverMock | null = null;
+    const observer = new IntersectionObserverMock(() => {});
 
     const context: IntersectionObserverContextValue = {
-      getObserver(callback, options) {
-        observer = new IntersectionObserverMock(callback, options);
-
-        return observer;
+      getObserver(callback) {
+        return observer.addCallback(callback);
       },
     };
 
@@ -45,7 +44,7 @@ describe('useIntersection', () => {
     expect(container.textContent).toBe('Out of viewport');
 
     act(() => {
-      observer?.simulateIntersection([
+      observer.simulateIntersection([
         {
           target: getByTestId('status'),
           isIntersecting: true,
@@ -55,7 +54,7 @@ describe('useIntersection', () => {
     expect(container.textContent).toBe('In viewport');
 
     act(() => {
-      observer?.simulateIntersection([
+      observer.simulateIntersection([
         {
           target: getByTestId('status'),
           isIntersecting: false,
@@ -63,5 +62,47 @@ describe('useIntersection', () => {
       ]);
     });
     expect(container.textContent).toBe('Out of viewport');
+  });
+
+  test('should not call callback after destructure', () => {
+    const observer = new IntersectionObserverMock(() => {});
+
+    const context: IntersectionObserverContextValue = {
+      getObserver(callback) {
+        return observer.addCallback(callback);
+      },
+    };
+
+    const spy = mock.fn();
+
+    const { getByTestId, unmount } = render(
+      <IntersectionObserverContext value={context}>
+        <TestComponent onChange={spy} />
+      </IntersectionObserverContext>,
+    );
+    expect(spy.mock.callCount()).toBe(0);
+
+    const element = getByTestId('status');
+
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: element,
+          isIntersecting: true,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+
+    unmount();
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: element,
+          isIntersecting: false,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
   });
 });

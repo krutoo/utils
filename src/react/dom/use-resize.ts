@@ -49,7 +49,16 @@ export function useResize<T extends Element>(
       return;
     }
 
+    // IMPORTANT: callback will not be called synchronously,
+    // so it can be possibly called after effect destructured.
+    // To avoid React errors, effect activity flag used.
+    let active = true;
+
     const observer = getObserver(entries => {
+      if (!active) {
+        return;
+      }
+
       for (const entry of entries) {
         if (entry.target === element) {
           callbackRef.current(entry);
@@ -63,6 +72,7 @@ export function useResize<T extends Element>(
     observer.observe(element, readyOptions);
 
     return () => {
+      active = false;
       observer.unobserve(element);
     };
   }, [
