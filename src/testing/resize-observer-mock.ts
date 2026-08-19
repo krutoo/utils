@@ -8,14 +8,14 @@ export type PartialResizeObserverEntry = Pick<ResizeObserverEntry, 'target'> &
  * Useful for unit testing.
  */
 export class ResizeObserverMock implements ResizeObserver {
-  /** Callback. */
-  protected readonly callback: ResizeObserverCallback;
+  /** Callbacks. */
+  protected readonly callbacks: Set<ResizeObserverCallback>;
 
   /** Observed elements. */
   protected readonly elements: Set<Element>;
 
   constructor(callback: ResizeObserverCallback) {
-    this.callback = callback;
+    this.callbacks = new Set([callback]);
     this.elements = new Set();
   }
 
@@ -60,6 +60,18 @@ export class ResizeObserverMock implements ResizeObserver {
       });
     }
 
-    this.callback(readyEntries, this);
+    this.callbacks.forEach(fn => fn(readyEntries, this));
+  }
+
+  /**
+   * Adds callback.
+   * Useful to define single observer during tests and add callbacks to it.
+   * @param callback Callback.
+   * @returns This instance.
+   */
+  addCallback(callback: ResizeObserverCallback): this {
+    this.callbacks.add(callback);
+
+    return this;
   }
 }
