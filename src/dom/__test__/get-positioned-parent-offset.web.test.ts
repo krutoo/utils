@@ -19,4 +19,24 @@ describe('getPositionedParentOffset', () => {
 
     expect(getPositionedParentOffset(target)).toEqual({ x: 100, y: 100 });
   });
+
+  test('should handle out parameter', () => {
+    const parent = document.createElement('div');
+    const target = document.createElement('div');
+
+    window.scrollTo(10, 20);
+
+    parent.style.position = 'relative';
+    target.style.position = 'absolute';
+    mock.method(parent, 'getBoundingClientRect', () => new DOMRectReadOnlyMock(10, 20, 30, 40));
+
+    document.body.append(parent);
+    parent.append(target);
+
+    const point = { x: 12, y: 34 };
+    const result = getPositionedParentOffset(target, undefined, point);
+    expect(result).toBe(point);
+    expect(result.x).toEqual(10);
+    expect(result.y).toEqual(20);
+  });
 });
