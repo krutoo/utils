@@ -11,14 +11,19 @@ export interface PositioningOptions {
  * Returns position of top left corner of the parent positioned element relative to viewport origin.
  * @param element Target element.
  * @param options Options.
+ * @param out Out parameter.
  * @returns Offset.
  */
 export function getPositionedParentOffset(
   element: HTMLElement,
   { strategy = 'absolute' }: PositioningOptions = {},
+  out: Point2d = { x: 0, y: 0 },
 ): Point2d {
+  out.x = 0;
+  out.y = 0;
+
   if (!element.isConnected) {
-    return { x: 0, y: 0 };
+    return out;
   }
 
   const offsetParent = element.parentElement
@@ -28,26 +33,21 @@ export function getPositionedParentOffset(
       )
     : null;
 
-  const offset: Point2d = {
-    x: 0,
-    y: 0,
-  };
-
   if (strategy === 'absolute') {
-    offset.x = -window.scrollX;
-    offset.y = -window.scrollY;
+    out.x = -window.scrollX;
+    out.y = -window.scrollY;
   }
 
   if (offsetParent) {
     const parentRect = offsetParent.getBoundingClientRect();
     const parentStyle = getComputedStyle(offsetParent);
 
-    offset.x = parentRect.left;
-    offset.y = parentRect.top;
+    out.x = parentRect.left;
+    out.y = parentRect.top;
 
     // IMPORTANT: border-top/border-left affects parent positioning origin
-    offset.x += cssValueToNumber(parentStyle.borderLeftWidth);
-    offset.y += cssValueToNumber(parentStyle.borderTopWidth);
+    out.x += cssValueToNumber(parentStyle.borderLeftWidth);
+    out.y += cssValueToNumber(parentStyle.borderTopWidth);
   }
 
   const scrollParent =
@@ -56,11 +56,11 @@ export function getPositionedParentOffset(
 
   // IMPORTANT: check offsetParent's scrollTop/scrollLeft
   if (offsetParent && offsetParent === scrollParent) {
-    offset.x += scrollParent.scrollLeft;
-    offset.y += scrollParent.scrollTop;
+    out.x += scrollParent.scrollLeft;
+    out.y += scrollParent.scrollTop;
   }
 
-  return offset;
+  return out;
 }
 
 /**
