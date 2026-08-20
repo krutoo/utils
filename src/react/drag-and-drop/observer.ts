@@ -21,7 +21,10 @@ export class DragAndDropObserver {
 
   protected plugins: DragAndDropPluginManager;
 
-  protected sharedEvent?: DnDEvent<Event>;
+  protected allocated: {
+    event?: DnDEvent<Event>;
+    positionedParentOffset?: Point2d;
+  };
 
   protected observation?: {
     readonly element: HTMLElement;
@@ -33,6 +36,7 @@ export class DragAndDropObserver {
       reuseEvent: true,
       ...options,
     };
+
     this.state = {
       pointerId: -1,
       pressed: false,
@@ -41,6 +45,12 @@ export class DragAndDropObserver {
       startOffset: Vector2.of(0, 0),
       innerOffset: Vector2.of(0, 0),
     };
+
+    this.allocated = {
+      event: undefined,
+      positionedParentOffset: this.options.reuseEvent ? { x: 0, y: 0 } : undefined,
+    };
+
     this.plugins = createPluginManager(() => this.state);
   }
 
@@ -66,7 +76,9 @@ export class DragAndDropObserver {
         return clientPosition
           .clone()
           .subtract(innerOffset)
-          .subtract(getPositionedParentOffset(element, this.options));
+          .subtract(
+            getPositionedParentOffset(element, this.options, this.allocated.positionedParentOffset),
+          );
       },
     };
 
@@ -208,23 +220,23 @@ export class DragAndDropObserver {
       return new DnDEvent(target, state, nativeEvent, clientPosition);
     }
 
-    if (!this.sharedEvent) {
-      this.sharedEvent = new DnDEvent(target, state, nativeEvent, clientPosition);
+    if (!this.allocated.event) {
+      this.allocated.event = new DnDEvent(target, state, nativeEvent, clientPosition);
 
-      return this.sharedEvent as DnDEvent<E>;
+      return this.allocated.event as DnDEvent<E>;
     }
 
-    this.sharedEvent.target = target;
-    this.sharedEvent.nativeEvent = nativeEvent;
-    this.sharedEvent.clientPosition = clientPosition;
-    this.sharedEvent.grabbed = state.grabbed;
-    this.sharedEvent.pressed = state.pressed;
-    this.sharedEvent.offset = state.offset;
-    this.sharedEvent.startOffset = state.startOffset;
-    this.sharedEvent.innerOffset = state.innerOffset;
+    this.allocated.event.target = target;
+    this.allocated.event.nativeEvent = nativeEvent;
+    this.allocated.event.clientPosition = clientPosition;
+    this.allocated.event.grabbed = state.grabbed;
+    this.allocated.event.pressed = state.pressed;
+    this.allocated.event.offset = state.offset;
+    this.allocated.event.startOffset = state.startOffset;
+    this.allocated.event.innerOffset = state.innerOffset;
 
-    DnDEvent.resetPrevention(this.sharedEvent);
+    DnDEvent.resetPrevention(this.allocated.event);
 
-    return this.sharedEvent as DnDEvent<E>;
+    return this.allocated.event as DnDEvent<E>;
   }
 }
