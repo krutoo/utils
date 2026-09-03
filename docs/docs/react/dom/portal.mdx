@@ -25,7 +25,7 @@ function App() {
       <button onClick={() => setModalOpen(true)}>Show modal</button>
 
       {/* By default portal will render content to new div in end of body */}
-      {open && (
+      {modalOpen && (
         <Portal>
           <div className='my-modal'>Hello, from modal!</div>
         </Portal>
@@ -50,7 +50,7 @@ function App() {
     <>
       <button onClick={() => setModalOpen(true)}>Show modal</button>
 
-      {open && (
+      {modalOpen && (
         <Portal container={document.querySelector('#portal')}>
           <div className='my-modal'>Hello, from modal!</div>
         </Portal>
@@ -79,7 +79,7 @@ function App() {
     <>
       <button onClick={() => setModalOpen(true)}>Show modal</button>
 
-      {open && (
+      {modalOpen && (
         <Portal container={document.querySelector('#root')} connect={false}>
           <div className='my-modal'>Hello, from modal!</div>
         </Portal>
@@ -108,7 +108,7 @@ function App() {
     <>
       <button onClick={() => setModalOpen(true)}>Show modal</button>
 
-      {open && (
+      {modalOpen && (
         <Portal container={document.querySelector('#root')} cleanup={false}>
           <div className='my-modal'>Hello, from modal!</div>
         </Portal>
