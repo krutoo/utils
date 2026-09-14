@@ -6,7 +6,6 @@
 
 .item {
   width: 0;
-  flex-grow: 1;
   flex-basis: calc(50% - 6px);
   transition: scale 200ms;
 }
