@@ -1,59 +1,96 @@
+import { ReactNode, useContext } from 'react';
+import { RoutingContext, useMenuItems } from '@krutoo/showcase/runtime-showcase';
 import { Callout } from '#components/callout/callout.tsx';
 import { Link } from '#components/link/link.tsx';
 import { withPublicPath } from '../../utils.ts';
 import styles from './cards.m.css';
 
-export function Cards() {
+const MAIN_SECTIONS = [
+  {
+    href: withPublicPath('./react/overview'),
+    title: 'React',
+    description: 'SSR ready performant components and hooks',
+  },
+  {
+    href: withPublicPath('./rspack/overview'),
+    title: 'Rspack',
+    description: 'Plugins to define configs easy',
+  },
+  {
+    href: withPublicPath('./typescript/overview'),
+    title: 'Typings',
+    description: 'TypeScript type declarations',
+  },
+  {
+    href: withPublicPath('./di/overview'),
+    title: 'DI',
+    description: 'Dependency injection toolkit',
+  },
+  {
+    href: withPublicPath('./router/browser-router'),
+    title: 'Router',
+    description: 'Router implementation and React bindings',
+  },
+  {
+    href: withPublicPath('./math/overview'),
+    title: 'Math',
+    description: 'Math and geometry functions',
+  },
+  {
+    href: withPublicPath('./misc/overview'),
+    title: 'Misc',
+    description: 'Non specific helpers',
+  },
+  {
+    href: withPublicPath('./dom/overview'),
+    title: 'DOM',
+    description: 'Browser utilities',
+  },
+];
+
+export function CardLayout({ children }: { children?: ReactNode }): ReactNode {
+  return <div className={styles.root}>{children}</div>;
+}
+
+export function MainSectionCards(): ReactNode {
   return (
-    <div className={styles.root}>
-      <Link className={styles.item} href={withPublicPath('./react/overview')}>
-        <Callout>
-          <Callout.Heading>React</Callout.Heading>
-          <Callout.Main>SSR ready performant components and hooks</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./rspack/overview')}>
-        <Callout>
-          <Callout.Heading>Rspack</Callout.Heading>
-          <Callout.Main>Plugins to define configs easy</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./typescript/overview')}>
-        <Callout>
-          <Callout.Heading>Typings</Callout.Heading>
-          <Callout.Main>TypeScript type declarations</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./di/overview')}>
-        <Callout>
-          <Callout.Heading>DI</Callout.Heading>
-          <Callout.Main>Dependency injection toolkit</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./router/browser-router')}>
-        <Callout>
-          <Callout.Heading>Router</Callout.Heading>
-          <Callout.Main>Router implementation and React bindings</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./math/overview')}>
-        <Callout>
-          <Callout.Heading>Math</Callout.Heading>
-          <Callout.Main>Math and geometry functions</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./misc/overview')}>
-        <Callout>
-          <Callout.Heading>Misc</Callout.Heading>
-          <Callout.Main>Non specific helpers</Callout.Main>
-        </Callout>
-      </Link>
-      <Link className={styles.item} href={withPublicPath('./dom/overview')}>
-        <Callout>
-          <Callout.Heading>DOM</Callout.Heading>
-          <Callout.Main>Browser utilities</Callout.Main>
-        </Callout>
-      </Link>
-    </div>
+    <CardLayout>
+      {MAIN_SECTIONS.map((item, index) => (
+        <Link key={index} className={styles.item} href={item.href}>
+          <Callout>
+            <Callout.Heading>{item.title}</Callout.Heading>
+            <Callout.Main>{item.description}</Callout.Main>
+          </Callout>
+        </Link>
+      ))}
+    </CardLayout>
+  );
+}
+
+export function StoryCards({ category }: { category?: string }): ReactNode {
+  const routing = useContext(RoutingContext);
+  const menuItems = useMenuItems({ grouping: false });
+
+  const items = menuItems
+    .map(item =>
+      item.type === 'story' &&
+      !item.story.meta?.menuHidden &&
+      item.story.meta?.title &&
+      (category ? item.story.meta.category === category : true)
+        ? item
+        : null,
+    )
+    .filter(item => item !== null);
+
+  return (
+    <CardLayout>
+      {items.map((item, index) => (
+        <Link key={index} className={styles.item} href={routing.getStoryShowcaseUrl(item.story)}>
+          <Callout>
+            <Callout.Main>{item.title}</Callout.Main>
+          </Callout>
+        </Link>
+      ))}
+    </CardLayout>
   );
 }
