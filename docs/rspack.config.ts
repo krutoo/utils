@@ -85,6 +85,7 @@ export default [
       css: false,
     },
     devServer: {
+      host: '0.0.0.0',
       static: false,
       hot: false,
       liveReload: true,

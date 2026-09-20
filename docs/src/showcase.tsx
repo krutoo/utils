@@ -1,6 +1,13 @@
-import { createRoot } from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
+import { BrowserRouter } from '@krutoo/utils/router';
 import { App } from '#components/app/app.tsx';
 import './reset.css';
 import '@krutoo/showcase/runtime-showcase/styles.css';
 
-createRoot(document.getElementById('root')!).render(<App />);
+const router = new BrowserRouter({
+  defaultLocation: window.location,
+});
+
+router.connect();
+
+hydrateRoot(document.getElementById('root')!, <App router={router} />);
