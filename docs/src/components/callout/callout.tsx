@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react';
 import classNames from 'classnames';
+import { ChevronRight } from 'lucide-react';
 import styles from './callout.m.css';
 
 export interface CalloutProps extends HTMLAttributes<HTMLDivElement> {
@@ -18,7 +19,8 @@ export function Callout({ intent = 'info', children, className, ...restProps }: 
       data-intent={intent}
       data-marker='callout'
     >
-      {children}
+      <div className={styles.content}>{children}</div>
+      <ChevronRight size={20} />
     </div>
   );
 }

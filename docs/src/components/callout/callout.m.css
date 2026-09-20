@@ -2,10 +2,17 @@
   padding: 1.5rem 1.25rem;
   border-radius: 12px;
   background: var(--callout-bg-color, #ecf0f1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .callout[data-intent='danger'] {
   background: var(--callout-bg-color, rgba(211, 53, 36, 0.2));
+}
+
+.content {
+  flex-grow: 1;
 }
 
 .callout .heading {
