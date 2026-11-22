@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { beforeEach, describe, test } from 'node:test';
+import { beforeEach, describe, mock, test } from 'node:test';
 import { useMemo } from 'react';
 import { render } from '@testing-library/react';
 import { useInstantEffect } from '../use-instant-effect.ts';
@@ -130,6 +130,26 @@ describe('useInstantEffect', () => {
         'instant effect 234',
         'after hook',
       ]);
+    });
+
+    test('should not support cleanup by design', () => {
+      const spy = mock.fn();
+
+      function TestComponent() {
+        useInstantEffect(() => {
+          return spy;
+        }, []);
+
+        return <div>Hello, world!</div>;
+      }
+
+      const { unmount } = render(<TestComponent />);
+
+      assert.equal(spy.mock.callCount(), 0);
+
+      unmount();
+
+      assert.equal(spy.mock.callCount(), 0);
     });
   }
 });
