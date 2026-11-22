@@ -74,7 +74,7 @@
     "react-dom": "^19.1.0",
     "svgo": "^4.0.0",
     "ts-loader": "npm:@krutoo/ts-loader@^0.0.5",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@rspack/core": "^1.1.8 || ^2",

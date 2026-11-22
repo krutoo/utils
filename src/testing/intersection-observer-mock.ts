@@ -15,6 +15,9 @@ export class IntersectionObserverMock implements IntersectionObserver {
   readonly rootMargin: string;
 
   /** @inheritdoc */
+  readonly scrollMargin: string;
+
+  /** @inheritdoc */
   readonly thresholds: ReadonlyArray<number>;
 
   /** Callbacks. */
@@ -26,6 +29,7 @@ export class IntersectionObserverMock implements IntersectionObserver {
   constructor(callback: IntersectionObserverCallback, init?: IntersectionObserverInit) {
     this.root = init?.root ?? null;
     this.rootMargin = init?.rootMargin ?? '0px 0px 0px 0px';
+    this.scrollMargin = init?.scrollMargin ?? '0px 0px 0px 0px';
     this.thresholds = Array.isArray(init?.threshold) ? init.threshold : [init?.threshold ?? 0];
 
     this.callbacks = new Set([callback]);
