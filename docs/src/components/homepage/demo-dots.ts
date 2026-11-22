@@ -1,5 +1,5 @@
 import { Point2d, Vector2, clamp, lerp } from '@krutoo/utils';
-import { Demo, DemoContext, DemoInitContext, DemoRenderContext } from './types.ts';
+import { Demo, DemoContext } from './types.ts';
 import { easeInQuad } from './utils.ts';
 
 interface Thing extends Point2d {
@@ -10,7 +10,7 @@ export class DemoDots implements Demo {
   dots: Vector2[];
   thing: Thing;
 
-  constructor({ canvas }: DemoInitContext) {
+  constructor({ canvas }: DemoContext) {
     this.dots = [];
     this.thing = {
       x: canvas.width / 2,
@@ -47,7 +47,7 @@ export class DemoDots implements Demo {
     thing.y = lerp(thing.y, mouse.y, 0.08);
   }
 
-  render({ context, colorScheme }: DemoRenderContext) {
+  render({ context, colorScheme }: DemoContext) {
     const { dots, thing } = this;
 
     context.fillStyle = colorScheme === 'dark' ? '#ffffffaa' : '#3c3c43aa';

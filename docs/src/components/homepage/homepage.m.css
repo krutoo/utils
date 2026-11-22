@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   position: relative;
   padding: 24px;
 }
@@ -15,6 +15,13 @@
   width: 400px;
   max-width: 100%;
   z-index: 1;
+  animation: reveal 500ms;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .canvas {
@@ -64,7 +71,7 @@
     monospace;
 }
 
-.fieldButton {
+.iconButton {
   all: unset;
   display: block;
   background: transparent;
@@ -72,17 +79,17 @@
   color: var(--showcase-ui-link-color);
 }
 
-.fieldButton:hover {
+.iconButton:hover {
   background: transparent;
   color: var(--showcase-ui-link-hover-color);
 }
 
-.fieldButton:disabled {
+.iconButton:disabled {
   background: transparent;
   color: var(--showcase-ui-link-color);
 }
 
-.fieldButton > svg {
+.iconButton > svg {
   display: block;
 }
 
@@ -112,4 +119,16 @@ a.link.secondary {
   color: var(--showcase-ui-main-color) !important;
   background: var(--showcase-ui-background);
   box-shadow: inset 0 0 0 2px var(--showcase-ui-main-color);
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
