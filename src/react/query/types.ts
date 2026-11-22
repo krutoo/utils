@@ -51,7 +51,7 @@ export interface UseMutationReturn<T, R> extends QueryState<R> {
 
 export interface QueryManager {
   getQuery(key: string): Query<any>;
-  invalidateQueries(keys: string[]): void;
+  invalidateQueries(keys: string[]): Promise<void>;
 }
 
 export interface Query<T> {
@@ -72,11 +72,18 @@ export interface Query<T> {
    * @returns Promise with result notation.
    */
   tryExecute(action: (ctx: QueryContext<T>) => Promise<T>): Promise<TryExecuteResult<T>>;
+
+  /**
+   * Invalidates query.
+   * Returns boolean indicates that invalidation is performed or not.
+   * @returns Boolean that indicates that invalidation is performed or not.
+   */
+  invalidate(): Promise<boolean>;
 }
 
 export interface QueryContext<T> {
   prevData: T | null;
-  // @todo signal?
+  signal: AbortSignal;
 }
 
 export type TryExecuteResult<T> =
