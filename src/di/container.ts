@@ -41,15 +41,13 @@ class ContainerImpl implements Container {
         throw new Error(`Cycle dependency found: ${[...chain, tkn].join(', ')}`);
       }
 
-      chain.push(tkn);
-
       const provider = this.registry.get(tkn.key);
 
       if (!provider) {
         throw new Error(`Provider for ${tkn} not found`);
       }
 
-      const component = provider(t => resolve(t, chain));
+      const component = provider(t => resolve(t, [...chain, tkn]));
 
       this.cache.set(tkn.key, component);
 

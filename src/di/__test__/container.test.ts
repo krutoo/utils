@@ -166,4 +166,38 @@ describe('Container', () => {
 
     expect(() => container.get(TOKEN.main)).not.toThrow();
   });
+
+  test('should retry a failed dependency through another branch without a false cycle', () => {
+    const TOKEN = {
+      main: createToken<number>('main'),
+      dependency: createToken<number>('dependency'),
+      branch: createToken<number>('branch'),
+    };
+
+    const container = createContainer();
+    const failure = new Error('Temporary failure');
+    let attempts = 0;
+
+    const provider = mock.fn(() => {
+      if (++attempts === 1) {
+        throw failure;
+      }
+
+      return 42;
+    });
+
+    container.set(TOKEN.dependency, provider);
+    container.set(TOKEN.branch, resolve => resolve(TOKEN.dependency));
+    container.set(TOKEN.main, resolve => {
+      expect(() => resolve(TOKEN.dependency)).toThrow(failure);
+
+      return resolve(TOKEN.branch);
+    });
+
+    expect(container.get(TOKEN.main)).toBe(42);
+    expect(provider.mock.callCount()).toBe(2);
+
+    expect(container.get(TOKEN.dependency)).toBe(42);
+    expect(provider.mock.callCount()).toBe(2);
+  });
 });
