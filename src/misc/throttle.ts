@@ -18,27 +18,36 @@ export function throttle<T extends AnyFunction>(
   { leading = true, trailing = false }: ThrottleOptions = {},
 ): (...args: Parameters<T>) => void {
   let free = true;
-  let queued: null | Parameters<T> = null;
+  let queued: Parameters<T> | null = null;
 
   const release = () => {
-    free = true;
-
-    if (queued !== null) {
-      fn(...queued);
-
-      queued = null;
+    if (queued === null) {
+      free = true;
+      return;
     }
+
+    const args = queued;
+    queued = null;
+
+    setTimeout(release, timeout);
+
+    fn(...args);
   };
+
+  if (!leading && !trailing) {
+    return () => {};
+  }
 
   return (...args: Parameters<T>): void => {
     if (free) {
+      free = false;
+      setTimeout(release, timeout);
+
       if (leading) {
         fn(...args);
+      } else {
+        queued = args;
       }
-
-      free = false;
-
-      setTimeout(release, timeout);
     } else if (trailing) {
       queued = args;
     }
