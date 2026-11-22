@@ -3,7 +3,14 @@ import type { Query, QueryContext, QueryEvents, QueryState, TryExecuteResult } f
 export class MemoryQuery<T> implements Query<T> {
   events: QueryEvents<T>;
 
+  /** Actual state. */
   protected state: QueryState<T>;
+
+  /** Last action that was used to run execute. */
+  protected action: ((ctx: QueryContext<T>) => Promise<T>) | null;
+
+  /** Last controller that was used to run execute. */
+  protected controller: AbortController | null;
 
   constructor() {
     this.events = new EventTarget();
@@ -12,6 +19,8 @@ export class MemoryQuery<T> implements Query<T> {
       data: null,
       error: null,
     };
+    this.action = null;
+    this.controller = null;
   }
 
   getState(): QueryState<T> {
@@ -19,19 +28,40 @@ export class MemoryQuery<T> implements Query<T> {
   }
 
   async execute(action: (ctx: QueryContext<T>) => Promise<T>): Promise<T> {
-    this.setState({ ...this.state, status: 'pending' });
+    this.action = action;
+    const prevController = this.controller;
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    this.controller = controller;
+    prevController?.abort();
 
     try {
-      const data = await action({ prevData: this.state.data });
+      if (!signal.aborted) {
+        this.setState({ ...this.state, status: 'pending', error: null });
+      }
 
-      this.setState({ ...this.state, data, status: 'success' });
+      const data = await action({
+        prevData: this.state.data,
+        signal,
+      });
+
+      if (!signal.aborted) {
+        this.setState({ ...this.state, data, status: 'success', error: null });
+      }
 
       return data;
     } catch (error) {
-      this.setState({ ...this.state, error, status: 'failure' });
+      if (!signal.aborted) {
+        this.setState({ ...this.state, error, status: 'failure' });
+      }
 
       // IMPORTANT: do not mute original error
       throw error;
+    } finally {
+      if (!signal.aborted) {
+        this.controller = null;
+      }
     }
   }
 
@@ -45,6 +75,19 @@ export class MemoryQuery<T> implements Query<T> {
     } catch (error) {
       return { status: 'fail', error };
     }
+  }
+
+  // @todo maybe move to abstract class?
+  async invalidate(): Promise<boolean> {
+    const action = this.action;
+
+    if (action) {
+      await this.execute(action);
+
+      return true;
+    }
+
+    return false;
   }
 
   protected setState(state: QueryState<T>): void {

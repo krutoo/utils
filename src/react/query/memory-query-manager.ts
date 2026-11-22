@@ -15,10 +15,8 @@ export class MemoryQueryManager implements QueryManager {
    * Invalidates queries by keys.
    * @param keys Keys.
    */
-  invalidateQueries(keys: string[]): void {
-    for (const key of keys) {
-      this.pool.get(key)?.events.dispatchEvent(new CustomEvent('invalidated'));
-    }
+  async invalidateQueries(keys: string[]): Promise<void> {
+    await Promise.all([...new Set(keys)].map(key => this.pool.get(key)?.invalidate()));
   }
 
   /**

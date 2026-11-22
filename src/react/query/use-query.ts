@@ -1,10 +1,17 @@
-import { type DependencyList, useMemo, useState } from 'react';
+import { type DependencyList, useMemo, useRef, useState } from 'react';
+import { isShallowEqual } from '../../mod.ts';
 import { zeroDeps } from '../constants.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useStableCallback } from '../use-stable-callback.ts';
-import type { UseQueryOptions, UseQueryReturn } from './types.ts';
+import type { Query, UseQueryOptions, UseQueryReturn } from './types.ts';
 import { useQueryInstance } from './use-query-instance.ts';
 import { generateId } from './utils.ts';
+
+interface Dependencies<T> {
+  instance: Query<T>;
+  enabled: boolean;
+  deps: DependencyList;
+}
 
 /**
  * Hook for declarative fetching some data from any source (REST API, GraphQL, etc).
@@ -23,13 +30,15 @@ export function useQuery<T>(
 
   const [state, setState] = useState(() => instance.getState());
 
-  const tryExecute = useStableCallback(() => {
+  const depsRef = useRef<Dependencies<T> | null>(null);
+
+  const invalidate = useStableCallback(() => {
     // skip if disabled
     if (!enabled) {
       return;
     }
 
-    instance.tryExecute(query).catch(() => {});
+    instance.invalidate().catch(() => {});
   });
 
   useIsomorphicLayoutEffect(() => {
@@ -43,40 +52,42 @@ export function useQuery<T>(
     };
 
     instance.events.addEventListener('changed', onChanged);
-    instance.events.addEventListener('invalidated', tryExecute);
 
     setState(instance.getState());
 
     return () => {
       instance.events.removeEventListener('changed', onChanged);
-      instance.events.removeEventListener('invalidated', tryExecute);
     };
-  }, [
-    enabled,
-    instance,
-
-    // stable:
-    tryExecute,
-  ]);
+  }, [enabled, instance]);
 
   useIsomorphicLayoutEffect(() => {
-    tryExecute();
-  }, [
-    enabled,
-    instance,
+    const prev = depsRef.current;
 
-    // stable:
-    tryExecute,
+    depsRef.current = {
+      instance,
+      enabled,
+      deps,
+    };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    ...deps,
-  ]);
+    if (!enabled) {
+      return;
+    }
+
+    const changed = prev !== null && !isShallowEqual(deps, prev.deps);
+    const connecting = prev === null || prev.instance !== instance || !prev.enabled;
+
+    if (connecting) {
+      instance.tryExecute(query).catch(() => {});
+    } else if (changed) {
+      instance.execute(query).catch(() => {});
+    }
+  });
 
   return useMemo(
     () => ({
       ...state,
-      invalidate: tryExecute,
+      invalidate,
     }),
-    [state, tryExecute],
+    [state, invalidate],
   );
 }
