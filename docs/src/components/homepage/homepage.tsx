@@ -3,10 +3,10 @@ import { ColorSchemesContext } from '@krutoo/showcase/runtime-showcase';
 import { wait } from '@krutoo/utils';
 import { useResize } from '@krutoo/utils/react';
 import classNames from 'classnames';
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy, Dice5 } from 'lucide-react';
 import { Link } from '#components/link/link.tsx';
 import { withPublicPath } from '../../utils.ts';
-import { DemoDots } from './demo-dots.ts';
+import { DemoParticles } from './demo-particles.ts';
 import styles from './homepage.m.css';
 
 export function Homepage() {
@@ -16,6 +16,7 @@ export function Homepage() {
   const [size, setSize] = useState(() => ({ width: 0, height: 0 }));
   const content = 'npm add @krutoo/utils';
   const { colorScheme } = useContext(ColorSchemesContext);
+  const demoRef = useRef<DemoParticles>(null);
 
   const handleCopy = () => {
     if (!copied) {
@@ -62,17 +63,19 @@ export function Homepage() {
       mouse,
       colorScheme,
     };
-    const demo = new DemoDots(demoCtx);
+    const demo = new DemoParticles(demoCtx);
 
-    let last = Date.now();
+    demoRef.current = demo;
+
+    let lastTime = performance.now();
     let enabled = true;
 
     const loop = () => {
-      const now = Date.now();
-      const delta = now - last;
+      const now = performance.now();
+      const delta = now - lastTime;
 
       if (delta > 1000 / 60) {
-        last = now;
+        lastTime = now;
         demo.update(demoCtx);
         context.clearRect(0, 0, canvas.width, canvas.height);
         demo.render(demoCtx);
@@ -93,11 +96,12 @@ export function Homepage() {
   return (
     <div ref={rootRef} className={styles.root}>
       <canvas ref={canvasRef} className={styles.canvas} {...size}></canvas>
+      <div className={styles.bar}></div>
       <div className={styles.main}>
         <div className={styles.field}>
           <span className={styles.fieldContent}>{content}</span>
           <button
-            className={styles.fieldButton}
+            className={styles.iconButton}
             disabled={copied}
             onClick={handleCopy}
             aria-label={copied ? 'Copied' : 'Copy'}
@@ -121,6 +125,19 @@ export function Homepage() {
             GitHub
           </Link>
         </div>
+      </div>
+      <div className={styles.bar}>
+        <button
+          className={styles.iconButton}
+          disabled={copied}
+          onClick={() => {
+            if (demoRef.current) {
+              demoRef.current.controls.follow = !demoRef.current.controls.follow;
+            }
+          }}
+        >
+          <Dice5 size={24} />
+        </button>
       </div>
     </div>
   );

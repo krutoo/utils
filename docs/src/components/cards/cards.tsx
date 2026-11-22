@@ -57,7 +57,7 @@ export function MainSectionCards(): ReactNode {
     <CardLayout>
       {MAIN_SECTIONS.map((item, index) => (
         <Link key={index} className={styles.item} href={item.href}>
-          <Callout>
+          <Callout iconEnd='chevron'>
             <Callout.Heading>{item.title}</Callout.Heading>
             <Callout.Main>{item.description}</Callout.Main>
           </Callout>
@@ -86,7 +86,7 @@ export function StoryCards({ category }: { category?: string }): ReactNode {
     <CardLayout>
       {items.map((item, index) => (
         <Link key={index} className={styles.item} href={routing.getStoryShowcaseUrl(item.story)}>
-          <Callout>
+          <Callout iconEnd='chevron'>
             <Callout.Main>{item.title}</Callout.Main>
           </Callout>
         </Link>

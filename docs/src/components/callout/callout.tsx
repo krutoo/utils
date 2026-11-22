@@ -5,13 +5,20 @@ import styles from './callout.m.css';
 
 export interface CalloutProps extends HTMLAttributes<HTMLDivElement> {
   intent?: 'info' | 'danger';
+  iconEnd?: 'chevron';
 }
 
 export interface CalloutHeadingProps extends HTMLAttributes<HTMLHeadingElement> {}
 
 export interface CalloutMainProps extends HTMLAttributes<HTMLDivElement> {}
 
-export function Callout({ intent = 'info', children, className, ...restProps }: CalloutProps) {
+export function Callout({
+  intent = 'info',
+  children,
+  className,
+  iconEnd,
+  ...restProps
+}: CalloutProps) {
   return (
     <div
       {...restProps}
@@ -20,7 +27,7 @@ export function Callout({ intent = 'info', children, className, ...restProps }: 
       data-marker='callout'
     >
       <div className={styles.content}>{children}</div>
-      <ChevronRight size={20} />
+      {iconEnd === 'chevron' && <ChevronRight size={20} />}
     </div>
   );
 }

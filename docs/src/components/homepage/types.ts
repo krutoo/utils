@@ -1,20 +1,14 @@
 import { ColorSchemesContextValue } from '@krutoo/showcase/runtime-showcase';
 import { Point2d } from '@krutoo/utils';
 
-export interface DemoInitContext {
+export interface DemoContext {
   colorScheme: ColorSchemesContextValue['colorScheme'];
   canvas: HTMLCanvasElement;
-}
-
-export interface DemoContext extends DemoInitContext {
-  mouse: Point2d;
-}
-
-export interface DemoRenderContext extends DemoContext {
   context: CanvasRenderingContext2D;
+  mouse: Point2d;
 }
 
 export interface Demo {
   update(ctx: DemoContext): void;
-  render(ctx: DemoRenderContext): void;
+  render(ctx: DemoContext): void;
 }
