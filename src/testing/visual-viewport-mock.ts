@@ -47,6 +47,7 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
 
   protected _onresize: ((this: VisualViewport, event: Event) => any) | null;
   protected _onscroll: ((this: VisualViewport, event: Event) => any) | null;
+  protected _onscrollend: ((this: VisualViewport, event: Event) => any) | null;
 
   constructor(defaults: Partial<VisualViewportValues> = {}) {
     super();
@@ -60,6 +61,7 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
 
     this._onresize = null;
     this._onscroll = null;
+    this._onscrollend = null;
   }
 
   /** @inheritdoc */
@@ -104,6 +106,28 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
 
     this.addEventListener('change', value);
     this._onscroll = value;
+  }
+
+  /** @inheritdoc */
+  get onscrollend(): ((this: VisualViewport, event: Event) => any) | null {
+    return this._onscrollend;
+  }
+
+  /** @inheritdoc */
+  set onscrollend(value: ((this: VisualViewport, event: Event) => any) | null) {
+    if (!value) {
+      if (this._onscrollend) {
+        this.removeEventListener('change', this._onscrollend);
+      }
+      return;
+    }
+
+    if (this._onscrollend && value !== this._onscrollend) {
+      this.removeEventListener('change', this._onscrollend);
+    }
+
+    this.addEventListener('change', value);
+    this._onscrollend = value;
   }
 
   /** @inheritdoc */
