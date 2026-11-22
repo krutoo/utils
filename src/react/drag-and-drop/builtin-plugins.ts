@@ -36,7 +36,7 @@ export const DragAndDropBuiltinPlugins = {
         ctx.element.addEventListener('click', onClickCapture, { capture: true });
       });
       api.hooks.destroy.add(ctx => {
-        ctx.element.addEventListener('click', onClickCapture, { capture: true });
+        ctx.element.removeEventListener('click', onClickCapture, { capture: true });
       });
     };
   },
