@@ -1,5 +1,5 @@
 import { describe, mock, test } from 'node:test';
-import { type Ref, type RefCallback, createRef, useEffect, useState } from 'react';
+import { type Ref, type RefCallback, type RefObject, createRef, useEffect, useState } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
 import { useMergeRefs } from '../use-merge-refs.ts';
@@ -84,5 +84,36 @@ describe('useMergeRefs', () => {
     expect(ref1.current === getByTestId('target')).toBe(true);
     expect(ref2.current === getByTestId('target')).toBe(true);
     expect(ref3.current === getByTestId('target')).toBe(true);
+  });
+
+  test('should properly cleanup mixed refs list', () => {
+    const ref1: RefObject<HTMLDivElement | null> = createRef<HTMLDivElement>();
+    const ref2 = mock.fn<RefCallback<HTMLDivElement>>();
+    const ref3Cleanup = mock.fn<(a: void) => void>(() => {});
+    const ref3 = mock.fn<RefCallback<HTMLDivElement>>(() => {
+      return ref3Cleanup;
+    });
+
+    const { getByTestId, unmount } = render(<TestComponent refs={[ref1, ref2, ref3]} />);
+    const target = getByTestId('target');
+
+    expect(ref1.current === target).toBe(true);
+
+    expect(ref2.mock.calls[0]?.arguments[0] === target).toBe(true);
+    expect(ref2.mock.callCount()).toBe(1);
+
+    expect(ref3.mock.callCount()).toBe(1);
+    expect(ref3.mock.calls[0]?.arguments[0] === target).toBe(true);
+    expect(ref3Cleanup.mock.callCount()).toBe(0);
+
+    unmount();
+
+    expect(ref1.current === null).toBe(true);
+
+    expect(ref2.mock.callCount()).toBe(2);
+    expect(ref2.mock.calls[1]?.arguments[0] === null).toBe(true);
+
+    expect(ref3.mock.callCount()).toBe(1);
+    expect(ref3Cleanup.mock.callCount()).toBe(1);
   });
 });

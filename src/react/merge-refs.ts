@@ -18,9 +18,15 @@ export function mergeRefs<T>(
 
         if (destructor) {
           destructors.push(destructor);
+        } else {
+          destructors.push(() => ref(null));
         }
       } else if (ref) {
         ref.current = value;
+
+        destructors.push(() => {
+          ref.current = null;
+        });
       }
     }
 
