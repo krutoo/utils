@@ -34,7 +34,7 @@ export interface UseMutationOptions<T, R> {
   key?: string;
 
   /** Mutation implementation. */
-  mutation: (payload: T) => Promise<R>;
+  mutation: (payload: T, context: QueryContext<R>) => Promise<R>;
 
   /** Callback that will be called after mutation is done. */
   onSuccess?: (data: R) => void;
