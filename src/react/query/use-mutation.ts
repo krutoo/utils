@@ -67,7 +67,7 @@ export function useMutation<P, R = unknown>({
   ]);
 
   const mutate = useStableCallback(async (payload: P): Promise<R> => {
-    return await instance.execute(() => mutation(payload));
+    return await instance.execute(context => mutation(payload, context));
   });
 
   return useMemo<UseMutationReturn<P, R>>(() => {
