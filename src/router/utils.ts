@@ -42,9 +42,18 @@ export function normalizePathname(pathname: string): string {
  * Checks that location is equal to other.
  * @param a Location.
  * @param b Location.
+ * @param flag If passed 'ignoreHash' then hash will not be checked.
  * @returns True if equal.
  * @internal
  */
-export function isEqualLocations(a: RouterLocation, b: RouterLocation): boolean {
-  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash;
+export function isEqualLocations(
+  a: RouterLocation,
+  b: RouterLocation,
+  flag?: 'ignoreHash',
+): boolean {
+  return (
+    a.pathname === b.pathname &&
+    a.search === b.search &&
+    (flag === 'ignoreHash' || a.hash === b.hash)
+  );
 }
