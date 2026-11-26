@@ -1,3 +1,5 @@
+import { EventListenerHolder } from './event-listener-holder.ts';
+
 export interface VisualViewportValues {
   height: number;
   offsetLeft: number;
@@ -45,9 +47,9 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
   /** @inheritdoc */
   readonly width: number;
 
-  protected _onresize: ((this: VisualViewport, event: Event) => any) | null;
-  protected _onscroll: ((this: VisualViewport, event: Event) => any) | null;
-  protected _onscrollend: ((this: VisualViewport, event: Event) => any) | null;
+  protected _onresize: EventListenerHolder<(this: VisualViewport, event: Event) => any>;
+  protected _onscroll: EventListenerHolder<(this: VisualViewport, event: Event) => any>;
+  protected _onscrollend: EventListenerHolder<(this: VisualViewport, event: Event) => any>;
 
   constructor(defaults: Partial<VisualViewportValues> = {}) {
     super();
@@ -59,75 +61,39 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
     this.pageLeft = defaults.pageLeft ?? 0;
     this.pageTop = defaults.pageTop ?? 0;
 
-    this._onresize = null;
-    this._onscroll = null;
-    this._onscrollend = null;
+    this._onresize = new EventListenerHolder(this);
+    this._onscroll = new EventListenerHolder(this);
+    this._onscrollend = new EventListenerHolder(this);
   }
 
   /** @inheritdoc */
   get onresize(): ((this: VisualViewport, event: Event) => any) | null {
-    return this._onresize;
+    return this._onresize.get();
   }
 
   /** @inheritdoc */
   set onresize(value: ((this: VisualViewport, event: Event) => any) | null) {
-    if (!value) {
-      if (this._onresize) {
-        this.removeEventListener('change', this._onresize);
-      }
-      return;
-    }
-
-    if (this._onresize && value !== this._onresize) {
-      this.removeEventListener('change', this._onresize);
-    }
-
-    this.addEventListener('change', value);
-    this._onresize = value;
+    this._onresize.set('resize', value);
   }
 
   /** @inheritdoc */
   get onscroll(): ((this: VisualViewport, event: Event) => any) | null {
-    return null;
+    return this._onscroll.get();
   }
 
   /** @inheritdoc */
   set onscroll(value: ((this: VisualViewport, event: Event) => any) | null) {
-    if (!value) {
-      if (this._onscroll) {
-        this.removeEventListener('change', this._onscroll);
-      }
-      return;
-    }
-
-    if (this._onscroll && value !== this._onscroll) {
-      this.removeEventListener('change', this._onscroll);
-    }
-
-    this.addEventListener('change', value);
-    this._onscroll = value;
+    this._onscroll.set('scroll', value);
   }
 
   /** @inheritdoc */
   get onscrollend(): ((this: VisualViewport, event: Event) => any) | null {
-    return this._onscrollend;
+    return this._onscrollend.get();
   }
 
   /** @inheritdoc */
   set onscrollend(value: ((this: VisualViewport, event: Event) => any) | null) {
-    if (!value) {
-      if (this._onscrollend) {
-        this.removeEventListener('change', this._onscrollend);
-      }
-      return;
-    }
-
-    if (this._onscrollend && value !== this._onscrollend) {
-      this.removeEventListener('change', this._onscrollend);
-    }
-
-    this.addEventListener('change', value);
-    this._onscrollend = value;
+    this._onscrollend.set('scrollend', value);
   }
 
   /** @inheritdoc */
@@ -210,5 +176,6 @@ export class VisualViewportMock extends EventTarget implements VisualViewport {
     }
 
     this.dispatchEvent(new Event('scroll'));
+    this.dispatchEvent(new Event('scrollend'));
   }
 }
