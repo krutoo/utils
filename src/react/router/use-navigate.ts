@@ -14,7 +14,7 @@ export function useNavigate(): UseNavigateReturn {
   const router = useContext(RouterContext);
 
   return useMemo<UseNavigateReturn>(() => {
-    const navigate: UseNavigateReturn = (url: string) => router.navigate(url);
+    const navigate: UseNavigateReturn = url => router.navigate(url);
 
     // IMPORTANT: arrow function is needed here to  prevent lost call context
     navigate.go = delta => router.go(delta);

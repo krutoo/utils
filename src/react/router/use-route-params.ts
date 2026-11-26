@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { normalizePathname } from '../../router/utils.ts';
 import { useLocation } from './use-location.ts';
 
 /**
@@ -16,8 +17,8 @@ export function useRouteParams(pathnamePattern: string): Record<string, string |
 
   return useMemo(() => {
     // @todo брать реализацию URLPattern из какого-нибудь контекста?
-    const pattern = new URLPattern({ pathname: pathnamePattern });
+    const pattern = new URLPattern({ pathname: normalizePathname(pathnamePattern) });
 
-    return pattern.exec({ pathname: location.pathname })?.pathname.groups ?? {};
+    return pattern.exec({ pathname: normalizePathname(location.pathname) })?.pathname.groups ?? {};
   }, [location, pathnamePattern]);
 }

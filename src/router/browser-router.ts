@@ -6,27 +6,44 @@ export interface BrowserRouterConfig {
   defaultLocation?: RouterLocation;
 }
 
+export interface BrowserRouterWindowAPI extends Pick<
+  Window,
+  'location' | 'history' | 'scrollTo' | 'addEventListener' | 'removeEventListener'
+> {}
+
+export interface BrowserRouterConnectOptions {
+  api?: BrowserRouterWindowAPI;
+}
+
 /**
  * Router implementation for using in browser environment.
  * Can be used in Node.js (or other server environment: Deno, Bun etc.) while `.connect()` is not called.
  */
 export class BrowserRouter implements Router {
-  private location: RouterLocation;
+  protected location: RouterLocation;
 
-  private listeners: Set<VoidFunction>;
+  protected listeners: Set<VoidFunction>;
 
-  private connection?: {
+  protected connection?: {
+    readonly api: BrowserRouterWindowAPI;
     readonly disconnect: VoidFunction;
   };
 
-  constructor({ defaultLocation }: BrowserRouterConfig = {}) {
-    this.location = defaultLocation ?? getStubLocation();
+  constructor(options?: BrowserRouterConfig) {
+    this.location = options?.defaultLocation ?? getStubLocation();
     this.listeners = new Set();
   }
 
-  private setLocation(location: RouterLocation): void {
-    // @todo skip if given location is same as current?
-    this.location = normalizeLocation(location);
+  protected setLocation(location: RouterLocation): void {
+    if (isEqualLocations(location, this.location)) {
+      return;
+    }
+
+    this.location = {
+      pathname: location.pathname,
+      search: location.search,
+      hash: location.hash,
+    };
 
     for (const listener of this.listeners) {
       listener();
@@ -38,35 +55,54 @@ export class BrowserRouter implements Router {
   }
 
   navigate(url: string): void {
-    const currentUrl = new URL(window.location.href);
-    const nextUrl = new URL(url, window.location.href);
-
-    if (nextUrl.origin !== currentUrl.origin) {
-      window.location.href = nextUrl.href;
+    if (!this.connection) {
       return;
     }
 
-    const location = normalizeLocation(nextUrl);
+    const { api } = this.connection;
+    const currentUrl = new URL(api.location.href);
+    const nextUrl = new URL(url, api.location.href);
 
-    if (!isEqualLocations(location, this.location)) {
-      window.history.pushState(null, '', `${location.pathname}${location.search}${location.hash}`);
-      window.scrollTo(0, 0);
-      this.setLocation(location);
+    // if origin is changed - immediately change location
+    if (nextUrl.origin !== currentUrl.origin) {
+      api.location.href = nextUrl.href;
+
+      // however, it is still important to update inner state (for custom apis)
+      this.setLocation(nextUrl);
+
+      return;
+    }
+
+    const current = normalizeLocation(currentUrl);
+    const next = normalizeLocation(nextUrl);
+
+    // IMPORTANT: URL comparison must be done over URLs and not over normalized locations
+    // because URL keeps trailing slash
+    if (!isEqualLocations(currentUrl, nextUrl)) {
+      api.history.pushState(null, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+      this.setLocation(nextUrl);
+
+      // reset scroll only when route actually changed, not when trailing slash changed,
+      // so normalized locations used here instead URLs
+      if (!isEqualLocations(current, next, 'ignoreHash')) {
+        api.scrollTo(0, 0);
+      }
     }
   }
 
   go(delta: number): void {
-    window.history.go(delta);
+    this.connection?.api.history.go(delta);
   }
 
-  // @todo add argument `window: Window`?
-  connect(): VoidFunction {
+  connect(options?: BrowserRouterConnectOptions): VoidFunction {
     if (this.connection) {
       return this.connection.disconnect;
     }
 
+    const api = options?.api ?? globalThis.window;
+
     const sync = () => {
-      const url = new URL(window.location.href);
+      const url = new URL(api.location.href);
 
       this.setLocation({
         pathname: url.pathname,
@@ -77,15 +113,18 @@ export class BrowserRouter implements Router {
 
     sync();
 
-    window.addEventListener('popstate', sync);
+    api.addEventListener('popstate', sync);
+    api.addEventListener('hashchange', sync);
 
     const disconnect = () => {
       delete this.connection;
 
-      window.removeEventListener('popstate', sync);
+      api.removeEventListener('popstate', sync);
+      api.removeEventListener('hashchange', sync);
     };
 
     this.connection = {
+      api,
       disconnect,
     };
 

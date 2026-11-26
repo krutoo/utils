@@ -29,4 +29,28 @@ describe('useRouteParams', () => {
 
     disconnect();
   });
+
+  test('should match params when pathname has trailing slash', () => {
+    window.history.replaceState(null, '', '/profile/1005002/');
+
+    const TestComponent = () => {
+      const { userId } = useRouteParams('/profile/:userId/');
+
+      return <div>User ID: {userId}</div>;
+    };
+
+    const router = new BrowserRouter();
+
+    const disconnect = router.connect();
+
+    const { container } = render(
+      <RouterContext value={router}>
+        <TestComponent />
+      </RouterContext>,
+    );
+
+    expect(container.textContent).toBe('User ID: 1005002');
+
+    disconnect();
+  });
 });

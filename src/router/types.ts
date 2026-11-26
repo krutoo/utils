@@ -29,6 +29,7 @@ export interface Router extends Subscribable {
    */
   go(delta: number): void;
 
+  // @todo убрать метод из этого интерфейса?
   /**
    * Connect router to environment.
    * @returns Disconnect function.
