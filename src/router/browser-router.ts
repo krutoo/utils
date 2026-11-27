@@ -1,5 +1,5 @@
 import type { Router, RouterLocation } from './types.ts';
-import { getStubLocation, isEqualLocations, normalizeLocation } from './utils.ts';
+import { cloneLocation, getStubLocation, isEqualLocations, normalizeLocation } from './utils.ts';
 
 export interface BrowserRouterConfig {
   /** Useful when you use BrowserRouter on server. */
@@ -30,7 +30,9 @@ export class BrowserRouter implements Router {
   };
 
   constructor(options?: BrowserRouterConfig) {
-    this.location = options?.defaultLocation ?? getStubLocation();
+    this.location = options?.defaultLocation
+      ? cloneLocation(options.defaultLocation)
+      : getStubLocation();
     this.listeners = new Set();
   }
 
@@ -39,11 +41,7 @@ export class BrowserRouter implements Router {
       return;
     }
 
-    this.location = {
-      pathname: location.pathname,
-      search: location.search,
-      hash: location.hash,
-    };
+    this.location = cloneLocation(location);
 
     for (const listener of this.listeners) {
       listener();
@@ -104,11 +102,7 @@ export class BrowserRouter implements Router {
     const sync = () => {
       const url = new URL(api.location.href);
 
-      this.setLocation({
-        pathname: url.pathname,
-        search: url.search,
-        hash: url.hash,
-      });
+      this.setLocation(cloneLocation(url));
     };
 
     sync();
