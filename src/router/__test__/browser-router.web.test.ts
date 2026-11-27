@@ -61,6 +61,42 @@ class WindowApiMock {
   }
 }
 
+/** API mock with a location object mutated by pushState, like a real window.location. */
+class LiveLocationApiMock {
+  protected readonly currentLocation: URL;
+
+  constructor(href: string) {
+    this.currentLocation = new URL(href);
+  }
+
+  get api(): BrowserRouterWindowAPI {
+    return this as unknown as BrowserRouterWindowAPI;
+  }
+
+  get location(): URL {
+    return this.currentLocation;
+  }
+
+  readonly history = {
+    pushState: (...args: unknown[]) => this.pushState(...args),
+    go: () => {},
+  };
+
+  scrollTo(): void {}
+
+  addEventListener(): void {}
+
+  removeEventListener(): void {}
+
+  protected pushState(...args: unknown[]): void {
+    const url = args[2];
+
+    if (url !== undefined && url !== null) {
+      this.currentLocation.href = new URL(String(url), this.currentLocation.href).href;
+    }
+  }
+}
+
 describe('BrowserRouter', () => {
   test('should handle second connect call correctly', () => {
     window.history.replaceState(null, '', `/tests/router`);
@@ -138,6 +174,29 @@ describe('BrowserRouter', () => {
     expect(router.getLocation().pathname).toBe('/docs');
     expect(spy.mock.callCount()).toBe(2);
     expect(win.scrollToCalls).toBe(0);
+
+    disconnect();
+  });
+
+  test('should notify subscribers when defaultLocation is a live location object', () => {
+    const win = new LiveLocationApiMock('http://localhost/utils/');
+    const router = new BrowserRouter({ defaultLocation: win.location });
+    const spy = mock.fn();
+
+    router.subscribe(spy);
+
+    const disconnect = router.connect({ api: win.api });
+
+    expect(router.getLocation()).not.toBe(win.location);
+    expect(router.getLocation().pathname).toBe('/utils/');
+    expect(spy.mock.callCount()).toBe(0);
+
+    router.navigate('/utils/main');
+
+    expect(win.location.pathname).toBe('/utils/main');
+    expect(router.getLocation().pathname).toBe('/utils/main');
+    expect(router.getLocation()).not.toBe(win.location);
+    expect(spy.mock.callCount()).toBe(1);
 
     disconnect();
   });

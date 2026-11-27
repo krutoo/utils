@@ -14,6 +14,20 @@ export function getStubLocation(): RouterLocation {
 }
 
 /**
+ * Returns new location object from given location-like object.
+ * @param locationLike Location.
+ * @returns Location.
+ * @internal
+ */
+export function cloneLocation<T extends RouterLocation>(locationLike: T): RouterLocation {
+  return {
+    pathname: locationLike.pathname,
+    hash: locationLike.hash,
+    search: locationLike.search,
+  };
+}
+
+/**
  * Normalizes pathname in location or URL object.
  * Does not mutate given object, returns new object.
  * @param location Location (or URL object).
