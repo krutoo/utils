@@ -16,40 +16,40 @@ export function throttle<T extends AnyFunction>(
   fn: T,
   timeout = 0,
   { leading = true, trailing = false }: ThrottleOptions = {},
-): (...args: Parameters<T>) => void {
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => void {
   let free = true;
-  let queued: Parameters<T> | null = null;
+  let queued: { context: ThisParameterType<T>; args: Parameters<T> } | null = null;
 
-  const release = () => {
+  const release: (this: ThisParameterType<T>) => void = function () {
     if (queued === null) {
       free = true;
       return;
     }
 
-    const args = queued;
+    const { context, args } = queued;
     queued = null;
 
-    setTimeout(release, timeout);
+    setTimeout(() => release.call(this), timeout);
 
-    fn(...args);
+    fn.call(context, ...args);
   };
 
   if (!leading && !trailing) {
     return () => {};
   }
 
-  return (...args: Parameters<T>): void => {
+  return function (...args: Parameters<T>): void {
     if (free) {
       free = false;
-      setTimeout(release, timeout);
+      setTimeout(() => release.call(this), timeout);
 
       if (leading) {
-        fn(...args);
+        fn.call(this, ...args);
       } else {
-        queued = args;
+        queued = { context: this, args };
       }
     } else if (trailing) {
-      queued = args;
+      queued = { context: this, args };
     }
   };
 }
