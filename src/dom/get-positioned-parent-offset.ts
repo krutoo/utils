@@ -1,4 +1,4 @@
-import type { Point2d } from '../math/mod.ts';
+import type { Point2d } from '../math/types.ts';
 import { findClosest } from './find-closest.ts';
 import { isScrollable } from './is-scrollable.ts';
 

@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../mod.ts';
+import type { AnyFunction } from '../types/functions.ts';
 
 export interface ThrottleOptions {
   leading?: boolean;

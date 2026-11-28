@@ -2,7 +2,7 @@ import { type Mock, describe, mock, test } from 'node:test';
 import { type ReactNode, useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { ResizeObserverMock } from '../../../testing/mod.ts';
+import { ResizeObserverMock } from '../../../testing/resize-observer-mock.ts';
 import {
   ResizeObserverContext,
   type ResizeObserverContextValue,

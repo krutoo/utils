@@ -1,4 +1,4 @@
-import type { Status } from '../../types/mod.ts';
+import type { Status } from '../../types/remote-data.ts';
 
 /** State of `useQuery` hook. */
 export interface QueryState<T = unknown> {

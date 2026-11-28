@@ -2,7 +2,7 @@ import { type Mock, describe, mock, test } from 'node:test';
 import { useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
-import { IntersectionObserverMock } from '../../../testing/mod.ts';
+import { IntersectionObserverMock } from '../../../testing/intersection-observer-mock.ts';
 import {
   IntersectionObserverContext,
   type IntersectionObserverContextValue,

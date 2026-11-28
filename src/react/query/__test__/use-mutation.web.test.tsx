@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import { useState } from 'react';
 import { expect } from '@std/expect';
 import { act, fireEvent, render } from '@testing-library/react';
-import { wait } from '../../../mod.ts';
+import { wait } from '../../../misc/wait.ts';
 import { useMutation } from '../use-mutation.ts';
 
 async function logIn(payload: { login: string; password: string }) {

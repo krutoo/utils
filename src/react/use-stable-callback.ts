@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { AnyFunction } from '../mod.ts';
+import type { AnyFunction } from '../types/functions.ts';
 
 interface HookState<T extends AnyFunction> {
   callback: T;

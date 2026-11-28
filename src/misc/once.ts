@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../mod.ts';
+import type { AnyFunction } from '../types/functions.ts';
 
 /**
  * Returns function that calls original function only once.

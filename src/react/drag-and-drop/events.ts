@@ -1,4 +1,4 @@
-import type { Point2d } from '../../mod.ts';
+import type { Point2d } from '../../math/types.ts';
 import type { DragAndDropEvent, DragAndDropState } from './types.ts';
 
 export class DnDEvent<E extends Event> implements DragAndDropEvent<E> {

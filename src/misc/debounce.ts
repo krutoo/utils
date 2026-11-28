@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../mod.ts';
+import type { AnyFunction } from '../types/functions.ts';
 
 export interface DebouncedFunction<T extends AnyFunction> {
   (this: ThisParameterType<T>, ...args: Parameters<T>): void;

@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 import { useState } from 'react';
 import { expect } from '@std/expect';
 import { fireEvent, render } from '@testing-library/react';
-import { wait } from '../../misc/mod.ts';
+import { wait } from '../../misc/wait.ts';
 import { useDebounceState } from '../use-debounce-state.ts';
 
 function TestComponent() {
