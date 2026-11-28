@@ -1,10 +1,10 @@
 /**
  * Returns linear interpolation between two numbers.
- * @param start Start.
- * @param finish Finish.
+ * @param x Start.
+ * @param y Finish.
  * @param factor Factor.
- * @returns Linear interpolation.
+ * @returns Value.
  */
-export function lerp(start: number, finish: number, factor: number): number {
-  return (1 - factor) * start + factor * finish;
+export function lerp(x: number, y: number, factor: number): number {
+  return (1 - factor) * x + factor * y;
 }
