@@ -56,4 +56,32 @@ describe('pipe', () => {
       expect(result).toBe(output);
     }
   });
+
+  test('should pass this to single function', () => {
+    const context = { name: 'ctx' };
+    const flow = pipe(function (this: { name: string }, value: number) {
+      return `${this.name}:${value}`;
+    });
+
+    expect(flow.call(context, 1)).toBe('ctx:1');
+  });
+
+  test('should pass this to each function', () => {
+    const context = { name: 'ctx' };
+    const calls: string[] = [];
+
+    const flow = pipe(
+      function (this: { name: string }, value: number) {
+        calls.push(`first:${this.name}:${value}`);
+        return value + 1;
+      },
+      function (this: { name: string }, value: number) {
+        calls.push(`second:${this.name}:${value}`);
+        return value + 1;
+      },
+    );
+
+    expect(flow.call(context, 1)).toBe(3);
+    expect(calls).toEqual(['first:ctx:1', 'second:ctx:2']);
+  });
 });
