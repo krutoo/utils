@@ -41,4 +41,23 @@ describe('wait', () => {
 
     return promise;
   });
+
+  test('should remove abort listener after timeout', context => {
+    const controller = new AbortController();
+    const addSpy = context.mock.method(controller.signal, 'addEventListener');
+    const removeSpy = context.mock.method(controller.signal, 'removeEventListener');
+
+    const promise = wait(100, { signal: controller.signal });
+    mock.timers.tick(100);
+
+    return promise.then(() => {
+      const [addCall] = addSpy.mock.calls;
+      const [removeCall] = removeSpy.mock.calls;
+
+      expect(addSpy.mock.callCount()).toBe(1);
+      expect(removeSpy.mock.callCount()).toBe(1);
+      expect(removeCall?.arguments[0]).toBe('abort');
+      expect(removeCall?.arguments[1]).toBe(addCall?.arguments[1]);
+    });
+  });
 });
