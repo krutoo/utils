@@ -1,11 +1,14 @@
-import { type DependencyList, type RefObject, useContext, useMemo, useRef } from 'react';
-import { isShallowEqual } from '../../mod.ts';
+import { type DependencyList, type RefObject, useContext, useMemo } from 'react';
 import { zeroDeps } from '../constants.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useLatestRef } from '../use-latest-ref.ts';
+import { useShallowMemo } from '../use-shallow-memo.ts';
 import { IntersectionObserverContext } from './intersection-observer-context.ts';
 
 export interface UseIntersectionOptions extends IntersectionObserverInit {
+  /** When `true`, observation is disabled. */
+  disabled?: boolean;
+
   /** Dependencies that triggers checking ref and recreating observer. */
   extraDeps?: DependencyList;
 }
@@ -19,22 +22,24 @@ export interface UseIntersectionOptions extends IntersectionObserverInit {
 export function useIntersection<T extends Element>(
   ref: RefObject<T> | RefObject<T | null> | RefObject<T | undefined>,
   callback: (entry: IntersectionObserverEntry) => void,
-  { extraDeps = zeroDeps, ...options }: UseIntersectionOptions = {},
+  {
+    extraDeps = zeroDeps,
+    disabled,
+    root,
+    rootMargin,
+    threshold: thresholdProp,
+  }: UseIntersectionOptions = {},
 ): void {
   const { getObserver } = useContext(IntersectionObserverContext);
 
   const callbackRef = useLatestRef(callback);
 
-  // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
-  // It is because in case we add `options` to deps - it will be changed
-  // on every render if options passed as inline object.
-  const hasOptions = useMemo<boolean>(
-    () => Boolean(options.root ?? options.rootMargin ?? options.threshold),
-    [options],
-  );
+  // IMPORTANT: only used option fields should be in deps of `readyOptions`, not the whole options object.
+  // An inline options object would be recreated on every render.
+  const hasOptions: boolean = (root ?? rootMargin ?? thresholdProp) !== undefined;
 
   // IMPORTANT: use shallow equality check only for `threshold` because it is single non primitive option
-  const threshold = useShallowEqual(options?.threshold);
+  const threshold = useShallowMemo(thresholdProp);
 
   // IMPORTANT: don't use shallow equality because only used (known) properties should be checked.
   // Shallow equality check will be slow/wrong if `options` object has a lot of extra properties.
@@ -46,15 +51,19 @@ export function useIntersection<T extends Element>(
     }
 
     const result: IntersectionObserverInit = {
-      root: options?.root,
-      rootMargin: options?.rootMargin,
+      root,
+      rootMargin,
       threshold,
     };
 
     return result;
-  }, [hasOptions, options?.root, options?.rootMargin, threshold]);
+  }, [hasOptions, root, rootMargin, threshold]);
 
   useIsomorphicLayoutEffect(() => {
+    if (disabled) {
+      return;
+    }
+
     const element = ref.current;
 
     if (!element) {
@@ -89,6 +98,7 @@ export function useIntersection<T extends Element>(
     };
   }, [
     ref,
+    disabled,
     readyOptions,
     getObserver,
 
@@ -98,19 +108,4 @@ export function useIntersection<T extends Element>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...extraDeps,
   ]);
-}
-
-/**
- * Hook that updates return value when it is now shallow equal to given value.
- * @param value Value.
- * @returns Value.
- */
-function useShallowEqual<T>(value: T): T {
-  const ref = useRef(value);
-
-  if (!isShallowEqual(ref.current, value)) {
-    ref.current = value;
-  }
-
-  return ref.current;
 }

@@ -9,8 +9,10 @@ import { generateId } from './utils.ts';
 
 interface Dependencies<T> {
   instance: Query<T>;
-  enabled: boolean;
   deps: DependencyList;
+
+  // @todo replace by disabled for consistency between hooks in this library?
+  enabled: boolean;
 }
 
 /**
@@ -33,7 +35,6 @@ export function useQuery<T>(
   const depsRef = useRef<Dependencies<T> | null>(null);
 
   const invalidate = useStableCallback(() => {
-    // skip if disabled
     if (!enabled) {
       return;
     }
@@ -42,7 +43,6 @@ export function useQuery<T>(
   });
 
   useIsomorphicLayoutEffect(() => {
-    // skip if disabled
     if (!enabled) {
       return;
     }

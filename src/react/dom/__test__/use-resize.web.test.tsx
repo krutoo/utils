@@ -11,20 +11,26 @@ import { useResize } from '../use-resize.ts';
 
 function TestComponent({
   children,
+  disabled,
   onResize,
   'data-marker': dataMarker,
 }: {
   children?: ReactNode;
+  disabled?: boolean;
   onResize?: VoidFunction;
   'data-marker'?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
 
-  useResize(ref, () => {
-    onResize?.();
-    setCount(count + 1);
-  });
+  useResize(
+    ref,
+    () => {
+      onResize?.();
+      setCount(count + 1);
+    },
+    { disabled },
+  );
 
   return (
     <div ref={ref} data-marker={dataMarker}>
@@ -172,5 +178,70 @@ describe('useResize', () => {
       observer.simulateResize([{ target: element }]);
     });
     expect(spy.mock.callCount()).toBe(1);
+  });
+
+  test('should not observe when disabled and resume when enabled', () => {
+    const observer = new ResizeObserverMock(() => {});
+
+    const context: ResizeObserverContextValue = {
+      getObserver(callback) {
+        return observer.addCallback(callback);
+      },
+    };
+
+    const spy = mock.fn();
+
+    mock.method(observer, 'observe');
+    mock.method(observer, 'unobserve');
+
+    const observeMock = observer.observe as Mock<() => void>;
+    const unobserveMock = observer.unobserve as Mock<() => void>;
+
+    // disabled at mount
+    const { getByTestId, rerender, unmount } = render(
+      <ResizeObserverContext value={context}>
+        <TestComponent data-marker='target' onResize={spy} disabled />
+      </ResizeObserverContext>,
+    );
+    const element = getByTestId('target');
+
+    expect(observeMock.mock.callCount()).toBe(0);
+    expect(unobserveMock.mock.callCount()).toBe(0);
+    expect(spy.mock.callCount()).toBe(0);
+
+    act(() => {
+      observer.simulateResize([{ target: element }]);
+    });
+    expect(spy.mock.callCount()).toBe(0);
+
+    // enabled
+    rerender(
+      <ResizeObserverContext value={context}>
+        <TestComponent data-marker='target' onResize={spy} disabled={false} />
+      </ResizeObserverContext>,
+    );
+    expect(observeMock.mock.callCount()).toBe(1);
+    expect(unobserveMock.mock.callCount()).toBe(0);
+
+    act(() => {
+      observer.simulateResize([{ target: element }]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+
+    // disabled again
+    rerender(
+      <ResizeObserverContext value={context}>
+        <TestComponent data-marker='target' onResize={spy} disabled />
+      </ResizeObserverContext>,
+    );
+    expect(observeMock.mock.callCount()).toBe(1);
+    expect(unobserveMock.mock.callCount()).toBe(1);
+
+    act(() => {
+      observer.simulateResize([{ target: element }]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+
+    unmount();
   });
 });
