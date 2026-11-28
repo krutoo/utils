@@ -85,4 +85,46 @@ describe('TimerPool', () => {
     expect(spy.mock.callCount()).toBe(3);
     expect(pool.getEntries().size).toBe(0);
   });
+
+  test('setTimeout() should drop entry when callback throws', context => {
+    context.mock.timers.enable({ apis: ['setTimeout'] });
+
+    const pool = new TestTimerPool();
+
+    pool.setTimeout(() => {
+      throw new Error('boom');
+    }, 100);
+    expect(pool.getEntries().size).toBe(1);
+
+    expect(() => context.mock.timers.tick(100)).toThrow('boom');
+    expect(pool.getEntries().size).toBe(0);
+
+    context.mock.timers.reset();
+  });
+
+  test('requestAnimationFrame() should drop entry when callback throws', () => {
+    let rafCallback: FrameRequestCallback | undefined;
+
+    const pool = new TestTimerPool({
+      timersAPI: {
+        setTimeout: globalThis.setTimeout,
+        clearTimeout: globalThis.clearTimeout,
+        setInterval: globalThis.setInterval,
+        clearInterval: globalThis.clearInterval,
+        requestAnimationFrame: callback => {
+          rafCallback = callback;
+          return 1;
+        },
+        cancelAnimationFrame: () => {},
+      },
+    });
+
+    pool.requestAnimationFrame(() => {
+      throw new Error('boom');
+    });
+    expect(pool.getEntries().size).toBe(1);
+
+    expect(() => rafCallback!(0)).toThrow('boom');
+    expect(pool.getEntries().size).toBe(0);
+  });
 });
