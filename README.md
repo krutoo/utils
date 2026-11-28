@@ -94,6 +94,12 @@ Test for module `{path}/{module}.ts` should be placed in `{path}/__test__/{modul
 
 For write tests with simulating browser environment you need to name test file like `*.web.test.ts`.
 
+### Writing types tests
+
+Type tests for `{path}/{module}.ts` should be placed in `{path}/__test__/{module}.test-d.ts`.
+
+According to [tsd](https://github.com/tsdjs/tsd).
+
 ### Exports convention
 
 Any exported file from this package should not contain default exports (`export default ...`).
