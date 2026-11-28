@@ -1,4 +1,4 @@
-import { describe, mock, test } from 'node:test';
+import { type Mock, describe, mock, test } from 'node:test';
 import { useRef, useState } from 'react';
 import { expect } from '@std/expect';
 import { act, render } from '@testing-library/react';
@@ -9,15 +9,19 @@ import {
 } from '../intersection-observer-context.ts';
 import { useIntersection } from '../use-intersection.ts';
 
-function TestComponent({ onChange }: { onChange?: VoidFunction }) {
+function TestComponent({ disabled, onChange }: { disabled?: boolean; onChange?: VoidFunction }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const [visible, setVisible] = useState(false);
 
-  useIntersection(ref, entry => {
-    onChange?.();
-    setVisible(entry.isIntersecting);
-  });
+  useIntersection(
+    ref,
+    entry => {
+      onChange?.();
+      setVisible(entry.isIntersecting);
+    },
+    { disabled },
+  );
 
   return (
     <div ref={ref} data-marker='status'>
@@ -104,5 +108,85 @@ describe('useIntersection', () => {
       ]);
     });
     expect(spy.mock.callCount()).toBe(1);
+  });
+
+  test('should not observe when disabled and resume when enabled', () => {
+    const observer = new IntersectionObserverMock(() => {});
+
+    const context: IntersectionObserverContextValue = {
+      getObserver(callback) {
+        return observer.addCallback(callback);
+      },
+    };
+
+    const spy = mock.fn();
+
+    mock.method(observer, 'observe');
+    mock.method(observer, 'unobserve');
+
+    const observeMock = observer.observe as Mock<() => void>;
+    const unobserveMock = observer.unobserve as Mock<() => void>;
+
+    // disabled at mount
+    const { getByTestId, rerender, unmount } = render(
+      <IntersectionObserverContext value={context}>
+        <TestComponent onChange={spy} disabled />
+      </IntersectionObserverContext>,
+    );
+    const element = getByTestId('status');
+
+    expect(observeMock.mock.callCount()).toBe(0);
+    expect(unobserveMock.mock.callCount()).toBe(0);
+    expect(spy.mock.callCount()).toBe(0);
+
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: element,
+          isIntersecting: true,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(0);
+
+    // enabled
+    rerender(
+      <IntersectionObserverContext value={context}>
+        <TestComponent onChange={spy} disabled={false} />
+      </IntersectionObserverContext>,
+    );
+    expect(observeMock.mock.callCount()).toBe(1);
+    expect(unobserveMock.mock.callCount()).toBe(0);
+
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: element,
+          isIntersecting: true,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+
+    // disabled again
+    rerender(
+      <IntersectionObserverContext value={context}>
+        <TestComponent onChange={spy} disabled />
+      </IntersectionObserverContext>,
+    );
+    expect(observeMock.mock.callCount()).toBe(1);
+    expect(unobserveMock.mock.callCount()).toBe(1);
+
+    act(() => {
+      observer.simulateIntersection([
+        {
+          target: element,
+          isIntersecting: false,
+        },
+      ]);
+    });
+    expect(spy.mock.callCount()).toBe(1);
+
+    unmount();
   });
 });

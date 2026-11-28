@@ -5,6 +5,9 @@ import { useLatestRef } from '../use-latest-ref.ts';
 import { ResizeObserverContext } from './resize-observer-context.ts';
 
 export interface UseResizeOptions extends ResizeObserverOptions {
+  /** When `true`, observation is disabled. */
+  disabled?: boolean;
+
   /** Dependencies that triggers checking ref and recreating observer. */
   extraDeps?: DependencyList;
 }
@@ -18,15 +21,14 @@ export interface UseResizeOptions extends ResizeObserverOptions {
 export function useResize<T extends Element>(
   ref: RefObject<T> | RefObject<T | null> | RefObject<T | undefined>,
   callback: (entry: ResizeObserverEntry) => void,
-  { extraDeps = zeroDeps, ...options }: UseResizeOptions = {},
+  { extraDeps = zeroDeps, disabled, box: boxProp }: UseResizeOptions = {},
 ): void {
   const { getObserver } = useContext(ResizeObserverContext);
   const callbackRef = useLatestRef(callback);
 
-  // IMPORTANT: only `hasOptions` should be in deps of `readyOptions`, not `options` itself.
-  // It is because in case we add `options` to deps - it will be changed
-  // on every render if options passed as inline object.
-  const hasOptions = useMemo(() => Boolean(options.box), [options]);
+  // IMPORTANT: only used option fields should be in deps of `readyOptions`, not `options` itself.
+  // An inline options object would be recreated on every render.
+  const hasOptions: boolean = boxProp !== undefined;
 
   // IMPORTANT: don't use shallow equality because only used properties should be checked.
   // Shallow equality check will be slow/wrong if `options` object has a lot of extra properties.
@@ -38,11 +40,15 @@ export function useResize<T extends Element>(
     }
 
     return {
-      box: options?.box,
+      box: boxProp,
     };
-  }, [hasOptions, options?.box]);
+  }, [hasOptions, boxProp]);
 
   useIsomorphicLayoutEffect(() => {
+    if (disabled) {
+      return;
+    }
+
     const element = ref.current;
 
     if (!element) {
@@ -77,6 +83,7 @@ export function useResize<T extends Element>(
     };
   }, [
     ref,
+    disabled,
     getObserver,
     readyOptions,
 
