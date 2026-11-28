@@ -27,6 +27,24 @@ const config: Config[] = [
       'jsdoc/require-jsdoc': 'off',
     },
   },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/**/mod.ts'],
+    rules: {
+      // restrict import from barrel-modules inside library
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '(^|/)mod(?:\\.[cm]?[jt]sx?)?$',
+              message: 'Import a specific file, not the barrel module',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
 
 export default config;

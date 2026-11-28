@@ -1,5 +1,5 @@
 import type { RspackPluginFunction, RuleSetRule } from '@rspack/core';
-import { isObject } from '../misc/mod.ts';
+import { isObject } from '../misc/is-object.ts';
 import type { RuleInsertOptions } from './types.ts';
 import { insertRule } from './utils.ts';
 

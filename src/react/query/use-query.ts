@@ -1,5 +1,5 @@
 import { type DependencyList, useMemo, useRef, useState } from 'react';
-import { isShallowEqual } from '../../mod.ts';
+import { isShallowEqual } from '../../misc/is-shallow-equal.ts';
 import { zeroDeps } from '../constants.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useStableCallback } from '../use-stable-callback.ts';

@@ -1,4 +1,6 @@
-import { type Point2d, Vector2, getPositionedParentOffset } from '../../mod.ts';
+import { getPositionedParentOffset } from '../../dom/get-positioned-parent-offset.ts';
+import type { Point2d } from '../../math/types.ts';
+import { Vector2 } from '../../math/vector2.ts';
 import { DnDEvent } from './events.ts';
 import { createPluginManager } from './plugin-manager.ts';
 import type {

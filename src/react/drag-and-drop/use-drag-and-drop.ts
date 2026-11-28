@@ -1,5 +1,5 @@
 import { type RefObject } from 'react';
-import { noop } from '../../mod.ts';
+import { noop } from '../../misc/noop.ts';
 import { zeroDeps } from '../constants.ts';
 import { useIsomorphicLayoutEffect } from '../use-isomorphic-layout-effect.ts';
 import { useLatestRef } from '../use-latest-ref.ts';

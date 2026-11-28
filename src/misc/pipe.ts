@@ -1,4 +1,4 @@
-import type { AnyFunction } from '../mod.ts';
+import type { AnyFunction } from '../types/functions.ts';
 import { noop } from './noop.ts';
 
 export type FunctionPipe<List extends AnyFunction[]> = List extends [

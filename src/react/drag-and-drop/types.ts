@@ -1,5 +1,6 @@
 import type { DependencyList } from 'react';
-import type { Point2d, Vector2 } from '../../mod.ts';
+import type { Point2d } from '../../math/types.ts';
+import type { Vector2 } from '../../math/vector2.ts';
 
 export interface DragAndDropEvent<E extends Event = Event> {
   /** True during user presses target element. */

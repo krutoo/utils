@@ -1,5 +1,5 @@
 import { type Context, useContext, useMemo } from 'react';
-import type { Container, Token } from '../../di/mod.ts';
+import type { Container, Token } from '../../di/types.ts';
 import { ContainerContext } from './container-context.ts';
 
 export interface DependencyHook {

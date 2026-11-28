@@ -1,7 +1,7 @@
 import { describe, mock, test } from 'node:test';
 import { expect } from '@std/expect';
 import { render } from '@testing-library/react';
-import { wait } from '../../mod.ts';
+import { wait } from '../../misc/wait.ts';
 import { useTransitionStatus } from '../use-transition-status.ts';
 
 function TestWidget({ open, onRender }: { open: boolean; onRender?: (status: string) => void }) {
