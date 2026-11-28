@@ -175,4 +175,73 @@ describe('throttle', () => {
 
     expect(calls).toEqual([]);
   });
+
+  test('should preserve call context for leading call', context => {
+    context.mock.timers.enable({ apis: ['setTimeout'] });
+
+    const calls: string[] = [];
+    const first = {
+      name: 'first',
+      fn: throttle(function (this: { name: string }, value: number) {
+        calls.push(`${this.name}:${value}`);
+      }, 100),
+    };
+
+    first.fn(1);
+    expect(calls).toEqual(['first:1']);
+
+    context.mock.timers.tick(100);
+    context.mock.timers.reset();
+  });
+
+  test('should use context and args from latest call for trailing call', context => {
+    context.mock.timers.enable({ apis: ['setTimeout'] });
+
+    const calls: Array<[string, number]> = [];
+    const fn = throttle(
+      function (this: { name: string }, value: number) {
+        calls.push([this.name, value]);
+      },
+      100,
+      { leading: true, trailing: true },
+    );
+
+    const first = { name: 'first', fn };
+    const second = { name: 'second', fn };
+
+    first.fn(1);
+    second.fn(2);
+    expect(calls).toEqual([['first', 1]]);
+
+    context.mock.timers.tick(100);
+    expect(calls).toEqual([
+      ['first', 1],
+      ['second', 2],
+    ]);
+
+    context.mock.timers.reset();
+  });
+
+  test('should use context from latest call when only trailing is enabled', context => {
+    context.mock.timers.enable({ apis: ['setTimeout'] });
+
+    const calls: Array<[string, number]> = [];
+    const fn = throttle(
+      function (this: { name: string }, value: number) {
+        calls.push([this.name, value]);
+      },
+      100,
+      { leading: false, trailing: true },
+    );
+
+    const first = { name: 'first', fn };
+    const second = { name: 'second', fn };
+
+    first.fn(1);
+    second.fn(2);
+    context.mock.timers.tick(100);
+
+    expect(calls).toEqual([['second', 2]]);
+    context.mock.timers.reset();
+  });
 });
