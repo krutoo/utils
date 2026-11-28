@@ -17,15 +17,23 @@ export function wait(ms: number, options: WaitOptions = {}): Promise<void> {
   }
 
   return new Promise((done, fail) => {
-    const timerId = setTimeout(() => done(), ms);
+    let handleAbort: VoidFunction | undefined;
 
     if (signal) {
-      const handleAbort = () => {
+      handleAbort = () => {
         clearTimeout(timerId);
         fail(signal.reason);
       };
 
       signal.addEventListener('abort', handleAbort, { once: true });
     }
+
+    const timerId = setTimeout(() => {
+      if (handleAbort) {
+        signal?.removeEventListener('abort', handleAbort);
+      }
+
+      done();
+    }, ms);
   });
 }
