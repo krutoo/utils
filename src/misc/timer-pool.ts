@@ -45,8 +45,8 @@ export class TimerPool {
     const entry: TimerPoolEntry = {
       type: 'timeout',
       id: this.api.setTimeout(() => {
-        callback();
         this.timers.delete(entry);
+        callback();
       }, ms),
     };
 
@@ -72,8 +72,8 @@ export class TimerPool {
     const entry: TimerPoolEntry = {
       type: 'raf',
       id: this.api.requestAnimationFrame(ts => {
-        callback(ts);
         this.timers.delete(entry);
+        callback(ts);
       }),
     };
 
